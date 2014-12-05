@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="data-spm" content="5176">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+    <link rel="stylesheet" href="__ROOT__/Public/css/footer.css">
+    <script src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+    <script src="__ROOT__/Public/js/common.js"></script>
+    <script src="__ROOT__/Public/js/highchart/highcharts.js"></script>
+    <script src="__ROOT__/Public/js/highchart/highcharts-more.js"></script>
+    <script src="__ROOT__/Public/js/highchart/history.js"></script>
+    <script src="__ROOT__/Public/js/YUI/yui-min.js"></script>
+    <script type="text/javascript">
+		YUI({
+		modules: {
+			'trip-calendar': {	
+				fullpath: '__ROOT__/Public/js/YUI/trip-calendar.js',
+				type    : 'js',
+					requires: ['trip-calendar-css']
+				},
+				'trip-calendar-css': {
+					fullpath: '__ROOT__/Public/css/trip-calendar.css',
+					type    : 'css'
+				}
+			}
+		}).use('trip-calendar', function(Y) {
+			/**
+			 * 弹出式日历实例
+			 * 将日历与指定的触发元素绑定
+			 * 日历可根据浏览器窗口大小，自动调整显示位置
+			 */
+			var oCal = new Y.TripCalendar({
+				//绑定日历的节点，支持选择器模式，可批量设置（必选）
+				triggerNode: '.J_Item'
+			});
+			oCal.on('dateclick', function(e) {
+				this.getCurrentNode().setAttribute('data-date', e.date);
+			});
+			
+			//显示日历时自定义事件
+			oCal.on('show', function() {
+				var v = this.getCurrentNode().getAttribute('data-date');
+				this.set('date', v || new Date);
+				this.set('selectedDate', v).render();
+			});
+			
+			//解决chrome的foucs事件bug
+			Y.on('click', function(e) {
+				e.currentTarget.focus();
+			}, 'button, .J_Link');
+		});
+
+    	$(function(){
+			$("#beginTime").val(getNowFormatDate());
+			$("#endTime").val(getNowFormatDate());			
+			var obj = eval('('+'{$traffic}'+')');			
+			var chart = createChart('flowTable', '', obj,'{$name}','{$interface}');
+			bindVal(obj.info.omax[1],obj.info.omax[0],obj.info.imax[1],obj.info.imax[0]);
+		});
+		function selTraffic(){
+			var begin = $("#beginTime").val(),end = $("#endTime").val(),spid='{$spid}',oid='{$oid}';
+			if(begin=="" || typeof(begin)=='undefined'){
+				$("#error_msg").html('开始时间不能为空');
+				return false;
+			}
+			if(end=="" || typeof(end)=='undefined'){
+				$("#error_msg").html('结束时间不能为空');
+				return false;
+			}
+			$.ajax({
+				url:"__APP__/Services/selTraffic",
+				type:'post',
+				data:{'spid':spid,'oid':oid,'begin':begin,'end':end},
+				async:false,
+				success:function(data){
+					var obj = eval('('+data.data+')');
+					var chart = createChart('flowTable', '', obj,'{$name}','{$interface}');
+					bindVal(obj.info.omax[1],obj.info.omax[0],obj.info.imax[1],obj.info.imax[0]);
+				},
+				error:function(data){
+					alert(data.statusText);
+				}
+			});
+		}
+		function bindVal(omax,otime,imax,itime){
+			//转化流出值
+			if(omax <= 1024){
+				omax = omax +"bps";
+			}
+			if(parseInt(omax) > 1024 && (parseInt(omax)/1024) < 1024){
+				omax = (parseInt(omax) / 1024).toFixed(2) + " kbps"	
+			}
+			if(parseInt(omax)/1024 >= 1024){
+				omax = (parseInt(omax)/ 1024 / 1024).toFixed(2) + " mbps"
+			}
+			//转化流入值
+			if(imax <= 1024){
+				imax = imax +"bps";
+			}
+			if(parseInt(imax) > 1024 && (parseInt(imax)/1024) < 1024){
+				imax = (parseInt(imax) / 1024).toFixed(2) + " kbps"	
+			}
+			if(parseInt(imax)/1024 >= 1024){
+				imax = (parseInt(imax)/ 1024 / 1024).toFixed(2) + " mbps"
+			}
+			$("#max_out_value").html("流出最大值："+omax);
+			$("#max_out_time").html("时间："+otime);
+			$("#max_in_value").html("流入最大值："+imax);
+			$("#max_in_time").html("时间："+itime);
+		}
+    </script>
+    <title></title>
+</head>
+<body>
+	<div style="height:460px; width:780px; float:left">
+    	<div style="float:left; width:700px; height:40px; margin:10px 0px 0px 40px;">
+        	开始时间：<input type="text" id="beginTime" class="J_Item" style="height:20px; width:140px; border:1px solid #ccc; padding-left:5px;"/>&nbsp;&nbsp;
+		    结束时间：<input type="text" id="endTime" class="J_Item" style="height:20px; width:140px; border:1px solid #ccc; padding-left:5px;"/>&nbsp;&nbsp;
+            <input type="button" value="查询" onclick="selTraffic()" style="height: 22px;line-height: 20px;font-size: 13px;padding: 0px 20px;border: none;background: #5D8CD3;color: #fff;font-weight: bold;cursor: pointer;"/>&nbsp;&nbsp;
+            <span style="color:red;" id="error_msg"></span>
+        </div>
+    	<div style="height:360px; width:740px; margin-left:30px;float:left;" id="flowTable"></div>
+        <div style="float:left; width:700px; height:50px;margin:0px 0px 0px 40px;">
+            <span id="max_out_value"></span>
+            <span id="max_out_time" style=" margin-left:10px"></span>
+            <span id="max_in_value" style=" margin-left:30px"></span>
+            <span id="max_in_time" style=" margin-left:10px"></span>
+        </div>
+    </div>
+</body>
+</html>

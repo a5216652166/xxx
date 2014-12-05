@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="__ROOT__/Public/css/content.css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+<script src="__ROOT__/Public/js/jquery-ui.min.js"></script>
+<link href="__ROOT__/Public/css/jquery-ui.min.css" rel="stylesheet" />
+<script type="text/javascript">	
+	var URL = "__URL__";
+	var APP = "__APP__";
+	var ROOT = "__ROOT__";
+	var USER = "{$_SESSION['user']}";
+</script>
+<script type="text/javascript" src="__ROOT__/Public/js/main.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/common.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var ordcount = '{$orderCount}';
+		if(ordcount==0){
+			$("#myCart").append('<tr><td colspan="5">暂无商品信息</td></tr>');	
+		}
+		getTotalPrice();
+		$("#fapiao").one("click",function(){
+			$("#fapiao").parent().parent().before('<div class="intro" style="height:118px;">'+
+									'<div style="float:left; height:30px; line-height:30px;width:120px;margin:10px 0px 0px 80px;">发票抬头</div>'+
+									'<div style="width:860px;float:left;margin-top:10px">'+
+										'<input class="ui-ipt-txt" style="width: 208px;"/>'+
+									'</div>'+
+									'<div class="clear"></div>'+
+									'<div style="float:left; height:30px; line-height:30px;width:120px;margin:6px 0px 0px 80px; ">邮寄地址</div>'+
+									'<div style="width:860px;float:left;margin-top:6px">'+
+										'<input class="ui-ipt-txt" style="width: 468px;"/>'+
+									'</div>'+
+									'<div class="clear"></div>'+
+									'<div style="float:left; height:30px; line-height:30px;width:120px;margin:6px 0px 0px 80px; ">收件人</div>'+
+									'<div style="width:860px;float:left;margin-top:6px">'+
+										'<input class="ui-ipt-txt" style="width: 168px;"/>'+
+									'</div>'+
+								'</div>'+
+								'<div class="clear"></div>');
+		});
+	})
+	function del(type,id){
+		$.ajax({
+			url:'__APP__/Index/deleteCart',
+			type:'post',
+			data:{'id':id,'type':type},
+			async:false,
+			success:function(data){
+				if(data.info=='success'){
+					//window.location.reload();
+					bindCartDiv(data);
+				}else{
+					$("#error_msg").css('color','red').html("提示信息："+data.data);
+				}
+				getTotalPrice();
+			},
+			error:function(data){
+				$("#error_msg").css('color','red').html("提示信息："+data.statusText);
+			}
+		});	
+	}
+	function bindCartDiv(data){
+		var str='<tr><th width="150">商品类型</th><th width="500">描述</th><th width="200">数量</th><th width="200">价格</th><th width="150" style="border-right:none">操作</th></tr>';
+		
+		if(data.data){
+			if(data.data['dev']){
+				for(var i=0;i<data.data['dev'].length;i++){
+					str += '<tr><td>服务器</td><td>CPU：'+data.data['dev'][i].CPU+'内存：'+data.data['dev'][i].Ram+'硬盘：'+data.data['dev'][i].Disk+'品牌：'+data.data['dev'][i].Brand+'</td><td>1 台</td><td style="height:27px;" class="price">'+formatCurrency(data.data['dev'][i].Price.substring(0, data.data['dev'][i].Price.indexOf(".") + 3))+'</td><td style="border-right:none;"><a href="javascript:void(0)" onclick="del(\'dev\','+data.data['dev'][i].ID+')">删除</a></td></tr><tr><td class="slide">购买至：<input type="hidden" value="dev_'+data.data['dev'][i].ID+'"/></td><td colspan="3" height="30"><div id="slider_dev_'+data.data['dev'][i].ID+'" style="width:730px;height:20px;"></div></td><td id="slider_dev_txt_'+data.data['dev'][i].ID+'"></td></tr>';
+				}
+			}
+			if(data.data['vps']){
+				for(var i=0;i<data.data['vps'].length;i++){
+					str += '<tr><td>服务器</td><td>CPU：'+data.data['vps'][i].CPU+'内存：'+data.data['vps'][i].Ram+'硬盘：'+data.data['vps'][i].Disk+'品牌：'+data.data['vps'][i].Brand+'</td><td>1 台</td><td style="height:27px;" class="price">'+formatCurrency(data.data['vps'][i].Price)+'</td><td style="border-right:none;"><a href="javascript:void(0)" onclick="del(\'vps\','+data.data['vps'][i].ID+')">删除</a></td></tr><tr><td class="slide">购买至：<input type="hidden" value="vps_'+data.data['vps'][i].ID+'"/></td><td colspan="3" height="30"><div id="slider_vps_'+data.data['vps'][i].ID+'" style="width:730px;height:20px;"></div></td><td id="slider_vps_txt_'+data.data['vps'][i].ID+'"></td></tr>';
+				}
+			}
+			if(data.data['ip']){
+				for(var i=0;i<data.data['ip'].length;i++){
+					str += '<tr><td>'+data.data['ip'][i].ProName+'</td><td>'+data.data['ip'][i].Name+'</td><td class="num"><div style="margin-left:60px;"><a href="javascript:void(0);" onclick="operationCart(\'ip\',\'reduction\','+data.data['ip'][i].ID+')" class="minus">-</a><input class="ui-ipt-txt" style="width:30px;text-align:center;float:left;" onfocus="clearMsg()" onblur="updateCount(this,\'ip\','+data.data['ip'][i].ID+')" type="text" value="'+data.data['ip'][i].Count+'"><a href="javascript:void(0);" onclick="operationCart(\'ip\',\'plus\','+data.data['ip'][i].ID+')" class="plus">+</a><div></td><td class="price" id="ip_price_'+data.data['ip'][i].ID+'">'+formatCurrency(data.data['ip'][i].Price)+'</td><td style="border-right:none;"><a href="javascript:void(0)" onclick="del(\'ip\','+data.data['ip'][i].ID+')">删除</a></td></tr><tr><td class="slide">购买至：<input type="hidden" value="ip_'+data.data['ip'][i].ID+'"/></td><td colspan="3" height="30"><div id="slider_ip_'+data.data['ip'][i].ID+'" style="width:730px;height:20px;"></div></td><td id="slider_ip_txt_'+data.data['ip'][i].ID+'"></td></tr>';
+				}
+			}
+			if(data.data['bandwidth'] || data.data['bandwidthExt']){
+				if(data.data['bandwidth']){
+					for(var i=0;i<data.data['bandwidth'].length;i++){
+						str += '<tr><td>'+data.data['bandwidth'][i].ProName+'</td><td>'+data.data['bandwidth'][i].Name+'</td><td  style="height:27px;">--</td><td class="price" id="bandwidth_price_'+data.data['bandwidth'][i].ID+'">'+formatCurrency(data.data['bandwidth'][i].Price)+'</td><td style="border-right:none;"><a href="javascript:void(0)" onclick="del(\'bandwidth\','+data.data['bandwidth'][i].ID+')">删除</a></td></tr><tr><td class="slide">购买至：<input type="hidden" value="bandwidth_'+data.data['bandwidth'][i].ID+'"/></td><td colspan="3" height="30"><div id="slider_bandwidth_'+data.data['bandwidth'][i].ID+'" style="width:730px;height:20px;"></div></td><td id="slider_bandwidth_txt_'+data.data['bandwidth'][i].ID+'"></td></tr>';
+					}
+				}
+				if(data.data['bandwidthExt']){
+					for(var i=0;i<data.data['bandwidthExt'].length;i++){
+						str += '<tr><td>'+data.data['bandwidthExt'][i].ProName+'</td><td>'+data.data['bandwidthExt'][i].Name+'</td><td style="height:27px;">--</td><td class="price" id="bandwidthExt_price_'+data.data['bandwidthExt'][i].ID+'">'+formatCurrency(data.data['bandwidthExt'][i].Price)+'</td><td style="border-right:none;"><a href="javascript:void(0)" onclick="del(\'bandwidthExt\','+data.data['bandwidthExt'][i].ID+')">删除</a></td></tr><tr><td class="slide">购买至：<input type="hidden" value="bandwidthExt_'+data.data['bandwidthExt'][i].ID+'"/></td><td colspan="3" height="30"><div id="slider_bandwidthExt_'+data.data['bandwidthExt'][i].ID+'" style="width:730px;height:20px;"></div></td><td id="slider_bandwidthExt_txt_'+data.data['bandwidthExt'][i].ID+'"></td></tr>';
+					}
+				}
+			}
+			if(data.data['cabinet']){
+				for(var i=0;i<data.data['cabinet'].length;i++){
+					str += '<tr><td>'+data.data['cabinet'][i].ProName+'</td><td>'+data.data['cabinet'][i].Name+'</td><td class="num"><div style="margin-left:60px;"><a href="javascript:void(0);" onclick="operationCart(\'cabinet\',\'reduction\','+data.data['cabinet'][i].ID+')" class="minus">-</a><input class="ui-ipt-txt" style="width:30px;text-align:center;float:left;" onfocus="clearMsg()" onblur="updateCount(this,\'cabinet\','+data.data['cabinet'][i].ID+')" type="text" value="'+data.data['cabinet'][i].Count+'"><a href="javascript:void(0);" onclick="operationCart(\'cabinet\',\'plus\','+data.data['cabinet'][i].ID+')" class="plus">+</a><div></td><td  class="price" id="cabinet_price_'+data.data['cabinet'][i].ID+'">'+formatCurrency(data.data['cabinet'][i].Price)+'</td><td style="border-right:none;"><a href="javascript:void(0)" onclick="del(\'cabinet\','+data.data['cabinet'][i].ID+')">删除</a></td></tr><tr><td class="slide">购买至：<input type="hidden" value="cabinet_'+data.data['cabinet'][i].ID+'"/></td><td colspan="3" height="30"><div id="slider_cabinet_'+data.data['cabinet'][i].ID+'" style="width:730px;height:20px;"></div></td><td id="slider_cabinet_txt_'+data.data['cabinet'][i].ID+'"></td></tr>';		
+				}
+			}
+			
+			$("#myCart").empty();
+			$("#myCart").html(str);
+			
+			var obj = {$time_obj};
+			//绑定插件
+			if(data.data){
+				if(data.data['vps']){
+					for(var i=0;i<data.data['vps'].length;i++){
+						getVpsSlide(obj,data.data['vps'][i].ID);
+					}
+				}
+				if(data.data['dev']){
+					for(var i=0;i<data.data['dev'].length;i++){
+						getDevSlide(obj,data.data['dev'][i].ID);
+					}
+				}
+				if(data.data['ip']){
+					for(var i=0;i<data.data['ip'].length;i++){						
+						getIPSlide(obj,data.data['ip'][i].ID);
+					}
+				}
+				if(data.data['bandwidth']){
+					for(var i=0;i<data.data['bandwidth'].length;i++){
+						getBandWidthSlide(obj,data.data['bandwidth'][i].ID);
+					}
+				}
+				if(data.data['bandwidthExt']){
+					for(var i=0;i<data.data['bandwidthExt'].length;i++){
+						getBandWidthExtSlide(obj,data.data['bandwidthExt'][i].ID);
+					}
+				}
+				if(data.data['cabinet']){
+					for(var i=0;i<data.data['cabinet'].length;i++){
+						getCabinetSlide(obj,data.data['cabinet'][i].ID);
+					}
+				}
+			}
+		}else{
+			$("#myCart").html('<tr><td colspan="5">暂无商品信息</td></tr>');
+		}
+	}	
+	function operationCart(type,opt,id){
+		$.ajax({
+			url:'__APP__/Index/operationCart',
+			type:'post',
+			data:{'id':id,'type':type,'opt':opt},
+			async:false,
+			success:function(data){
+				if(data.info=='success'){
+					//window.location.reload();
+					bindCartDiv(data);
+				}else{
+					$("#error_msg").css('color','red').html(data.data);
+				}
+				getTotalPrice();
+			},
+			error:function(data){
+				$("#error_msg").css('color','red').html("网络错误："+data.statusText);
+			}
+		});	
+	}
+	function updateCount(obj,type,id){
+		var reg = /^\+?[1-9][0-9]*$/,val = $(obj).val();
+		if(!reg.test(val)){
+			$("#error_msg").css('color','red').html("提示信息：请输入大于0的正整数");
+			return false;
+		}
+		$.ajax({
+			url:'__APP__/Index/updateCount',
+			type:'post',
+			data:{'id':id,'type':type,'val':val},
+			async:false,
+			success:function(data){
+				if(data.info=='success'){
+					//window.location.reload();
+					bindCartDiv(data);
+				}else{
+					$("#error_msg").css('color','red').html("提示信息："+data.data);
+				}
+				getTotalPrice();
+			},
+			error:function(data){
+				$("#error_msg").css('color','red').html("提示信息："+data.statusText);
+			}
+		});		
+	}
+	function clearMsg(){
+		$("#error_msg").html('');
+	}
+	function getSumPrice(){
+		var sum=0,price=0;
+		$(".price").each(function(i,evt){
+			if($(evt).html().indexOf(',')!=-1){
+				price = $(evt).html().replace(/,/g,'');
+			}else{
+				price = $(evt).html();
+			}
+			sum += parseFloat(price);
+		});
+		$.ajax({
+			url:'__APP__/Index/updateSumPrice',
+			type:'post',
+			data:{'sum':sum},
+			success:function(data){
+				$("#totalPrice").html(formatCurrency(sum));
+			},error:function(data){
+				$("#error_msg").css('color','red').html("提示信息："+data.statusText);
+			}
+		});
+	}
+	var _interval;
+	function payment(){
+		if($("#error_msg").html()!=""){
+			$("#error_msg").html('');
+		}
+		var str,slide_str="";		
+		$(".slide").each(function(i,item){
+			if(i!=$(".slide").length-1){
+				slide_str += $(item).find('input[type=hidden]').val() + "_" + $(item).find('td:eq(2)').html() + ',';
+			}else{
+				slide_str += $(item).find('input[type=hidden]').val() + "_" + $(item).find('td:eq(2)').html();
+			}
+		});
+		$.ajax({
+			url:'__APP__/Index/updateDoReq',
+			type:'post',
+			async:false,
+			data:{'doReq':$("#txt_Doreq").val(),'id':$("#ord_id").val(),'slide_str':slide_str},
+			success:function(data){
+				if(data.info=='success'){
+					str = data.data;
+				}else{
+					$("#error_msg").css('color','red').html("提示信息："+data.data);
+				}
+			},
+			error:function(data){
+				$("#error_msg").css('color','red').html("提示信息："+data.statusText);
+			}
+		});
+		window.open('__APP__/Index/payment');
+		$.layer({
+			type: 1,
+			closeBtn: [0, false],
+			title: false,
+			area: ['540px', '260px'],
+			shift: 'left', //从左动画弹出
+			page: {
+				html: '<style>a:visited{color:#00b0ec}a:hover{color:#00b0ec}a:link{color:#00b0ec}</style><h2 style="padding:20px 0px 0px 30px;width:200px;">登录支付宝进行支付</h2><img src="__ROOT__/Public/images/loading.gif" style="float:right;margin-top:50px;"/><br/><div style="width:480px;height:1px; border-top:1px solid #ccc;margin-left:20px;"></div><h4 style="padding:10px 0px 0px 30px; font-weight:normal">请在新开的支付页面完成支付：</h4><br/><div style="width:70%float:left;"><img src="__ROOT__/Public/images/success.png" style="float:left;padding:3px 0px 0px 30px;"/><h4 style="padding:10px 0px 0px 20px;float:left;">支付成功</h4><h4 style="padding:8px 0px 0px 10px;float:left;font-weight:normal">|</h4><h5 style="float:left;padding:12px 0px 0px 10px;font-weight:normal">您可以选择查看：</h5><a href="__APP__/Services/order" style="float:left;padding:12px 0px 0px 10px;font-size:12px;text-decoration:none">我的订单</a></div><br/><div style="width:70%;float:left;"><img src="__ROOT__/Public/images/error.png" style="float:left;padding:3px 0px 0px 30px;"/><h4 style="padding:10px 0px 20px 20px;float:left;">支付失败</h4><h4 style="padding:8px 0px 0px 10px;float:left;font-weight:normal">|</h4><h5 style="float:left;padding:12px 0px 0px 10px;font-weight:normal">建议你刷新页面：</h5><a href="javascript:void(0);" style="float:left;padding:12px 0px 20px 10px;font-size:12px;text-decoration:none" onclick="payment()">重新支付</a></div>'
+			}
+		});
+		
+		_interval = setInterval(function (){finishPayment(str);},3000);
+	}
+	function finishPayment(code){
+		$.ajax({
+			url:'__APP__/Index/finishPayment',
+			type:'post',
+			data:{'code':code},
+			async:false,
+			success:function(data){
+				if(data.data=="SUCC"){
+					clearInterval(_interval);
+					$.ajax({
+						url:'__APP__/Index/insert',
+						type:'post',
+						data:{'id':$("#ord_id").val()},
+						success:function(data){
+							if(data.info=="success"){
+								window.location.href="__APP__/Services/order";
+							}else{
+								$("#error_msg").css('color','red').html("提示信息："+data.data);
+							}
+						},
+						error:function(data){
+							$("#error_msg").css('color','red').html("提示信息："+data.statusText);	
+						}
+					});
+				}
+			},
+			error:function(data){
+				$("#error_msg").css('color','red').html("提示信息："+data.statusText);	
+			}
+		});
+	}
+</script>
+<title>睿江科技服务平台</title>
+</head>
+<body>
+    <include file="Public:head_index" />
+    <!-- header end -->
+    <div style="float:left;width:100%;">
+        <div class="twrapper">
+            <div class="content" style="width:1200px;border-right: 1px solid #e6e6e6; ">
+            <div class="intro" style="height:150px;">
+                    <h2>我的购物车</h2>
+                    <p>现在 支付， 您将马上得到您需要的设备和资源</p>
+                    <input type="hidden" id="ord_id" value="{$ord_id}" />
+                    <img src="__ROOT__/Public/images/ipic.png" width="64" height="64" />
+                    <table style="width:1200px;">
+                        <tr>
+                            <td style="border-left:none;width:300px;">1.我的购物车</td>
+                            <td class="actived" style="width:300px;">2.填写核对订单信息</td>
+                            <td style="width:300px;">3.订单成功支付</td>
+                            <td style="border-right:none;width:300px;">4.产品部署</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="conbox" style="width:1200px;">
+                    <div>
+                <style>
+                    .ui-ipt-txt {
+                    height: 25px;
+                    padding: 0 5px;
+                    line-height: 25px;
+                    vertical-align: middle;
+                    color: #666;
+                    background-color: #fff;
+                    border: solid 1px #c7ccd2;
+                    border-right-color: #e0e4e9;
+                    border-bottom-color: #e0e4e9;
+                    outline: 0;
+                    }
+                    .num a:hover {text-decoration: none;}
+                    .plus, .minus {
+                    display: block;
+                    height: 18px;
+                    width: 17px;
+                    border: 1px solid #e5e5e5;
+                    background: #fff;
+                    text-align: center;
+                    line-height: 18px;
+                    color: #444;
+                    float: left;
+                    margin-top: 6px;
+                    }
+                </style>
+                        <table width="1200" id="myCart">
+                            <tr>
+                                <th width="150">商品类型</th>
+                                <th width="500">描述</th>
+                                <th width="200">数量</th>
+                                <th width="200">价格</th>
+                                <th width="150" style="border-right:none;">操作</th>
+                            </tr>
+                            <!-- vps -->
+                            <if condition="count($ord_vpsList) eq 0">
+                                <else/>
+                                <volist name="ord_vpsList" id="item">
+                                    <tr>
+                                        <td>云服务器</td>
+                                        <td>
+                                           CPU：{$item.CPU}
+                                           内存：{$item.Ram}
+                                           硬盘：{$item.Disk}
+                                           品牌：{$item.Brand}
+                                        </td>
+                                        <td style="height:27px;">1 台</td>
+                                        <td class="price" id="vps_price_{$item.ID}">{$item.Price|number_format=###,2}</td>
+                                        <td style="border-right:none;"><a href="javascript:void(0)" onclick="del('vps',{$item.ID})">删除</a></td>
+                                    </tr>
+                                    <tr class="slide">
+                                        <td>购买至：<input type="hidden" value="vps_{$item.ID}"/></td>
+                                        <td colspan="3" height="30">
+                                            <div id="slider_vps_{$item.ID}" style="width:730px;height:20px;"></div>
+                                        </td>	
+                                        <td id="slider_vps_txt_{$item.ID}"></td>
+                                    </tr>
+                                    <script type="text/javascript">
+                                        getVpsSlide(eval({$time_obj}),{$item.ID});
+                                    </script>
+                                </volist>
+                            </if>
+                            <!-- dev -->
+                            <if condition="count($ord_devList) eq 0">
+                                <else/>
+                                <volist name="ord_devList" id="item">
+                                    <tr>
+                                        <td>服务器</td>
+                                        <td>
+                                           CPU：{$item.CPU}
+                                           内存：{$item.Ram}
+                                           硬盘：{$item.Disk}
+                                           品牌：{$item.Brand}
+                                        </td>
+                                        <td style="height:27px;">1 台</td>
+                                        <td class="price" id="dev_price_{$item.ID}">{$item.Price|number_format=###,2}</td>
+                                        <td style="border-right:none;"><a href="javascript:void(0)" onclick="del('dev',{$item.ID})">删除</a></td>
+                                    </tr>
+                                    <tr class="slide">
+                                        <td>购买至：<input type="hidden" value="dev_{$item.ID}"/></td>
+                                        <td colspan="3" height="30">
+                                            <div id="slider_dev_{$item.ID}" style="width:730px;height:20px;"></div>
+                                        </td>	
+                                        <td id="slider_dev_txt_{$item.ID}"></td>
+                                    </tr>
+                                    <script type="text/javascript">
+                                        getDevSlide(eval({$time_obj}),{$item.ID});
+                                    </script>
+                                </volist>
+                            </if>
+                            <!-- ip -->
+                            <if condition="count($ord_ipList) eq 0">
+                                <else/>
+                                <volist name="ord_ipList" id="item">
+                                    <tr>
+                                        <td>{$item.ProName}</td>
+                                        <td>{$item.Name}</td>
+                                        <td class="num">
+                                            <div style="margin-left:60px;">
+                                            <a href="javascript:void(0);" onclick="operationCart('ip','reduction',{$item.ID})" class="minus">-</a>
+                                            <input class="ui-ipt-txt" style="width:30px;text-align:center;float:left;" type="text" value="{$item.Count}" onfocus="clearMsg()" onblur="updateCount(this,'ip',{$item.ID})"/>
+                                            <a href="javascript:void(0);" onclick="operationCart('ip','plus',{$item.ID})" class="plus">+</a>
+                                            <div>
+                                        </td>
+                                        <td class="price" id="ip_price_{$item.ID}">{$item.Price|number_format=###,2}</td>
+                                        <td style="border-right:none;"><a href="javascript:void(0)" onclick="del('ip',{$item.ID})">删除</a></td>
+                                    </tr>                             
+                                    <tr class="slide">
+                                        <td>购买至：<input type="hidden" value="ip_{$item.ID}"/></td>
+                                        <td colspan="3" height="30">
+                                            <div id="slider_ip_{$item.ID}" style="width:730px;height:20px;"></div>
+                                        </td>	
+                                        <td id="slider_ip_txt_{$item.ID}"></td>
+                                    </tr>
+                                    <script type="text/javascript">
+                                        getIPSlide(eval({$time_obj}),{$item.ID});
+                                    </script>
+                                </volist>
+                            </if>
+                            <!-- bandwidth -->
+                            <if condition="count($ord_bandwidthList) eq 0 AND count($ord_bandwidthExtList) eq 0">
+                                <else/>
+                                <volist name="ord_bandwidthList" id="item">
+                                    <tr>
+                                        <td>{$item.ProName}</td>
+                                        <td>{$item.Name}</td>
+                                        <td style="height:27px;">--</td>
+                                        <td class="price" id="bandwidth_price_{$item.ID}">{$item.Price|number_format=###,2}</td>
+                                        <td style="border-right:none;"><a href="javascript:void(0)" onclick="del('bandwidth',{$item.ID})">删除</a></td>
+                                    </tr>                               
+                                    <tr class="slide">
+                                        <td>购买至：<input type="hidden" value="bandwidth_{$item.ID}"/></td>
+                                        <td colspan="3" height="30">
+                                            <div id="slider_bandwidth_{$item.ID}" style="width:730px;height:20px;"></div>
+                                        </td>	
+                                        <td id="slider_bandwidth_txt_{$item.ID}"></td>
+                                    </tr>
+                                    <script type="text/javascript">
+                                        getBandWidthSlide(eval({$time_obj}),{$item.ID});									
+                                    </script>
+                                </volist>
+                                <volist name="ord_bandwidthExtList" id="item">
+                                    <tr>
+                                        <td>{$item.ProName}</td>
+                                        <td>{$item.Name}</td>
+                                        <td style="height:27px;">--</td>
+                                        <td class="price" id="bandwidthExt_price_{$item.ID}">{$item.Price|number_format=###,2}</td>
+                                        <td style="border-right:none;"><a href="javascript:void(0)" onclick="del('bandwidthExt',{$item.ID})">删除</a></td>
+                                    </tr>
+                                    <tr class="slide">
+                                        <td>购买至：<input type="hidden" value="bandwidthExt_{$item.ID}"/></td>
+                                        <td colspan="3" height="30">
+                                            <div id="slider_bandwidthExt_{$item.ID}" style="width:730px;height:20px;"></div>
+                                        </td>	
+                                        <td id="slider_bandwidthExt_txt_{$item.ID}"></td>
+                                    </tr>
+                                    <script type="text/javascript">									
+                                        getBandWidthExtSlide(eval({$time_obj}),{$item.ID});
+                                    </script>
+                                </volist>
+                            </if>
+                            <!-- cabinet -->
+                            <if condition="count($ord_cabinetList) eq 0">
+                                <else/>
+                                <volist name="ord_cabinetList" id="item">
+                                    <tr>
+                                        <td>{$item.ProName}</td>
+                                        <td>{$item.Name}</td>
+                                        <td class="num">
+                                            <div style="margin-left:60px;">
+                                            <a href="javascript:void(0);" onclick="operationCart('cabinet','reduction',{$item.ID})" class="minus">-</a>
+                                            <input class="ui-ipt-txt" style="width:30px;text-align:center;float:left;" type="text" value="{$item.Count}" onfocus="clearMsg()" onblur="updateCount(this,'cabinet',{$item.ID})"/>
+                                            <a href="javascript:void(0);" onclick="operationCart('cabinet','plus',{$item.ID})" class="plus">+</a>
+                                            <div>
+                                        </td>
+                                        <td class="price" id="cabinet_price_{$item.ID}">{$item.Price|number_format=###,2}</td>
+                                        <td style="border-right:none;"><a href="javascript:void(0)" onclick="del('cabinet',{$item.ID})">删除</a></td>
+                                    </tr>
+                                    <tr class="slide">
+                                        <td>购买至：<input type="hidden" value="cabinet_{$item.ID}"/></td>
+                                        <td colspan="3" height="30">
+                                            <div id="slider_cabinet_{$item.ID}" style="width:730px;height:20px;"></div>
+                                        </td>	
+                                        <td id="slider_cabinet_txt_{$item.ID}"></td>
+                                    </tr>
+                                    <script type="text/javascript">
+                                        getCabinetSlide(eval({$time_obj}),{$item.ID});
+                                    </script>
+                                </volist>
+                            </if>
+                        </table>
+                    </div>
+                </div>
+                <div class="intro" style="height:118px;">
+              <div style="float:left; height:30px; line-height:30px;width:120px; margin:15px 0px 0px 80px;">部署要求</div>
+              <div style="width:860px;float:left;margin-top:20px;"><!--例如：4个IP，100M双线；接在某某机房XX柜-->
+                  <textarea class="ui-ipt-txt" style="margin: 0px; height: 80px; width: 968px;" id="txt_Doreq"></textarea>
+              </div>
+            </div>
+            <div class="clear"></div>
+            <div class="intro" style="height:60px;">
+              <div style="float:left; height:30px; line-height:30px;width:100px; margin:15px 0px 0px 80px;"><a href="javascript:0" id="fapiao">开具发票</a></div>          
+              <div style="float:left; height:30px; line-height:30px;width:400px; margin:15px 0px 0px 20px;" id="error_msg"></div>
+              <div style="width:460px;float:right;margin-top:20px;">
+                  <h4 style="float:left;font-style: normal; font-size:14px;">总计（不含发票邮寄费用）：<i style="color: #f60; font-style:normal;font-size:16px;">¥</i> <span style="color: #f60;font-size:16px;" id="totalPrice">{$_SESSION['totalPrice']}</span></h4>
+                  <a style="float:left;margin-left:80px;margin-top:-7px;padding: 8px 20px;background: red;color: white;" href="javascript:void(0)" onclick="payment()">去支付</a>
+              </div>
+                </div>
+                
+            </div>
+        
+	    <!--div class="conbox" style="width:1200px;border-top: 1px solid #e6e6e6;float:left; border-left: 1px solid #e6e6e6;">
+            	<h3>使用帮助</h3>
+                <div class="w210" style="width:370px;">
+                	<h4 style="padding-left: 145px;"><span>产品介绍</span></h4>
+                    <ul style="padding-left: 145px;">
+                    	<li><a href="#">产品介绍</a></li>
+                        <li><a href="#">计费说明</a></li>
+                        <li><a href="#">计费说明</a></li>
+                    </ul>
+                </div>
+                <div class="w210" style="width:370px;">
+                	<h4 style="padding-left: 145px;"><span>产品介绍</span></h4>
+                    <ul style="padding-left: 145px;">
+                    	<li><a href="#">产品介绍</a></li>
+                        <li><a href="#">计费说明</a></li>
+                        <li><a href="#">计费说明</a></li>
+                    </ul>
+                </div>
+                <div class="w210" style="width:370px;">
+                	<h4 style="padding-left: 145px;"><span>产品介绍</span></h4>
+                    <ul style="padding-left: 145px;">
+                    	<li><a href="#">产品介绍</a></li>
+                        <li><a href="#">计费说明</a></li>
+                        <li><a href="#">计费说明</a></li>
+                    </ul>
+                </div>
+            </div>
+              
+    </div-->
+    </div>
+    <div style="float:left;width: 100%;">
+    	<include file="Public:footer_index" />
+    </div>
+</body>
+</html>

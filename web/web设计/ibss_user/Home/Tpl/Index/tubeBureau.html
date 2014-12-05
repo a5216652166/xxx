@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>睿江科技服务平台</title>
+<link rel="stylesheet" href="__ROOT__/Public/css/content.css" />
+<link rel="stylesheet" href="__ROOT__/Public/css/siftbox.css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+</head>
+<body>
+    <include file="Public:head_index" />
+    <!-- header end -->
+    <div class="twrapper">
+        <div class="tree">
+        	<div>
+                <i>备案申请</i>
+                <ul>
+                    <li><a href="__APP__/Index/beian?b=content_b1">备案介绍</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b2">备案流程</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b3" class="actived">管局要求</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b4">备案材料</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b5">填写指南</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b6">前置审批</a></li>
+                   	<!--li><a href="__APP__/Index/beian?b=7">常见问题</a></li-->
+                </ul>
+                <hr />
+            </div>
+        </div>
+        <!-- treeee end -->
+        <div class="content customer-list">
+            <ul class="list">
+            	<li style="">
+                    <div class="top y-clearfix">
+                        <h3 class="y-h2 r-tit">{$tubeBureau.Title}</h3>
+                    </div>
+                    {$tubeBureau.Content}
+                </li>
+        </ul>
+            
+        </div>              
+    </div>
+    <div class="clear"></div>
+    <include file="Public:footer_index" />
+</body>
+</html>

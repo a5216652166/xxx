@@ -1,0 +1,118 @@
+.red{color:#f00}.green{color:#008000}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+html{-webkit-text-size-adjust:none;background-color:#fff}
+html .navbar-default .navbar-collapse{border-top-color:#333}
+html .pagination{float:right}
+html .pagination li.active a{color:#fff !important;background-color:#0082e5 !important}
+html .pagination li.disabled a{color:#ccc !important}
+html .container{max-width:1024px;}
+html div .mt20{margin-top:20px;}
+html table.dotted-table{border:1px solid #ddd !important;border-spacing:0 !important}
+html table.dotted-table thead tr{border-color:#cde9ff !important;height:40px}
+html table.dotted-table thead th{background-color:#e4f3ff !important;font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#333;vertical-align:middle}
+html table.dotted-table tbody tr td{border-top:1px dotted #ddd !important;font-size:13px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif}
+@media (max-width:768px){html table.dotted-table tbody tr td{font-size:12px !important;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif !important;word-break:break-all}}
+html table.dotted-table tbody tr:nth-child(even){background-color:#fcfcfc}
+html table.dotted-table tbody td:not(:last-child),html table.dotted-table tbody .dotted-table th:not(:last-child){border-right:1px dotted #ddd !important}
+html code{color:#f76120}@media (min-width:768px){html #nav_hello a:hover{height:60px;margin-bottom:9.5px}}
+html #host-nav{font-size:18px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;margin-top:30px;color:#333}
+html #host-nav hr{border-top:2px solid #eee;margin-top:10px;margin-bottom:10px}
+html h4{font-size:18px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#333;font-weight:normal}
+html h5{font-size:16px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#333;font-weight:normal}
+html input.user-error,html textarea.user-error{-moz-outline-radius:4px 4px 4px 4px !important;border-color:#ee5238 !important;border-radius:4px 4px 4px 4px !important;box-shadow:0 0 2px #ee5238 inset !important;out-line:2px solid #ee5238 !important}
+html a:hover{text-decoration:none;color:#0082e5}
+html input.error,html textarea.error{-moz-outline-radius:4px 4px 4px 4px !important;border-color:#ee5238 !important;border-radius:4px 4px 4px 4px !important;box-shadow:0 0 2px #ee5238 inset !important;out-line:2px solid #ee5238 !important;outline-color:#ee5238 !important}
+html .btn:focus{outline:none;outline-offset:none}
+html .btn-primary:hover,html .btn-primary:focus,html .btn-primary:active,html .btn-primary.active,html .open .dropdown-toggle.btn-primary{color:#fff;background-color:#0082e5}html .navbar-static-top.navbar{margin-bottom:0;border:none}
+@media (min-width:769px){html .navbar-static-top.navbar{height:64px}}
+html .navbar-collapse{max-height:400px}
+html .navbar-static-top{background-color:#0089b7}
+html .navbar-static-top #logo{margin-top: -15px;background-position:0 -130px;height:50px;margin-right:120px}
+html .navbar-static-top .navbar-nav li{min-width:94px;text-align:center}
+html .navbar-static-top .navbar-nav li a{line-height:34px}
+html .navbar-static-top .navbar-nav .active a,html .navbar-static-top .navbar-nav a{color:#fff;font-size:16px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif}
+html .navbar-static-top .navbar-nav a:hover{color:#fff;background-color:#54b6da}
+html .navbar-static-top .navbar-nav .active a,html .navbar-static-top .navbar-nav .active a:hover{color:#fff;background-color:#54b6da;font-size: 16px;}
+@media (min-width:769px) and (max-width:1200px){html .navbar-static-top .navbar-nav:not(.navbar-right) li{min-width:64px}}
+@media (min-width:769px) and (max-width:1200px){html .navbar-static-top .navbar-nav.navbar-right:last-child{margin-right:-100px}}
+html .navbar-static-top .navbar-right li{min-width:60px;text-align:center;margin-left:auto;margin-right:auto}
+html .navbar-static-top .navbar-right li a{line-height:34px}
+html .navbar-static-top .navbar-right li .name{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;max-width:80px;display:inline-block}
+html .navbar-static-top .navbar-right a{font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#fff}
+html .navbar-static-top .navbar-right a:hover{color:#fff;font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif}
+html .navbar-static-top .navbar-right .beian{min-width:106px}
+html .navbar-static-top .navbar-right .beian a span{background-color:#54b6da;padding:10px;border-radius:4px}
+html .navbar-static-top .navbar-right .tablet-layout{text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+html .container img{max-width:100%}
+html .meituan-red{color:#f76120}
+html .label{font-size:11px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;padding-top:4px}
+html .btn-primary{background-color:#0082e5;border-color:#178ce5}
+html .modal{font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif}
+html .modal .info{margin-bottom:-20px}
+html .modal label{font-weight:normal}
+html .modal .modal-info{margin-left:20px;margin-right:20px;margin-top:-20px}
+html .modal .modal-footer a.btn{min-width:100px}
+html .page_buy .container{min-height:60px}
+html .page_buy #cpu .cpu-button,html .page_buy #mem div{display:inline-block}
+html .page_buy #cpu button,html .page_buy #mem button{display:inline-block;width:96px;float:left;margin-right:30px}
+html .page_buy #div-image{margin-right:10px\0}
+html .page_buy #config{color:#333;font-size:18px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;height:60px;padding-top:30px;font-weight:bold;margin-bottom:33px}
+html .page_buy #config hr{margin-top:15px;border-top:2px solid #eee}
+html .page_buy .os-btn{float:left}
+html .page_buy input{margin-left:30px;width:48px;text-align:center;color:#f76120;font-family:Tahoma;font-size:14px}
+html .page_buy .unit{font-family:Tahoma;font-size:14px;margin-left:4px}
+html .page_buy .zero_tip{font-size:13px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#666;margin-left:20px;line-height:35px}
+@media (max-width:750px){html .page_buy .zero_tip{display:none}}html .page_buy .dropdown-menu{min-width:230px}
+@media (max-width:768px){html .page_buy .dropdown-menu{min-width:120px}}
+html .page_buy button:not(.navbar-toggle){width:96px;float:left;margin-right:30px}
+html .page_buy button:not(.navbar-toggle) .fa-check-circle-o{margin-right:10px}
+@media (max-width:768px){html .page_buy button:not(.navbar-toggle){margin-right:3px;padding-left:5px;width:60px}html .page_buy button:not(.navbar-toggle) .fa-check-circle-o{margin-right:2px}}
+html .page_buy button:not(.navbar-toggle).navbar-toggle{float:right}
+html .page_buy button.dropdown-toggle{width:230px;position:relative}
+html .page_buy button.dropdown-toggle .caret{position:absolute;right:10px;top:14px}
+@media (max-width:768px){html .page_buy button.dropdown-toggle{width:120px}}
+html .page_buy button.btn-default{font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#999;background-color:#fafafa}html .page_buy button.btn-default.btn-info{font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#fff;background-color:#0082e5}html .page_buy button.btn-info:focus{background-color:#0082e5}
+html .page_buy .col-md-1.title{font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#999;font-weight:bold;line-height:34px;margin-right:-12px}
+html .page_buy .col-md-1.title.for-slider{line-height:24px}
+html .page_buy .price-text{font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#666;margin-left:20px}
+html .page_buy .money{font-size:23px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;color:#f76120}
+html .page_buy #price:before{content:'￥'}
+html .page_buy .slider-handle{background-color:#f00;background-color:#0e90d2;background-image:-moz-linear-gradient(top, #0082e5, #0082e5);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#0082e5), to(#0082e5));background-image:-webkit-linear-gradient(top, #0082e5, #0082e5);background-image:-o-linear-gradient(top, #0082e5, #0082e5);background-image:linear-gradient(to bottom, #0082e5, #0082e5);background-repeat:repeat-x}
+@media (max-width:768px){html .page_buy #buy-div{margin-left:20px}}
+
+html footer{background-color:#f7f7f7;color:#989898;text-align:center;font-size:12px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;margin-top:40px;}
+html footer .footer-content{display:inline-block;padding:30px 0;position:relative;padding-right:90px}
+html footer a{color:#989898;text-decoration:none}
+html footer a:hover{color:#666;text-decoration:underline}
+html footer div{margin-top:5px;margin-bottom:5px}
+html footer div span{margin-left:10px}
+html footer .icon-weibo{font-size:20px;padding-right:5px;vertical-align:middle;line-height:21px}
+html footer .nav span{white-space:nowrap}html footer .wechart{display:inline-block;position:absolute;top:10px;right:0}
+html div.general{min-height:400px;margin-top:80px}
+html div.general label{font-size:14px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;font-weight:normal}
+
+.copyright-100 {
+clear: both;
+background: #fff;
+border-top: 5px solid #0089b7;
+margin-top: 0px;
+width: 100%;
+height: 115px;
+bottom: 0px;
+}
+
+.slides ul{list-style:none;}
+
+.slides{position:fixed;right:0;top:100px;}
+
+.slides .slideul>li{position:relative;display:block;width:56px;height:56px;margin-bottom:10px;overflow:visible;}
+
+.slides .slideul>li.kefu{width:66px;padding-left:10px;margin-left:-10px;}
+
+.slides .slideul>li ul.kefulist{position:absolute;left:-200px;top:-10px;padding-right:10px;display:none;}
+
+.slides .slideul>li ul.kefulist li{margin-bottom:10px;}
+
+.slides .slideul>li ul.kefulist li a{display:block;width:200px;height:30px;line-height:30px;background:#0089b7;color:#fff;text-align:left;text-decoration:none;padding-left:10px;}
+
+.slides .slideul>li ul.kefulist li a:hover{text-decoration:none;}

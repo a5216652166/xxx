@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="data-spm" content="5176">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+    <link rel="stylesheet" href="__ROOT__/Public/css/footer.css">
+    <link rel="stylesheet" href="__ROOT__/Public/css/userinfo.css">
+    <script src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+    <script src="__ROOT__/Public/js/common.js"></script>
+    <script src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <script type="text/javascript">
+		
+		var USERTYPE = "{$_SESSION['type']}";
+		
+    	$(function(){
+			//$("#sidebar_ul li:eq(0)").css('background','#f0f0f0');
+			//$("#sidebar_ul li:eq(0) a span").css('color','#06c');			
+			
+			$(".uc-nav-list a").removeClass('current');
+			$(".uc-nav-list a:eq(2)").addClass('current');
+			$(".uc-current-light").css('left','745px');
+			$(".uc-current-light").css('width','62px');
+			
+			if(USERTYPE==1){
+				$("#person").attr('checked','checked');
+				$("#per_div").show();
+			}else{
+				$("#company").attr('checked','checked');
+				$("#com_div").show();
+				
+			}
+		});
+		function showInfo(obj){
+			if($(obj).html()=='查看详情'){
+				$(obj).parent().parent().next().show();
+				$(obj).html('收起详情');				
+			}else{
+				$(obj).parent().parent().next().hide();
+				$(obj).html('查看详情');
+			}
+		}
+		function saveUserInfo(){
+			var reg = /^[0-9]*[1-9][0-9]*$/;  
+			if(USERTYPE==1){
+				if(!reg.test($("#psn_billDay").val()) || ($("#psn_billDay").val()<1 || $("#psn_billDay").val()>28)){
+					$("#psn_bill_day_error").html("错误提示：账单日请输入1～28之间的正整数");
+					return false;
+				}
+				
+				if($("#psn_email").val()!="" && !checkemail($("#psn_email").val())){
+					$("#psn_email_error").html("错误提示：请输入正确的邮箱地址");
+					return false;
+				}
+				$.ajax({
+					url:'__APP__/Services/saveUserInfo',
+					type:'post',
+					data:$("#person_info").serialize(),
+					success:function(data){
+						window.location.href = "__APP__/Services/userInfo";
+					},
+					error:function(data){
+						$("#error_info").html("错误提示："+data.statusText);
+					}	
+				});
+			}else{
+				if(!reg.test($("#com_billDay").val()) || ($("#com_billDay").val()<1 || $("#com_billDay").val()>28)){
+					$("#com_bill_day_error").html("错误提示：账单日请输入1～28之间的正整数");
+					return false;
+				}
+				$.ajax({
+					url:'__APP__/Services/saveUserInfo',
+					type:'post',
+					data:$("#company_info").serialize(),
+					success:function(data){
+						window.location.href = "__APP__/Services/userInfo";
+					},
+					error:function(data){
+						$("#error_info").html("错误提示："+data.statusText);
+					}	
+				});
+			}
+		}
+		function clearError(obj){
+			$(obj).parent().next().html('');
+		}
+    </script>
+    <title>睿江科技开放服务平台 - 用户中心</title>
+</head>
+<body class="page-account">
+<include file="Public:head_user" />
+<!-- 内容 S -->
+<div class="uc-bd" style="background:#fff;">
+	<div class="y-row uc-layer">
+		<div class="y-span12">
+                <div id="account" class="mt10">
+				<div class="mt10 clearfix" id="main">
+				<include file="Public:sidebar" />
+					
+                    <!--div id="content" style="width:800px; margin-top: 10px;float:right;">
+					    <include file="Public:memu" />
+					</div-->
+						<div class="uitopb uitopb-border" style="float: right; margin-bottom:130px;">
+                        	<div style="width:800px;">
+                                <div class="uitopg" style=" border:none;">
+                                    <h3 class="uitopg-title" style="font-weight:bold"><span class="left">基本资料</span></h3>
+                                    <div class="aliyun-form-wrap" style="width:600px; margin:0 auto;">
+                                        <p class="toptips" style="text-align: center;">请完善以下信息，方便我们更好的为您服务。<span id="error_info" style="margin-left:100px;color:red;"></span></p>
+                                        <if condition="$login.Audit == 0 AND $login.Audit_info neq ''">
+                                        	<p class="toptips" style="margin-left:130px;color:red;">您的账户未通过审核，原因：{$login.Audit_info}</p>
+                                            <else/>
+                                        </if>
+                                        	<dl class="row">
+                                                <dt><em>*</em>&nbsp;会员身份:</dt>
+                                                <dd>
+                                                <label><input id="company" class="mr5" name="accountType" disabled="disabled" type="radio" value="1"/>企业</label>
+                                                <label><input id="person" class="mr5" name="accountType" disabled="disabled" type="radio" value="0" checked/>个人</label>
+                                                </dd>
+                                            </dl>
+                                            <!-- 企业用户资料 -->
+                                            <div style="display:none;" id="com_div">
+                                                <form action="" method="post" id="company_info">
+                                                	<input name="ID" type="hidden" value="{$userInfo.ID}" />
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;机构编码:</dt>
+                                                        <dd>
+                                                        <input type="text" name="CompanyCode" class="ipt len2" value="{$userInfo.CompanyCode}" placeholder="输入有效机构编码"/>
+                                                        </dd>
+                                                    </dl> 
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;公司名称:</dt>
+                                                        <dd>
+                                                        <input type="text" name="CompanyName" class="ipt len2 " value="{$userInfo.CompanyName}" placeholder="根据机构编码填入公司名称"/>
+                                                        </dd>
+                                                    </dl>                                                                                   
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;账单日:</dt>
+                                                        <dd>
+                                                        <if condition="$userInfo.BillDay == 0">
+                                                            <input type="text" id="com_billDay" name="BillDay" class="ipt len2" value="{$userInfo.BillDay}" placeholder="" onfocus="clearError(this)"/>
+                                                        <else/>
+                                                            <input type="text" id="com_billDay" name="BillDay" class="ipt len2" disabled="disabled" value="{$userInfo.BillDay}" placeholder="" onfocus="clearError(this)"/>
+                                                        </if>
+                                                        </dd>
+                                                        <dd style="color:red;" id="com_bill_day_error"></dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;法人姓名:</dt>
+                                                        <dd>
+                                                        <input type="text" name="LegalPersonName" class="ipt len2" value="{$userInfo.LegalPersonName}" placeholder="输入法人姓名"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;法人手机号码:</dt>
+                                                        <dd>
+                                                        <input type="text" name="LegalPersonPhone" class="ipt len2" value="{$userInfo.LegalPersonPhone}" placeholder="输入法人手机号码"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;公司网站备案/许可证号:</dt>
+                                                        <dd>
+                                                        <input type="text" name="BeiAn" class="ipt len2" value="{$userInfo.BeiAn}" placeholder="输入法人公司网站备案/许可证号"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;联系人姓名:</dt>
+                                                        <dd>
+                                                        <input type="text" name="LinkmanName" class="ipt len2" value="{$userInfo.LinkmanName}" placeholder="输入联系人姓名"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;联系人手机号码:</dt>
+                                                        <dd>
+                                                        <input type="text" name="LinkmanPhone" class="ipt len2" value="{$userInfo.LinkmanPhone}" placeholder="输入联系人手机号码"/>
+                                                        </dd>
+                                                    </dl>  
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;联系人电子邮箱:</dt>
+                                                        <dd>
+                                                        <input type="text" name="LinkmanEmail" class="ipt len2" value="{$userInfo.LinkmanEmail}" placeholder="输入联系人电子邮箱"/>
+                                                        </dd>
+                                                    </dl>  
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;联系人身份证号码:</dt>
+                                                        <dd>
+                                                        <input type="text" name="LinkmanIdNum" class="ipt len2" value="{$userInfo.LinkmanIdNum}" placeholder="输入联系人证件号码"/>
+                                                        </dd>
+                                                    </dl>  
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;联系人通信地址:</dt>
+                                                        <dd>
+                                                        <input type="text" name="LinkmanAdd" class="ipt len2" value="{$userInfo.LinkmanAdd}" placeholder="输入联系人通信地址"/>
+                                                        </dd>
+                                                    </dl>
+                                                </form>      
+                                            </div>
+                                            <!-- 个人用户资料 -->
+                                            <div style="display:none;" id="per_div">
+                                                <form action="" method="post" id="person_info">
+                                                	<input name="ID" type="hidden" value="{$userInfo.ID}" />
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;身份证号:</dt>
+                                                        <dd>
+                                                        <input type="text" name="IDNum" class="ipt len2" value="{$userInfo.IDNum}" placeholder="输入有效身份证号码"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;真实姓名:</dt>
+                                                        <dd>
+                                                        <input type="text" name="TrueName" class="ipt len2" value="{$userInfo.TrueName}" placeholder="根据身份证填入真实姓名"/>
+                                                        </dd>
+                                                    </dl>                  
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;账单日:</dt>
+                                                        <dd>
+                                                        <if condition="$userInfo.BillDay == 0">
+                                                            <input type="text" name="BillDay" id="psn_billDay" class="ipt len2" value="{$userInfo.BillDay}" placeholder="" onfocus="clearError(this)"/>
+                                                        <else/>
+                                                            <input type="text" name="BillDay" id="psn_billDay" class="ipt len2" disabled="disabled" value="{$userInfo.BillDay}" placeholder="" onfocus="clearError(this)"/>
+                                                        </if>
+                                                        </dd>
+                                                        <dd style="color:red;" id="psn_bill_day_error"></dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;证件住所:</dt>
+                                                        <dd>
+                                                        <input type="text" name="Address" class="ipt len2" value="{$userInfo.Address}" placeholder="输入证件住所"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;通信地址:</dt>
+                                                        <dd>
+                                                        <input type="text" name="Address_" class="ipt len2" value="{$userInfo.Address_}" placeholder="输入通信地址"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;个人网站备案/许可证号:</dt>
+                                                        <dd>
+                                                        <input type="text" name="BeiAn" class="ipt len2" value="{$userInfo.BeiAn}" placeholder="输入个人网站备案/许可证号"/>
+                                                        </dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;邮箱地址:</dt>
+                                                        <dd>
+                                                        <input type="text" id="psn_email" name="Email" class="ipt len2" value="{$userInfo.Email}" placeholder="例如：test@163.com" onfocus="clearError(this)"/>
+                                                        </dd>
+                                                        <dd style="color:red;" id="psn_email_error"></dd>
+                                                    </dl>
+                                                    <dl class="row">
+                                                        <dt><em>*</em>&nbsp;联系电话:</dt>
+                                                        <dd>
+                                                        <input type="text" name="Phone" class="ipt len2" value="{$userInfo.Phone}" placeholder="例如：13800138000"/>
+                                                        </dd>
+                                                    </dl>
+                                        		</form>
+                                            </div>
+                                            <div id="user_btn">
+                                            	<a href="javascript:void(0);" onclick="saveUserInfo()" style="margin:10px 0px 20px 130px;width:60px;">保存</a>
+                                            	<a href="javascript:void(0);" style="margin:10px 0px 20px 20px;width:60px;">清空</a>
+                                            </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- iframe E -->
+				    	
+<script>// JavaScript Document
+(function (win, doc) {
+    win.iframeAdaptiveHeight = function (height) {
+        var iframe = $('.site-iframe-a, .site-iframe-b, .site-iframe-c');
+        iframe.css('height', height).next().css('display', 'none');
+    }
+	
+	    $(doc).ready(function () {
+	
+	        var ifrA = $('.site-iframe-a'),
+	            ifrB = $('.site-iframe-b'),
+	            ifrC = $('.site-iframe-c');
+	
+	
+	        if (ifrA.length > 0) {
+	            ifrA.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrB.length > 0) {
+	            ifrB.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrC.length > 0) {
+	            ifrC.attr('src', $('.site-hidden').val());
+	        }
+	
+	        $('#content .tabs a').click(function () {
+	            var t = $(this),
+				tabs = $('#content .tabs a'),
+				url = t.attr('data-url');
+				/*
+	            tabs.removeClass('current');
+	            t.addClass('current');
+	            ifrC.css('height', 0)
+	                    .next()
+	                    .css('display', 'block');
+	
+	            ifrC.attr('src', url);*/
+				//点击修改表格内容
+				$(".tabs a").removeClass('current');
+				$(this).addClass('current');
+				$("#myData table").empty();
+				$("#myData table").html('<thead><tr><th class="tacenter">订单号</th><th class="tacenter">产品名称</th><th class="tacenter">金额</th><th class="tacenter">状态</th><th class="tacenter">创建时间</th><th class="tacenter">支付时间</th></tr></thead><tbody id="cash-tbinfo"><tr class="alt"><td class="tacenter" colspan="6" style="padding: 20px;"><span class="ico ico-warning">没有找到相关数据!</span></td></tr></tbody>');
+	        });
+	
+	    });
+	
+	})(window, document); 
+</script>	
+				    	
+				    	
+			    	</div>
+		    	</div>
+	    	</div>	    	
+    	</div>
+    	<!-- 内容 E -->
+        
+<!--footer-->
+<include file="Public:footer_login" />
+</body>
+</html>

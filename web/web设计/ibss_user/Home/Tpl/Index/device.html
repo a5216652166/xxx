@@ -1,0 +1,192 @@
+<script type="text/javascript">
+	$(function(){
+		//选中filter下的所有a标签，为其添加hover方法，该方法有两个参数，分别是鼠标移上和移开所执行的函数。
+		$("#filter a").hover(function(){
+			$(this).addClass("seling");
+		},function(){
+			$(this).removeClass("seling");
+		});
+		//选中filter下所有的dt标签，并且为dt标签后面的第一个dd标签下的a标签添加样式seled。
+		$("#filter dt+dd a").attr({"class":"seled",'id':'select_tj'}); 
+		//为filter下的所有a标签添加单击事件
+		$("#filter a").click(function(){
+			var obj = $(this).parent().parent().parent().find("a");
+			for(var i=0;i<obj.length;i++){
+				$(obj[i]).removeClass("seled").attr('id','');
+			}
+			$(this).addClass("seled").attr('id','select_tj');
+			//抓取排序的条件
+			var ord = "00";
+			$(".tip-row .tip-text-order").each(function(){
+				if($(this).css('background-color')=='rgb(0, 176, 236)'){
+					//price
+					if($(this).find('label').html()=='按价格'){
+						if($(this).find('i').css('background-position')=='0px -12px'){
+							ord = "10";
+						}else{
+							ord = "20";
+						}
+					}else if($(this).find('label').html()=='按U数'){
+						if($(this).find('i').css('background-position')=='0px -12px'){
+							ord = "01";
+						}else{
+							ord = "02";
+						}
+					}else{
+						ord = "00";	
+					}
+				}
+			});
+			bindProDiv(ord);
+		});
+	});
+	function orderBy(type,obj){
+		var ord = "00";
+		$(".tip-row .tip-text-order").css({'color':'#666666','background':'#fff','border':'1px solid #ccc','font-weight':''});
+		$(obj).css({'background':'#00b0ec','border':'1px solid #00b0ec','font-weight':'bold','color':'#fff'});
+		if(type=='price'){
+			if($(obj).find('i').css('background-position')=='0px -12px'){
+				//desc
+				$(obj).find('i').css('background-position','0px 0px');
+				ord = "20";
+			}else{
+				//asc
+				$(obj).find('i').css('background-position','0px -12px');
+				ord = "10";
+			}
+		}else if(type=='ucount'){
+			if($(obj).find('i').css('background-position')=='0px -12px'){
+				//desc
+				$(obj).find('i').css('background-position','0px 0px');
+				ord = "02";
+			}else{
+				//asc
+				$(obj).find('i').css('background-position','0px -12px');
+				ord = "01";
+			}
+		}else{
+			ord = "00";
+		}
+		bindProDiv(ord);
+	}
+	function bindProDiv(ord){
+		var house = '',brand = '',price = '',str='',strType="'dev'",type='';
+		if($("#brand #select_tj").attr('rel')=='' || typeof($("#brand #select_tj").attr('rel'))=='undefined'){
+			brand = '';
+		}else{
+			brand = $("#brand #select_tj").attr('rel');
+		}
+		if($("#house #select_tj").attr('rel')=='' || typeof($("#house #select_tj").attr('rel'))=='undefined'){					
+			house = '';
+		}else{
+			house = $("#house #select_tj").attr('rel');	
+		}
+		if($("#price #select_tj").attr('rel')=='' || typeof($("#price #select_tj").attr('rel'))=='undefined'){
+			price = '';
+		}else{
+			price = $("#price #select_tj").attr('rel');
+		}
+		if($("#type #select_tj").attr('rel')=='' || typeof($("#type #select_tj").attr('rel'))=='undefined'){
+			type = '';
+		}else{
+			type = $("#type #select_tj").attr('rel');
+		}
+		$.ajax({
+			url:'__APP__/Index/findServices',
+			type:'post',
+			data:{'order':ord,'brand':brand,'house':house,'price':price,'type':type},
+			async:false,
+			success:function(data){
+				$(".myData").empty();
+				if(data.data.length>0){
+					for(var i=0;i<data.data.length;i++){
+						str += '<tr><td>CPU：'+data.data[i].CPU+'<p/>内存：'+data.data[i].Ram+'<p/>硬盘：'+data.data[i].Disk+'</td><td>'+data.data[i].stockHouseName+'</td><td>'+data.data[i].Brand+'</td><td>'+formatCurrency(data.data[i].Price.substring(0, data.data[i].Price.indexOf(".") + 3))+' 元</td><td style="border-right:none;"><a href="javascript:void(0)" onclick="addCart('+strType+','+data.data[i].ID+')">购买</a></td></tr>';
+					}
+				}else{
+					str = '<tr><td colspan="5">没有找到相关记录</td></tr>';
+				}				
+				$(".myData").html(str);
+			},
+			error:function(data){
+				$("#error_msg").css('color','red').html("提示信息："+data.statusText);
+			}
+		});
+	}
+</script>
+
+<div class="sortbox">	
+    <div class="siftbox clearfix">                
+        <span class="label">筛选条件</span>                    
+        <div id="condition"></div>                    
+    </div>                                                            
+    <div id="filter">
+    	<dl class="clearfix" id="type">
+            <dt>类型：</dt>
+            <dd><div><a>全部</a></div></dd>                              	
+            <dd><div><a rel="服务器">服务器</a></div></dd>                	
+            <dd><div><a rel="交换机">交换机</a></div></dd>
+        </dl>
+    	<dl class="clearfix" id="brand">
+            <dt>品牌：</dt>
+            <dd><div><a>全部</a></div></dd>
+            <volist name="brandList" id="bl">                               	
+                <dd><div><a rel="{$bl.Brand}">{$bl.Brand}</a></div></dd>
+            </volist>
+        </dl>
+        <dl class="clearfix" id="house">
+            <dt>机房：</dt>
+            <dd><div><a>全部</a></div></dd>
+            <volist name="houseList" id="hl">                               	
+                <dd><div><a rel="{$hl.ID}">{$hl.stockHouseName}</a></div></dd>
+            </volist>
+        </dl>
+        <dl class="clearfix" id="price">
+            <dt>价格：</dt>
+            <dd><div><a>全部</a></div></dd>
+            <dd><div><a rel="0-4499">0-4499</a></div></dd>
+            <dd><div><a rel="4500-4999">4500-5999</a></div></dd>
+            <dd><div><a rel="6000-6999">5999-6999</a></div></dd>
+            <dd><div><a rel="7000-9999">7000-9999</a></div></dd>
+            <dd><div><a rel="10000">10000以上</a></div></dd>
+        </dl>        
+    </div>                                                
+</div>
+<div class="form" style="border-bottom:solid 1px #e4e4e4">
+    <div class="row">
+        <div class="tip-row">
+            <span class="tip-text">排序方式：</span>
+            <span class="tip-text-order" onclick="orderBy('default',this)">
+                <label style="padding:3px 5px 3px 3px;">默认</label>
+            </span>
+            <span class="tip-text-order" onclick="orderBy('price',this)">
+                <label style="margin-left:3px;">按价格</label><i class="icon-info"></i>
+            </span>
+            <span class="tip-text-order" onclick="orderBy('ucount',this)">
+                <label style="margin-left:3px;">按U数</label><i class="icon-info"></i>
+            </span>
+            <span class="tip-text" style="width:300px; float:right;" id="error_msg"><!--提示信息：--></span>
+        </div>
+    </div>
+</div>
+<table>
+	<thead>
+        <tr>
+            <th>配置</th>
+            <th>机房</th>
+            <th>品牌</th>
+            <th>心动价</th>
+            <th style="border-right:none;"></th>
+        </tr>
+    </thead>
+    <tbody class="myData">
+        <volist name="List" id="item">
+        <tr>
+            <td>CPU：{$item.CPU}<p/>内存：{$item.Ram}<p/>硬盘：{$item.Disk}</td>
+            <td>{$item.stockHouseName}</td>
+            <td>{$item.Brand}</td>
+            <td>{$item.Price|number_format=###,2} 元</td>
+            <td style="border-right:none;"><a href="javascript:void(0)" onclick="addCart('dev',{$item.ID})">购买</a></td>
+        </tr>    
+        </volist>
+    </tbody>
+</table>

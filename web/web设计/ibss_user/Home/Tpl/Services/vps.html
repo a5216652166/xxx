@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="data-spm" content="5176">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+    <link rel="stylesheet" href="__ROOT__/Public/css/footer.css">
+    <script src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+    <script src="__ROOT__/Public/js/common.js"></script>
+    <script src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+			$("#sidebar_ul li:eq(0)").css('background','#f0f0f0');
+			$("#sidebar_ul li:eq(0) a span").css('color','#06c');
+		});
+		function showInfo(obj,code){
+			if($(obj).html()=='查看详情'){
+				$(obj).parent().parent().next().show();
+				$(obj).html('收起详情');				
+			}else{
+				$(obj).parent().parent().next().hide();
+				$(obj).html('查看详情');
+			}
+		}
+		function operationVM(obj,code){
+			var val = $(obj).html(),opt="";
+			switch(val){
+				case '开机':opt="on"; break;
+				case '关机':opt="off"; break;
+				case '重启':opt="reboot"; break;
+			}
+			$.ajax({
+				url:'__APP__/Services/operationVM',
+				type:'post',
+				async:false,
+				data:{'opt':opt,'code':code},
+				success:function(data){
+					if(data.info=='success'){
+						if(data.data==0){
+							showMsg("操作【"+val+"】成功");
+						}else{
+							showMsg("操作【"+val+"】失败");
+						}
+					}
+				},
+				error:function(data){
+					showMsg(data.statusText);
+				}
+			});
+			
+		}
+		function showMsg(msg){
+			$("#msg_info").html(msg).show();
+			setTimeout(function(){
+				$("#msg_info").hide();
+			},5000);
+		}
+    </script>
+    <title>睿江科技开放服务平台 - 用户中心</title>
+</head>
+<body class="page-account">
+<include file="Public:head_user" />
+<!-- 内容 S -->
+<div class="uc-bd" style="background:#fff;">
+	<div class="y-row uc-layer">
+		<div class="y-span12">
+                <div id="account" class="mt10">
+				<div class="mt10 clearfix" id="main">
+				<include file="Public:sidebar" />
+					<div id="content" style="width:800px; margin-top: 10px;float:right;">
+					    <include file="Public:memu" />
+					</div>
+						<div class="uitopb uitopb-border" style="float: right; margin-bottom:130px;">
+						    <ul class="tabs">
+							<li><a href="javascript:void(0);" class="current" target="_self" id="order-btn">我的云主机</a></li>
+							<!--li><a href="javascript:void(0);" class="" target="_self" id="order-btn">我的交换机</a></li-->
+							<li style="width:400px"><span style="height:30px;line-height:30px;margin-left:50px;display:none;color:red" id="msg_info">test</span></li>
+						    </ul>
+						    <div id="myData" class="site-iframe-c" style="width: 797px;">
+							<div class="y-span10 y-last">
+							    <div>
+								<div id="main" class="container clearfix">
+								   <div id="content" style="float: left; width: 797px;">
+									<div class="">
+									    <div id="order-list" class="tabledv" style="display: block;">
+										<table>
+										    <thead>
+											<tr>
+											    <th class="tacenter">品牌</th>
+											    <th class="tacenter">型号</th>
+											    <th class="tacenter">U数</th>
+											    <th class="tacenter">类型</th>
+											    <th class="tacenter">时间</th>
+											    <th class="tacenter">操作</th>
+											</tr>
+										    </thead>
+										    <tbody id="cash-tbinfo">
+                                            <if condition="$vpsListListCount==0">
+                                                <tr class="alt">
+                                                    <td class="tacenter" colspan="6" style="padding: 20px;"><span class="ico ico-warning">没有找到相关数据!</span></td>
+                                                </tr>
+                                            <else/>
+                                            	<volist name="vpsList" id="v">
+                                                <tr class="colorTr">
+                                                    <td class="tacenter">{$v.Brand}</td>
+                                                    <td class="tacenter">{$v.No}</td>
+                                                    <td class="tacenter">{$v.UCount}</td>
+                                                    <td class="tacenter">{$v.Type}</td>
+                                                    <td class="tacenter">{$v.TS}</td>
+                                                    <td class="tacenter">
+                                                    <a href="javascript:void(0);" onclick="showInfo(this,'{$v.Code}')">查看详情</a>
+                                                    </td>
+                                                </tr>
+                                                <tr style="display:none;">
+                                                	<td colspan="6" style="border-top:none;">
+                                                	<div style=" width:100%; border-top:1px solid #ccc; color:#333">
+                                                        <div style=" width:100%;float:left; background:#f3f3f3;">
+                                                            <dl style="float:left; width:350px; padding:0px 0px 0px 26px; line-height:25px;height:25px">配置</dl>
+                                                            <dl style="float:left; width:250px; line-height:25px;height:25px">机房</dl>
+                                                            <dl style="float:left; line-height:25px;height:25px">产权</dl>
+                                                        </div>
+                                                        <table>
+                                                        	<tr>
+                                                            	<td width="350">CPU：{$v.CPU}&nbsp;&nbsp;内存：{$v.Ram}&nbsp;&nbsp;硬盘：{$v.Disk}</td>
+                                                                <td width="240">{$v.stockHouseName}</td>
+                                                                <td>{$v.Property_Right}</td>
+                                                            </tr>
+                                                            <!--if condition="$d.MyCode eq 'A-0X-507'"-->
+                                                                <tr class="dev_opt">
+                                                                    <td colspan="2">服务器操作：</td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="开机">开机</a>
+                                                                        <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="关机">关机</a>
+                                                                        <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="重启">重启</a>
+                                                                    </td>
+                                                                </tr>
+                                                            <!--/if-->
+                                                        </table>
+                                                    </div>
+                                                    </td>
+                                                </tr>
+                                                </volist>
+                                            </if>
+										    </tbody>
+										</table>
+									    </div>
+									</div>
+								    </div>
+								</div>
+							    </div>
+							</div>
+							</div>
+                        </div>
+                    </div>
+                </div><!-- iframe E -->
+				    	
+<script>// JavaScript Document
+(function (win, doc) {
+    win.iframeAdaptiveHeight = function (height) {
+        var iframe = $('.site-iframe-a, .site-iframe-b, .site-iframe-c');
+        iframe.css('height', height).next().css('display', 'none');
+    }
+	
+	    $(doc).ready(function () {
+	
+	        var ifrA = $('.site-iframe-a'),
+	            ifrB = $('.site-iframe-b'),
+	            ifrC = $('.site-iframe-c');
+	
+	
+	        if (ifrA.length > 0) {
+	            ifrA.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrB.length > 0) {
+	            ifrB.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrC.length > 0) {
+	            ifrC.attr('src', $('.site-hidden').val());
+	        }
+	
+	        $('#content .tabs a').click(function () {
+	            var t = $(this),
+				tabs = $('#content .tabs a'),
+				url = t.attr('data-url');
+				/*
+	            tabs.removeClass('current');
+	            t.addClass('current');
+	            ifrC.css('height', 0)
+	                    .next()
+	                    .css('display', 'block');
+	
+	            ifrC.attr('src', url);*/
+				//点击修改表格内容
+				$(".tabs a").removeClass('current');
+				$(this).addClass('current');
+				$("#myData table").empty();
+				$("#myData table").html('<thead><tr><th class="tacenter">订单号</th><th class="tacenter">产品名称</th><th class="tacenter">金额</th><th class="tacenter">状态</th><th class="tacenter">创建时间</th><th class="tacenter">支付时间</th></tr></thead><tbody id="cash-tbinfo"><tr class="alt"><td class="tacenter" colspan="6" style="padding: 20px;"><span class="ico ico-warning">没有找到相关数据!</span></td></tr></tbody>');
+	        });
+	
+	    });
+	
+	})(window, document); 
+</script>	
+				    	
+				    	
+			    	</div>
+		    	</div>
+	    	</div>	    	
+    	</div>
+    	<!-- 内容 E -->
+        
+<!--footer-->
+<include file="Public:footer_login" />
+</body>
+</html>

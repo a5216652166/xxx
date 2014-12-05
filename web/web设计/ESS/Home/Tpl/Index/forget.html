@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+<meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+<meta content="睿江科技 研发项目组" name="author">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit">
+<include file="Public:common"/>
+<link rel="stylesheet" media="screen" href="__ROOT__/Public/css/bootstrap.min.css?v=74123">
+<link rel="stylesheet" media="screen" href="__ROOT__/Public/css/base.css">
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+<title>睿江科技开放服务平台-用户登录</title>
+<script type="text/javascript">
+		//如果是内部页，父级页面刷新,登录
+	var APP = "__APP__";
+	if(window.top!=this){ 
+		parent.location.reload();
+	}
+	$(function(){
+		clearmsg();
+		/*var msg = $("#error-msg").html();
+		if(msg){
+			$("#regist-error").show();
+		}*/
+	});
+	function clearmsg(){
+		$("#msg-username").hide();
+		$("#msg-code").hide();
+		$("#error-msg").html('');
+	}
+	function isEmail(str){
+		var myReg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+		if(myReg.test(str)) return true; 
+		return false; 
+	}
+	var timerc=60;
+	function countdown(){
+        if(timerc > 0){ 
+            --timerc;
+			$("#time_a").hide();
+            $("#timedesc").css('color','red').html(timerc+"秒后可重发"); 
+            t = setTimeout("countdown()", 1000);
+        };
+		if(timerc==0){
+			clearTimeout(t);
+			$("#time_a").show();
+            $("#timedesc").html(""); 
+		}
+    }
+	function changeVerify(){		
+		var mail = $("#username").val();
+		if(!mail){
+			$("#username").focus();
+			$("#msg-username").show();
+			return false;
+		}
+		if(!isEmail(mail)){
+			$("#username").focus();
+			$("#msg-username").html("输入正确的邮箱地址");
+			$("#msg-username").show();
+			return false;
+		}
+		$.ajax({
+			type:'post',
+			url:'__APP__/Index/sendCode',
+			data:{'useremail':$("#username").val()},
+			success:function(data){
+				if(data.info=="success"){
+					timerc=60;
+					countdown();
+					$("#error-msg").html("验证码已经发送到["+$("#username").val()+"]");	
+				}else{
+					$("#error-msg").html(""+data.data);	
+				}
+			},
+			error:function(data){
+				$("#error-msg").html(data.statusText);
+			}
+		});
+	}
+	function regist_form(){		
+		var mail = $("#username").val();		
+		var code = $("#checkcode").val();
+		if(!mail){
+			$("#username").focus();
+			$("#msg-username").show();
+			return false;
+		}
+		if(!isEmail(mail)){
+			$("#username").focus();
+			$("#msg-username").html("输入正确的邮箱地址");
+			$("#msg-username").show();
+			return false;
+		}
+		if(!code){
+			$("#checkcode").focus();
+			$("#msg-code").show();
+			return false;
+		}
+		$.ajax({
+			url:'__APP__/Index/forget',
+			type:'post',
+			data:{'mail':mail,'code':code},
+			success:function(data){
+				if(data.info=='error'){
+					showInfo(data.data);	
+				}else{
+					window.location.href='__APP__/Index/updatepwd?mail='+mail;
+				}
+			},
+			error:function(data){
+				$("#error-msg").html(data.statusText);		
+			}
+		});
+	}
+</script>
+</head>
+<body class="regist" style="background:none;">
+    <include file="Public:head" />
+    <div id="regist-process" class="step1">
+        <div id="regist-process-bar"></div>
+        <div id="regist-process-step1">填写电子邮箱</div>
+        <div id="regist-process-step2">修改帐户信息</div>
+        <div id="regist-process-step3">修改成功</div>
+    </div>
+	<div id="content-container" >
+	<div class="grid780 clr" style="margin-top:50px; height:40px;">
+		<h3 style="font-size:20px;margin:0px 100px;">忘记密码</h3>
+	</div>
+	<div id="content" class="grid780 clr" style="height:350px; width:500px; margin:10px 0px 0px 100px;">
+		<div id="regist-module" class="clr">
+		    <div id="regist-wrap">
+			<form id="regist" method="post">
+			    <div id="regist-error" class="form-error notice notice-error">
+                    <span class="icon-notice icon-error"></span>
+                    <span id="error-msg" class="notice-descript" style="font-size:13px;color:red;"></span>
+			    </div>
+			    <table id="regist-form" class="form">
+				<tbody>
+				<tr>
+				    <td class="fm-label">
+					<div class="fm-label-wrap fm-relative">
+					    <span class="icon icon-regist-email"></span>
+					    <label for="username">电子邮箱 ：</label>
+					</div>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="text" id="username" name="username" onFocus="clearmsg()" style="width:200px;" value="" tabindex="1" placeholder="输入电子邮箱" class="fm-text fm-validator"><span class="noempty">*</span><span id="msg-username" class="fm-validator-result">输入电子邮箱</span>
+					</div>
+				    </td>
+				</tr>
+				<tr>
+				    <td class="fm-label">
+					<label for="fm-regist-aliyun-checkcode">验证码 ：</label>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input id="checkcode" name="checkcode" class="fm-text fm-checkcode fm-validator" style="width:90px;" onFocus="clearmsg()" placeholder="输入右侧验证码" tabindex="2" type="text" maxlength="6" autocomplete="off" value="">
+					    <span class="noempty">*</span><a href="javascript:void(0);" id="time_a" onclick="changeVerify(this);" class="J-changeCheckcode">获取验证码</a><span id="timedesc" style="height:30px;line-height:30px;width:180px;margin-left:20px;"></span>
+					    <span id="msg-code" class="fm-validator-result">输入验证码</span>
+					</div>
+				</td>
+				</tr>
+				<tr>
+				    <td></td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="button" id="fm-regist-submit" value="下一步" name="event_submit_do_join" onClick="regist_form()" tabindex="3" class="fm-button fm-submit">  <!--a href="" target="_blank">《用户使用协议》</a-->
+					</div>
+				    </td>
+				</tr>
+			    </tbody></table>
+			</form>
+		    </div>
+		  </div>
+	      </div>
+	      <div id="regist-extra">
+		      <h3>免费注册</h3>
+		      <p>&nbsp;</p>
+		      已有账号？<a href="__APP__/Index/login">马上登录</a>
+		      <p>&nbsp;</p>
+		      <p>如果您是企业用户，</p>
+		      请&nbsp;<a href="__APP__/Index/cregist">注册企业账号</a>
+		      <p>&nbsp;</p>
+		      <a href="#">了解更多>></a>
+	      </div>
+	</div>
+    
+    <include file="Public:footer" />
+</body>
+</html>

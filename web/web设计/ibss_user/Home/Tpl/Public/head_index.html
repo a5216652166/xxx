@@ -1,0 +1,115 @@
+<div class="header">
+    	<div class="w1200a">
+            <div class="h_top">
+                <ul>
+                	<if condition="$_SESSION['user'] neq '' ">
+                    	<li>欢迎您，<a href="__APP__/Services/order">{$_SESSION['user']}</a></li>
+                        <li style="margin-left:5px;"><a href="__APP__/Index/login">退出</a><i>|</i></li>
+                        <else/><li><a href="__APP__/Index/login">登录</a><i>|</i></li>
+                        <li><a href="__APP__/Index/regist">注册</a><i>|</i></li>
+                    </if>
+                    <li><a href="__APP__/Index/beian?b=content_b1">备案申请</a><i>|</i></li>
+                    <li><a href="javascript:void(0);">合同发票</a><i>|</i></li>
+                    <li><a href="__APP__/Index/support">技术支持</a><i>|</i></li>
+                    <li><a href="__APP__/Index/question?q=question_1">常见问题</a><i>|</i></li>
+                    <li><a href="__APP__/Index/report">互联网不良信息举报</a><!--i>|</i--></li>
+                    <!--li><a href="__APP__/Services">我的控制台</a></li-->
+                </ul>
+            </div>
+        </div>
+        <div class="w1200b">
+            <div class="h_btm">
+                <a href="__APP__/Index/" class="logo">睿江云平台</a>
+                <ul>
+		    <li>
+                    	<a href="__APP__/Index/" class="onenav">资源和产品</a>
+                        <div class="secondnav" style="width:130px;">
+                        	<dl>
+                            	<dt>IDC数据中心</dt>
+                            	<dd><a href="__APP__/Index/product?p=6">IP地址</a></dd>
+                                <dd><a href="__APP__/Index/product?p=3">网络带宽</a></dd>
+                                <dd><a href="__APP__/Index/product?p=7">云服务器</a></dd>
+                                <!--dd><a href="__APP__/Index/product?p=9">服务器租赁</a></dd-->
+                                <dd><a href="__APP__/Index/product?p=8">服务器托管</a></dd>
+                                <!--dd><a href="__APP__/Index/product?p=4">睿江BGP</a></dd-->
+                            </dl>
+                            <!--dl>
+                            	<dt>内容分发网络CDN</dt>
+                                <dd><a href="__APP__/Index/product?p=10">静态页面加速</a></dd>
+                                <dd><a href="__APP__/Index/product?p=11">网络下载加速</a></dd>
+                                <dd><a href="__APP__/Index/product?p=11">免费试用申请</a></dd>
+                            </dl>
+                            <dl>
+                            	<dt>国际专线IPLC</dt>
+                                 <dd><a href="__APP__/Index/product?p=13">国际专线IPLC</a></dd>
+                            </dl-->
+                        </div>
+                    </li>
+                    <!--li>
+                    	<a href="#" class="onenav">解决方案</a>
+                        <div class="secondnav">
+                             <dl>
+                            	<dt>网游解决方案</dt>
+                                <dd><a href="#">镜像首页</a></dd>
+                                <dd><a href="#">基础环境</a></dd>
+                                <dd><a href="#">控制面板</a></dd>
+                                <dd><a href="#">建站系统</a></dd>
+                            </dl>
+                            <dl>
+                            	<dt>移动解决方案</dt>
+                                <dd><a href="#">可视化处理</a></dd>
+                                <dd><a href="#">安全与监控</a></dd>
+                                <dd><a href="#">测试工具</a></dd>
+                            </dl>
+                            <dl>
+                            	<dt>传统行业</dt>
+                                <dd><a href="#">镜像首页</a></dd>
+                                <dd><a href="#">基础环境</a></dd>
+                                <dd><a href="#">控制面板</a></dd>
+                                <dd><a href="#">建站系统</a></dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li>
+                    	<a href="#" class="onenav">工具与镜像</a>
+                        <div class="secondnav">
+                        	<dl>
+                            	<dt>摄像</dt>
+                                <dd><a href="#">镜像首页</a></dd>
+                                <dd><a href="#">基础环境</a></dd>
+                                <dd><a href="#">控制面板</a></dd>
+                                <dd><a href="#">建站系统</a></dd>
+                            </dl>
+                            <dl>
+                            	<dt>工具</dt>
+                                <dd><a href="#">可视化处理</a></dd>
+                                <dd><a href="#">安全与监控</a></dd>
+                                <dd><a href="#">测试工具</a></dd>
+                            </dl>
+                            <dl>
+                            	<dt>运维服务</dt>
+                                <dd><a href="#">镜像首页</a></dd>
+                                <dd><a href="#">基础环境</a></dd>
+                                <dd><a href="#">控制面板</a></dd>
+                                <dd><a href="#">建站系统</a></dd>
+                            </dl>
+                        </div>
+                    </li-->
+                    <li><a href="__APP__/Index/customer" class="onenav">客户与伙伴</a></li>
+                    <li>
+                        <a href="__APP__/Index/support" class="onenav">服务与支持</a>
+                        <!--div class="secondnav" style="width:130px;">
+                             <dl>
+				<dt>服务与支持</dt>
+                                <dd><a href="#">数据迁移</a></dd>
+                                <dd><a href="#">环境配置</a></dd>
+                                <dd><a href="#">故障排查</a></dd>
+                                <dd><a href="#">安全代维</a></dd>
+                            </dl>
+                        </div-->
+                    </li>
+                </ul>
+                <div class="search"><input type="text" placeholder="搜索" /><a href="#" class="icon-search"></a></div>
+            </div>
+        </div>
+    </div>

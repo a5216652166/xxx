@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="__ROOT__/Public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__ROOT__/Public/css/base.css">
+	<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+	<script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+	<title>睿江云 &mdash; 订单页面</title>
+	<script type="text/javascript">
+		$(function(){
+			var balance = "{$balance}",price = "{$price}";
+			if(balance<price){
+				$("#alipay_rdo").attr("checked","checked");				
+				$('#ess_img').attr({'src':'__ROOT__/Public/images/mergePay.png','alt':'睿江云账户、支付宝合并付款','title':'睿江云账户、支付宝合并付款'});
+				$('#ess_img').next().html("使用余额支付 "+ balance + " 元，使用支付宝支付 " + (price - balance) + " 元");
+			}else{
+				$("#eflypay_rdo").attr("checked","checked");
+			}
+		});
+		var USER = "{$_SESSION['user']}";
+		function payment(){
+			var id = "",time = "",oid = "";
+			if(!$(":radio:checked").val()){
+				alert("请选择付费方式。");
+				return false;
+			}
+			if($(":radio[name='payType']:checked").val()=='alipay'){
+				$.ajax({
+					url:'__APP__/Index/addRenew',
+					type:'post',
+					async:false,
+					data:{'cpu': $("#txt_cpu").val(),'ram': $("#txt_ram").val(),'disk': $("#txt_disk").val(),'num': $("#txt_count").val(),'bgp': $("#txt_bgp").val(),'iplc': $("#txt_iplc").val(),'time':$(":radio[name='time']:checked").val(),'payType':$(":radio[name='payType']:checked").val(),'os':$("#txt_os").val(),'count':$("#txt_count").val(),'oid':$("#txt_oid").val()},
+					success:function(data){
+						if(data.info=="success"){
+							id = data.data.id;
+							time = data.data.time;
+							oid = data.data.oid;
+						}else{
+							alert("提示信息："+data.data);
+						}
+					},
+					error:function(data){
+						alert("提示信息："+data.statusText);	
+					}
+				});	
+				window.open('__APP__/Index/renewOrder?id='+id);
+				$(".regist").html('<style>a:visited{color:#00b0ec}a:hover{color:#00b0ec}a:link{color:#00b0ec}</style><div style="margin-top:100px;"><input id="id" value="'+id+'" type="hidden"/><h3 style="padding:20px 0px 0px 30px;">登录支付宝进行支付</h3><img src="__ROOT__/Public/images/loading.gif" style="float:right;margin-top:50px;"/><br/><div style="width:480px;height:1px; border-top:1px solid #ccc;margin-left:20px;"></div><h5 style="padding:10px 0px 0px 30px; font-weight:normal">请在新开的支付页面完成支付：</h5><br/><div style="width:70%;float:left;"><img src="__ROOT__/Public/images/success.png" style="float:left;padding:3px 0px 0px 30px;"/><div style="margin-top:9px;"><h5 style="float:left;">支付成功</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">您可以选择查看：</h5><a href="javascript:window.top.location.href=\'__APP__/Index/account\'" style="float:left;font-size:12px;text-decoration:none">我的订单</a></div></div><br/><div style="width:70%;float:left;"><img src="__ROOT__/Public/images/error.png" style="float:left;padding:3px 0px 0px 30px;"/><div style="margin-top:9px;"><h5 style="float:left;">支付失败</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">建议你重新支付：</h5><a href="javascript:window.top.location.reload();" style="float:left;font-size:12px;text-decoration:none">刷新页面</a></div></div></div>');
+				_interval = setInterval(function (){finishPayment(id,time,oid);},3000);
+			}else{
+				$.ajax({
+					url:'__APP__/Index/renewOrder2',
+					type:'post',
+					async:false,
+					data:{'cpu': $("#txt_cpu").val(),'ram': $("#txt_ram").val(),'disk': $("#txt_disk").val(),'num': $("#txt_count").val(),'bgp': $("#txt_bgp").val(),'iplc': $("#txt_iplc").val(),'time':$(":radio[name='time']:checked").val(),'payType':$(":radio[name='payType']:checked").val(),'oid':$("#txt_oid").val(),'os':$("#txt_os").val(),'count':$("#txt_count").val()},
+					success:function(data){
+						if(data.status==1){
+							//insert($("#id").val());
+							$(".regist").html('<h4 style="padding: 120px 0px 0px 60px;">您的订单已经支付成功，系统正在处理中。</h4><h4 style="padding:20px 0px 0px 60px;">请耐心等待我们的邮件通知。</h4><h4 style="padding:20px 0px 0px 60px;">登录[' + USER + ']邮箱查看邮件。</h4><h4 style="padding:20px 0px 0px 60px;"> 3 秒跳转订单页面。</h4>');
+							setInterval(function (){},3000);
+							window.parent.location.href="__APP__/Index/account";
+						}else{
+							if(confirm("提示信息："+data.data)){
+								$.ajax({
+									url:'__APP__/Index/addRenew',
+									type:'post',
+									async:false,
+									data:{'cpu': $("#txt_cpu").val(),'ram': $("#txt_ram").val(),'disk': $("#txt_disk").val(),'num': $("#txt_count").val(),'bgp': $("#txt_bgp").val(),'iplc': $("#txt_iplc").val(),'time':$(":radio[name='time']:checked").val(),'payType':$(":radio[name='payType']:checked").val(),'os':$("#txt_os").val(),'count':$("#txt_count").val(),'oid':$("#txt_oid").val()},
+									success:function(data){
+										if(data.info=="success"){
+											id = data.data.id;
+											time = data.data.time;
+											oid = data.data.oid;
+										}else{
+											alert("提示信息："+data.data);
+										}
+									},
+									error:function(data){
+										alert("提示信息："+data.statusText);	
+									}
+								});
+								window.open('__APP__/Index/mergePay?id='+id);
+								$(".regist").html('<style>a:visited{color:#00b0ec}a:hover{color:#00b0ec}a:link{color:#00b0ec}</style><div style="margin-top:100px;"><input id="id" value="'+id+'" type="hidden"/><h3 style="padding:20px 0px 0px 30px;">登录支付宝进行支付</h3><img src="__ROOT__/Public/images/loading.gif" style="float:right;margin-top:50px;"/><br/><div style="width:480px;height:1px; border-top:1px solid #ccc;margin-left:20px;"></div><h5 style="padding:10px 0px 0px 30px; font-weight:normal">请在新开的支付页面完成支付：</h5><br/><div style="width:70%;float:left;"><img src="__ROOT__/Public/images/success.png" style="float:left;padding:3px 0px 0px 30px;"/><h5 style="float:left;">支付成功</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">您可以选择查看：</h5><a href="javascript:window.top.location.href=\'__APP__/Index/account\'" style="float:left;margin:12px 0px 0px 10px;font-size:12px;text-decoration:none">我的订单</a></div><br/><div style="width:70%;float:left;"><img src="__ROOT__/Public/images/error.png" style="float:left;padding:3px 0px 0px 30px;"/><h5 style="float:left;">支付失败</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">建议你重新支付：</h5><a href="javascript:window.top.location.reload();" style="float:left;padding:12px 0px 20px 10px;font-size:12px;text-decoration:none">刷新页面</a></div></div>');
+								_interval = setInterval(function (){finishPayment(id,time,oid);},3000);				
+							}
+						}
+					},error:function(data){
+						alert("提示信息："+data.statusText);	
+					}
+				});
+			}
+		}
+	
+	function finishPayment(id,time,oid){
+		$.ajax({
+			url:'__APP__/Index/finishPayment',
+			type:'post',
+			async:false,
+			success:function(data){
+				if(data.data=="SUCC"){
+					clearInterval(_interval);
+					updateOrder(id,time,oid);			
+				}
+			},
+			error:function(data){
+				alert("提示信息："+data.statusText);	
+			}
+		});
+	}
+	function updateOrder(id,time,oid){
+		$.ajax({
+			url:'__APP__/Index/updateOrder',
+			type:'post',
+			async:false,
+			data:{'id':id,'time':time,'oid':oid},
+			success:function(data){
+				if(data.info=="success"){
+					$(".regist").html('<h4 style="padding: 120px 0px 0px 60px;">您的订单已经支付成功，系统正在处理中。</h4><h4 style="padding:20px 0px 0px 60px;">请耐心等待我们的邮件通知。</h4><h4 style="padding:20px 0px 0px 60px;">登录[' + USER + ']邮箱查看邮件。</h4><h4 style="padding:20px 0px 0px 60px;"> 3 秒跳转订单页面。</h4>');
+					setInterval(function (){},3000);
+					window.parent.location.href="__APP__/Index/account";	
+				}else{
+					alert("提示信息："+data.data);		
+				}
+			},
+			error:function(data){
+				alert("提示信息："+data.statusText);	
+			}
+		});
+	}
+	function payType(obj){
+		$(obj).prev().attr('checked','checked');
+	}
+	function updatePrice(time){
+		var balance = "{$balance}";
+		$.ajax({
+			url:'__APP__/Index/updatePrice',
+			type:'post',
+			async:false,
+			data:{'cpu':$("#txt_cpu").val(),'ram':$("#txt_ram").val(),'disk':$("#txt_disk").val(),'count':$("#txt_count").val(),'bgp':$("#txt_bgp").val(),'iplc':$("#txt_iplc").val(),'time':time},
+			success:function(data){
+				$("#price_span").html(data.data + ".00");				
+				if(balance < data.data){
+					$("#alipay_rdo").attr("checked","checked");				
+					$('#ess_img').attr({'src':'__ROOT__/Public/images/mergePay.png','alt':'睿江云账户、支付宝合并付款','title':'睿江云账户、支付宝合并付款'});
+					$('#ess_img').next().html("使用余额支付 "+ balance + " 元，使用支付宝支付 " + (data.data - balance) + " 元");
+					$('#alipay_img').next().html("使用支付宝支付 "+ data.data + " 元");
+				}else{
+					$('#ess_img').next().html("使用余额支付 "+ data.data + " 元");
+					$('#alipay_img').next().html("使用支付宝支付 "+ data.data + " 元");
+					$("#eflypay_rdo").attr("checked","checked");
+				}
+			},
+			error:function(data){
+				alert("温馨提示：" + data.statusText);
+			}			
+		});
+	}
+	</script>
+</head>
+<body class="regist" style="background:none;">
+	<div class="modal-content" style="border:none;">
+        <div class="modal-header">
+            <h4>续费云主机</h4>
+        </div>
+        <div class="modal-body">
+            <p>
+            	<input id="txt_cpu" value="{$relt.CPU}" type="hidden"/>
+            	<input id="txt_ram" value="{$relt.RAM}" type="hidden"/>
+            	<input id="txt_disk" value="{$relt.DISK}" type="hidden"/>
+            	<input id="txt_count" value="{$relt.Count}" type="hidden"/>
+            	<input id="txt_os" value="{$relt.OS}" type="hidden"/>
+            	<input id="txt_bgp" value="{$relt.BandWidthBGP}" type="hidden"/>
+            	<input id="txt_iplc" value="{$relt.BandWidthIPLC}" type="hidden"/>
+            	<input id="txt_oid" value="{$relt.Oid}" type="hidden"/>
+                <table class="table dotted-table">
+                    <tbody>
+                        <tr>
+                            <td width="66">操作系统</td>
+                            <td>{$relt.OS}</td>
+                        </tr>
+                        <tr>
+                            <td>配置</td>
+                            <td>
+                            {$relt.CPU} CPU，{$relt.RAM} 内存，{$relt.DISK}G 磁盘，
+                            <if condition="$relt.BandWidthIPLC != 0">
+                            	{$relt.BandWidthIPLC}M 国际BGP带宽
+                            	<else/>{$relt.BandWidthBGP}M 国内BGP带宽
+                            </if> 
+                            </td>
+                        </tr>
+                        <!--tr>
+                            <td>数量</td>
+                            <td>{$relt.Count} 台</td>
+                        </tr-->
+                        <tr>
+                            <td>选择时长</td>                     
+                            <td>
+                            	<input type="radio" onClick="updatePrice('月')" value="月" checked  name="time"/>&nbsp;一个月
+                            	<input type="radio" onClick="updatePrice('半年')" value="半年"  name="time"/>&nbsp;半年
+                            	<input type="radio" onClick="updatePrice('年')" value="年"  name="time"/>&nbsp;一年
+                            </td>	
+                        </tr>
+                        <tr>
+                            <td>账户余额</td>
+                            <td>
+                                <span id="balance">{$balance|number_format=###,2}</span>&nbsp; 元 &nbsp;<!--span class="meituan-red">到期会自动续费</span-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>应付金额</td>
+                            <td>
+                                <span class="label label-danger" id="price_span">{$price|number_format=###,2}</span>&nbsp; 元 &nbsp;<!--span class="meituan-red">到期会自动续费</span-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">支付方式</td>
+                            <td>
+                                <input type="radio" id="eflypay_rdo" value="balance" name="payType"/><img src="__ROOT__/Public/images/esspay.png" id="ess_img" height="40" width="115" style="margin-left:10px;cursor:pointer" onClick="payType(this)" alt="睿江云账户" title="睿江云账户"/><span style="line-height:30px;color: #f76120;margin:0px 0px 0px 5px;font-size:14px;">使用余额支付 {$price|number_format=###,2} 元</span>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td>
+                                <input type="radio" id="alipay_rdo" value="alipay" name="payType" /><img src="__ROOT__/Public/images/alipay.jpg" width="115" id="alipay_img" onClick="payType(this)" height="40" style="margin-left:10px;border:1px solid #ccc; cursor:pointer" alt="支付宝账户" title="支付宝账户"/><span style="line-height:30px;color: #f76120;margin:0px 0px 0px 5px;font-size:14px;">使用支付宝支付 {$price|number_format=###,2} 元</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--div class="info">您的账户余额不足，需充值<span class="label label-danger">205.00</span> 元。</div-->
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="javascript:void(0);" onClick="payment()" class="btn ok btn-primary">去支付</a>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,62 @@
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-table;}
+*html .clearfix{height:1%;}
+.clearfix{display:block;}
+*+html .clearfix{min-height:1%;}
+
+.sortbox .label{ height: 30px; line-height:30px; margin-left:22px;font-size:14px;}
+.siftbox{background:#f7f7f7;border-bottom:solid 1px #CCCCCC;height: 30px; }
+.siftbox .notseled{float:left;font-size:14px;font-weight:800;padding:10px 36px 10px 36px; border-right:1px solid #ccc; color:#ccc; cursor: pointer}
+.siftbox .notseled:hover{color:#666;}
+.siftbox .selected{float:left;font-size:14px;font-weight:800;padding:10px 36px 10px 36px; border-right:1px solid #ccc;cursor: pointer}
+.siftbox #condition{float:left; margin-left:20px;}
+.siftbox .inbtn,.siftbox .inbtn span{background:url(../images/closelabel.png) no-repeat;cursor:pointer;}
+.siftbox .inbtn{display:inline-block;height:17px;line-height:17px;overflow:hidden;margin:4px 8px 0 0;float:left;background-position:0 0;padding:0 0 0 20px;}
+.siftbox .inbtn span{background-position:100% 0;display:block;float:left;padding:0 5px 0 0;}
+.siftbox .inbtn:hover{background-position:0 -17px;text-decoration:none;}
+.siftbox .inbtn:hover span{background-position:100% -17px;color:#5e5e5e;text-decoration:none;}
+
+.sortbox{border-width:2px 1px 0px 1px;border-color:#00b0ec #e4e4e4 #e4e4e4 #e4e4e4;border-style:solid;font-size:13px;}
+.sortbox dl{padding:0 0 15px 80px;border-bottom:solid 1px #e4e4e4;vertical-align:bottom;}
+.sortbox dl dt{float:left;width:110px;margin:15px 0 0 -130px;text-align:right;line-height:16px;display:inline;font-weight:800;font-size:13px;color:#666;}
+.sortbox dl dd{float:left;margin:12px 18px 0 0;display:inline;}
+.sortbox dl dd a{cursor:pointer;white-space:nowrap; text-decoration:none; padding:2px 5px 2px 5px;}
+.sortbox dl dd a.seling{background-color:#00b0ec;color:#FFFFFF;}
+.sortbox dl dd a.seled{background-color:#00b0ec;color:#FFFFFF;}
+#price_msg{ float:right; font-size:16px; line-height:20px; font-weight:bold;}
+#price_msg i{ font-style:normal; color:#f60; margin-left:5px;}
+
+
+.form{padding: 0 0 0; font-size:12px;}
+.form .row{ zoom: 1; background: #fff; line-height: 26px;
+	-webkit-transition: all .3s; -moz-transition: all .3s; -ms-transition: all .3s; -o-transition: all .3s;
+}
+.form .row:after{display:block; clear:both; height:0; content:"\0020";}
+.form .row-relative{position: relative;}
+.form .row-hide{padding: 0; height: 0; overflow: hidden; line-height: 0;}
+.form .row-error{background: #fff;}
+.form .column{float: left; display: inline; color: #333;}
+.form .column .row-li{line-height: 26px; height: 26px; zoom: 1; white-space: nowrap;
+	-webkit-transition: all .3s; -moz-transition: all .3s; -ms-transition: all .3s; -o-transition: all .3s; 
+}
+.form .column .row-li:after{display:block; clear:both; height:0; content:"\0020";}
+.form .column .row-li-add{-webkit-transform: scale(0); -moz-transform: scale(0); -ms-transform: scale(0); -o-transform: scale(0); overflow: hidden;}
+.form .column .row-li-delete{-webkit-transform: scale(0); -moz-transform: scale(0); -ms-transform: scale(0); -o-transform: scale(0); height: 0; padding: 0; overflow: hidden;}
+.form .column .row-li-hide{margin-top: 0; padding: 0; height: 0; overflow: hidden;}
+.form .column .tip{float: none; display: inline-block; height: 24px; width: auto; line-height: 1.9; color: #999; font-size: 12px;}
+.form .row .row-name{float: left; display: inline; width: 88px; height: 26px; font-size: 14px; line-height: 25px; text-align: right; color: #999; margin: 0;}
+.form strong{color: #000; line-height: 26px;}
+.form .gray{color: #999;}
+.form .dashed{border-top: dashed 1px #d6d6d6; height: 0; overflow: hidden; margin: 10px 9px;}
+
+.form .tip-row{height: 26px; background: #f1f6fa; padding: 6px 10px; }
+.form .tip-row .icon-info{float: right; display: inline; font-size: 16px; color: #06c; margin-right: 3px;width:9px;height:11px;background-image:url(../images/20130603A.png);background-repeat: no-repeat;background-position:0 0px; margin-top:3px; margin-left:3px; *margin-top:-13px;}
+.form .tip-row .tip-text{float: left; display: inline; color: #666666; line-height: 1.5; margin-left:5px; padding:3px 0px 3px 5px;}
+.form .tip-row .tip-text-order{float: left; display: inline; color: #666666; line-height: 1.5; margin-left:5px;padding:3px 0px 3px 5px;border:1px solid #ccc;background:#fff;cursor:pointer; *width:54px; *height:18px; }
+.tip-text-order label{ cursor:pointer;}
+.form .tip-row button{float: left; display: inline; margin-left: 8px; width: 100px;}
+
+
+/**************************  beian *********************************/
+
+.list p,.list h3{margin:0px 50px; line-height:1.8em;}

@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="__ROOT__/Public/css/content.css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+<script type="text/javascript">
+	var URL = "__URL__";
+	var APP = "__APP__";
+	var ROOT = "__ROOT__";
+	var USER = "{$_SESSION['user']}";
+</script>
+<script type="text/javascript" src="__ROOT__/Public/js/main.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+		getTotalPrice();	
+	});
+</script>
+<title>睿江科技服务平台</title>
+</head>
+<body>
+    <include file="Public:head_index" />
+    <!-- header end -->
+    <div class="twrapper">
+    
+		<div class="customer">
+	    <h3>游戏行业</h3>
+            <ul class="list">
+                <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.linekong.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/game_1.jpg"></a>
+                    </div>
+                    <p>蓝港互动</p>
+                </li>
+                <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.37.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/game_2.jpg"></a>
+                    </div>
+                    <p>37游戏</p>
+                </li>
+                <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.gamewave.net/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/game_3.jpg"></a>
+                    </div>
+                    <p>趣游</p>
+                </li>
+                <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.chinagames.net/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/game_4.jpg"></a>
+                    </div>
+                    <p>中国游戏中心</p>
+                </li>
+                <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.duoyi.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/game_5.jpg"></a>
+                    </div>
+                    <p>多益网络</p>
+                </li>
+                <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.xunwan.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/game_6.jpg"></a>
+                    </div>
+                    <p>菲音游戏</p>
+                </li>
+                <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.idreamsky.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/game_7.jpg"></a>
+                    </div>
+                    <p>乐逗游戏</p>
+                </li>
+                 <li>
+                    <div class="top y-clearfix">
+                        <a href="http://www.imhb.cn/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/dian_6.jpg"></a>
+                    </div>
+                    <p>鸿波网</p>
+                </li>
+	      </ul>
+	  	<div class="clear"></div>
+		<h3>电商行业</h3>
+		<ul class="list">
+			<li>
+			    <div class="top y-clearfix">
+				<a href="http://www.youboy.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/dian_1.jpg"></a>
+			    </div>
+			    <p>一呼百应</p>
+			</li>
+			<li>
+			    <div class="top y-clearfix">
+				<a href="http://www.taipn.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/dian_2.jpg"></a>
+			    </div>
+			    <p>太平鸟</p>
+			</li>
+			<li>
+			    <div class="top y-clearfix">
+				<a href="http://www.51baturu.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/dian_3.jpg"></a>
+			    </div>
+			    <p>巴图鲁</p>
+			</li>
+			<li>
+			    <div class="top y-clearfix">
+				<a href="http://www.moxian.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/dian_4.jpg"></a>
+			    </div>
+			    <p>魔线</p>
+			</li>
+			<li>
+			    <div class="top y-clearfix">
+				<a href="http://www.zhenhaipifa.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/dian_5.jpg"></a>
+			    </div>
+			    <p>震海批发网</p>
+			</li>
+			<li>
+				<div class="top y-clearfix">
+					<a href="http://www.tcl.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_21.jpg"></a>
+				</div>
+				<p>TCL</p>
+			</li>
+			<li>
+				<div class="top y-clearfix">
+					<a href="http://www.800pharm.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_18.jpg"></a>
+				</div>
+				<p>八百方</p>
+			</li>
+		</ul>
+		<div class="clear"></div>
+		<h3>流媒体行业</h3>
+			<ul class="list">
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.letv.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/liu_1.jpg"></a>
+					</div>
+					<p>乐视网</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.fun.tv/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/liu_2.jpg"></a>
+					</div>
+					<p>风行在线</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.56.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/liu_3.jpg"></a>
+					</div>
+					<p>我乐</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			<h3>金融行业</h3>
+			<ul class="list">
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.megahubhk.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/jin_1.jpg"></a>
+					</div>
+					<p>天汇财经</p>
+				</li>
+				 <li>
+					<div class="top y-clearfix">
+						<a href="http://fenglian-pay.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/jin_2.jpg"></a>
+					</div>
+					<p>丰联支付</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.lefu8.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/jin_3.jpg"></a>
+					</div>
+					<p>乐富</p>
+				</li>                
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.futu5.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/jin_4.jpg"></a>
+					</div>
+					<p>富途证券</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			<h3>教育行业</h3>
+			<ul class="list">
+				 <li>
+					<div class="top y-clearfix">
+						<a href="http://www.gica168.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_6.jpg"></a>
+					</div>
+					<p>长成国际商学院</p>
+				</li>    
+				 <li>
+					<div class="top y-clearfix">
+						<a href="http://www.qtone.cn/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_19.jpg"></a>
+					</div>
+					<p>广东全通教育</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.nenglong.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_8.jpg"></a>
+					</div>
+					<p>广东能龙教育</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.9ye.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_11.jpg"></a>
+					</div>
+					<p>九叶网</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			<h3>门户网站</h3>
+			<ul class="list">
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.2345.net/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_7.jpg"></a>
+					</div>
+					<p>2345网址导航</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.adyun.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_14.jpg"></a>
+					</div>
+					<p>盘石</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			<h3>传统行业</h3>
+			<ul class="list">
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.kingdee.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_1.jpg"></a>
+					</div>
+					<p>金蝶</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.greenlandsc.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_2.jpg"></a>
+					</div>
+					<p>绿地集团</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.csair.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_3.jpg"></a>
+					</div>
+					<p>南方航空</p>
+				</li>                
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.oppein.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_4.jpg"></a>
+					</div>
+					<p>欧派</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.39.net/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_10.jpg"></a>
+					</div>
+					<p>39健康网</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.coremail.cn/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_12.jpg"></a>
+					</div>
+					<p>盈世</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.solvso.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_15.jpg"></a>
+					</div>
+					<p>中国快律</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			<h3>移动APP</h3>
+			<ul class="list">
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.teiron.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_5.jpg"></a>
+					</div>
+					<p>铁人网络</p>
+				</li>    
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.sunteng.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_13.jpg"></a>
+					</div>
+					<p>舜飞科技</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.hyxt.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_9.jpg"></a>
+					</div>
+					<p>华阳信通</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.thinksky.hk/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_16.jpg"></a>
+					</div>
+					<p>创想天空</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.handbb.com/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_17.jpg"></a>
+					</div>
+					<p>掌上宝</p>
+				</li>
+				<li>
+					<div class="top y-clearfix">
+						<a href="http://www.richinfo.cn/" target="_blank" class="pic"><img src="__ROOT__/Public/customer_logo/chuan_20.jpg"></a>
+					</div>
+					<p>彩讯科技</p>
+				</li>
+			</ul>
+        </div>              
+    </div>
+    <div class="clear"></div>
+    <include file="Public:footer_index" />
+</body>
+</html>

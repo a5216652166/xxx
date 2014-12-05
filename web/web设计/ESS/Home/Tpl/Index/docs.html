@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>文档 | 睿江科技云主机</title>
+    <link rel="stylesheet" href="__ROOT__/Public/css/default.css" type="text/css" />
+    <link rel="stylesheet" href="__ROOT__/Public/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/patch.css" />
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/content.css" />
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/base.css" />
+	<!--[if lt IE 8]>
+	<meta http-equiv="Refresh" content="0; url=/browsers"> 
+    <![endif]-->
+    <title>购买 | 睿江科技云主机</title>
+    
+    <include file="Public:common"/>
+	<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+  </head>
+<body style="background-color:#f9f9f9">
+	<include file="Public:head"/>
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+        
+            <div class="content customer-list">
+                <ul class="list">
+                    <li style="" id="content_b1">
+                        <div class="top y-clearfix">
+                            <h3 class="y-h2 r-tit">常见问题</h3>
+                        </div>
+                        <p><b>为什么我的主机不能访问外网？</b></p>
+                        <p>只有绑定了公网 IP 的主机才可以访问外网。</p>
+                        
+                        <p style="margin-top:20px;"><b>主机绑定了公网 IP 之后，为什么我无法通过 IP SSH 登录，也不能 ping 通该 IP ？</b></p>
+                        <p>为了加强位于基础网络 vxnet-0 中的主机的安全性， 睿江云在主机之前放置了一个防火墙（Security Group）。 初始状态下，每个防火墙都不包含任何规则，即，全部端口都是封闭的， 您需要建立规则以打开相应的端口。</p>
+                        <p style="color:#00b0ec">注解：如果你的主机使用的是默认防火墙，那么 ping 和 ssh 的端口都是默认打开的，你无需再进行操作。</p>
+                        <p>例如您需要访问主机的22号端口，需要手动为主机的防火墙添加一条 接受 tcp 22 端口 的下行规则，然后再点击 更新规则 使其应用到主机。</p>
+                        <p>同理，如果你想开启 ping 功能， 需要在防火墙里头添加 接受 ICMP echo request 的下行规则。</p>
+                        <p style="margin-top:20px;"><b>如果我有多台主机需要访问外网，是不是每台主机都需要绑定一个公网 IP ？</b></p>
+                        <p>当然不是这样。您可以将需要访问外网的主机加入到您的某个受管私有网络中， 再将该受管私有网络连接到您创建的路由器上， 然后再给路由器上绑定一个公网 IP。这样， 位于受管私有网络中的所有主机都可以连接互联网了，既节省钱，也节约 IP 地址。</p>
+                        <p style="margin-top:20px;"><b>主机关机后还收费吗？</b></p>
+                        <p>当主机关机后，只收取系统盘的费用，按照系统盘的占用空间 (Windows 50G, Linux 20G) 收费，收费标准同硬盘，CPU / 内存则不再收费。</p>
+                        <p>除此以外，再说明下睿江云其他资源的收费规则：</p>
+                        <p>公网 IP 是从申请后就开始收费，不论是否处于使用状态。因为这个 IP 一旦被申请，别人就不能再占用。</p>
+                        <p>硬盘、自有镜像都是从创建时起开始收费，直到删除。</p>
+                        <p>路由器、负载均衡器只在"启动"后收费，关闭后便停止计费。</p>
+                        <p>防火墙、密钥、私有网络都是免费的。</p>
+                        <p style="margin-top:20px;"><b>连接睿江云远程终端时的默认登录用户名和密码是什么？</b></p>
+                        <p>您可以在主机对应的映像详情页中找到默认的用户名和密码。</p>
+                        <p style="margin-top:20px;"><b>何种情况下我需要手动配置网络？</b></p>
+                        <p>睿江云提供了两种网络配置模式，一种是全自动化的， 您的主机的所有网络配置与管理都交给睿江云系统完成， 称之为受管模式（Managed），另一种是手动的， 您必须自己关心主机的网络配置与管理，比如 IP 地址、路由等， 称之为自管模式（Unmanaged）。 显然，只有当您使用自管模式时，才需要手动配置网络。</p>
+                        <p>对于如何为处于自管网络的主机手动配置静态 IP 地址，请参考以下两条问答。</p>
+                        <p style="margin-top:20px;"><b>如何为 Linux 主机配置静态 IP 地址？</b></p>
+                        <p>请注意，只有当主机位于自管私有网络之中时，您才需要自行配置 IP 地址。</p>
+                        <p>睿江云官方提供的 Linux 映像使用 NetworkManager 来自动化主机的网络配置， 其默认配置是通过 DHCP 方式来获取 IP 地址。以下步骤描述了如何配置静态地址：</p>
+                        <p>第一步，用指令 ip link 或者 ifconfig -a 找到网卡在主机中的设备名， 通常名为 eth0、eth1 等，以下以 eth0 名字为例。</p>
+                        <p>第二步，配置网卡</p>
+                        <p>RHEL/CentOS/Fedora</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># vi /etc/sysconfig/network-scripts/ifcfg-eth0</p>
+                            <p style="color:#fff; margin:0px;">DEVICE=eth0</p>
+                            <p style="color:#fff; margin:0px;">BOOTPROTO=static</p>
+                            <p style="color:#fff; margin:0px;">TYPE=Ethernet</p>
+                            <p style="color:#fff; margin:0px;">NM_CONTROLLED=no</p>
+                            <p style="color:#fff; margin:0px;">IPADDR=192.168.100.11</p>
+                            <p style="color:#fff; margin:0px;">NETMASK=255.255.255.0</p>
+                            <p style="color:#fff; margin:0px;">NETWORK=192.168.100.0</p>
+                            <p style="color:#fff; margin:0px;">BROADCAST=192.168.100.255</p>
+                        </div>
+                        <p>对于 CentoOS 系统，手动配置网卡可能会和 NetworkManager 的管理有冲突，所以我们建议在手动配置网卡前先将 NetworkManager 禁用，禁用方法为：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># service NetworkManager stop</p>
+                            <p style="color:#fff; margin:0px;"># chkconfig NetworkManager off</p>
+                        </div>
+                        <p>Debian/Ubuntu</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># vi /etc/network/interfaces</p>
+                            <p style="color:#fff; margin:0px;"># auto eth0</p>
+                            <p style="color:#fff; margin:0px;"># iface eth0 inet static</p>
+                            <p style="color:#fff; margin:0px;"># address 192.168.100.11</p>
+                            <p style="color:#fff; margin:0px;"># netmask 255.255.255.0</p>
+                            <p style="color:#fff; margin:0px;"># network 192.168.100.0</p>
+                            <p style="color:#fff; margin:0px;"># broadcast 192.168.100.255</p>
+                        </div>
+                        <p>第三步，重启 NetworkManager 使之生效</p>
+                        <p>如果之前已经将 NetworkManager 禁用，那么请忽略此步操作。</p>
+                        <p>RHEL/CentOS</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># service NetworkManager restart</p>
+                        </div>
+                        <p>Fedora</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># systemctl restart NetworkManager</p>
+                        </div>
+                        <p>Debian</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># service network-manager restart</p>
+                        </div>
+                        <p>Ubuntu</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># restart network-manager</p>
+                        </div>
+                        <p style="margin-top:20px;"><b>如何为 Windows 主机配置静态 IP 地址？</b></p>
+                        <p>请注意，只有当主机位于自管私有网络之中时，您才需要自行配置 IP 地址。</p>
+                        <p>依次 开始 –> 控制面板 –> 网络，右键点击 本地连接，选择 属性， 在弹出的对话框中，选中 Internet 协议版本4，然后点击 属性 按钮， 在弹出的对话框中即可设置静态 IP 地址。</p>
+                        <p style="margin-top:20px;"><b>如何启用 SSH 密码登录 Linux 主机？</b></p>
+                        <p>为了安全方面的考量，睿江云官方提供的 Linux 映像都禁用了 SSH 密码登录。 当然，您完全可以自行启用密码登录， 但请一定记得修改操作系统用户密码为复杂字串，否则极不安全。</p>
+                        <p>以下步骤启用 SSH 密码登录</p>                    
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># vi /etc/ssh/sshd_config</p>
+                            <p style="color:#fff; margin:0px;">PasswordAuthentication yes</p>
+                        </div>
+                        <p>重启 ssh daemon 使之生效</p>   
+                        <p>RHEL/CentOS</p>                      
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># service sshd restart</p>
+                        </div>
+                        <p>Fedora</p>                      
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># systemctl restart sshd</p>
+                        </div>
+                        <p>Debian/Ubuntu</p>                      
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># service ssh restart</p>
+                        </div>
+                        <p style="color:#FC0;">警告：强烈建议不要使用密码方式 SSH 登录！</p>
+                        <p style="margin-top:20px;" id="ssh"><b>如何使用 SSH 密钥来访问主机？</b></p>
+                        <p>你需要在控制台的"SSH 密钥"里面创建一个 SSH 密钥， 然后加载到你的主机上并下载私钥文件（例如 kp-1234abcd ）。</p>   
+                        <p style="color:#00b0ec">注解：在进行 SSH 连接之前，请确保在主机对应的防火墙下行规则中打开 TCP 22 号端口的访问。</p> 
+                        <p><b>Linux下，使用下面的命令登录</b></p>     
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># chmod 600 /path/to/kp-1234abcd</p>
+                            <p style="color:#fff; margin:0px;"># ssh -i /path/to/kp-1234abcd root@ip_address</p>
+                        </div>   
+                        <p><b>Windows 下用 putty</b></p>    
+                        <p>很多 Windows 桌面用户都会使用著名的 PuTTY 作为 SSH 客户端来登录远程的 Linux 主机，但是 PuTTY 不支持 OpenSSH 的密钥格式，而是使用它自己的密钥格式。因此，PuTTY 提供了一个名为puttygen的密钥格式转换工具。</p> 
+                        <p>首先下载putty和puttygen：</p>
+                        <p><a style="color:#00b0ec" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html</a></p>    
+                        <p>转换密钥格式</p>
+                        <p>启动 puttygen，点击 Conversions –> Import key，选中您在睿江云中创建并下载的 SSH 密钥，文件名形如kp-1234abcd。然后点击 Save private key，您将得到 PuTTY 格式的私钥，如kp-1234abcd.ppk</p>
+                        <p>配置登录</p>
+                        <p>打开putty。</p>
+                        <p>点击putty左边导航的connection->data, auto-login username 处填入登录名：root</p>
+                        <p>点击putty左边导航的connection->ssh->auth, 最下面有private key file for authantication字样，点击旁边的browse，选择之前生成的kp-1234abcd.ppk文件，确定。</p>
+                        <p>点击putty左边导航的session，host name中填写主机的公网IP地址，例如1.2.3.4。</p>
+                        <p>最后点击下面的open进行连接即可。</p>
+                        <p style="margin-top:20px;"><b>Windows 下使用 SecureCRT</b></p>
+                        <p style="color:#00b0ec">注解：推荐使用SecureCRT 6.5 及以上版本，低版本会出现私钥无法导入的情况。</p>
+                        
+                        <p>在睿江云控制台创建 SSH 密钥，将这个密钥加载到主机上并下载私钥文件，例如kp-12345678；</p>
+                        <p>在 SecureCRT 上创建一个新连接，protocol 是 SSH2，hostname 是公网 IP 地址，username 为 root；</p>
+                        <p>右键选中这个 session，选择 Properties，在 Connection –> SSH2 的 Authentication 面板里面，选中 PublicKey，点击右边的上箭头，将这个选项排到第一位；</p>
+                        <p>继续选中 PublicKey，点击右边的 Properties，选择 Use session public key setting，在下面的 Use identity or certificate file，导入下载的私钥文件kp-12345678；</p>
+                        <p>连接即可。</p>
+                        <p>较低版本的 SecureCRT 可能会遇到无法导入私钥的问题，因为低版本的 SecureCRT 会严格要求私钥需要和公钥共同存在，这种情况下，操作步骤如下：</p>
+                        <p>在睿江云控制台创建 SSH 密钥，将这个密钥加载到主机上并下载私钥文件，例如放置于 /path/to/kp-1234abcd ；</p>
+                        <p>在路径 /path/to/ 下创建新文件kp-1234abcd.pub；</p>
+                        <p>在 SSH 密钥 kp-1234abcd 的详情页中找到公钥的字符串，并拷贝下来放入kp-1234abcd.pub文件中，并且在公钥内容前面加上加密方式，最终文件内容为：ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC90PM9PT........；</p>
+                        <p>在 SecureCRT 上创建一个新连接，protocol 是 SSH2，hostname 是公网 IP 地址，username 为 root；</p>
+                        <p>右键选中这个 session，选择 Properties，在 Connection –> SSH2 的 Authentication 面板里面，选中 PublicKey，点击右边的上箭头，将这个选项排到第一位；</p>
+                        <p>继续选中 PublicKey，点击右边的 Properties，选择 Use session public key setting，在下面的 Use identity or certificate file，导入下载的私钥文件kp-12345678；</p>
+                        <p>连接即可。</p>
+                        <p style="margin-top:20px;"><b>SSH 客户端连接 timeout 问题</b></p>
+                        <p>ssh 的默认配置为了安全考虑，当发现客户端一段时间内没有输入，就会断开这个 session， 这给使用者带来些许不便。解决这个问题有两种办法：</p>
+                        <p>1.修改 ssh server 端配置，添加</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># vi /etc/ssh/sshd_config</p>
+                            <p style="color:#fff; margin:0px;">ClientAliveInterval 60</p>
+                            <p style="color:#fff; margin:0px;">ClientAliveCountMax 3</p>
+                        </div>   
+                        <p>修改后记得重启 ssh server</p>
+                        <p>2.修改 ssh client 端配置，添加</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># vi /etc/ssh/ssh_config</p>
+                            <p style="color:#fff; margin:0px;">ServerAliveInterval 60</p>
+                            <p style="color:#fff; margin:0px;">ServerAliveCountMax 3</p>
+                        </div>   
+                        <p style="margin-top:20px;"><b>主机密码忘记了怎么办？</b></p>
+                        <p><b>Linux 主机</b></p>   
+                        <p>对于 Linux 主机，你可以通过 SSH 密钥登录来获取 root 权限，然后通过 passwd 命令来修改密码。 关于 SSH 密钥登录可以参见 FAQ 的 <a style="color:#00b0ec" href="__APP__/Index/support.html#ssh">如何使用 SSH 密钥来访问主机</a></p>
+                        <p><b>Windows 主机</b></p>   
+                        <p>对于 Windows 主机，你可以提交工单，由管理员帮你重置密码。</p>
+                        <p style="margin-top:20px;"><b>为什么我的 windows 主机远程桌面连接不上？</b></p>
+                        <p>首先， 在 Windows 主机里打开RDP服务：</p>
+                        <p>1. 使用"虚拟终端"登录 Windows 主机，"虚拟终端"就是主机 ID 旁边的 显示器形状的小图标，点击即可以弹出 Windows 桌面。</p>
+                        <p>2. 右键点击"我的电脑" -> "属性" -> "远程" -> 选择"启用这台机器上的远程桌面"。然后您需要手动为主机的防火墙添加一条 接受 tcp 3389 端口 的下行规则， 点击 更新规则 使其应用到主机。</p>
+                        <p>1. 打开本机的远程桌面连接时，按照下图所示勾选要远程使用的资源。</p>
+                        <p><img src="__ROOT__/Public/images/yuancheng.jpg" title="远程连接" /></p>
+                        <p>2. 在服务器上打开任务管理器，查看进程，看是否有 rdpclip.exe 进程。 通常，只要存在该进程，就可以在本机和远程服务器之间粘贴文本了。 如果没有此进程则需要手动启动，开始->运行->rdpclip.exe</p>
+                        <p style="margin-top:20px;"><b>如何开启 windows 的共享功能？</b></p>
+                        <p style="color:#FC0;">警告：windows smb (Server Message Block) 很容易感染病毒和被黑客袭击，请谨慎使用。 推荐使用 FTP 方式传文件，如果一定要用共享，建议复制完文件就关闭共享。</p>
+                        <p>修改注册表：</p>
+                        <div style="width:700px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters</p>
+                            <p style="color:#fff; margin:0px;">Dword: AutoShareServer 1</p>
+                            <p style="color:#fff; margin:0px;"></p>
+                            <p style="color:#fff; margin:0px;">HKEY_LOCAL_MACHINE\System\Controlset\Services\NetBT\Parameters</p>
+                            <p style="color:#fff; margin:0px;">Dword: SMBDeviceEnabled 1</p>
+                        </div>  
+                        <p>如果是 window 2008，还需要：</p>
+                        <p>打开 控制面板 –> 网络和Internet –> 网络和共享中心</p>
+                        <p>点击左侧的 更改适配器设置 ，右键点击 网卡 ，并选择 属性</p>
+                        <p>在弹出的对话框中勾中 Microsoft网络的文件和打印机共享 并确定</p>
+                        <p>回到 控制面板 –> 网络和Internet –> 网络和共享中心</p>
+                        <p>点击左侧的 更改高级共享设置 ，确保 公用（当前配置文件） 项下的各个与共享相关的选项都启用了，并确定</p>
+                        <p>最后重启你的 windows 即可。</p>
+                        <p style="margin-top:20px;"><b>加载硬盘了之后如何使用？</b></p>
+                        <p><b>1. 如何分区格式化？</b></p>
+                        <p>硬盘有 disk size 和 partition size 两个概念。</p>
+                        <p>如果你的硬盘是第一次加载的硬盘，就需要进行分区、格式化，和 mount 操作。 如果是老硬盘，且没有扩容，就不用再分区、格式化了，直接 mount 就行。</p>
+                        <p style="color:#FC0;">警告：如果硬盘容量大于1TB，建议使用 parted 工具进行分区。</p>
+                        <p>以 ubuntu linux 为例，以下操作需要 root 权限。</p>
+                        <p>第一步我们先为磁盘分区</p>
+                        <p><a style="color:#00b0ec" href="__APP__/Index/support.html#fdisk" title="使用 fdisk 分区">使用 fdisk 分区</a></p>
+                        <p>通过 fdisk -l 命令查看挂载的硬盘，假设为 /dev/sdc</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># fdisk -l</p>
+                            <p style="color:#fff; margin:0px;">...</p>
+                            <p style="color:#fff; margin:0px;">Disk /dev/sdc: 10.7 GB, 10737418240 bytes</p>
+                            <p style="color:#fff; margin:0px;">64 heads, 32 sectors/track, 10240 cylinders, total 20971520</p>
+                            <p style="color:#fff; margin:0px;">sectors</p>
+                            <p style="color:#fff; margin:0px;">Units = sectors of 1 * 512 = 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">Sector size (logical/physical): 512 bytes / 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">I/O size (minimum/optimal): 512 bytes / 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">Disk identifier: 0x00000000</p>
+                            <p style="color:#fff; margin:0px;"></p>
+                            <p style="color:#fff; margin:0px;">Disk /dev/sdc doesn't contain a valid partition table</p>
+                        </div>  
+                        <p>对硬盘进行分区:</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># fdisk /dev/sdc</p>
+                        </div> 
+                        <p>然后根据提示，依次输入 n, p, 1, 以及两次回车，然后是 wq，完成保存。 这样再次通过 fdisk -l 查看时，你可以看到新建的分区/dev/sdc1</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># fdisk -l</p>
+                            <p style="color:#fff; margin:0px;">...</p>
+                            <p style="color:#fff; margin:0px;">Disk /dev/sdc: 10.7 GB, 10737418240 bytes</p>
+                            <p style="color:#fff; margin:0px;">64 heads, 32 sectors/track, 10240 cylinders, total 20971520</p>
+                            <p style="color:#fff; margin:0px;">sectors</p>
+                            <p style="color:#fff; margin:0px;">Units = sectors of 1 * 512 = 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">Sector size (logical/physical): 512 bytes / 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">I/O size (minimum/optimal): 512 bytes / 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">Disk identifier: 0x17adb4cb</p>
+                            <p style="color:#fff; margin:0px;"></p>
+                            <p style="color:#fff; margin:0px;">Device Boot      Start         End      Blocks   Id  System</p>
+                            <p style="color:#fff; margin:0px;">/dev/sdc1            2048    20971519    10484736   83  Linux</p>
+                        </div>  
+                        <p><a style="color:#00b0ec" href="__APP__/Index/support.html#parted" title="使用 parted 分区">使用 parted 分区</a></p>
+                        <p>通过 parted -l 命令查看新挂载的硬盘，假设为 /dev/sdc</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># parted -l</p>
+                            <p style="color:#fff; margin:0px;">...</p>
+                            <p style="color:#fff; margin:0px;"></p>
+                            <p style="color:#fff; margin:0px;">错误: /dev/sdc: unrecognised disk label</p>
+                        </div>  
+                        <p>对硬盘进行分区:</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># parted /dev/sdc</p>
+                        </div>    
+                        <p>然后创建新分区:</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">(parted) mklabel gpt</p>
+                            <p style="color:#fff; margin:0px;">(parted) mkpart primary 1049K -1</p>
+                            <p style="color:#fff; margin:0px;">(parted) quit</p>
+                        </div>  
+                        <p>这时再查看硬盘信息时会看到 /dev/sdc1</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># parted -l</p>
+                            <p style="color:#fff; margin:0px;">...</p>
+                            <p style="color:#fff; margin:0px;">Model: QEMU QEMU HARDDISK (scsi)</p>
+                            <p style="color:#fff; margin:0px;">Disk /dev/sdc: 10.7GB</p>
+                            <p style="color:#fff; margin:0px;">Sector size (logical/physical): 512B/512B</p>
+                            <p style="color:#fff; margin:0px;">Partition Table: gpt</p>
+                            <p style="color:#fff; margin:0px;"></p>
+                            <p style="color:#fff; margin:0px;">Number  Start   End     Size    File system  Name     标志</p>
+                            <p style="color:#fff; margin:0px;"> 1      1049kB  10.7GB  10.7GB               primary</p>
+                        </div>  
+                        <p>分区后要进行格式化，例如格式化为 ext4 格式</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># mkfs -t ext4 /dev/sdc1</p>
+                        </div>  
+                        <p>最后挂载硬盘:</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># mkdir -p /mnt/sdc && mount -t ext4 /dev/sdc1 /mnt/sdc</p>
+                        </div>  
+                        <p style="color:#FC0;">警告：为了防止宿主机在突然断电时可能对数据带来的风险，如果文件系统是ext3， 则需要在mount的时候显式的指定"barrier=1"选项，例如"mount -t ext3 -o barrier=1 /dev/sdc1 /mnt/point"</p>
+                        <p><b>2. 如何自动挂载？</b></p>
+                        <p>如果你需要在系统启动时自动挂载，不要在 /etc/fstab 直接指定 /dev/sdc1 这样的写法， 因为在云中设备的顺序编码在关机、开机过程中可能发生改变，推荐使用 UUID 或者 LABEL 的方式来指定:</p>
+                        <p>如果使用 UUID，则先通过 "blkid /dev/sdc1" 命令，得到磁盘的 UUID，例如：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">/dev/sdc1: UUID="185dc58b-3f12-4e90-952e-7acfa3e0b6fb"</p>
+                            <p style="color:#fff; margin:0px;">TYPE="ext4"</p>
+                        </div>  
+                        <p>然后在 /etc/fstab 里面，加入：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">UUID=185dc58b-3f12-4e90-952e-7acfa3e0b6fb /mnt/mydisk ext4</p>
+                            <p style="color:#fff; margin:0px;">defaults 0 2</p>
+                        </div>  
+                        <p>如果使用 LABEL，则在格式化硬盘时，需要指定 LABEL，例如：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">mkfs -t ext4 -L MY_DISK_LABEL /dev/sdc1</p>
+                        </div>  
+                        <p>然后在 /etc/fstab 里面，加入：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">LABEL=MY_DISK_LABEL /mnt/mydisk ext4 defaults 0 2</p>
+                        </div>  
+                        <p><b>3. 如何对硬盘进行扩容？</b></p>
+                        <p>硬盘有 disk size 和 partition size 两个概念。通过睿江云控制台或 API 扩容只是扩大了硬盘的物理空间，即 disk size 。 在加载到主机后还需要手动扩大 partition size。</p>
+                        <p>有很多工具可以做到调整分区大小、而不损坏数据，比如 windows 上有 pqmagic， linux 上也有这样的工具，如 parted，fdisk，图形界面下可以用 gparted， 命令行下，得看您的分区是什么文件系统，如果是 ext2/ext3/ext4 的话，就用 resize2fs 来扩容。</p>
+                        <p style="color:#FC0;">警告：如果硬盘容量大于1TB，建议使用 parted 工具进行分区。</p>
+                        <p>下面以 centos linux 为例，假设主机上已挂载一块 10GB 的硬盘，分区为 "/dev/sdc1" （有些磁盘的分区可能是 /dev/vd*），文件系统格式为 "ext3"，挂载位置是 "/mnt/sdc"，现在需要扩容到 20GB 。步骤如下 (需要 root 权限)：</p>
+                        <p>先在主机内部卸载硬盘：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">umount /mnt/sdc</p>
+                        </div>  
+                        <p>之后在控制台将硬盘从主机解绑，将硬盘进行扩容后再重新绑定到主机。</p>
+                        <p>下面开始扩大分区:</p>
+                        <p><a style="color:#00b0ec" href="__APP__/Index/support.html#fdisk_" title="使用 fdisk 扩大分区">使用 fdisk 扩大分区</a></p>
+                        <p>通过 "fdisk -l" 查看硬盘分区号，假设还是 "/dev/sdc1"，</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># fdisk -l</p>
+                            <p style="color:#fff; margin:0px;">...</p>
+                            <p style="color:#fff; margin:0px;">Disk /dev/sdc: 21.5 GB, 21474836480 bytes</p>
+                            <p style="color:#fff; margin:0px;">64 heads, 32 sectors/track, 20480 cylinders</p>
+                            <p style="color:#fff; margin:0px;">Units = cylinders of 2048 * 512 = 1048576 bytes</p>
+                            <p style="color:#fff; margin:0px;">Sector size (logical/physical): 512 bytes / 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">I/O size (minimum/optimal): 512 bytes / 512 bytes</p>
+                            <p style="color:#fff; margin:0px;">Disk identifier: 0x56250342</p>
+                            <p style="color:#fff; margin:0px;"></p>
+                            <p style="color:#fff; margin:0px;">   Device Boot      Start         End      Blocks   Id  System</p>
+                            <p style="color:#fff; margin:0px;">/dev/sdc1            1024       10240     9438208   83  Linux</p>
+                        </div>  
+                        <p>这时可以看到 Disk /dev/sdc 的物理容量已是 20GB，不过 sdc1 还是原来的大小， 磁柱是从 1024 到 10240。</p>
+                        <p style="color:#FC0;">警告：其中的起始磁柱位置（Start 对应的数字，此例中是 1024）要牢记， 后面重新分区时要用到。</p>
+                        <p>我们开始对 sdc1 重新分区（不会损失数据）：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># fdisk /dev/sdc</p>
+                        </div>  
+                        <p>输入 d 删除 sdc1 分区。之后依次输入 n, p, 1 建立新分区。在输入新分区起始磁柱（First cylinder）时，依然选择之前的数字 1024 ，这样可以防止数据丢失。设定好后输入 wq 使分区表生效。</p>
+                        <p><a style="color:#00b0ec" href="__APP__/Index/support.html#parted_" title="使用 parted 扩大分区">使用 parted 扩大分区</a></p>
+                        <p>通过 "parted -l" 查看硬盘分区号，假设还是 "/dev/sdc1"，</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># parted -l</p>
+                            <p style="color:#fff; margin:0px;">...</p>
+                            <p style="color:#fff; margin:0px;">Model: QEMU QEMU HARDDISK (scsi)</p>
+                            <p style="color:#fff; margin:0px;">Disk /dev/sdc: 21.5GB</p>
+                            <p style="color:#fff; margin:0px;">Sector size (logical/physical): 512B/512B</p>
+                            <p style="color:#fff; margin:0px;">Partition Table: gpt</p>
+                            <p style="color:#fff; margin:0px;"></p>
+                            <p style="color:#fff; margin:0px;">Number  Start   End     Size    File system  Name     标志</p>
+                            <p style="color:#fff; margin:0px;"> 1      1049kB  10.7GB  10.7GB  ext3         primary</p>
+                        </div>  
+                        <p>这时可以看到 Disk /dev/sdc 的物理容量已扩大，不过 sdc1 还是原来的大小， 磁柱是从 1049k 到 10.7GB。</p>
+                        <p style="color:#FC0;">警告：其中的起始位置（Start 对应的值，此例中是 1049k）要牢记， 后面重新分区时要用到。</p>
+                        <p>我们开始对 sdc1 重新分区（不会损失数据）：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;"># parted /dev/sdc</p>
+                        </div>  
+                        <p>先删除 sdc1 分区</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">(parted) rm 1</p>
+                        </div>  
+                        <p>建立新分区。起始位置（Start）依然选择之前的值: 1049k</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">(parted) mkpart primary 1049k -1</p>
+                            <p style="color:#fff; margin:0px;">(parted) quit</p>
+                        </div>  
+                        <p>分区扩大后我们还要通过 resize2fs 调整 sdc1 的文件系统大小</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">e2fsck -f /dev/sdc1</p>
+                            <p style="color:#fff; margin:0px;">resize2fs /dev/sdc1</p>
+                        </div>  
+                        <p>最后重新挂载硬盘：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">mount -t ext3 -o barrier=1 /dev/sdc1 /mnt/sdc</p>
+                        </div>  
+                        <p>这时通过 "df -h" 指令即可查看扩容后的分区大小</p>
+                        <p style="margin-top:20px;"><b>如何搭建 FTP 服务？</b></p>
+                        <p>首先创建一个 Linux 主机(以 Ubuntu 为例)，并在睿江云防火墙中打开 tcp 21 下行，并"更新规则"。 如果此主机是在私有网络中，除了防火墙规则，还需要在私网所连接的路由器中将所需端口转发给这个主机。</p>
+                        <p>下面简单介绍下安装 vsftpd 和 proftpd 的注意事项：</p>
+                        <p>vsftpd 安装</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">apt-get install vsftpd</p>
+                        </div> 
+                        <p>修改配置文件 /etc/vsftpd.conf 后，重启生效</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">service vsftpd restart</p>
+                        </div> 
+                        <p>如果你的 ftp client 位于 NAT 之后，ftp server 必须启用 passive mode ，编辑 /etc/vsftpd.conf</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">pasv_enable=Yes</p>
+                            <p style="color:#fff; margin:0px;">pasv_max_port=21000</p>
+                            <p style="color:#fff; margin:0px;">pasv_min_port=20000</p>
+                            <p style="color:#fff; margin:0px;">pasv_address=your.ftp.server.public.ip</p>
+                        </div> 
+                        <p>安全起见，vsftpd 默认配置是不允许 root 登录的。如果确实需要，可以在 /etc/vsftpd/user_list 文件中把 root 那一行删除或者注释掉， 同样把 /etc/vsftpd/ftpusers 文件中的 root 也注释掉。然后重启 vsftpd 就可以了。</p>
+                        <p>proftpd 安装</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">apt-get install proftpd</p>
+                        </div> 
+                        <p>修改配置文件 /etc/proftpd/proftpd.conf 后，重启生效</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">service proftpd restart</p>
+                        </div> 
+                        <p>如果你的 ftp client 位于 NAT 之后，proftpd server 必须启用 passive mode ， 在 /etc/proftpd/proftpd.conf 中打开 PassivePorts 和MasqueradeAddress ：</p>
+                        <div style="width:500px; margin-left:75px; background:#000;">
+                            <p style="color:#fff; margin:0px;">PassivePorts 20000 21000</p>
+                            <p style="color:#fff; margin:0px;">MasqueradeAddress ftp.server.public.ip</p>
+                        </div> 
+                    </li>
+                </ul>
+            </div>    
+            
+        </div>
+      </div>
+      
+      <include file="Public:doc_menu" />
+      <div class="clearer"></div>
+    </div>    
+	<include file="Public:gotop" />
+  </body>
+</html>

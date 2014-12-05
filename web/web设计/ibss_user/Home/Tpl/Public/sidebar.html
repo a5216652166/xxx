@@ -1,0 +1,27 @@
+<div id="sidebar">
+    <div class="uitopb uitopb-border" >
+        <div style="float:left; margin-top:10px; margin-left:10px">
+            <a href="javascript:void(0);" class="account-avatar"><img src="__ROOT__/Public/images/header.png" width="50" height="50"></a>
+        </div>
+        <div class="account-info" style="width:80px;float:left; margin-left:10px; margin-top:20px;">
+            <a href="javascript:void(0);" class="account-name">{$_SESSION['user']}</a>                                    
+        </div>
+        <div class="clearfix" style="margin-top:42px;margin-bottom:12px;">
+            <a class="mt20" href="__APP__/Services/userInfo" style="color:#00b0ec;margin-left:10px;">补充资料</a>
+        </div> 
+        <div class="c" style="margin-top:9px;"></div>
+    </div>
+    <div class="uitopb uitopb-border">
+        <h3>应用服务</h3>
+        <ul class="app-list" id="sidebar_ul">
+            <!--li><a href="__APP__/Services/index"><img class="app-img" src="__ROOT__/Public/images/ico01.png" alt=""><span>我的设备</span></a></li-->
+            <li><a href="__APP__/Services/vps"><img class="app-img" src="__ROOT__/Public/images/ico01.png" alt=""><span>我的云主机</span></a></li>
+            <li><a href="__APP__/Services/bandwidth"><img class="app-img" src="__ROOT__/Public/images/ico03_1.png" alt=""><span>我的带宽</span></a></li>
+            <li><a href="__APP__/Services/ip"><img class="app-img" src="__ROOT__/Public/images/ico04_IP.png" alt=""><span>我的IP</span></a></li>
+            <li><a href="__APP__/Services/cabinet"><img class="app-img" src="__ROOT__/Public/images/ico02.png" alt=""><span>我的机柜&amp;机位</span></a></li>
+            <!--li><a href="__APP__/Services/cdn"><img class="app-img" src="__ROOT__/Public/images/ico05_CDN.png" alt=""><span>我的CDN服务</span></a></li-->
+            <!--li><a href="__APP__/Services/dns"><img class="app-img" src="__ROOT__/Public/images/ico06.png" alt=""><span>我的DNS服务</span></a></li-->
+            <li class="last tacenter"><a href="javascript:void(0);" target="_blank">+ 更多服务 ›</a></li>
+        </ul>
+     </div>
+</div>

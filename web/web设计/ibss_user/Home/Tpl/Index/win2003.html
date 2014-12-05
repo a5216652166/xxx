@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>睿江科技服务平台</title>
+<link rel="stylesheet" href="__ROOT__/Public/css/content.css" />
+<link rel="stylesheet" href="__ROOT__/Public/css/siftbox.css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+</head>
+<body>
+    <include file="Public:head_index" />
+    <!-- header end -->
+    <div class="twrapper">
+        <div class="tree">
+        	<div>
+                <i>服务支持</i>
+                <ul>
+                    <li><a href="__APP__/Index/support">常见问题</a></li>
+                    <li><a href="__APP__/Index/linux">Linux安装web</a></li>
+                    <li><a href="__APP__/Index/nginx">nginx添加伪静态</a></li>
+                    <li><a href="__APP__/Index/win2003" class="actived">windows2003配置</a></li>
+                    <li><a href="__APP__/Index/win2008">windows2008配置</a></li>
+                </ul>
+                <hr />
+            </div>
+        </div>
+        <!-- treeee end -->
+        <div class="content customer-list">
+            <ul class="list">
+            	<li style="">
+
+                    <div class="top y-clearfix">
+                        <h3 class="y-h2 r-tit">Window2003 iis+mysql+php+zend环境配置</h3>
+                    </div>
+		    <br/>
+                    <h4 style="margin: 10px 50px;">1. windows iis +ftp安装</h4>
+		    
+                    <p>1．开始----控制面板----添加或删除程序 如图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_1.png" alt="" /></p>
+                    <p>2．出现如下界面点击“添加/删除windows组件（a） ”如图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_2.png" alt="" /></p>
+                    <p>3．出现如下界面：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_3.jpg" alt="" /></p>
+                    <p>4．选择“应用程序服务器”：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_4.jpg" alt="" /></p>
+                    <p>5．点击图片中的“详细信息”：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_5.jpg" alt="" /></p>
+                    <p>6．出现上面的图片“选中internet 信息服务（iis）” 点击图片中的“详细信息”：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_6.jpg" alt="" /></p>
+                    <p>7．选中图片中的“文件传输协议(ftp)服务”然后点击“确定”，最后出现如下界面：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_7.png" alt="" /></p>
+                    <p>8．点击图片中的“浏览”选中“c:\win2003_sys\disc1\i386”如图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_8.jpg" alt="" /></p>
+                    <p>9．点击图片中的“打开”iis就开始安装了。如果系统是windows2003 64位的话该文件则位于“C:/win2003_sys/disc1/AMD64”下面：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_9.jpg" alt="" /></p>
+                    <p>出现这个表示iis 和ftp 已经安装好了</p>
+                    
+                    <br/>
+                    <h4 style="margin: 10px 50px;">2. 下载php mysql zend phpmyadmin</h4>
+                    <p>建议下载 <a href="http://oss.aliyuncs.com/aliyunecs/windows2003_websoft.zip" style="color:#00b0ec;" target="_blank">windows2003安装包</a> 这个软件包已经包含 php 5.2.17 mysql 5.1.63  zend  phpwind 8.7 phpmyadmin 3.5.2 省去大家到各个网站找包的时间。</p>
+                    <p>下载完成后解压拷贝到d盘，目录结构如下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_10.jpg" alt="" /></p>
+
+                    <br/>
+                    <h4 style="margin: 10px 50px;">3. 安装PHP</h4>
+                    <p>如图剪切“libeay32.dll libmcrypt.dll libmysql.dll ssleay32.dll”这些dll文件到“c:\windows\system32”目录下</p>
+                    <p>剪切图片中的“php”到c:\windows目录下。</p>
+                    <p><img src="__ROOT__/Public/images/win2003_11.jpg" alt="" /></p>
+                    <p>右击 “我的电脑”->选择“管理”</p>
+                    <p><img src="__ROOT__/Public/images/win2003_12.jpg" alt="" /></p>
+                    <p>找到Internet 信息服务器（iis）点击“web服务扩展”在一般空白区域右击，如图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_13.png" alt="" /></p>   
+                    <p>选择“添加一个新的web服务扩展”出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_14.jpg" alt="" /></p>   
+                    <p>扩展名输入   php   然后点击“添加”如图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_15.jpg" alt="" /></p> 
+                    <p>出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_16.jpg" alt="" /></p>   
+                    <p>点击“浏览”选择 d:\websoft\php-5.2.17\php5isapi.dll：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_17.jpg" alt="" /></p>   
+                    <p>如图点击“确定”后出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_18.jpg" alt="" /></p>   
+                    <p>选中图片中“设置扩展状态为允许” 点击“确定”出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_19.png" alt="" /></p>   
+                    <p>在web服务扩展就多了php，如上图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_20.png" alt="" /></p>  
+                    <p>右击“网站”，选择“属性”， 出现下面的截图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_21.jpg" alt="" /></p>
+                    <p>点击图片中的“主目录”出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_22.jpg" alt="" /></p>  
+                    <p>点击图片中的“配置” 出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_23.jpg" alt="" /></p>  
+                    <p>点击“添加”出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_24.jpg" alt="" /></p> 
+                    <p>点击图片中的“浏览”选择“d:\websoft\php-5.2.17\php5isapi.dll”再点击“确定”，出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_25.jpg" alt="" /></p>  
+                    <p>在扩展名处输入 .php，然后点击“确定”，出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_26.jpg" alt="" /></p>  
+                    <p>在应用程序扩展就出现了刚才添加的.php， 点击图片中的“确定”，出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_27.jpg" alt="" /></p>  
+                    <p>点击“文档”，出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_28.jpg" alt="" /></p>  
+                    <p>点击“添加”，出现下图，后输入  index.php 然后点击“确定”：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_29.jpg" alt="" /></p> 
+                    <p>然后再点击“添加”， 添加index.html，添加完成后，点击“应用”出现如下图片：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_30.png" alt="" /></p>  
+                    <p>点击“全选”， 然后再点击“确定”然后出现下图：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_31.jpg" alt="" /></p>  
+                    <p>点“应用” 然后再点击“确定”，这样iis+php 就配置好了</p>
+                    
+                    <br/>
+                    <h4 style="margin: 10px 50px;">4. mysql 安装</h4>
+                    <p>双击d:\websoft\mysql-essential-5.1.63-win32.msi 就开始安装了，看图操作：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_32.jpg" alt="" /></p>  
+                    <p>出现上面的界面，不要点cancel 那是取消，等等</p>
+                    <p><img src="__ROOT__/Public/images/win2003_33.png" alt="" /></p> 
+                    <p>选择“custom”然后点“next” 出现下面的界面：</p> 
+                    <p><img src="__ROOT__/Public/images/win2003_34.jpg" alt="" /></p>  
+                    <p>这个是选择mysql 安装的位置，默认在c盘，我们点“change”选择d:\websoft\mysql-5.1：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_35.jpg" alt="" /></p>  
+                    <p>选择点击“ok”切换到之前的操作画面：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_36.jpg" alt="" /></p>  
+                    <p>点击mysql server datafiles 默认也是在c盘，点击“change”选择d:\websoft\mysql-5.1：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_37.jpg" alt="" /></p>  
+                    <p>选择好了后，点击“ok”，切换到之前的操作界面，然后点击图片中的“next”，mysql 就开始安装了：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_38.jpg" alt="" /></p>  
+                    <p>出现上面的图片，表示安装好了。点击“finish”就开始配置mysql了，看图操作：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_39.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_40.jpg" alt="" /></p>  
+                     <p><img src="__ROOT__/Public/images/win2003_41.jpg" alt="" /></p>  
+                      <p><img src="__ROOT__/Public/images/win2003_42.jpg" alt="" /></p>  
+                       <p><img src="__ROOT__/Public/images/win2003_43.jpg" alt="" /></p>  
+                        <p><img src="__ROOT__/Public/images/win2003_44.jpg" alt="" /></p>  
+                         <p><img src="__ROOT__/Public/images/win2003_45.jpg" alt="" /></p>  
+                          <p><img src="__ROOT__/Public/images/win2003_46.jpg" alt="" /></p>  
+                    <p>这个操作画面的时候，输入的就是mysql root 帐号的密码，建议你输入完成后随手记下免得忘记：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_47.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_48.jpg" alt="" /></p> 
+                    <p>出现上面的操作画面，表示配置环境了，这样 mysql 就安装好了，这样iis+php+mysql 环境基本已经可用了。</p>
+                     
+                     <br/>
+                    <h4 style="margin: 10px 50px;">5. Zend 安装</h4>
+                    <p>如果你没有zend加密过的程序 强烈建议你不安装，如果有那就必须安装，不然程序运行不了。
+ 双击d:\websoft\ ZendOptimizer-3.3.3-Windows-i386.exe 就开始安装了，除了安装目录，其他的默认就可以了，看图操作：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_49.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_50.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_51.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_52.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_53.jpg" alt="" /></p>  
+                    <p>如图zend程序需要我们提供php.ini在那个目录，之前我们拷贝php.ini 到了c:\windows 我们就不需要改变了：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_54.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_55.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_56.jpg" alt="" /></p>  
+                    <p>点击“install”后出现图片中的对话框，选择“是”然后程序就开始安装了：</p>
+                    <p><img src="__ROOT__/Public/images/win2003_57.jpg" alt="" /></p> 
+                    <p>出现这个界面表上zend 已经安装好了。</p>
+                    
+                    <br/>
+                    <h4 style="margin: 10px 50px;">6.ftp 配置</h4>
+                    <p>ftp服务器软件有很多， server-u  xlight 等等通常这些都要收费，涉及到版权大家自己处理。
+下面是windows只带的ftp配置教程：</p>
+                    <p>我的电脑——右键——选择“管理”</p>
+                    <p><img src="__ROOT__/Public/images/win2003_58.png" alt="" /></p>  
+                    <p>找到用户，在右边用户列表空白区域，右键选择“新用户”</p>
+                    <p><img src="__ROOT__/Public/images/win2003_59.jpg" alt="" /></p>  
+                    <p>如图输入你的 ftp 用户名、密码，然后切换到 iis 删除默认的ftp站点，然后如图新建</p>
+                    <p><img src="__ROOT__/Public/images/win2003_60.png" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_61.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_62.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_63.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_64.jpg" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_65.jpg" alt="" /></p>  
+                    <p>选择路径我们选择可以选择你需要的路径，如图我选择了d:\websoft\www </p>
+                    <p><img src="__ROOT__/Public/images/win2003_66.jpg" alt="" /></p>  
+                     <p><img src="__ROOT__/Public/images/win2003_67.jpg" alt="" /></p>  
+                    <p>接下来设置权限，如图操作 </p>
+                    <p><img src="__ROOT__/Public/images/win2003_68.png" alt="" /></p>  
+                     <p><img src="__ROOT__/Public/images/win2003_69.jpg" alt="" /></p> 
+                    <p>选中“users” </p>
+                    <p><img src="__ROOT__/Public/images/win2003_70.jpg" alt="" /></p> 
+                    <p>选择“完全控制”然后添加“高级”</p>
+                    <p><img src="__ROOT__/Public/images/win2003_71.jpg" alt="" /></p> 
+                    <p>如图上图操作后出现下面的图片选择“是”</p>
+                    <p><img src="__ROOT__/Public/images/win2003_72.jpg" alt="" /></p> 
+                    <p>选择是之后就等系统操作完成</p>
+                    <p><img src="__ROOT__/Public/images/win2003_73.jpg" alt="" /></p> 
+                    <p>接下来添加pwftp 帐号的权限，如图操作</p>
+                    <p><img src="__ROOT__/Public/images/win2003_74.jpg" alt="" /></p> 
+                    <p><img src="__ROOT__/Public/images/win2003_75.jpg" alt="" /></p> 
+                    <p>点击“确定”后出现下图</p>
+                    <p><img src="__ROOT__/Public/images/win2003_76.jpg" alt="" /></p> 
+                    <p> 选中pwftp之后和users一样操作 ，最后点击上图的“应用”“确定”，这样 ftp 就好了。</p>
+                    
+                    <br/>
+                    <h4 style="margin: 10px 50px;">7.iis中配置站点</h4>
+                    <p>如图</p>
+                    <p><img src="__ROOT__/Public/images/win2003_77.png" alt="" /></p>  
+                    <p><img src="__ROOT__/Public/images/win2003_78.jpg" alt="" /></p> 
+                    <p> 点击图片中的浏览器 选择 d:\websoft\www\phpwind</p> 
+                    <p><img src="__ROOT__/Public/images/win2003_79.jpg" alt="" /></p> 
+                    <p> 点击图片中的“应用”“确定”这样就好了， 最后重启一下iis 或者重启一下服务器， http://localhost 就可以访问到你的网站了</p> 
+                    
+                    <br/>
+                    <h4 style="margin: 10px 50px;">备注：
+</h4>
+                    <p>
+                    如果你是windows2003 64位版本，若访问http://localhost遇到“%1不是有效的 win32应用程序错误”提示出现，需要执行以下两步就可以访问。</p>
+                    <p>1)单击“开始”，单击“运行”，键入cmd，然后单击“确定”。
+</p>
+                    <p>2)键入以下命令启用 32 位模式：
+cscript %SYSTEMDRIVE%/inetpub/adminscripts/adsutil.vbs SET W3SVC/AppPools/Enable32bitAppOnWin64 1</p>
+		</li>
+
+	    </ul>
+            
+        </div>              
+    </div>
+    <div class="clear"></div>
+    <include file="Public:footer_index" />
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>睿江科技服务平台</title>
+<link rel="stylesheet" href="__ROOT__/Public/css/content.css" />
+<link rel="stylesheet" href="__ROOT__/Public/css/siftbox.css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" >
+	
+</script>
+<!--script type="text/javascript" src="__ROOT__/Public/js/main.js"></script-->
+</head>
+<body>
+    <include file="Public:head_index" />
+    <!-- header end -->
+    <div class="twrapper">
+        <div class="tree">
+        	<div>
+                <i>服务支持</i>
+                <ul>
+                    <li><a href="__APP__/Index/support">常见问题</a></li>
+                    <li><a href="__APP__/Index/linux" class="actived">Linux安装web</a></li>
+                    <li><a href="__APP__/Index/nginx">nginx添加伪静态</a></li>
+                    <li><a href="__APP__/Index/win2003">windows2003配置</a></li>
+                    <li><a href="__APP__/Index/win2008">windows2008配置</a></li>
+                </ul>
+                <hr />
+            </div>
+        </div>
+        <!-- treeee end -->
+        <div class="content customer-list">
+            <ul class="list">
+            	<li style="" id="content_b1">
+                    <div class="top y-clearfix">
+                        <h3 class="y-h2 r-tit">Linux一键安装web环境全攻略</h3>
+                    </div>
+                    <p><b>一键安装包下载</b><a style="color:#00b0ec;margin-left:10px;" href="http://oss.aliyuncs.com/aliyunecs/sh-1.3.0.zip" title="点此下载">点此下载</a></p></p>
+                    <p style="margin-top:20px;"><b>安装须知</b></p>
+                    <p>1、此安装包可在阿里云所有linux系统上部署安装，此安装包包含的软件及版本为：</p>
+                    <p>nginx：1.0.15、1.2.5、1.4.4</p>
+                    <p>apache：2.2.22、2.4.2</p>
+                    <p>mysql：5.1.73、5.5.35、5.6.15</p>
+                    <p>php：5.3.18、5.4.23、5.5.7</p>
+                    <p>php扩展：memcache、Zend Engine/ OPcache</p>
+                    <p>ftp：（yum/apt-get安装）</p>
+                    <p>phpwind：8.7 GBK</p>
+                    <p>phpmyadmin：4.1.8</p>					
+                    <p>2、请使用最新的一键安装包脚本安装，以前老版本都存在bug，会导致安装异常以及安装的环境混乱。</p>
+                    <p>3、执行一键安装包(./install.sh)，会自动清理之前一键安装包安装过的环境。</p>
+                    <p>如果您已经安装过一键安装包，再次执行安装，如若有重要数据，请自行备份/alidata目录。</p>
+                    <p>4、一键安装包会将软件安装在/alidata目录下。</p>
+                    <p>如果您的系统不存在数据盘，则一键安装包会将软件安装到系统/alidata目录下。</p>
+                    <p>如果您的系统存在数据盘，且还没有格式化挂载数据盘。则一键安装包会自动帮您格式化第一块数据盘，并挂载在/alidata目录下。</p>
+                    <p>如果您的系统存在数据盘，且已格式化并挂载了第一块数据盘。一键安装包会将第一块数据盘再次挂载到/alidata目录下，并不影响您之前的挂载目录的使用。比如下图所示，安装前</p>
+                    <p>已经挂载了mnt目录。安装后，一键安装包再次挂载/alidata目录。</p>
+                    <p><img src="__ROOT__/Public/images/mnt.jpg" /></p>
+                    <p>如果您的系统存在数据盘，且已格式化数据盘，但没有挂载数据盘。一键安装包会将第一块数据盘挂载到/alidata目录下。</p>
+                    <p>5、怎么样卸载一键安装包？</p>
+                    <p>可以执行以下命令完成卸载：</p>
+                    <p>chmod  777 -R sh-1.3.0/</p>
+                    <p>cd sh-1.3.0/</p>
+                    <p>./uninstall.sh</p>
+                    <p>好了，下面来进行我们详细的安装步骤，come on ~~！</p>
+                    <p>首先准备好连接linux服务器的工具，推荐用xshell和xftp，2个软件您可以从网上下载安装。</p>
+                    <p><b>xshell</b> 是一个强大的安全终端模拟软件，它支持SSH1, SSH2, 以及Microsoft Windows 平台的TELNET 协议。</p>
+                    <p><b>Xftp</b> 是一个基于 MS windows 平台的功能强大的SFTP、FTP 文件传输软件。</p>
+                    <p>根据上面提供的下载地址，首先安装xshell（基本上是点击Next直至安装 完成）：</p>
+                    <p><img src="__ROOT__/Public/images/xshell4.png" /></p>
+                    <p><b>点击Next</b>-->此时选择"free for Home/School"(免费版)。</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_free.jpg" /></p>
+                    <p><img src="__ROOT__/Public/images/xftp4_free.jpg" /></p>
+                    <p>再点击Next-->Next-->Next-->install即可安装（还可以选择xshell安装后的语言环境，熟悉英文的朋友，可以选择English选项）。</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_language.png" /></p>
+                    <p>点击finish完成xshell的安装。</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_finsh.png" /></p>
+                    <p>然后我们可以看到以下界面。</p>
+                    <p>接下来安装xftp（用于上传文件到linux服务器的小工具），安装xftp也是非常的简单，基本上也点击Next直至安装完成。</p>
+                    <p><img src="__ROOT__/Public/images/xftp4.png" /></p>
+                    <p><b>点击Next</b> -->此时选择"free for Home/School"，(免费版)。</p>
+                    <p><img src="__ROOT__/Public/images/xftp4_free.jpg" /></p>
+                    <p><b>录点击Next</b> -->Next -->Next-->install （还可以选择xshell安装后的语言环境，熟悉英文的朋友，可以选择English选项）。</p>
+                    <p><img src="__ROOT__/Public/images/xftp4_language.png" /></p>
+                    <p>点击finish完成安装。</p>
+                    <p><img src="__ROOT__/Public/images/xftp4_open.png" /></p>
+                    <p>然后我们可以看到以下界面。</p>
+                    <p><img src="__ROOT__/Public/images/xftp4_home.png" /></p>
+                    <p>然后我们打开xshell， 设置云服务器登录信息。</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_new.jpg" /></p>
+                    <p>设置服务器帐号密码。</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_pwd.png" /></p>
+                    <p> 设置字符集编码（如果不设置字符集编码，则中文字符将会在xshell中显示为乱码）。</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_utf8.png" /></p>
+                    <p>设置好了就点击ok保存。</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_ok.png" /></p>
+                    <p>一切准备就绪，让我们连接看看云linux服务器的庐山真面目吧！</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_.png" /></p>
+                    <p>黑不隆冬的，啥都没有，这就是linux的shell啦。shell（壳）到底是什么东东呢？</p>
+                    <p><b>Shell</b>是系统的用户界面，提供了用户与内核进行交互操作的一种接口。它接收用户输入的命令并把它送入内核去执行。</p>
+                    <p>linux作为服务器专用操作系统，主要就是默默的待在机房提供各项网络服务的，为了节省系统资源，像windows那样华丽丽的用户桌面就默认不加载了。当然现在越来越多的用户使用linux作为日常家庭办公用操作系统，所以就有了像gnome、kde这样超华丽的桌面。不过作为服务器使用还是推荐用命令行界面吧，毕竟省一点资源，网站打开可能会更快一点嘛！</p>
+                    <p>打下面的命令去主目录（/home）看下</p>
+                    <p>输入命令：cd</p>
+                    <p><img src="__ROOT__/Public/images/xshell4_cd.jpg" /></p>
+                    <p>用xftp上传环境安装文件。</p>
+                    <p><img src="__ROOT__/Public/images/xftp4_.png" /></p>
+                    <p>回到shell界面，用ll命令看下情况</p>
+                    <p>输入命令：ll</p>
+                    <p>是不是多了一个sh-1.3.0目录，1.3.0是我们的一键安装包的版本号。 请下载最新的版本安装，版本更新介绍，我们可以在change.log中查看。也希望大家多多反馈对于一键安装包的意见。（另外，熟悉linux的朋友，直接可以用wget命令下载我们的安装包，也不用安装Xftp，这样更加便捷。)</p>
+                    <p><img src="__ROOT__/Public/images/xftp4_ll.jpg" /></p>
+                    <p>接下来按照说明，分步骤敲入安装命令（以下为redhat系统下安装示例）。</p>
+                    <p>输入命令：chmod –R 777 sh-1.3.0</p>
+                    <p>cd sh-1.3.0</p>
+                    <p>./install.sh</p>
+                    <p>出现了一个选择提示，进入web服务器的选择界面。</p>
+                    <p><img src="__ROOT__/Public/images/xftp4_install.png" /></p>
+                    <p>这里您可以根据需要选择apache或者nginx服务器，这里是2个服务器的介绍：</p>
+                    <p>apache：<a style="color:#00b0ec" href="http://baike.baidu.com/view/28283.htm">http://baike.baidu.com/view/28283.htm</a></p>
+                    <p>nginx：<a style="color:#00b0ec" href="http://baike.baidu.com/view/926025.htm">http://baike.baidu.com/view/926025.htm</a></p>
+                    <p>引用：</p>
+                    <p>在高并发连接的情况下，Nginx是Apache服务器不错的替代品。Nginx同时也可以作为7层负载均衡服务器来使用。根据我的测试结果，Nginx 0.8.46 + PHP 5.2.14 (FastCGI) 可以承受3万以上的并发连接数，相当于同等环境下Apache的10倍。</p>
+                    <p>这里我们选择nginx，输入1，回车（如果什么都不输入，直接回车，或者输入错误的字符，则默认选择nginx） </p>
+                    <p>然后我们再选择要安装的nginx的版本（如果web服务器选择的是apache，这里提示信息则是要安装apache的版本），总共有1.0.15/1.2.5/1.4.4三个版本可以提供我们选择，这里我们选择1.2.5版本，则输入2，回车（如果什么都不输入，直接回车，或者输入错误的字符，则默认选择1.0.15版本） </p>
+                    <p><img src="__ROOT__/Public/images/nginx_1.png" /></p>
+                    <p>然后我们再选择要安装的php的版本，总共有5.3.18/5.4.23/5.5.7三个版本可以提供我们选择，这里我们选择5.5.7版本，则输入3，回车（如果什么都不输入，直接回车，或者输入错误的字符，则默认选择5.3.18版本）</p>
+                    <p><img src="__ROOT__/Public/images/nginx_2.png" /></p>
+                    <p>然后我们再选择要安装的mysql的版本，总共有5.1.73/5.5.35/5.6.15三个版本可以提供我们选择，这里我们选择5.1.73版本，则输入1，回车（如果什么都不输入，直接回车，或者输入错误的字符，则默认选择5.1.73版本）</p>
+                    <p><img src="__ROOT__/Public/images/nginx_3.png" /></p>
+                    <p>然后可以看到我们刚才选择的版本如下，我们输入y或者Y进行安装。</p>
+                    <p><img src="__ROOT__/Public/images/nginx_4.png" /></p>
+                    <p>到这里，我们就正式进入环境安装环节了。你可以泡杯茶休息下。一般这个过程会持续半个小时的样子。</p>
+                    <p><b>注意：</b></p>
+                    <p>1、请在网络通畅的情况下进行安装，不要强行终止安装过程（强行关闭安装窗口或者ctrl+c强行终止安装进程），则会导致安装失败，以及出现不可预知的安装异常！</p>
+                    <p>2、安装前，最好能跟系统盘打上快照，如果异常，方便回滚系统。</p>
+                    <p>为了防止断掉和服务器的连接，可以新开一个shell窗口，将鼠标挪到窗口标签栏，右击，如下图所示：</p>
+                    <p><img src="__ROOT__/Public/images/xshell__1.png" /></p>
+                    <p></p>
+                    <p><img src="__ROOT__/Public/images/xshell__2.png" /></p>
+                    <p>可以看到，新开了一个窗口。</p>
+                    <p><img src="__ROOT__/Public/images/xshell__3.png" /></p>
+                    <p>输入top命令</p>
+                    <p><img src="__ROOT__/Public/images/xshell__4.png" /></p>
+                    <p>可以看到一直在跳动的系统资源统计。</p>
+                    <p><img src="__ROOT__/Public/images/xshell__5.png" /></p>
+                    <p>好了。做完了这一些就让我们静静的等待吧！程序正在自动编译安装服务！</p>
+                    <p><img src="__ROOT__/Public/images/xshell__6.png" /></p>
+                    <p>到这个界面说明安装已经结束了，我们可以输入以下命令再次验证是不是已经安装成功：</p>
+                    <p>输入命令 ：netstat  -tunpl</p>
+                    <p>我们可以看到正在运行状态的服务及端口：9000端口是php进程服务，3306端口是mysql服务，80端口是nginx服务，21端口是ftp服务。</p>
+                    <p><img src="__ROOT__/Public/images/xshell__7.png" /></p>
+                    <p>如果看到以上信息，则说明安装没有异常。这里有一点需要注意的是，如果您选择安装的是apache，则没有上面的9000端口。为什么选择安装的是apache，就没有9000端口的php进程服务呢？这是因为nginx+php集成方式与apache+php集成方式不同，感兴趣的朋友可以自己入研究一下，这里就不再介绍。</p>
+                    <p>大家有疑问了。那我怎么登录ftp和mysql呢？</p>
+                    <p>在命令行里输入： cat account.log</p>                    
+                    <p><img src="__ROOT__/Public/images/xshell__8.jpg" /></p>
+                    <p>看到了没</p>                    
+                    <p>ftp的用户名是：www</p>                    
+                    <p>mysql的用户名是：root</p>                    
+                    <p>密码就在屏幕上了！</p>                    
+                    <p>另外我们也可以cat /alidata/website-info.log中查看到刚才安装软件的版本信息。</p>     
+                    <p><img src="__ROOT__/Public/images/xshell__9.jpg" /></p>
+                    <p>好了。所有配置都已经完成了。是不是很简单！</p> 
+                    <p>接下来我们可以访问一下一键安装包默认安装的phpwind论坛以及phpmyadmin。 </p> 
+                    <p>直接在浏览器中输入您的域名或者ip，如果是第一次访问phpwind，则会自动跳转到安装页面。</p> 
+                    <p>如果访问的时候卡住，不出来页面，则检查一下防火墙，并自行设置或者关闭防火墙。</p>  
+                    <p><img src="__ROOT__/Public/images/phpwind__1.png" /></p>
+                    <p>点击"接受"进行安装。</p>  
+                    <p>然后选择数据库类型为mysql,数据库用户名和数据库密码填写account.log中的用户名和密码。</p>  
+                    <p>然后根据自己的要求，设置好数据库名、管理员账号和密码等。</p>  
+                    <p><img src="__ROOT__/Public/images/phpwind__2.png" /></p>
+                    <p>填写好信息后，点击下一步完成安装。</p>  
+                    <p><img src="__ROOT__/Public/images/phpwind__3.png" /></p>
+                    <p>接下来我们访问phpmyadmin，在浏览器中键入我们的域名或者ip+phpmyadmin路径，即可访问我们安装的phpmyadmin。</p>  
+                    <p><img src="__ROOT__/Public/images/phpwind__4.png" /></p>
+                    <p>输入mysql用户名以及密码，即可登录。</p>  
+                    <p><img src="__ROOT__/Public/images/phpwind__5.png" /></p>
+                    <p>最后我们就可以在这里面操作管理我们的mysql啦。很简单方便吧。</p>  
+                    <p>----------------------------------------------------------------------</p>  
+                    <p>网站目录：/alidata/www</p>  
+                    <p>服务器软件目录：/alidata/server</p>  
+                    <p>Mysql 目录 /alidata/server/mysql</p>  
+                    <p>Php目录/alidata/server/php</p>  
+                    <p>选择了nginx 那么会有一个nginx 目录在 /alidata/server/nginx/</p>  
+                    <p>Nginx 配置文件在/alidata/server/nginx/conf</p>  
+                    <p>Nginx虚拟主机添加 你可以修改/alidata/server/nginx/conf/vhosts/phpwind.conf</p>  
+                    <p>apache 配置文件在/alidata/server/httpd/conf</p>  
+                    <p>apache虚拟主机添加 你可以修改/alidata/server/httpd/conf/vhosts/phpwind.conf</p>  
+                    <p>各个服务操作命令汇总：</p>  
+                    <p>nginx：</p>  
+                    <p>/etc/init.d/nginx start/stop/restart/reload)</p>  
+                    <p>apache：</p>  
+                    <p>/etc/init.d/httpd start/stop/restart/...</p>  
+                    <p>mysql：</p>  
+                    <p>/etc/init.d/mysqld  start/stop/restart/...</p>  
+                    <p>ftp：</p>  
+                    <p>/etc/init.d/vsftpd  start/stop/restart/...</p>  
+                    <p>比如启动nginx：</p>  
+                    <p>/etc/init.d/nginx start</p>  
+                    <p>教程在这里结束啦，谢谢大家的支持！希望大家多多支持睿江云，多多支持一键安装包！</p>
+                </li>
+        	</ul>
+        </div>              
+    </div>
+    <div class="clear"></div>
+    <include file="Public:footer_index" />
+</body>
+</html>

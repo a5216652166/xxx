@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>睿江科技服务平台</title>
+<link rel="stylesheet" href="__ROOT__/Public/css/content.css" />
+<link rel="stylesheet" href="__ROOT__/Public/css/siftbox.css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" >
+	$(function(){
+		var b = "{$beian_id}";
+		$(".list li").each(function(){
+			if($(this).attr('id')==b){
+				$(this).show();
+			}else{
+				$(this).hide();
+			}
+		});
+		$(".tree li").find("a").each(function(){
+			if($(this).attr("href").indexOf(b) > 0){
+				$(this).addClass("actived");
+			}else{
+				$(this).removeClass("actived");
+			}
+		});
+	});
+</script>
+<!--script type="text/javascript" src="__ROOT__/Public/js/main.js"></script-->
+</head>
+<body>
+    <include file="Public:head_index" />
+    <!-- header end -->
+    <div class="twrapper">
+        <div class="tree">
+        	<div>
+                <i>备案申请</i>
+                <ul>
+                    <li><a href="__APP__/Index/beian?b=content_b1" class="actived">备案介绍</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b2">备案流程</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b3">管局要求</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b4">备案材料</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b5">填写指南</a></li>
+                    <li><a href="__APP__/Index/beian?b=content_b6">前置审批</a></li>
+                   	<!--li><a href="__APP__/Index/beian?b=7">常见问题</a></li-->
+                </ul>
+                <hr />
+            </div>
+        </div>
+        <!-- treeee end -->
+        <div class="content customer-list">
+            <ul class="list">
+            	<li style="" id="content_b1">
+                    <div class="top y-clearfix">
+                        <h3 class="y-h2 r-tit">备案介绍</h3>
+                    </div>
+                    <p><b>1. 备案简介</b></p>
+		    <p>为了规范互联网信息服务活动，促进互联网信息服务健康有序发展，根据国务院令第292号《互联网信息服务管理办法》和工信部令第33号《非经营性互联网信息服务备案管理办法》规定，国家对经营性互联网信息服务实行许可制度，对非经营性互联网信息服务实行备案制度。未取得许可或者未履行备案手续的，不得从事互联网信息服务，否则就属于违法行为。</p>
+			<p>注：目前支持企业、个人、政府机关、事业单位、社会团体备案。</p>
+			<p style="margin-top:20px;"><b>2. 备案目的</b></p>
+			<p>备案的目的就是为了防止在网上从事非法的网站经营活动，打击不良互联网信息的传播。温馨提示：如果网站不备案的，被扫描到后将会被关停。</p>                    
+                    <p style="margin-top:20px;"><b>3. 联系方式</b></p>
+                    <p>感谢您对睿江科技的支持！</p>
+                    <p>如您需要办理备案或咨询，您可以加广东睿江客服团队企业QQ： <span style="color:#00b0ec">4000662212</span> 进行办理；或者致电<span style="color:#00b0ec"> 400-066-2212 转 3 </span>咨询；</p>
+                    <p>备案资料接收邮箱：<span style="color:#00b0ec">beian@efly.cc</span></p>
+                    <p>备案资料投寄地址：</p>
+                    <p>广东省佛山市禅城区岭南大道北121号东江国际A区写字楼7层，邮编：528000</p>
+                    <p>广东睿江科技有限公司   备案中心（收） 电话：<span style="color:#00b0ec">0757-82366663</span> （拒收到付）</p>
+                </li>
+                <li style="" id="content_b2">
+                    <div class="top y-clearfix">
+                        <h3 class="y-h2 r-tit">备案流程</h3>
+                        <img src="__ROOT__/Public/images/FlowChart.png" alt="流程图" />
+                    </div>
+                </li>
+                <li style="" id="content_b3">
+                    <div class="top y-clearfix">
+                        <h3 class="y-h2 r-tit">管局要求</h3>
+                        <volist name="list" id="item">
+                        <p><a href="__APP__/Index/tubeBureau?t={$item.ID}" style="color:#00b0ec">{$item.Title}</a></p>
+                        </volist>
+                    </div>
+                </li>
+                <li style="" id="content_b4">
+                    <div class="top y-clearfix">
+                        <h3 class="y-h2 r-tit">备案材料</h3>
+                    </div>
+                    <p>《广东睿江ICP备案操作表》</p>
+                    <p>《网站备案信息真实性核验单》</p>
+                    <p>公司营业执照、团体组织机构代码证原件扫描件</p>
+                    <p>主体负责人身份证原件扫描件（公司备案为主体负责人为法人）</p>
+                    <p>网站负责人身份证原件扫描件（根据情况主体负责人和网站负责人可为同一人）</p>
+                    <p>网站负责人现场核验照（非主体负责人，除主体负责人和网站负责人为同一人外）</p>
+                    <p style="margin-top:20px;">以上材料压缩打包后，以邮件形式发送到</p>
+                    <p>备案资料接收邮箱：<span style="color:#00b0ec">beian@efly.cc</span></p>
+                    <p style="margin-top:20px;">《网站备案信息真实性核验单》盖章签字原件，以快递方式投寄到</p>
+                    <p>备案资料投寄地址：</p>
+                    <p>广东省佛山市禅城区岭南大道北121号东江国际A区写字楼7层，邮编：<span style="color:#00b0ec">528000</span></p>
+                    <p>广东睿江科技有限公司   备案中心（收） 电话：<span style="color:#00b0ec">0757-82366663</span> （拒收到付）</p>            
+                </li>
+                <li style=""  id="content_b5">
+                  <div class="top y-clearfix">
+                      <h3 class="y-h2 r-tit">填写指南</h3>
+                  </div>
+                  <br/>
+                  <p class="story">《广东睿江ICP备案操作表》</p>
+                  <br/>
+                  <p>1. 如果是备案主体从未办理过备案,"备案号"、"备案密码"两项不用填写；</p>
+                  <p>2. 如果不能确定备案单位、公司、个人是否有办理过备案，可登陆工信部备案查询网站 <a href="www.miitbeian.gov.cn" style="color:#00b0ec">www.miitbeian.gov.cn</a> ，通过网站右下脚"公共查询"进行确定；</p>
+                  <p>3. 如果有备案但忘记备案密码，可登陆工信部备案查询网站 <a href="www.miitbeian.gov.cn" style="color:#00b0ec">www.miitbeian.gov.cn</a> ，通过网站右下脚"找回备案密码"操作办理，操作完成后，系统会自动将密码以短信和邮件形式发送到备案主体负责人的手机和邮箱,请注意提醒备案主体负责人查收；</p>
+                  <p>4. 主办单位名称:填写单位、公司、个人全称,必须与有效证件上完全一致；</p>
+                  <p>5. 主办单位有效证件类型:工商营业执照、组织机构代码证书、事业法人证书、社团法人证书、军队代号、身份证、护照、军官证、台胞证；</p>
+                  <p>6. 主办单位证件地址:单位、企业备案为营业执照、组织机构代码证上注册地址;个人备案填写身份证地址，要求严格一致，字数不能多也不能少；</p>
+                  <p>7. 主办单位通信地址必须详细到X楼X室，不能只写到XX大楼或者XX路；</p>
+                  <p>8. 网站备案主办单位负责人、网站负责人办公电话、手机号码必须为主办单位所在城市号码，例如广州的公司不能填写北京的座机和手机，并且必须真实有效，备案密码和操作内容在操作成功后会以短信和邮形式通知主办单位负责人；</p>
+                  <p>9. 如网站或者公司经营范围涉及新闻、出版、教育、医疗保健、药品和医疗器械、电子公告服务、博客、WAP网站、文化、游戏、广播电影电视节等需要填写特许经营范围，并提交特许经营许可文件作备案前置审批；</p>
+                  <p>10. 网站服务内容有以下选择（可多选）：即时通信、搜索引擎、综合门户、网上邮局、网络新闻、博客/个人空间、网络广告信息、单位门户网站、网络购物、网上支付、网上银行、网上炒股、股票基金、网络游戏、网络音乐、网络影视、网络图片、网络软件下载、网上求职、网上交友、婚介、网上房产、网络教育、网站建设、WAP、其他、基础应用、网络媒体、电子政务、电子商务、数字娱乐。</p>
+                  <br/>
+                  <p>《网站备案信息真实性核验单》</p>
+                  <br/>
+                  <p><img src="__ROOT__/Public/images/beian.jpg" alt="" ></p>
+                </li>
+                <li style="" id="content_b6">
+                  <div class="top y-clearfix">
+                      <h3 class="y-h2 r-tit">前置审批</h3>
+                  </div>
+                  <p class="story">如果公司、网站经营范围涉及新闻、出版、教育、医疗保健、药品和医疗器械、电子公告服务、博客、WAP网站、文化、游戏、广播电影电视节目等项目，需要相关主管部门进行特许经营许可审批后才可以通过网站ICP备案，相关主管审批部门颁发的经营许可统称为前置审批。</p>
+                  <br/>
+                  <table class="table" style="margin-left: 50px;">
+                    <tr style="background:#e0e0e0;"><td style="width:100px;">前置审批内容</td><td style="width:100px;">审批项目</td><td style="width:100px;">审批单位</td><td style="width:200px;">法律依据</td></tr>
+                    <tr><td>互联网出版</td><td>互联网出版</td><td>地方新闻出版局（省级）。中华人民共和国新闻出版总署</td><td>《互联网信息服务管理办法》《互联网出版管理暂行规定》</td></tr>
+                    <tr><td>互联网电子公告服务</td><td>电信业务经营许可证审批（电子公告服务bbs的审批）</td><td>地方通信管理局（省级）</td><td>《互联网信息服务管理办法》《互联网电子公告服务管理规定》</td></tr>
+                    <tr><td>互联网文化许可</td><td>网络文化经营许可证</td><td>地方文化局（省级）</td><td>《互联网文化管理暂行规定》《国务院对确需保留的行政审批项目设立行政许可的决定》《文化部信息产业部关于网络游戏发展和管理的若干意见》《关于修订<文化部涉外文化艺术表演及展览管理规定>、<音像制品批发、零售、出租管理办法>、<互联网文化管理暂行规定>等规章的决定》（2004年7月1日文化部令第32号）</td></tr>
+                    <tr><td>互联网视听节目</td><td>网络视听许可证  广播电视节目制作经营许可证</td><td>国家广播电影电视总局</td><td>《互联网视听节目服务管理规定》</td></tr>
+                    <tr><td>互联网新闻信息服务</td><td>主要从事互联网信息服务业务的许可证</td><td>地方新闻办公室（省级）</td><td>《互联网信息服务管理办法》《互联网新闻信息服务管理规定》</td></tr>
+                    <tr><td>互联网医疗保健卫生信息</td><td>互联网药品信息服务资格证书  互联网药品交易服务资格证书</td><td>地方食品药品监督管理局（省级）</td><td>《互联网药品信息服务管理办法》《互联网药品交易服务审批暂行规定》</td></tr>
+                    <tr><td>教育</td><td>从事互联网教育信息服务的许可证</td><td>地方教育委员会（省级）</td><td>《互联网信息服务管理办法》《教育网站和网校暂行管理办法》</td></tr>
+                  </table>
+                </li>
+        </ul>
+            
+        </div>              
+    </div>
+    <div class="clear"></div>
+    <include file="Public:footer_index" />
+</body>
+</html>

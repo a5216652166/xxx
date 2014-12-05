@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>文档 | 睿江科技云主机</title>
+    <link rel="stylesheet" href="__ROOT__/Public/css/default.css" type="text/css" />
+    <link rel="stylesheet" href="__ROOT__/Public/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/bootstrap.min.css" />
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/patch.css" />
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/content.css" />
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/base.css" />
+    <include file="Public:common"/>
+    <script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+  </head>
+<body style="background-color:#f9f9f9">
+	<include file="Public:head"/>
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+        
+            <div class="content customer-list">
+                <ul class="list">
+                    <li style="" id="content_b1">
+                        <div class="top y-clearfix">
+                            <h3 class="y-h2 r-tit">nginx下如何添加伪静态</h3>
+                        </div>
+                        <p>首先确定下您的环境是否是用按照《Linux一键安装web环境全攻略》来配置的。如果没有的话，那就先配置好环境吧，有的话请继续往下看：</p>
+                        <p>先进入到nginx的配置文件目录</p>
+                        <p>输入以下命令：</p>
+                        <p>cd /alidata/server/nginx/conf/rewrite</p>
+                        <p>再输入</p>
+                        <p>ll</p>
+                        <p>看看是不是像下面截图的一样：</p>
+                        <p><img src="__ROOT__/Public/images/nginx_11.png" /></p>
+                        <p>对了。这些就是伪静态规则文件。我们打开phpwind.conf看看。</p>					
+                        <p><img src="__ROOT__/Public/images/nginx_12.png" /></p>
+                        <p>我们已经在rewrtie目录下配置了常见程序的伪静态规则。您可以直接调用。</p>
+                        <p>如果没有就按照＂程序名.conf＂的命名方式新建一个配置文件</p>
+                        <p>配置文件搞清楚了，你可能会说好像网站伪静态还是没效果啊。别着急，因为伪静态规则是需要被网站配置文件调用才行的。</p>
+                        
+                        <p>输入以下命令：</p>
+                        <p>cd /alidata/server/nginx/conf/vhosts</p>
+                        <p>进入到网站配置目录</p>
+                        <p>关于如何网站添加可以先学习下这篇文章<a style="color:#00b0ec" href="http://bbs.aliyun.com/read.php?tid=3189" target="_blank">《手把手教你nginx下如何增加网站》</a></p>
+                        <p>打开配置文件：</p>
+                        <p><img src="__ROOT__/Public/images/nginx_13.png" /></p>
+                        <p>修改好伪静态调用文件，下面测试下我们配置的文件是否正确：</p>
+                        <p>输入</p>
+                        <p>/alidata/server/nginx/sbin/nginx -t</p>
+                        <p>看到了么？</p>
+                        <p>nginx: the configuration file /alidata/server/nginx/conf/nginx.conf syntax is ok</p>
+                 <p>nginx: configuration file /alidata/server/nginx/conf/nginx.conf test is successful</p>
+                <p> 如果出现以上两句话就说明配置成功了。下面重启下nginx：</p>
+                <p>/alidata/server/nginx/sbin/nginx -s reload</p>
+                        <p>恭喜您，伪静态配置完成！</p>
+                    </li>
+                </ul>
+            </div> 
+            
+        </div>
+      </div>
+      
+      <include file="Public:doc_menu" />
+      <div class="clearer"></div>
+    </div>
+	<include file="Public:gotop" />
+  </body>
+</html>

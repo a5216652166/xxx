@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>睿江科技服务平台</title>
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script> 
+<script type="text/javascript">
+	$(function(){
+		$("#myform").submit();
+	});
+</script>
+</head>
+<body>
+	<form id="myform" method="post" action="{$url}">
+		<input type="hidden" name="DepartCode" value="{$DepartCode}" />
+        <input type="hidden" name="OrderCode" value="{$OrderCode}"/>
+        <input type="hidden" name="OrderName" value="{$OrderName}" />
+        <input type="hidden" name="OrderDesc" value="{$OrderDesc}" />
+        <input type="hidden" name="OrderMoney" value="{$OrderMoney}" />
+        <input type="hidden" name="OrderUrl" value="http://www.efly.cc" />
+		<input type="submit" style="display:none;" />
+	</form>
+</body>
+</html>

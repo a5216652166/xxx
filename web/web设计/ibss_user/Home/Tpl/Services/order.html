@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="data-spm" content="5176">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+    <link rel="stylesheet" href="__ROOT__/Public/css/footer.css">
+    <script src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+    <script src="__ROOT__/Public/js/common.js"></script>
+    <script src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+			$(".uc-nav-list a").removeClass('current');
+			$(".uc-nav-list a:eq(3)").addClass('current');
+			$(".uc-current-light").css('left','660px');
+			$(".uc-current-light").css('width','62px');
+			
+			$(".order_info tr").mouseover(function(){
+				$(this).css('backgroundColor','#f3f3f3');
+			}).mouseout(function(){
+				$(this).css('backgroundColor','');
+			});	
+			
+			$(".info_tr").each(function(i,item){
+				if(i==0){
+					$(item).prev().find('a:eq(0)').html('收起');
+					$(item).show();
+				}
+			});
+			
+		});
+		function showInfo(obj){
+			if($(obj).html()=='详情'){
+				$(obj).parent().parent().next().show();	
+				$(obj).html('收起');
+			}else{
+				$(obj).parent().parent().next().hide();	
+				$(obj).html('详情');
+			}
+			
+		}
+    </script>
+    <title>睿江科技开放服务平台 - 用户中心</title>
+</head>
+<body class="page-account">
+<include file="Public:head_user" />
+<!-- 内容 S -->
+<div class="uc-bd" style="background:#fff;">
+	<div class="y-row uc-layer">
+		<div class="y-span12">
+			<div class="uc-content">
+				<div class="mt10 clearfix" id="main">
+				<include file="Public:sidebar" />
+					<div id="content" style="width:800px;float: right;margin-top: 10px;">
+						<include file="Public:memu" />
+						<div class="uitopb uitopb-border" style="float: left; margin-bottom:130px;">
+						    <ul class="tabs">
+							<li><a href="javascript:void(0);" class="current" target="_self" id="order-btn">我的订单</a></li>
+						    </ul>
+						    <div id="myData" class="site-iframe-c" style="width: 797px;">
+							<div class="y-span10 y-last">
+							    <div>
+								<div id="main" class="container clearfix">
+								    <div id="content" style="float: left; width: 797px;">
+									<div class="">
+									    <div id="order-list" class="tabledv" style="display: block;">
+										<table>
+										    <thead>
+											<tr>
+											    <th class="tacenter" width="150">订单编号</th>
+											    <th class="tacenter">支付状态</th>
+											    <th class="tacenter">处理状态</th>
+											    <th class="tacenter">施工反馈</th>
+											    <th class="tacenter">操作</th>
+											</tr>
+										    </thead>
+										    <tbody id="cash-tbinfo">
+                                            <if condition="count($orderList)==0">
+                                                <tr class="alt">
+                                                    <td class="tacenter" colspan="6" style="padding: 20px;"><span class="ico ico-warning">没有找到相关数据!</span></td>
+                                                </tr>
+                                            <else/>
+                                            	<volist name="orderList" id="item" key="k">
+                                                <tr>
+                                                    <td class="tacenter">{$item.Code}</td>
+                                                    <td class="tacenter">
+                                                    <if condition="$item['IS_Pay']=='NO'">
+                                                    	未支付
+                                                        <else/>已支付
+                                                    </if>    
+                                                    </td>
+                                                    <td class="tacenter">{$item.Status}</td>
+                                                    <td class="tacenter">{$item.DoRsp}</td>
+                                                    <td class="tacenter">
+                                                        <a href="javascript:void(0);" onclick="showInfo(this)">详情</a>
+                                                        <if condition="$item['IS_Pay']=='NO'">
+                                                            <a href="__APP__/Index/order">去支付</a>
+                                                        </if>  
+                                                   	</td>
+                                                </tr>
+                                                <tr style="display:none;" class="info_tr">
+                                                	<td colspan="6" style="border-top: none;">                                                    
+                                                    		<volist name="item['worklist']" id="contract">
+                                                    			<div style="border-top:1px dashed #ccc;padding:5px 0px 5px 0px;">
+                                                                	<span style="margin-left:38px;">工单编号：{$contract.Code}</span>
+                                                                    <span style="margin-left:30px;">套餐类型：{$contract.BusinessType}</span>
+                                                                    <span style="margin-left:30px;">工单状态：{$contract.statusDesc}</span>
+                                                                    <span style="margin-left:30px;">创建时间：{$contract.CreateTime}</span>
+                                                                </div>
+                                                            </volist>
+                                                            <div style=" width:100%; border-top:1px solid #ccc; color:#333;">
+                                                            	<div style=" width:100%;float:left; background:#f3f3f3;">
+                                                                	<dl style="float:left; padding:0px 50px 0px 30px; line-height:25px;height:25px">描述</dl>
+                                                                	<dl style="float:left; padding:0px 50px 0px 200px; line-height:25px;height:25px">类型</dl>
+                                                                	<dl style="float:left; padding:0px 50px 0px 78px; line-height:25px;height:25px">价格</dl>
+                                                                	<dl style="float:left; padding:0px 50px 0px 78px; line-height:25px;height:25px">数量</dl>
+                                                                </div>
+                                                                <table style="border:none;color:#666;" class="order_info">
+                                                                	<!-- vps -->
+                                                                	<volist name="item['vps']" id="vps">
+                                                                	<tr>
+                                                                    	<td width="268" style="padding-left:30px;">CPU：{$vps.CPU}<p/>内存：{$vps.Ram}<p/>硬盘：{$vps.Disk}</td>
+                                                                        <td width="146">云主机</td>
+                                                                        <td width="146">{$vps.Price|number_format=###,2}</td>
+                                                                        <td>1</td>
+                                                                    </tr>
+                                                                    </volist>
+                                                                    <!-- dev -->
+                                                                	<volist name="item['dev']" id="dev">
+                                                                	<tr>
+                                                                    	<td width="268" style="padding-left:30px;">CPU：{$dev.CPU}<p/>内存：{$dev.Ram}<p/>硬盘：{$dev.Disk}<p/>品牌：{$dev.Brand}</td>
+                                                                        <td width="146">服务器</td>
+                                                                        <td width="146">{$dev.Price|number_format=###,2}</td>
+                                                                        <td>1</td>
+                                                                    </tr>
+                                                                    </volist>
+                                                                    <!-- ip -->
+                                                                	<volist name="item['ip']" id="ip">
+                                                                	<tr>
+                                                                    	<td width="268" style="padding-left:30px;">{$ip.Name}</td>
+                                                                        <td width="146">{$ip.ProName}</td>
+                                                                        <td width="146">{$ip.Price|number_format=###,2}</td>
+                                                                        <td>{$ip.Count}</td>
+                                                                    </tr>
+                                                                    </volist>
+                                                                    <!-- bandwidth -->
+                                                                	<volist name="item['bandwidth']" id="bandwidth">
+                                                                	<tr>
+                                                                    	<td width="268" style="padding-left:30px;">{$bandwidth.Name}</td>
+                                                                        <td width="146">{$bandwidth.ProName}</td>
+                                                                        <td width="146">{$bandwidth.Price|number_format=###,2}</td>
+                                                                        <td>{$bandwidth.Count}</td>
+                                                                    </tr>
+                                                                    </volist>
+                                                                    <!-- bandwidthExt -->
+                                                                	<volist name="item['bandwidthExt']" id="bandwidthExt">
+                                                                	<tr>
+                                                                    	<td width="268" style="padding-left:30px;">{$bandwidthExt.Name}</td>
+                                                                        <td width="146">{$bandwidthExt.ProName}</td>
+                                                                        <td width="146">{$bandwidthExt.Price|number_format=###,2}</td>
+                                                                        <td>{$bandwidthExt.Count}</td>
+                                                                    </tr>
+                                                                    </volist>
+                                                                    <!-- cabinet -->
+                                                                	<volist name="item['cabinet']" id="cabinet">
+                                                                	<tr>
+                                                                    	<td width="268" style="padding-left:30px;">{$cabinet.Name}</td>
+                                                                        <td width="146">{$cabinet.ProName}</td>
+                                                                        <td width="146">{$cabinet.Price|number_format=###,2}</td>
+                                                                        <td>{$cabinet.Count}</td>
+                                                                    </tr>
+                                                                    </volist>
+                                                                    <tr>
+                                                                      <td class="tacenter">部署要求：</td>
+                                                                      <td colspan="3">{$item.DoReq}</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                    </td>
+                                                </tr>
+                                                <if condition="count($orderList) != $k">
+                                                	<tr height="2"><td colspan="5"></td></tr>
+                                                    <else/>
+                                                </if>
+                                                </volist>
+                                            </if>
+										    </tbody>
+										</table>
+									    </div>
+									</div>
+								    </div>
+								</div>
+							    </div>
+							</div>
+							</div>
+                        </div>
+                    </div>
+                </div><!-- iframe E -->
+				    	
+<script>// JavaScript Document
+(function (win, doc) {
+    win.iframeAdaptiveHeight = function (height) {
+        var iframe = $('.site-iframe-a, .site-iframe-b, .site-iframe-c');
+        iframe.css('height', height).next().css('display', 'none');
+    }
+	
+	    $(doc).ready(function () {
+	
+	        var ifrA = $('.site-iframe-a'),
+	            ifrB = $('.site-iframe-b'),
+	            ifrC = $('.site-iframe-c');
+	
+	
+	        if (ifrA.length > 0) {
+	            ifrA.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrB.length > 0) {
+	            ifrB.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrC.length > 0) {
+	            ifrC.attr('src', $('.site-hidden').val());
+	        }
+	
+	        $('#content .tabs a').click(function () {
+	            var t = $(this),
+				tabs = $('#content .tabs a'),
+				url = t.attr('data-url');
+				/*
+	            tabs.removeClass('current');
+	            t.addClass('current');
+	            ifrC.css('height', 0)
+	                    .next()
+	                    .css('display', 'block');
+	
+	            ifrC.attr('src', url);*/
+				//点击修改表格内容
+				$(".tabs a").removeClass('current');
+				$(this).addClass('current');
+				$("#myData table").empty();
+				$("#myData table").html('<thead><tr><th class="tacenter">订单号</th><th class="tacenter">产品名称</th><th class="tacenter">金额</th><th class="tacenter">状态</th><th class="tacenter">创建时间</th><th class="tacenter">支付时间</th></tr></thead><tbody id="cash-tbinfo"><tr class="alt"><td class="tacenter" colspan="6" style="padding: 20px;"><span class="ico ico-warning">没有找到相关数据!</span></td></tr></tbody>');
+	        });
+	
+	    });
+	
+	})(window, document); 
+</script>	
+				    	
+				    	
+            </div>
+        </div>
+    </div>	    	
+</div>
+<!-- 内容 E -->
+        
+<!--footer-->
+<include file="Public:footer_login" />
+</body>
+</html>

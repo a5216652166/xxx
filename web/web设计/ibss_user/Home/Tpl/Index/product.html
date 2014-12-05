@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="__ROOT__/Public/css/content.css" />
+<link rel="stylesheet" href="__ROOT__/Public/css/siftbox.css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+<script type="text/javascript">
+	var URL = "__URL__";
+	var APP = "__APP__";
+	var ROOT = "__ROOT__";
+	var USER = "{$_SESSION['user']}";
+	var Audit = "{$_SESSION['audit']}";
+</script>
+<script type="text/javascript" src="__ROOT__/Public/js/main.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+		getTotalPrice();	
+		if($(".order").length>2){
+			$("#myOrder").parent().parent().css('overflow-y','scroll');
+		}else{
+			$("#myOrder").parent().parent().css('overflow-y','hidden');
+		}
+	});
+	function goto_order(){
+		if($(".order").html()!="暂无商品信息"){
+			window.location.href='__APP__/Index/order';
+		}else{
+			$("#error_msg").css('color','red').html("提示信息：请挑选您需要购买的商品。");
+		}
+	}
+</script>
+<title>睿江科技服务平台</title>
+</head>
+<body>
+    <include file="Public:head_index" />
+    <!-- header end -->
+    <div style="float:left;width:100%;">
+        <div class="twrapper">
+        <div class="zheZC"></div>
+        <input type="hidden" id="purl" value="{$product.Url}">
+            <div class="tree">
+                <div>
+                    <i>数据中心IDC</i>
+                    <ul>
+                        <li><a href="__APP__/Index/product?p=6">IP地址</a></li>
+                        <li><a href="__APP__/Index/product?p=3">网络带宽</a></li>
+                        <li><a href="__APP__/Index/product?p=7">云服务器</a></li>
+                        <!--li><a href="__APP__/Index/product?p=9" class="actived">服务器租赁</a></li-->
+                        <li><a href="__APP__/Index/product?p=8">服务器托管</a></li>
+                        <!--li><a href="__APP__/Index/product?p=4">睿江BGP</a></li-->
+                    </ul>
+                    <!--hr /-->
+                </div>
+                <!--div>
+                    <i>内容分发网络CDN</i>
+                    <ul>
+                <li><a href="__APP__/Index/product?p=10">静态页面加速</a></li>
+                <li><a href="__APP__/Index/product?p=11">网络下载加速</a></li>
+                        <li><a href="__APP__/Index/product?p=12">免费试用申请</a></li>
+                    </ul>
+                    <hr />
+                </div>
+                <div>
+                    <i>国际专线IPLC</i>
+                    <ul>
+                        <li><a href="__APP__/Index/product?p=13">国际专线IPLC</a></li>
+                    </ul>
+                    <hr />
+                </div-->  
+            </div>
+            <!-- treeee end -->
+            <div class="content">
+            <div class="intro">
+                    <h2>{$product.Name}</h2>
+                    <p>{$product.About}</p>
+                    <img src="__ROOT__/Public/images/ipic.png" width="64" height="64" />
+                    <if condition="$type eq ''">
+                        <table>
+                            <tr>
+                                <td style="border-left:none;" class="actived">产品详情</td>
+                                <td>应用场景和案例</td>
+                                <td>金牌服务体系</td>
+                                <td>产品帮助</td>
+                            </tr>
+                        </table>
+                    </if>
+                </div>
+                
+                <div class="conbox">
+                    <h3>产品详情</h3>
+                    <if condition="$type eq 'device' OR $type eq 'vps'">
+                        <else/>
+                        <div class="info">
+                            <h4><span>如何使用</span></h4>
+                            <ul>
+                                <li>{$product.Info}</li>
+                            </ul>
+                        </div>
+                    </if>
+                    <div class="product">
+                    <if condition="$type eq 'device' OR $type eq 'vps'">
+                        <else/>
+                        <h4><span>{$product.Name}套餐</span></h4>
+                    </if>
+                        <if condition="$type eq 'ip'">
+                            <include file="Index:ip" />
+                            <elseif condition="$type eq 'dev_hold'"/><include file="Index:cabinet" />
+                            <elseif condition="$type eq 'bandwidth'"/><include file="Index:bandwidth" />
+                            <elseif condition="$type eq 'device'"/><include file="Index:device" />
+                            <elseif condition="$type eq 'vps'"/><include file="Index:vps" />
+                            <else/>
+                        </if>
+                    </div>
+                </div>
+                
+                <!--div class="conbox">
+                    <h3>产品帮助</h3>
+                    <div class="w210">
+                        <h4><span>产品介绍</span></h4>
+                        <ul>
+                            <li><a href="#">产品介绍</a></li>
+                            <li><a href="#">计费说明</a></li>
+                            <li><a href="#">计费说明</a></li>
+                        </ul>
+                    </div>
+                    <div class="w210">
+                        <h4><span>产品介绍</span></h4>
+                        <ul>
+                            <li><a href="#">产品介绍</a></li>
+                            <li><a href="#">计费说明</a></li>
+                            <li><a href="#">计费说明</a></li>
+                        </ul>
+                    </div>
+                    <div class="w210">
+                        <h4><span>产品介绍</span><a href="#">更多</a></h4>
+                        <ul>
+                            <li><a href="#">产品介绍</a></li>
+                            <li><a href="#">计费说明</a></li>
+                            <li><a href="#">计费说明</a></li>
+                        </ul>
+                    </div>
+                </div-->
+                <if condition="$type eq 'device'">
+                    <div class="cartbox">
+                    <else/><div class="cartbox">
+                </if>
+                    <div class="title">我的购物车</div>
+                    <if condition="$orderCount gt 2">
+                        <div style="max-height:340px; overflow:scroll;overflow-x:hidden;">
+                        <else/><div style="max-height:340px;overflow:hidden;">
+                    </if>
+                        <div class="list">
+                            <div class="list-temp" id="myOrder">
+                                <if condition="$orderCount eq 0">
+                                    <div class="order">暂无商品信息</div>
+                                    <else/>
+                                    <!-- 云服务器 -->
+                                    <volist name="ord_vpsList" id="item">
+                                    <div class="order">
+                                        <div class="order-row">
+                                            <a href="javascript:void(0);" rel="nofollow" target="_self" class="lnk-delete-order fn-right" title="删除" hidefocus="">
+                                                <i class="icon-wrong" style="font-family:Arial; float:right;" onclick="deleteCart('vps',{$item.ID})">X</i>
+                                            </a>
+                                            <span class="order-price">
+                                                <span class="cny">¥</span>
+                                                <span>{$item.Price|number_format=###,2}</span>
+                                            </span>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>品牌：</label>
+                                            <div class="order-info">{$item.Brand}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>CPU：</label>
+                                            <div class="order-info">{$item.CPU}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>内存：</label>
+                                            <div class="order-info">{$item.Ram}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>硬盘：</label>
+                                            <div class="order-info">{$item.Disk}</div>
+                                        </div>
+                                    </div>
+                                    </volist>
+                                    <!-- 服务器租赁 -->
+                                    <volist name="ord_devList" id="item">
+                                    <div class="order">
+                                        <div class="order-row">
+                                            <a href="javascript:void(0);" rel="nofollow" target="_self" class="lnk-delete-order fn-right" title="删除" hidefocus="">
+                                                <i class="icon-wrong" style="font-family:Arial; float:right;" onclick="deleteCart('dev',{$item.ID})">X</i>
+                                            </a>
+                                            <span class="order-price">
+                                                <span class="cny">¥</span>
+                                                <span>{$item.Price|number_format=###,2}</span>
+                                            </span>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>品牌：</label>
+                                            <div class="order-info">{$item.Brand}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>CPU：</label>
+                                            <div class="order-info">{$item.CPU}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>内存：</label>
+                                            <div class="order-info">{$item.Ram}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>硬盘：</label>
+                                            <div class="order-info">{$item.Disk}</div>
+                                        </div>
+                                    </div>
+                                    </volist>
+                                    <!-- IP -->
+                                    <volist name="ord_ipList" id="item">
+                                    <div class="order">
+                                        <div class="order-row">
+                                            <a href="javascript:void(0);" rel="nofollow" target="_self" class="lnk-delete-order fn-right" title="删除" hidefocus="">
+                                                <i class="icon-wrong" style="font-family:Arial; float:right;" onclick="deleteCart('ip',{$item.ID})">X</i>
+                                            </a>
+                                            <span class="order-price">
+                                                <span class="cny">¥</span>
+                                                <span>{$item.Price|number_format=###,2}</span>
+                                            </span>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>套餐：</label>
+                                            <div class="order-info">{$item.ProName}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>类型：</label>
+                                            <div class="order-info">{$item.Type}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>数量：</label>
+                                            <div class="order-info">{$item.Count}</div>
+                                        </div>
+                                        <!--div class="order-row">
+                                            <label>描述：</label>
+                                            <div class="order-info">{$item.Name}</div>
+                                        </div-->
+                                    </div>
+                                    </volist>
+                                    <!-- 带宽 -->
+                                    <volist name="ord_bandwidthList" id="item">
+                                    <div class="order">
+                                        <div class="order-row">
+                                            <a href="javascript:void(0);" rel="nofollow" target="_self" class="lnk-delete-order fn-right" title="删除" hidefocus="">
+                                                <i class="icon-wrong" style="font-family:Arial; float:right;" onclick="deleteCart('bandwidth',{$item.ID})">X</i>
+                                            </a>
+                                            <span class="order-price">
+                                                <span class="cny">¥</span>
+                                                <span>{$item.Price|number_format=###,2}</span>
+                                            </span>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>套餐：</label>
+                                            <div class="order-info">{$item.ProName}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>类型：</label>
+                                            <div class="order-info">{$item.Type}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>单位：</label>
+                                            <div class="order-info">{$item.Unit}</div>
+                                        </div>
+                                        <!--div class="order-row">
+                                            <label>描述：</label>
+                                            <div class="order-info">{$item.Name}</div>
+                                        </div-->
+                                    </div>
+                                    </volist>
+                                    <!-- 带宽Ext -->
+                                    <volist name="ord_bandwidthExtList" id="item">
+                                    <div class="order">
+                                        <div class="order-row">
+                                            <a href="javascript:void(0);" rel="nofollow" target="_self" class="lnk-delete-order fn-right" title="删除" hidefocus="">
+                                                <i class="icon-wrong" style="font-family:Arial; float:right;" onclick="deleteCart('bandwidthExt',{$item.ID})">X</i>
+                                            </a>
+                                            <span class="order-price">
+                                                <span class="cny">¥</span>
+                                                <span>{$item.Price|number_format=###,2}</span>
+                                            </span>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>套餐：</label>
+                                            <div class="order-info">{$item.ProName}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>类型：</label>
+                                            <div class="order-info">{$item.Type}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>单位：</label>
+                                            <div class="order-info">{$item.Unit}</div>
+                                        </div>
+                                        <!--div class="order-row">
+                                            <label>描述：</label>
+                                            <div class="order-info">{$item.Name}</div>
+                                        </div-->
+                                    </div>
+                                    </volist>
+                                    <!-- 机柜 -->
+                                    <volist name="ord_cabinetList" id="item">
+                                    <div class="order">
+                                        <div class="order-row">
+                                            <a href="javascript:void(0);" rel="nofollow" target="_self" class="lnk-delete-order fn-right" title="删除" hidefocus="">
+                                                <i class="icon-wrong" style="font-family:Arial; float:right;" onclick="deleteCart('cabinet',{$item.ID})">X</i>
+                                            </a>
+                                            <span class="order-price">
+                                                <span class="cny">¥</span>
+                                                <span>{$item.Price|number_format=###,2}</span>
+                                            </span>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>套餐：</label>
+                                            <div class="order-info">{$item.ProName}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>机房：</label>
+                                            <div class="order-info">{$item.Location}</div>
+                                        </div>
+                                        <div class="order-row">
+                                            <label>数量：</label>
+                                            <div class="order-info">{$item.Count}</div>
+                                        </div>
+                                        <!--div class="order-row">
+                                            <label>描述：</label>
+                                            <div class="order-info">{$item.Name}</div>
+                                        </div-->
+                                    </div>
+                                    </volist>
+                                </if>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="orders-submit">
+                            <div class="orders-submit-row">
+                                <span>共计：</span><span class="settle cny">¥</span><span class="settle" id="totalPrice" style="margin-left:5px;">{$_SESSION['totalPrice']|number_format=###,2}</span>
+                            </div>
+                            <div class="orders-submit-row">
+                                <input type="button" value="去付款" onclick="goto_order()"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>              
+        </div>
+    </div>
+    <div style="float:left;width: 100%;">
+    	<include file="Public:footer_index" />
+    </div>
+</body>
+</html>

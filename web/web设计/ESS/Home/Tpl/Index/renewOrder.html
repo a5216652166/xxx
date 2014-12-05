@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+<title>睿江科技服务平台</title>
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script> 
+<script type="text/javascript">
+	$(function(){
+		$("#myform").submit();
+	});
+</script>
+</head>
+<body>
+	<form id="myform" method="post" action="{$url}">
+		<input type="hidden" name="DepartCode" value="{$DepartCode}" />
+        <input type="hidden" name="OrderCode" value="{$OrderCode}"/>
+        <input type="hidden" name="OrderName" value="{$OrderName}" />
+        <input type="hidden" name="OrderDesc" value="{$OrderDesc}" />
+        <input type="hidden" name="OrderMoney" value="{$OrderMoney}" />
+        <input type="hidden" name="OrderUrl" value="http://www.efly.cc" />
+		<input type="submit" style="display:none;" />
+	</form>
+</body>
+</html>

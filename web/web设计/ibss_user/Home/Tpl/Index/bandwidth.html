@@ -1,0 +1,185 @@
+<script type="text/javascript">
+	$(function(){
+		//getTotalPrice();
+		//选中filter下的所有a标签，为其添加hover方法，该方法有两个参数，分别是鼠标移上和移开所执行的函数。
+		$("#filter a").hover(function(){
+			$(this).addClass("seling");
+		},function(){
+			$(this).removeClass("seling");
+		});	
+		//选中filter下所有的dt标签，并且为dt标签后面的第一个dd标签下的a标签添加样式seled。
+		$("#filter dt+dd a").attr({"class":"seled",'id':'select_tj'}); 
+		//为filter下的所有a标签添加单击事件
+		$("#filter a").click(function(){
+			var obj = $(this).parent().parent().parent().find("a");
+			for(var i=0;i<obj.length;i++){
+				$(obj[i]).removeClass("seled").attr('id','');
+			}
+			$(this).addClass("seled").attr('id','select_tj');
+			//抓取排序的条件
+			var ord = "";
+			$(".tip-row .tip-text-order").each(function(){
+				if($(this).css('background-color')=='rgb(0, 176, 236)'){
+					//price
+					if($(this).find('label').html()=='按价格'){
+						if($(this).find('i').css('background-position')=='0px -12px'){
+							ord = "order by Price asc";
+						}else{
+							ord = "order by Price desc";
+						}
+					}else if($(this).find('label').html()=='按时间'){
+						if($(this).find('i').css('background-position')=='0px -12px'){
+							ord = "order by TimeUnit asc";
+						}else{
+							ord = "order by TimeUnit desc";
+						}
+					}else{
+						ord = "";
+					}
+				}
+			});
+			bindProDiv(ord);
+		});
+	});
+	function orderBy(type,obj){
+		var ord = "";
+		$(".tip-row .tip-text-order").css({'color':'#666666','background':'#fff','border':'1px solid #ccc','font-weight':''});
+		$(obj).css({'background':'#00b0ec','border':'1px solid #00b0ec','font-weight':'bold','color':'#fff'});
+		if(type=='price'){
+			if($(obj).find('i').css('background-position')=='0px -12px'){
+				//desc
+				$(obj).find('i').css('background-position','0px 0px');
+				ord = "order by Price desc";
+			}else{
+				//asc
+				$(obj).find('i').css('background-position','0px -12px');
+				ord = "order by Price asc";
+			}
+		}else if(type=='timeUnit'){
+			if($(obj).find('i').css('background-position')=='0px -12px'){
+				//desc
+				$(obj).find('i').css('background-position','0px 0px');
+				ord = "order by TimeUnit desc";
+			}else{
+				//asc
+				$(obj).find('i').css('background-position','0px -12px');
+				ord = "order by TimeUnit asc";
+			}
+		}else{
+			ord = "";
+		}
+		bindProDiv(ord);
+	}
+	function bindProDiv(ord){
+		var network = '',price = '',str="";
+		if($("#network #select_tj").attr('rel')=='' || typeof($("#network #select_tj").attr('rel'))=='undefined'){					
+			network = '';
+		}else{
+			network = $("#network #select_tj").attr('rel');	
+		}
+		if($("#price #select_tj").attr('rel')=='' || typeof($("#price #select_tj").attr('rel'))=='undefined'){
+			price = '';
+		}else{
+			price = $("#price #select_tj").attr('rel');
+		}
+		$.ajax({
+			url:'__APP__/Index/findBandWidth',
+			type:'post',
+			data:{'order':ord,'network':network,'price':price},
+			async:false,
+			success:function(data){
+				$(".myData").empty();
+				if(data.data){
+					if(data.data['bandWidth']){
+						var type="'bandwidth'";
+						for(var i=0;i<data.data['bandWidth'].length;i++){
+							str += '<tr><td>'+data.data['bandWidth'][i].Name+'</td><td>'+data.data['bandWidth'][i].Type+'</td><td>'+data.data['bandWidth'][i].Price+' 元/'+data.data['bandWidth'][i].TimeUnit+'</td><td style="border-right:none;"><a href="javascript:void(0);" onclick="addCart('+type+','+data.data['bandWidth'][i].ID+')">购买</a></td></tr>';	
+						}
+					}
+					if(data.data['bandWidthExt']){
+						var type="'bandwidthExt'";
+						for(var i=0;i<data.data['bandWidthExt'].length;i++){
+							str += '<tr><td>'+data.data['bandWidthExt'][i].Name+'</td><td>'+data.data['bandWidthExt'][i].Type+'</td><td>'+data.data['bandWidthExt'][i].Price+' 元/'+data.data['bandWidthExt'][i].TimeUnit+'</td><td style="border-right:none;"><a href="javascript:void(0);" onclick="addCart('+type+','+data.data['bandWidthExt'][i].ID+')">购买</a></td></tr>';	
+						}
+					}
+				}else{
+					str = '<tr><td colspan="4">没有找到相关记录</td></tr>';
+				}				
+				$(".myData").html(str);
+			},
+			error:function(data){
+				$("#error_msg").css('color','red').html("提示信息："+data.statusText);
+			}
+		});
+	}
+</script>
+
+<div class="sortbox">	
+    <div class="siftbox clearfix">                
+        <span class="label">筛选条件</span>                    
+        <div id="condition"></div>                    
+    </div>                                                            
+    <div id="filter">
+    	<dl class="clearfix" id="network">
+            <dt>网络：</dt>
+            <dd><div><a>全部</a></div></dd>
+            <volist name="netList" id="nl">                               	
+                <dd><div><a rel="{$nl.Type}">{$nl.Type}</a></div></dd>
+            </volist>
+        </dl>
+        <dl class="clearfix" id="price">
+            <dt>价格：</dt>
+            <dd><div><a>全部</a></div></dd>
+            <dd><div><a rel="0-4499">0-4499</a></div></dd>
+            <dd><div><a rel="4500-4999">4500-5999</a></div></dd>
+            <dd><div><a rel="6000-6999">5999-6999</a></div></dd>
+            <dd><div><a rel="7000-9999">7000-9999</a></div></dd>
+            <dd><div><a rel="10000">10000以上</a></div></dd>
+        </dl>        
+    </div>                                                
+</div>
+<div class="form" style="border-bottom:solid 1px #e4e4e4">
+    <div class="row">
+        <div class="tip-row">
+            <span class="tip-text">排序方式：</span>
+            <span class="tip-text-order" onclick="orderBy('default',this)">
+                <label style="padding:3px 5px 3px 3px;">默认</label>
+            </span>
+            <span class="tip-text-order" onclick="orderBy('price',this)">
+                <label style="margin-left:3px;">按价格</label><i class="icon-info"></i>
+            </span>
+            <span class="tip-text-order" onclick="orderBy('timeUnit',this)">
+                <label style="margin-left:3px;">按时间</label><i class="icon-info"></i>
+            </span>
+            <span class="tip-text" style="width:300px; float:right;" id="error_msg"><!--提示信息：--></span>
+        </div>
+    </div>
+</div>
+<table>
+	<thead>
+        <tr>
+            <th width="300">描述</th>
+            <th>类型</th>
+            <th>心动价</th>
+            <th style="border-right:none;"></th>
+        </tr>
+    </thead>
+    <tbody class="myData">
+        <volist name="List" id="item">    
+        <tr>
+            <td width="300">{$item.Name}</td>
+            <td>{$item.Type}</td>
+            <td>{$item.Price} 元/{$item.TimeUnit}</td>
+            <td style="border-right:none;"><a href="javascript:void(0)" onclick="addCart('bandwidth',{$item.ID})">购买</a></td>
+        </tr>    
+        </volist>
+        <volist name="List_ext" id="item">    
+        <tr>
+            <td width="300">{$item.Name}</td>
+            <td>{$item.Type}</td>
+            <td>{$item.Price|number_format=###,2} 元/{$item.TimeUnit}</td>
+            <td style="border-right:none;"><a href="javascript:void(0)" onclick="addCart('bandwidthExt',{$item.ID})">购买</a></td>
+        </tr>    
+        </volist>
+    </tbody>
+</table>

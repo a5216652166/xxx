@@ -1,0 +1,54 @@
+/*---用户中心基本资料修改 by siwei.ransw----*/
+.cc{zoom:1;}
+.cc:after{content:'\20';display:block;height:0;clear:both;visibility: hidden;}
+.c{clear:both;height:0;font:0/0 Arial;overflow:hidden;width:0;}
+.aliyun-form-wrap{font-size: 12px;}
+.aliyun-form-wrap p.toptips{ color: #666; padding: 5px 0 10px 0}
+.aliyun-form-wrap .mr5{ margin-right: 5px !important;}
+.aliyun-form-wrap .len1{ width: 60px !important;}
+.aliyun-form-wrap .len2{ width: 120px !important;}
+.aliyun-form-wrap .len3{ width: 180px !important;}
+.aliyun-form-wrap .len4{ width: 240px !important;}
+.aliyun-form-wrap .len5{ width: 300px !important;}
+.aliyun-form-wrap .len6{ width: 360px !important;}
+.aliyun-form-wrap fieldset,.aliyun-form-wrap fieldset legend{ border: none;margin: 0;padding: 0}
+.aliyun-form-wrap .pb5{ padding-bottom: 5px !important;}
+.aliyun-form-wrap input.ipt{
+    font-size:12px;
+    color:#333;
+    padding:5px;width:170px!important;;border-radius:3px;border:1px solid #ccc;
+    box-shadow:0 1px 5px #f2f2f2 inset;
+    margin-right:10px;
+    vertical-align:middle;
+    color:#666;
+}
+.J_Item{
+	 font-size:12px;
+    color:#333;
+    padding:5px;width:170px!important;;border-radius:3px;border:1px solid #ccc;
+    box-shadow:0 1px 5px #f2f2f2 inset;
+    vertical-align:middle;
+    color:#666;
+}
+.aliyun-form-wrap p.tips{ color: #999}
+.aliyun-form-wrap fieldset legend{ font-size: 14px; color: #666;font-weight: bold}
+.aliyun-form-wrap fieldset{ padding: 0 0 30px 0;}
+.aliyun-form-wrap fieldset legend{ padding: 0 0 15px 0;}
+.aliyun-form-wrap dl.row{ padding: 0 0 10px 25px; clear: both;overflow: hidden;}
+.aliyun-form-wrap dl.row dt{float: left;width: 165px;font-size: 12px;color: #666;  line-height: 27px; overflow: hidden;vertical-align: middle; text-align: right; height: 27px; font-weight: 100;}
+.aliyun-form-wrap dl.row dt em{color: #f00;}
+.aliyun-form-wrap dl.row dd{ padding: 0 0 0 25px;float: left; line-height: 27px; }
+.aliyun-form-wrap dl.row dd label{width: 100px; display: inline-block;}
+
+span.mtip-right, span.mtip-error{display:inline-block;*display:inline;*zoom:1; vertical-align:middle!important; margin-left:5px; padding:0 5px; height:26px!important; line-height:26px!important; color:#13A821; font-size:12px!important;}
+ span.mtip-right, span.mtip-error{ padding-left:25px; color: #EE4F11; background:url(../../images/user-center/validata-bg.gif) no-repeat 0 -27px!important;}
+span.mtip-right{ color:#13A821; background-position:0 5px!important;}
+
+.submit-error-tips{height: 36px; background: #fff1f1; margin: 20px 0;}
+.submit-error-tips .error-inner{ padding: 10px 0 0 20px;}
+.submit-error-tips .error-inner h3{ color: #f03d3d;background: url(../../images/user-center/submit-error.png) 0 2px no-repeat;padding: 0 0 0 24px;font-size: 12px; font-weight: 100;}
+/*成功之后弹出框提示*/
+.dialog-ok-tips{ padding: 20px 40px 40px;}
+.dialog-ok-tips h3{ height: 25px; line-height: 25px; color: #333; font-size: 16px; background: url(../../images/user-center/submit-ok.png) no-repeat;  padding: 0 0 3px 38px;}
+
+.dialog-ok-tips p{font-size: 12px; line-height: 20px; padding-left: 38px;}

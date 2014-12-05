@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="data-spm" content="5176">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+    <link rel="stylesheet" href="__ROOT__/Public/css/footer.css">
+    <script src="__ROOT__/Public/js/jquery-1.8.1.min.js"></script>
+    <script src="__ROOT__/Public/js/common.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+			$("#sidebar_ul li:eq(3)").css('background','#f0f0f0');
+			$("#sidebar_ul li:eq(3) a span").css('color','#06c');
+		});
+    </script>
+    <title>睿江科技开放服务平台 - 用户中心</title>
+</head>
+<body class="page-account">
+<include file="Public:head_user" />
+<!-- 内容 S -->
+<div class="uc-bd" style="background:#fff;">
+	<div class="y-row uc-layer">
+		<div class="y-span12">
+			<div class="uc-content">
+				<div class="mt10 clearfix" id="main">
+				<include file="Public:sidebar" />
+					<div id="content" style="width:800px; float:right;margin-top: 10px;">
+						<include file="Public:memu" />
+						<div class="uitopb uitopb-border" style="float: left; margin-bottom:130px;">
+						    <ul class="tabs">
+							<li><a href="javascript:void(0);" class="current" target="_self" id="order-btn">我的机柜&amp;机位</a></li>
+						    </ul>
+						    <div id="myData" class="site-iframe-c" style="width: 797px;">
+							<div class="y-span10 y-last">
+							    <div>
+								<div id="main" class="container clearfix">
+								    <div id="content" style="float: left; width: 797px;">
+									<div class="">
+									    <div id="order-list" class="tabledv" style="display: block;">
+										<table>
+										    <thead>
+											<tr>
+											    <th class="tacenter">机柜名称</th>
+											    <th class="tacenter">区域</th>
+											    <th class="tacenter">行数</th>
+											    <th class="tacenter">列数</th>
+											    <th class="tacenter">时间</th>
+											</tr>
+										    </thead>
+										    <tbody id="cash-tbinfo">
+                                            <if condition="$cabinetListCount==0">
+                                                <tr class="alt">
+                                                    <td class="tacenter" colspan="6" style="padding: 20px;"><span class="ico ico-warning">没有找到相关数据!</span></td>
+                                                </tr>
+                                            <else/>
+                                            	<volist name="cabinetList" id="c">
+                                                <tr>
+                                                    <td class="tacenter">{$c.Name}</td>
+                                                    <td class="tacenter">{$c.AreaName}</td>
+                                                    <td class="tacenter">{$c.Row}</td>
+                                                    <td class="tacenter">{$c.Col}</td>
+                                                    <td class="tacenter">{$c.TS}</td>
+                                                </tr>
+                                                </volist>
+                                            </if>
+										    </tbody>
+										</table>
+									    </div>
+									</div>
+								    </div>
+								</div>
+							    </div>
+							</div>
+							</div>
+                        </div>
+                    </div>
+                </div><!-- iframe E -->
+				    	
+<script>// JavaScript Document
+(function (win, doc) {
+    win.iframeAdaptiveHeight = function (height) {
+        var iframe = $('.site-iframe-a, .site-iframe-b, .site-iframe-c');
+        iframe.css('height', height).next().css('display', 'none');
+    }
+	
+	    $(doc).ready(function () {
+	
+	        var ifrA = $('.site-iframe-a'),
+	            ifrB = $('.site-iframe-b'),
+	            ifrC = $('.site-iframe-c');
+	
+	
+	        if (ifrA.length > 0) {
+	            ifrA.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrB.length > 0) {
+	            ifrB.attr('src', $('.site-hidden').val());
+	        }
+	
+	        if (ifrC.length > 0) {
+	            ifrC.attr('src', $('.site-hidden').val());
+	        }
+	
+	        $('#content .tabs a').click(function () {
+	            var t = $(this),
+				tabs = $('#content .tabs a'),
+				url = t.attr('data-url');
+				/*
+	            tabs.removeClass('current');
+	            t.addClass('current');
+	            ifrC.css('height', 0)
+	                    .next()
+	                    .css('display', 'block');
+	
+	            ifrC.attr('src', url);*/
+				//点击修改表格内容
+				$(".tabs a").removeClass('current');
+				$(this).addClass('current');
+				$("#myData table").empty();
+				$("#myData table").html('<thead><tr><th class="tacenter">订单号</th><th class="tacenter">产品名称</th><th class="tacenter">金额</th><th class="tacenter">状态</th><th class="tacenter">创建时间</th><th class="tacenter">支付时间</th></tr></thead><tbody id="cash-tbinfo"><tr class="alt"><td class="tacenter" colspan="6" style="padding: 20px;"><span class="ico ico-warning">没有找到相关数据!</span></td></tr></tbody>');
+	        });
+	
+	    });
+	
+	})(window, document); 
+</script>	
+				    	
+				    	
+			    	</div>
+		    	</div>
+	    	</div>	    	
+    	</div>
+    	<!-- 内容 E -->
+        
+<!--footer-->
+<include file="Public:footer_login" />
+</body>
+</html>
