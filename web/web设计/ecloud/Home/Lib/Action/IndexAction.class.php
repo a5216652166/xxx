@@ -190,24 +190,26 @@ class IndexAction extends Action {
 			//控制台
 			//$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->getField("ContractCode",true);
 			$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->select();
-			
+			$vpsLists = array();
 			if(!empty($rslt)){
-				foreach($rslt as $val){	
+				foreach($rslt as $key => $val){
 					$data = file_get_contents(C('INTERFACE_URL')."/ibss/dev_query.php?opt=get_by_contract&Contract_Code=".$val['ContractCode']."&Dev_Type=vps");
 					$vpsList = json_decode($data,true);
-					foreach($vpsList as $key => $value){
-						$data2 = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code']);
-						$tem = json_decode($data2,true);
-						$value['vmStatus'] = $tem['result'];
-						$value['MyCode'] = substr($value['Code'],0,8);
-						$value['Order_ID'] = $val['ID'];
-						$ip_arr = explode(';',$value['IP_Addr']);
-						if($ip_arr == 1){
-							$value['IP_Addr'] = str_replace(';','',$value['IP_Addr']);
-						}else{
-							$value['IP_Addr'] = str_replace(';','<p/>',$value['IP_Addr']);
+					if(!empty($vpsList)){
+						foreach($vpsList as $value){
+							$data2 = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code']);
+							$tem = json_decode($data2,true);
+							$value['vmStatus'] = $tem['result'];
+							$value['MyCode'] = substr($value['Code'],0,8);
+							$value['Order_ID'] = $val['ID'];
+							$ip_arr = explode(';',$value['IP_Addr']);
+							if(count($ip_arr) == 1){
+								$value['IP_Addr'] = str_replace(';','',$value['IP_Addr']);
+							}else{
+								$value['IP_Addr'] = str_replace(';','<p/>',$value['IP_Addr']);
+							}
+							$vpsLists[$key] = $value;
 						}
-						$vpsLists[$key] = $value;
 					}
 				}
 				//插入续费表信息
@@ -258,22 +260,8 @@ class IndexAction extends Action {
 				}
 				
 				$this->assign('vpsList', $vpsLists);
+				
 			}		
-			/*if(!empty($rslt)){
-				$str = join(",", $rslt);
-				$str = trim($str,",'");
-				$data = file_get_contents(C('INTERFACE_URL')."/ibss/dev_query.php?opt=get_by_contract&Contract_Code=".$str."&Dev_Type=vps");
-				$vpsList = json_decode($data,true);
-				foreach($vpsList as $key => $val){
-					$data2 = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$val['Code']);
-					$tem = json_decode($data2,true);					
-					$vpsList[$key]['vmStatus'] = $tem['result'];
-					$vpsList[$key]['MyCode'] = substr($val['Code'],0,8);
-					
-				}
-				$this->assign('vpsList', $vpsList);
-			}*/
-		
 			$this->assign('balance',$this->returnBalance());
 			$this->assign('login',$ret);
 			$this->assign('today',date("Y-m-d"));
