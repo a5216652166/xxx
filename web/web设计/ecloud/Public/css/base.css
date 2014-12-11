@@ -27,7 +27,7 @@ html .btn-primary:hover,html .btn-primary:focus,html .btn-primary:active,html .b
 @media (min-width:769px){html .navbar-static-top.navbar{height:64px}}
 html .navbar-collapse{max-height:400px}
 html .navbar-static-top{background-color:#0089b7}
-html .navbar-static-top #logo{margin-top: -15px;background-position:0 -130px;height:50px;margin-right:120px}
+html .navbar-static-top #logo{margin-top: -15px;background-position:0 -130px;height:50px;margin-right:40px !important;}
 html .navbar-static-top .navbar-nav li{min-width:94px;text-align:center}
 html .navbar-static-top .navbar-nav li a{line-height:34px}
 html .navbar-static-top .navbar-nav .active a,html .navbar-static-top .navbar-nav a{color:#fff;font-size:16px;font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif}

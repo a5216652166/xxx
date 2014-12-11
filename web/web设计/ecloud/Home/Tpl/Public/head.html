@@ -98,7 +98,13 @@
       </ul>
       <ul class="nav navbar-nav navbar-right " id="account_ul">
       	<if condition="$_SESSION['user'] neq '' ">
-            <li><a href="__APP__/Index/account"><!--{$_SESSION['user']}-->我的控制台</a></li>
+            <li>
+            <a href="javascript:void(0);" onclick="showUserInfo(this)">{$_SESSION['user']}<span class="caret"></span><!--我的控制台--></a>
+            <ul class="userinfo_ul">
+            	<li><a href="__APP__/Index/account">用户中心</a></li>
+            	<li style="border-top:1px dashed #ccc;"><a href="__APP__/Index/console">控制台管理</a></li>
+            </ul>
+            </li>
             <li><a href="__APP__/Index/logout">退出</a></li>
             <else/>
             <li id="nav_login"><a href="javascript:void(0);" onclick="showLogin()">登录</a></li>
@@ -152,11 +158,37 @@ $(function(){
 .izl-rmenu .btn-phone .phone{background-color:#ff811b;position:absolute;width:220px;left:-220px;top:0px;line-height:73px;color:#FFF;font-size:18px;text-align:center;display:none;height:72px;}
 /*.izl-rmenu .btn-top{background:url(../images/r_top.png) 0px 0px no-repeat;background-color:#666666;display:none;}
 .izl-rmenu .btn-top:hover{background-color:#444;}*/
+
+
+/****************user****************/
+.userinfo_ul{list-style:none; border:1px solid #ccc; border-top:none; display:none; background:#fff;position: absolute;}
+.userinfo_ul li{ cursor:pointer}
+.userinfo_ul li a:hover{ background:#54b6da !important;color:#fff !important;}
+.userinfo_ul li a{ display:block; background:#fff !important; color:#666 !important; height:50px; line-height:50px !important; text-decoration:none !important; width:174px;}
 </style>
 <div id="top"></div>
 <script type="text/javascript" src="__ROOT__/Public/js/script.js"></script>
 <script type="text/javascript">
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F1fe31f014cf8885689e3e1fd58a6b6c8' type='text/javascript'%3E%3C/script%3E"));
+
+var stopPropagation = function(e) {
+	if(e && e.stopPropagation){         //W3C取消冒泡事件         
+		e.stopPropagation();     
+	}else{         //IE取消冒泡事件        
+		window.event.cancelBubble = true;     
+	} 
+};
+$(function(){
+	$('html').bind('click',function(e){
+		if($(".userinfo_ul").is(":visible")){
+			$(".userinfo_ul").slideToggle();
+		}
+	});
+});
+function showUserInfo(e){
+	$(".userinfo_ul").slideToggle();
+	stopPropagation(e);
+}
 </script>
 

@@ -29,13 +29,12 @@
 					$(".content_tab ul li:eq(0)").show();
 					hide('订单详情');
 				break;
-				case '用户信息':
+				/*case '用户信息':
 					$(".content_tab ul li:eq(1)").show();
 					hide('用户信息');
-				break;
+				break;*/
 				case '控制面板':
-					$(".content_tab ul li:eq(2)").show();
-					
+					$(".content_tab ul li:eq(1)").show();					
 					hide('控制面板');
 				break;				
 				default:
@@ -735,39 +734,6 @@
 				}
 			});
 		}
-		function sendMail(){
-			layer.load('请在邮箱激活!');
-			$.ajax({
-				url:'__APP__/Index/sendMail',
-				type:'post',
-				async:false,
-				success:function(data){
-					if(data.info=="error"){
-						layer.msg('温馨提示：'+data.data,2,3);	
-					}
-				},
-				error:function(data){
-					layer.msg('温馨提示：'+data.statusText,2,3);
-				}
-			});
-			_interval = setInterval(function (){checkBuy();},3000);
-		}
-		function checkBuy(){
-			$.ajax({
-				url:'__APP__/Index/checkAudit',
-				type:'post',
-				async:false,
-				success:function(data){
-					if(data.data==1){
-						clearInterval(_interval);
-						window.top.location.reload();
-					}
-				},
-				error:function(data){
-					layer.msg('温馨提示：'+data.statusText,2,3);
-				}
-			});
-		}
     </script>
 </head>
 <body>
@@ -775,184 +741,185 @@
 	<div class="account">
     	<div class="container text-font dashboard-nav">
           <ul class="nav nav-tabs" id="main-tab">
-            <!--li class="active">
-              <a href="javascript:void(0);" onClick="tab(this)">订单详情</a>
-            </li-->
             <li class="active">
-                <a href="javascript:void(0);" onClick="tab(this)">用户信息</a>
+              <a href="javascript:void(0);" onClick="tab(this)">订单详情</a>
             </li>
             <!--li class="no_active">
-              <a href="javascript:void(0);" onClick="tab(this)">控制面板</a>
+                <a href="javascript:void(0);" onClick="tab(this)">用户信息</a>
             </li-->
+            <li class="no_active">
+              <a href="javascript:void(0);" onClick="tab(this)">控制面板</a>
+            </li>
     		<span class="error_msg"></span>
+          <!--span id="balance-span" class="hidden-xs hidden-sm" >
+            当前余额:<span id="balance" class="money">0.00</span>
+          </span-->
+    
           </ul>
         </div>
         <div class="content_tab">
         	<ul>
-                <li style="display:block">
-                	<div class="tab-page">
-                            <!-- 个人 -->
-                            <if condition="$login.ObjType == 1">
-                            	<div id="psn_info_err" style="display:none;"><img src="__ROOT__/Public/images/bonus.png"/><label style="margin-left:20px;color:red">请完善您的用户信息</label></div>
-                                <form id="person_form" action="" method="post">    
-                                    <input type="hidden" name="ID" value="{$relt.ID}"/>                   
-                                    <table class="companyfrom">
-                                        <tr>
-                                            <td>用户名:</td>
-                                            <td>
-                                            {$login.Name}
-                                            <if condition="$login.Audit == 0">
-                                            	<a href="javascript:void(0);" onClick="sendMail()" style="padding-left: 65px;">激活账户</a>
-                                            </if>
-                                            </td>                                           
-                                        </tr>
-                                        <tr>
-                                            <td>密码:</td>
-                                            <td>••••••<a id="reset-pwd" href="javascript:void(0)" onClick="before_updatepwd()" style="margin-left:160px;">修改</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>真实姓名:</td>
-                                            <td>
-                                                <input type="text" tabindex="1" id="psn_TrueName" name="TrueName" value="{$relt.TrueName}" onFocus="hideMsg(this)" onBlur="checkName(this)" />
-                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的真实姓名</span>
+            	<li style="display:block;">
+                	<table class="table table-hover" style="border-left: none!important;border-right: none!important;">
+                        <thead>
+                            <tr style="background:url(__ROOT__/Public/images/formbg.png) repeat-x!important;">
+                                <th style="text-align: center;padding-top: 13px;">编号</th>
+                                <th style="text-align: center;">详情</th>
+                                <!--th order_by="end_at" style="width: 72px;text-align: center;">购买时间</th-->
+                                <th style="text-align: center;">支付时间</th>
+                                <th style="text-align: center;">类型</th>
+                                <th style="text-align: center;">价格</th>
+                                <th style="text-align: center;">当前状态</th>
+                                <th style="text-align: center; width:132px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mydata" align="center" style="color:#333;">
+		                    <if condition="count($ordlist) == 0">
+                            	<tr><th colspan="7">暂无订单，立即<a href="__APP__/Index/buy" title="购买">购买</a></th></tr>
+                            	<else/>
+                                <volist name="ordlist" id="item">
+                                <tr style="">
+                                    <td style="width:120px;">{$item.Code}</td>
+                                    <td>
+                                    {$item.CPU}CPU {$item.RAM}内存 {$item.DISK}G磁盘
+                                    <if condition="$item.BandWidthIPLC != 0">
+                                        {$item.BandWidthIPLC}M国际BGP带宽
+                                        <else/>{$item.BandWidthBGP}M国内BGP带宽 
+                                    </if>
+                                    </td>
+                                    <!--td>{$item.CreateTS}</td-->
+                                    <if condition="$item.PayTS == '0000-00-00 00:00:00'">
+                                        <td>-</td>
+                                        <else/>
+                                        <if condition="substr($item['PayTS'],0,10) == $today">
+                                        	<td style="color:#0F0">{$item.PayTS}</td>                     
+                                            <else/>
+                                        	<td>{$item.PayTS}</td>                     
+                                        </if>
+                                    </if>
+                                    <td>{$item.Type}</td>
+                                    <td style="color:red;">-{$item.Money}</td>
+                                    <if condition="$item.IsPay == 0">
+                                        <td>未支付</td>                                    
+                                        <td>
+                                            <a href="javascript:void(0);" onClick="payment({$item.Order_ID},'{$item.Type}',{$item.Old_Order_ID},'{$item.Time}',{$item.Money})">去付款</a> | 
+                                            <a href="javascript:void(0);" onClick="deleteOrder({$item.Order_ID})">取消订单</a>
+                                        </td>
+                                        <else/><td>已支付</td>
+                                        <if condition="$item.Type == '续费'">
+                                        	<td>-</td>
+                                            <else/>
+                                            <td>                                    	
+                                                <a href="javascript:void(0);" onClick="showInfo({$item.Order_ID},this)">展开</a>                                        
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>身份证号码:</td>
-                                            <td>
-                                            	<input type="text" tabindex="2" id="psn_IDNum" name="IDNum" value="{$relt.IDNum}" onFocus="hideMsg(this)" onBlur="checkCode(this)"/>                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的身份证号码</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>证件地址:</td>
-                                            <td><input type="text" tabindex="3" name="Address" value="{$relt.Address}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>手机号码:</td>
-                                            <td>
-                                            	<input type="text" tabindex="4" id="psn_Phone" name="Phone" value="{$relt.Phone}" onFocus="hideMsg(this)" onBlur="checkPhone(this)"/>
-                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的手机号码</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>联系地址:</td>
-                                            <td><input type="text" tabindex="5" name="Address_" value="{$relt.Address_}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="180">个人备案/许可证号:</td>
-                                            <td><input type="text" tabindex="6" name="BeiAn" value="{$relt.BeiAn}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="180">账户余额</td>
-                                            <td>
-                                            ¥ <label style="color:red" class="money">{$balance|number_format=###,2}</label>
-                                            <a href="javascript:void(0);" style="margin-left:50px" onClick="useCoupon()">使用代金券充值</a>
-                                            </td>
-                                        </tr>                                        
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <input type="button" style="float: left;" onClick="saveUser()" value="保存"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </form>
-                                </div>
-                                <else/>
-                                <!-- 企业 -->
-                            	<div id="com_info_err" style="display:none;"><img src="__ROOT__/Public/images/bonus.png"/><label style="margin-left:20px;color:red">请完善您的用户信息</label></div>
-                                <form id="company_form" action="" method="post">    
-                                    <input type="hidden" name="ID" value="{$relt.ID}"/>                   
-                                    <table class="companyfrom">
-                                        <tr>
-                                            <td>用户名:</td>
-                                            <td>
-                                            {$login.Name}
-                                            <if condition="$login.Audit == 0">
-                                            	<a href="javascript:void(0);" onClick="sendMail()" style="padding-left: 65px;">激活账户</a>
-                                            </if>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>密码:</td>
-                                            <td>••••••<a id="reset-pwd" href="javascript:void(0)" onClick="before_updatepwd()" style="margin-left:160px;">修改</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>企业名称:</td>
-                                            <td>
-                                            	<input type="text" tabindex="1" id="com_CompanyName" name="CompanyName" value="{$relt.CompanyName}" onFocus="hideMsg(this)" onBlur="checkName(this)"/>
-                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的企业名称</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="180">组织机构代码:</td>
-                                            <td><input type="text" tabindex="2" name="CompanyCode" value="{$relt.CompanyCode}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>证件住址:</td>
-                                            <td><input type="text" tabindex="3" name="Address" value="{$relt.Address}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>法人姓名:</td>
-                                            <td>
-                                            	<input type="text" tabindex="4" id="com_LegalPersonName" name="LegalPersonName" value="{$relt.LegalPersonName}" onFocus="hideMsg(this)" onBlur="checkName(this)"/>
-                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的法人姓名</span>
-                                           	</td>
-                                        </tr>
-                                        <tr>
-                                            <td>法人手机号码:</td>
-                                            <td>
-                                            	<input type="text" tabindex="5" id="com_LegalPersonPhone" name="LegalPersonPhone" value="{$relt.LegalPersonPhone}" onFocus="hideMsg(this)" onBlur="checkPhone(this)"/>
-	                                            <span style="color:red;margin-left:10px;display:none;">请填写正确的法人手机号码</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="180">企业备案/许可证号:</td>
-                                            <td><input type="text" tabindex="6" name="BeiAn" value="{$relt.BeiAn}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="180">联系人姓名:</td>
-                                            <td>
-                                            	<input type="text" tabindex="7" id="com_LinkmanName" name="LinkmanName" value="{$relt.LinkmanName}" onFocus="hideMsg(this)" onBlur="checkName(this)"/>
-                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的联系人姓名</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>联系人身份证:</td>
-                                            <td>
-                                            	<input type="text" tabindex="8" id="com_LinkmanIdNum" name="LinkmanIdNum" value="{$relt.LinkmanIdNum}" onFocus="hideMsg(this)" onBlur="checkCode(this)"/>
-                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的联系人身份证</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>联系人手机:</td>
-                                            <td>
-                                            	<input type="text" tabindex="9" id="com_LinkmanPhone" name="LinkmanPhone" value="{$relt.LinkmanPhone}" onFocus="hideMsg(this)" onBlur="checkPhone(this)"/>
-                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的联系人手机</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>联系地址:</td>
-                                            <td><input type="text" tabindex="10" name="LinkmanAdd" value="{$relt.LinkmanAdd}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="180">账户余额</td>
-                                            <td>
-                                            ¥ <label style="color:red" class="money">{$balance|number_format=###,2}</label>                                            
-                                            <a href="javascript:void(0);" style="margin-left:50px" onClick="useCoupon()">使用代金券充值</a>
-                                            </td>
-                                        </tr>                             
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <input type="button" style="float: left;" onClick="saveUser()" value="保存"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </form>
-                            </div>
-                      </if>
+                                        </if>
+                                    </if>
+                                </tr>
+                                </volist>
+                            </if>
+                        </tbody>
+                  </table>
                 </li>                
+                <li id="console">
+                	<table class="table table-no-hover" style="border-left: none!important;border-right:none!important;">
+                        <thead>
+                            <tr style="background:url(__ROOT__/Public/images/formbg.png) repeat-x!important;">
+                                <th style="text-align: center;padding-top: 13px;"></th>
+                                <th style="text-align: center;width:105px;">品牌</th>
+                                <th style="text-align: center;width:280px;">型号/主机编号</th>
+                                <th style="width:102px;text-align: center;">状态</th>
+                                <th style="text-align: center;width:104px;">类型</th>
+                                <th style="text-align: center;">到期时间</th>
+                                <th style="text-align: center; width:202px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mydata" align="center">
+		                    <if condition="count($vpsList) == 0">
+                            	<tr><th colspan="7">暂无设备</th></tr>
+                                <else/>
+                            	<volist name="vpsList" id="v">
+                                    <tr style="">
+                                        <td class="tacenter"><input type="checkbox" order_id="{$v.Order_ID}" code="{$v.Code}" id="{$v.ID}" expire="{$v.is_expire}" /></td>
+                                        <td class="tacenter">{$v.Brand}</td>
+                                        <td class="tacenter">{$v.No}/{$v.Code}</td>
+                                        <if condition="$v.vmStatus == 'poweredOff'">
+                                        	<td class="tacenter" id="ico_{$v.ID}"><img src="__ROOT__/Public/images/stop_status.png" style="margin-right:5px;" alt="停止状态"/>已关机</td>   
+                                         <else/>
+                                            <td class="tacenter" id="ico_{$v.ID}"><img src="__ROOT__/Public/images/run_status.png" style="margin-right:5px;" alt="运行状态"/>运行中</td>
+                                        </if> 
+                                        <td class="tacenter">{$v.Type}</td>
+                                        <if condition="$v.is_expire == 'yes'">
+                                        	<td class="tacenter" style="color:red">{$v.PayEnd}</td>
+                                        	<else/>
+                                        	<td class="tacenter">{$v.PayEnd}</td>
+                                        </if>
+                                        <td class="tacenter">
+                                        <a href="javascript:void(0);" onclick="showOpt(this,'{$v.Code}',{$v.ID})">查看详情</a> | 
+                                        <a href="javascript:void(0);" style="color:#ccc">升级</a> | 
+                                        <a href="javascript:void(0);" onclick="renewPay('one',{$v.Order_ID})">续费</a> | 
+                                        <a href="javascript:void(0);" onclick="showMore(this)">管理<span class="caret"></span></a>
+                                        <div class="more">
+                                        	<ul>
+                                                <if condition="$v.vmStatus == 'poweredOff'">
+                                                    <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="开机">开机</a></li>
+                                                    <li><a href="javascript:void(0);" style="color:#ccc" title="关机">关机</a></li>
+                                                    <else/>                                                    
+                                                    <li><a href="javascript:void(0);" style="color:#ccc" title="开机">开机</a></li>
+                                                    <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="关机">关机</a></li>
+                                                </if>
+                                            	<li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="重启">重启</a></li>
+                                            	<li><a href="javascript:void(0);" style="color:#ccc;">连接终端</a></li>
+                                            </ul>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="vpsinfo_{$v.ID}" style="display:none;height:20px;"></tr>
+                                    <tr class="vpsinfo_{$v.ID}" style="display:none; background: #f5f5f5">
+                                    	<td colspan="7">
+                                        	<div style="border-left:3px solid #0089b7;text-align:left;padding:2px 18px;font-weight:bold">云主机详情</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="vpsinfo_{$v.ID}" style="display:none">
+                                        <td colspan="2">IP</td> 
+                                    	<td colspan="2" width="300">配置</td>
+                                        <td>U数</td> 
+                                        <td>机房</td>  
+                                        <td>产权</td>
+                                    </tr>
+                                    <tr class="vpsinfo_{$v.ID}" style="display:none">
+                                    	<td colspan="2" style="border-right: 1px dashed #ccc;">{$v.IP_Addr}</td>
+                                    	<td colspan="2" style="border-right: 1px dashed #ccc;">CPU：{$v.CPU}&nbsp;&nbsp;内存：{$v.Ram}&nbsp;&nbsp;硬盘：{$v.Disk}</td>
+                                        <td style="border-right: 1px dashed #ccc;">{$v.UCount}</td>              
+                                        <td style="border-right: 1px dashed #ccc;">{$v.stockHouseName}</td>
+                                        <td >{$v.Property_Right}</td>                  
+                                        <!--td>
+	                                        <if condition="$v.vmStatus == 'poweredOff'">
+                                                <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="开机">
+                                                    <img src="__ROOT__/Public/images/start.png" alt="开机"/>
+                                                </a>
+                                                <else/>
+                                                <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="关机">                                            	
+                                                    <img src="__ROOT__/Public/images/stop.png" alt="关机"/>
+                                                </a>
+                                            </if>
+                                            <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="重启">
+                                                <img src="__ROOT__/Public/images/restart.png" alt="重启"/>
+                                            </a>
+                                        </td-->
+                                    </tr>
+                               	</volist>
+                            </if>
+                        </tbody>
+                  </table>                  
+                <div class="opt_div">
+                	<input type="checkbox" title="全选/反选" onClick="selectAll()"/>
+                	<button class="btn btn-default" disabled="disabled" onClick="batchOperationVM(this)">启动</button>
+                    <button class="btn btn-default" disabled="disabled" onClick="batchOperationVM(this)">停止</button>
+                    <button class="btn btn-default" disabled="disabled" onClick="batchOperationVM(this)">重启</button>
+                    <button class="btn btn-default" disabled="disabled" onClick="renewPay('all','')">续费</button>
+                    <button class="btn btn-default" disabled="disabled">重置密码</button>
+                </div>
+                </li>
             </ul>
         </div>
     </div>

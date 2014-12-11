@@ -169,7 +169,7 @@ class IndexAction extends Action {
 			$this->ajaxReturn($ret['ret'],'success',1);
 		}
 	}
-	//账户信息
+	//用户信息
 	public function account(){
 		if(!empty($_SESSION['user'])){
 			$login = M();
@@ -186,29 +186,74 @@ class IndexAction extends Action {
 				$company = M();
 				$relt = $company->table('Ad_Company')->where('ID='.$ret['ObjID'])->find();
 				$this->assign('relt',$relt);
-			}
+			}				
+			$this->assign('balance',$this->returnBalance());
+			$this->assign('login',$ret);
+			$this->display();
+		}else{
+			$this->redirect("/Index/login");
+		}
+	}
+	//账户信息
+	public function console(){
+		if(!empty($_SESSION['user'])){
+			$login = M();
+			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
+			$order = M();
+			$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' order by o.ID desc');
+			/*if($ret['ObjType']==1){
+				//个人	
+				$person = M();
+				$relt = $person->table('Ad_Person')->where('ID='.$ret['ObjID'])->find();
+				$this->assign('relt',$relt);
+			}else{
+				//企业	
+				$company = M();
+				$relt = $company->table('Ad_Company')->where('ID='.$ret['ObjID'])->find();
+				$this->assign('relt',$relt);
+			}*/
 			//控制台
 			//$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->getField("ContractCode",true);
 			$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->select();
+			$cou = 0;
 			$vpsLists = array();
 			if(!empty($rslt)){
-				foreach($rslt as $key => $val){
-					$data = file_get_contents(C('INTERFACE_URL')."/ibss/dev_query.php?opt=get_by_contract&Contract_Code=".$val['ContractCode']."&Dev_Type=vps");
-					$vpsList = json_decode($data,true);
-					if(!empty($vpsList)){
-						foreach($vpsList as $value){
-							$data2 = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code']);
-							$tem = json_decode($data2,true);
-							$value['vmStatus'] = $tem['result'];
-							$value['MyCode'] = substr($value['Code'],0,8);
-							$value['Order_ID'] = $val['ID'];
-							$ip_arr = explode(';',$value['IP_Addr']);
-							if(count($ip_arr) == 1){
-								$value['IP_Addr'] = str_replace(';','',$value['IP_Addr']);
-							}else{
-								$value['IP_Addr'] = str_replace(';','<p/>',$value['IP_Addr']);
+				foreach($rslt as $val){
+					if(!empty($val['ContractCode'])){
+						$data = file_get_contents(C('INTERFACE_URL')."/ibss/dev_query.php?opt=get_by_contract&Contract_Code=".$val['ContractCode']."&Dev_Type=vps");
+						$vpsList = json_decode($data,true);
+						if(!empty($vpsList)){
+							foreach($vpsList as $value){
+								
+								//$data2 = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code']);
+								//$tem = json_decode($data2,true);								
+								//$value['vmStatus'] = $tem['result'];
+								
+								$url[$value['Code']] = C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code'];
+								
+								$value['MyCode'] = substr($value['Code'],0,8);
+								$value['Order_ID'] = $val['ID'];
+								$ip_arr = explode(';',$value['IP_Addr']);
+								if(count($ip_arr) == 1){
+									$value['IP_Addr'] = str_replace(';','',$value['IP_Addr']);
+								}else{
+									$value['IP_Addr'] = str_replace(';','<p/>',$value['IP_Addr']);
+								}
+								$vpsLists[$cou] = $value;
+								$cou ++;
 							}
-							$vpsLists[$key] = $value;
+						}
+					}
+				}
+				foreach($url as $k => $v){
+					$rs[$k] = popen('curl -s -m 5 "'.$v.'"','r');
+				}
+				foreach($rs as $k => $v){
+					foreach($vpsLists as $kk => $value){
+						if($k == $value['Code']){
+							$data2 = fread($v,2096);
+							$tem = json_decode($data2,true);
+							$vpsLists[$kk]['vmStatus'] = $tem['result'];
 						}
 					}
 				}
@@ -338,6 +383,9 @@ class IndexAction extends Action {
 			if($pageContents2['ret']==0){
 				$data = array('IsPay'=>1,'ContractCode'=>$ret['error'],'PayTS'=>date('Y-m-d H:i:s'));
 				$Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data);
+				//推送事件
+				$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$ret['Code'].'","Type":"'.$ret['Type'].'","IsPay":'.$ret['IsPay'].',"ContractCode":"'.$ret['ContractCode'].'","Money":"'.$ret['Money'].'","AliPay":"'.$ret['AliPay'].'","BalancePay":"'.$ret['BalancePay'].'"}');
+				
 				$this->ajaxReturn(1,'success',1);
 			}else{
 				$this->ajaxReturn('订单状态修改失败，请联系管理员。','error',0);
@@ -352,6 +400,7 @@ class IndexAction extends Action {
 		
 		$data = file_get_contents(C('INTERFACE_URL')."/alipay/order_query.php?OrderCode=".$ret['Code']."&DepartCode=ESS");
 		$obj = json_decode($data,true);
+		
 		$this->ajaxReturn($obj[0]['Status'],'success',1);
 	}
 	//订单页面 去付款 余额支付
@@ -1012,6 +1061,9 @@ class IndexAction extends Action {
 							$_SESSION['type'] = $data["ObjType"];
 							$_SESSION['audit'] = $data["Audit"];
 							$_SESSION['userID'] = $ret;
+							
+							$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云用户注册&EventData={"ObjType":'.$data["ObjType"].',"GlobalCustom_ID":"'.$data["GlobalCustom_ID"].'","Name":"'.$data["Name"].'"}');
+							
 							$this->ajaxReturn($ret,'success',1);
 						} else {
 							$this->ajaxReturn("注册用户失败，请稍后再试！",'error',0);
@@ -1061,6 +1113,9 @@ class IndexAction extends Action {
 							$_SESSION['audit'] = $data["Audit"];
 							$_SESSION['name'] = $_POST['companyname'];
 							$_SESSION['userID'] = $ret;
+							
+							$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云用户注册&EventData={"ObjType":'.$data["ObjType"].',"GlobalCustom_ID":"'.$data["GlobalCustom_ID"].'","Name":"'.$data["Name"].'"}');
+							
 							$this->ajaxReturn($ret,'success',1);
 						} else {
 							$this->ajaxReturn("企业用户注册失败，请稍后再试！",'error',0);
