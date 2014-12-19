@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/account.css">    
+	<include file="Public:common"/>
+    <style type="text/css">.no_color:hover{ background:red;}</style>
+    <script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+    <script type="text/javascript">
+    	var APP = "__APP__",ROOT = "__ROOT__",balance = '{$balance}',USER = "{$_SESSION['user']}",USERTYPE = "{$_SESSION['type']}";
+    </script>
+    <script type="text/javascript" src="__ROOT__/Public/js/util.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/account.js"></script>
+</head>
+<body>
+	<include file="Public:head"/>
+	<include file="Public:user_menu"/>
+    <div style="margin:0 auto; width:1024px;">
+	<include file="Public:user_left_menu"/>        
+        <div class="account" style="float:left; width:824px;">
+            <div class="content_tab">
+                <ul>
+                    <li style="display:block">
+                        <div class="tab-page">
+                                <!-- 个人 -->
+                                <if condition="$login.ObjType == 1">
+                                    <div id="psn_info_err" style="display:none;"><img src="__ROOT__/Public/images/bonus.png"/><label style="margin-left:20px;color:red">请完善您的用户信息</label></div>
+                                    <form id="person_form" action="" method="post">    
+                                        <input type="hidden" name="ID" value="{$relt.ID}"/>                   
+                                        <table class="companyfrom">
+                                        	<tr><th colspan="2">基本信息</th></tr>
+                                            <tr>
+                                                <td>用户类型:</td>
+                                                <if condition="$login.ObjType == 1">
+                                                    <td>个人用户</td>                                           
+                                                    <else/>
+                                                    <td>企业用户</td>                                           
+                                                </if>
+                                            </tr>
+                                            <tr>
+                                                <td>用户名:</td>
+                                                <td>
+                                                {$login.Name}
+                                                <if condition="$login.Audit == 0">
+                                                    <a href="javascript:void(0);" onClick="sendMail()" style="padding-left: 37px;">激活账户</a>
+                                                </if>
+                                                </td>                                           
+                                            </tr>
+                                            <tr>
+                                                <td>密码:</td>
+                                                <td>••••••<a id="reset-pwd" href="javascript:void(0)" onClick="before_updatepwd()" style="margin-left:160px;">修改</a></td>
+                                            </tr>
+                                        	<tr><th colspan="2">联系信息</th></tr>
+                                            <tr>
+                                                <td>真实姓名:</td>
+                                                <td>
+                                                    <input type="text" tabindex="1" id="psn_TrueName" name="TrueName" value="{$relt.TrueName}" onFocus="hideMsg(this)" onBlur="checkName(this)" />
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的真实姓名</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>身份证号码:</td>
+                                                <td>
+                                                    <input type="text" tabindex="2" id="psn_IDNum" name="IDNum" value="{$relt.IDNum}" onFocus="hideMsg(this)" onBlur="checkCode(this)"/>                                                <span style="color:red;margin-left:10px;display:none;">请填写正确的身份证号码</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>证件地址:</td>
+                                                <td><input type="text" tabindex="3" name="Address" value="{$relt.Address}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>手机号码:</td>
+                                                <td>
+                                                    <input type="text" tabindex="4" id="psn_Phone" name="Phone" value="{$relt.Phone}" onFocus="hideMsg(this)" onBlur="checkPhone(this)"/>
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的手机号码</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>联系地址:</td>
+                                                <td><input type="text" tabindex="5" name="Address_" value="{$relt.Address_}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="180">个人备案/许可证号:</td>
+                                                <td><input type="text" tabindex="6" name="BeiAn" value="{$relt.BeiAn}"/></td>
+                                            </tr>
+                                        	<tr><th colspan="2">账户信息</th></tr>
+                                            <tr>
+                                                <td width="180">账户余额</td>
+                                                <td>
+                                                ¥ <label style="color:red" class="money">{$balance|number_format=###,2}</label>
+                                                <a href="javascript:void(0);" style="margin-left:50px" onClick="useCoupon()">使用代金券充值</a>
+                                                </td>
+                                            </tr>                                        
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <input type="button" style="float: left;width:150px;" onClick="saveUser()" value="保存"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                    </div>
+                                    <else/>
+                                    <!-- 企业 -->
+                                    <div id="com_info_err" style="display:none;"><img src="__ROOT__/Public/images/bonus.png"/><label style="margin-left:20px;color:red">请完善您的用户信息</label></div>
+                                    <form id="company_form" action="" method="post">    
+                                        <input type="hidden" name="ID" value="{$relt.ID}"/>                   
+                                        <table class="companyfrom">
+                                        	<tr><th colspan="2">基本信息</th></tr>
+                                            <tr>
+                                                <td>用户类型:</td>
+                                                <if condition="$login.ObjType == 1">
+                                                    <td>个人用户</td>                                           
+                                                    <else/>
+                                                    <td>企业用户</td>                                           
+                                                </if>
+                                            </tr>
+                                            <tr>
+                                                <td>用户名:</td>
+                                                <td>
+                                                {$login.Name}
+                                                <if condition="$login.Audit == 0">
+                                                    <a href="javascript:void(0);" onClick="sendMail()" style="padding-left: 37px;">激活账户</a>
+                                                </if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>密码:</td>
+                                                <td>••••••<a id="reset-pwd" href="javascript:void(0)" onClick="before_updatepwd()" style="margin-left:160px;">修改</a></td>
+                                            </tr>
+                                        	<tr><th colspan="2">联系信息</th></tr>
+                                            <tr>
+                                                <td>企业名称:</td>
+                                                <td>
+                                                    <input type="text" tabindex="1" id="com_CompanyName" name="CompanyName" value="{$relt.CompanyName}" onFocus="hideMsg(this)" onBlur="checkName(this)"/>
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的企业名称</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="180">组织机构代码:</td>
+                                                <td><input type="text" tabindex="2" name="CompanyCode" value="{$relt.CompanyCode}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>证件住址:</td>
+                                                <td><input type="text" tabindex="3" name="Address" value="{$relt.Address}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>法人姓名:</td>
+                                                <td>
+                                                    <input type="text" tabindex="4" id="com_LegalPersonName" name="LegalPersonName" value="{$relt.LegalPersonName}" onFocus="hideMsg(this)" onBlur="checkName(this)"/>
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的法人姓名</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>法人手机号码:</td>
+                                                <td>
+                                                    <input type="text" tabindex="5" id="com_LegalPersonPhone" name="LegalPersonPhone" value="{$relt.LegalPersonPhone}" onFocus="hideMsg(this)" onBlur="checkPhone(this)"/>
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的法人手机号码</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="180">企业备案/许可证号:</td>
+                                                <td><input type="text" tabindex="6" name="BeiAn" value="{$relt.BeiAn}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="180">联系人姓名:</td>
+                                                <td>
+                                                    <input type="text" tabindex="7" id="com_LinkmanName" name="LinkmanName" value="{$relt.LinkmanName}" onFocus="hideMsg(this)" onBlur="checkName(this)"/>
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的联系人姓名</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>联系人身份证:</td>
+                                                <td>
+                                                    <input type="text" tabindex="8" id="com_LinkmanIdNum" name="LinkmanIdNum" value="{$relt.LinkmanIdNum}" onFocus="hideMsg(this)" onBlur="checkCode(this)"/>
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的联系人身份证</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>联系人手机:</td>
+                                                <td>
+                                                    <input type="text" tabindex="9" id="com_LinkmanPhone" name="LinkmanPhone" value="{$relt.LinkmanPhone}" onFocus="hideMsg(this)" onBlur="checkPhone(this)"/>
+                                                    <span style="color:red;margin-left:10px;display:none;">请填写正确的联系人手机</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>联系地址:</td>
+                                                <td><input type="text" tabindex="10" name="LinkmanAdd" value="{$relt.LinkmanAdd}"/></td>
+                                            </tr>
+                                        	<tr><th colspan="2">账户信息</th></tr>
+                                            <tr>
+                                                <td width="180">账户余额</td>
+                                                <td>
+                                                ¥ <label style="color:red" class="money">{$balance|number_format=###,2}</label>                                            
+                                                <a href="javascript:void(0);" style="margin-left:50px" onClick="useCoupon()">使用代金券充值</a>
+                                                </td>
+                                            </tr>                             
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <input type="button" style="float: left;width:150px;" onClick="saveUser()" value="保存"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </div>
+                          </if>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </div>
+    <include file="Public:footer" />
+</html>

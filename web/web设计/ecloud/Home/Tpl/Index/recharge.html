@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/account.css">    
+	<include file="Public:common"/>
+    <style type="text/css">.no_color:hover{ background:red;}</style>
+    <script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+    <script type="text/javascript">
+    	var APP = "__APP__",ROOT = "__ROOT__",balance = '{$balance}',USER = "{$_SESSION['user']}",USERTYPE = "{$_SESSION['type']}";
+    </script>
+    <script type="text/javascript" src="__ROOT__/Public/js/util.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/account.js"></script>
+</head>
+<body>
+	<include file="Public:head"/>
+	<include file="Public:user_menu"/>
+    <div style="margin:0 auto; width:1024px;">
+	<include file="Public:user_left_menu"/>        
+        <div class="account" style="float:left; width:824px;">
+            <div class="recharge_tab">
+                <div class="balance"><label>现金账户余额：</label><span>{$balance|number_format=###,2}</span> 元</div>
+                <div class="recharge_input"><label>充值金额：</label><input id="input_money" type="text" /> 元<span style="margin-left:20px; display:none;color:#f60;">充值金额必须是大于0的整数</span></div>
+                <div class="recharge_type" style="height:50px;"><label style="float:left">请选择充值方式：</label>
+                	<ul>
+                    	<li><a href="javascript:void(0);" class="active" onClick="changeRechargeType(this)">支付宝</a></li>
+                    	<li><a href="javascript:void(0);" onClick="establish()">网银充值</a></li>
+                    	<li><a href="javascript:void(0);" onClick="changeRechargeType(this)">线下汇款</a></li>
+                    </ul>                
+                </div>
+                <div id="alipay_div">
+                    <dl style="margin-left:20px;">
+                        <input type="radio" value="alipay" checked />
+                        <img alt="支付宝支付" src="__ROOT__/Public/images/alipay.jpg"/> 
+                    </dl>
+                    <dl style="margin-left: 20px;line-height:normal; font-size:12px">
+                        <span>温馨提示：</span><p/>
+                        <span>1、通过信用卡的快捷支付有500元限制，超过500元时您可以选择多次支付或通过其他方式支付。</span><p/>
+                        <span style="color:red;">2、如您有欠费账单，充值后会优先补扣欠费账单。</span><p/>
+                        <span>3、充值后请及时对支付订单进行结算，以免影响正常服务。</span>
+                    </dl>      
+	                <div>
+                        <input style="margin-left:50px;" type="button" id="save_submit" onClick="recharge();" class="btn-recharge" value="充值">
+                    </div>
+                </div>
+                <div id="huikuan_div" style="display:none;">
+                    <dl style="margin-left: 20px;line-height:normal; font-size:12px">
+                        <span>温馨提示：</span><br>
+                        <span>1、受银行处理时间影响，采用非支付宝方式付款到账会有延误，</span>
+                        <span style="font-size:14px; color:red">强烈建议采用支付宝即时到账</span>
+                        <span>。</span><br>
+                        <span>2、汇款之后请您将睿江云账号(款项充值以此为准)、汇款人姓名、汇款金额、汇款时间、汇款底单或汇款人银行账号信息通过邮寄的方式联系客服。</span>                            
+                    </dl>
+                    <dl>
+                        <span style="margin-left: 20px;">开户名称：广东睿江科技有限公司</span><p/>
+                        <span class="bank_ico" style="background:url(__ROOT__/Public/images/bank.png) 439px -75px repeat-x; "></span>
+                        <span style="margin-left:20px;width:230px;height:20px; display:inline-block">招商银行股份有限公司佛山季华支行</span>
+                        <span style="margin-left:20px;">7579 0114 1110 303</span>
+                        <p/>
+                        <span class="bank_ico" style="background:url(__ROOT__/Public/images/bank.png) 438px -35px repeat-x;"></span>
+                        <span style="margin-left:20px;width:230px;height:20px; display:inline-block">农行佛山华达支行</span>
+                        <span style="margin-left:20px;">444 2200 1040 082 727 </span>
+                        <p/>
+                        <span class="bank_ico" style="background:url(__ROOT__/Public/images/bank.png) 288px 6px repeat-x; "></span>
+                        <span style="margin-left:20px;width:230px;height:20px; display:inline-block">中国工商银行佛山分行营业部</span>
+                        <span style="margin-left:20px;">2013 0210 0920 0104579</span>
+                    </dl>
+                    <dl>	
+                    	<span style="margin-left: 20px;">汇款单样例：</span><p/>
+                        <img src="__ROOT__/Public/images/remitaccountphoto.jpg" width="624" alt="汇款单样例"/>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <include file="Public:footer" />
+</html>

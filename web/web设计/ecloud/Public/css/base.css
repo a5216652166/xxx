@@ -5,7 +5,7 @@ html .navbar-default .navbar-collapse{border-top-color:#333}
 html .pagination{float:right}
 html .pagination li.active a{color:#fff !important;background-color:#0082e5 !important}
 html .pagination li.disabled a{color:#ccc !important}
-html .container{max-width:1024px;}
+html .container{min-width:1024px;}
 html div .mt20{margin-top:20px;}
 html table.dotted-table{border:1px solid #ddd !important;border-spacing:0 !important}
 html table.dotted-table thead tr{border-color:#cde9ff !important;height:40px}

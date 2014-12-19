@@ -41,3 +41,11 @@ function checkIDNum(code) {
 	//if(!pass) alert(tip);
 	return pass;
 }
+
+var stopPropagation = function(e) {
+	if(e && e.stopPropagation){         //W3C取消冒泡事件         
+		e.stopPropagation();     
+	}else{         //IE取消冒泡事件
+		window.event.cancelBubble = true;     
+	} 
+};

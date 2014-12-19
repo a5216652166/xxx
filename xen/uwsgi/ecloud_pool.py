@@ -30,6 +30,21 @@ def _get_vm_list():
 		ret.append({'uuid':record['uuid'], 'name_label':record['name_label'], 'power_state':record['power_state']})
 	return json.dumps(ret)
 
+def _get_host_vm_list():
+	global args, pool_data, session
+
+	ret = []
+	host_name_label = args['host_name_label']
+	vms = session.xenapi.VM.get_all()
+	for vm in vms:
+		record = session.xenapi.VM.get_record(vm)
+		if record["is_a_template"] or record["is_control_domain"]:
+			continue
+		host = record['resident_on']
+		if session.xenapi.host.get_name_label(host) == host_name_label:
+			ret.append({'uuid':record['uuid'], 'name_label':record['name_label'], 'power_state':record['power_state']})
+	return json.dumps(ret)
+
 def _do_main(query):
 	global args, session
 	#
@@ -49,6 +64,8 @@ def _do_main(query):
 		return _get_host_list()
 	elif args['opt'] == 'get_vm_list':
 		return _get_vm_list()
+	elif args['opt'] == 'get_host_vm_list':
+		return _get_host_vm_list()
 	else:
 		return 'unknow opt'
 

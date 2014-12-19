@@ -374,7 +374,7 @@ box-shadow: 2px 2px 4px #ddd;
 
 .form-tip-box{ margin: 0 0 0 10px; }
 .fm-submit{ padding:6px 10px; overflow:hidden; }
-.fm-text{ margin: 1px 0 0; padding: 6px; padding-left:10px; line-height: 23px; border: 1px solid #CCC; background: #FFF; vertical-align: middle; }
+.fm-text{ margin: 1px 0 0; padding: 5px; padding-left:10px; line-height: 23px; border: 1px solid #CCC; background: #FFF; vertical-align: middle; }
 .fm-text:focus{ border-color:#188AD6; }
 .fm-text-tip{ color:#CCC;}
 .fm-slist{ margin: 3px; padding: 3px; border: 1px solid #CCC; border-radius: 3px; }

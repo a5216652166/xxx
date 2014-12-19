@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/account.css">    
+	<include file="Public:common"/>
+    <style type="text/css">.no_color:hover{ background:red;}</style>
+    <script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+    <script type="text/javascript">
+    	var APP = "__APP__",ROOT = "__ROOT__",balance = '{$balance}',USER = "{$_SESSION['user']}",USERTYPE = "{$_SESSION['type']}";
+    </script>
+    <script type="text/javascript" src="__ROOT__/Public/js/util.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/account.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/page.js"></script>
+</head>
+<body>
+	<include file="Public:head"/>
+	<include file="Public:user_menu"/>
+    
+    <div class="account">
+        <div class="content_tab">
+        	<ul>
+            	<li style="display:block;">
+                	<table class="table table-hover" style="border-left: none!important;border-right: none!important;">
+                        <thead>
+                            <tr style="background:url(__ROOT__/Public/images/formbg.png) repeat-x!important;">
+                                <th style="text-align: center;padding-top: 13px;">编号</th>
+                                <th style="text-align: center;">详情</th>
+                                <!--th order_by="end_at" style="width: 72px;text-align: center;">购买时间</th-->
+                                <th style="text-align: center;">支付时间</th>
+                                <th style="text-align: center;">类型</th>
+                                <th style="text-align: center;">价格</th>
+                                <th style="text-align: center;">当前状态</th>
+                                <th style="text-align: center; width:132px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mydata" align="center" style="color:#333;">
+		                    <if condition="count($ordlist) == 0">
+                            	<tr><td colspan="7" style="text-align:left">暂无订单，立即<a href="__APP__/Index/buy" title="购买">购买</a></td></tr>
+                            	<else/>
+                                <volist name="ordlist" id="item">
+                                <tr style="">
+                                    <td style="width:120px;">{$item.Code}</td>
+                                    <td>
+                                    {$item.CPU}CPU {$item.RAM}内存 {$item.DISK}G磁盘
+                                    <if condition="$item.BandWidthIPLC != 0">
+                                        {$item.BandWidthIPLC}M国际BGP带宽
+                                        <else/>{$item.BandWidthBGP}M国内BGP带宽 
+                                    </if>
+                                    </td>
+                                    <!--td>{$item.CreateTS}</td-->
+                                    <if condition="$item.PayTS == '0000-00-00 00:00:00'">
+                                        <td>-</td>
+                                        <else/>
+                                        <if condition="substr($item['PayTS'],0,10) == $today">
+                                        	<td style="color:#0F0">{$item.PayTS}</td>                     
+                                            <else/>
+                                        	<td>{$item.PayTS}</td>                     
+                                        </if>
+                                    </if>
+                                    <td>{$item.Type}</td>
+                                    <td style="color:red;">-{$item.Money}</td>
+                                    <if condition="$item.IsPay == 0">
+                                        <td>未支付</td>                                    
+                                        <td>
+                                            <a href="javascript:void(0);" onClick="payment({$item.Order_ID},'{$item.Type}',{$item.Old_Order_ID},'{$item.Time}',{$item.Money})">去付款</a> | 
+                                            <a href="javascript:void(0);" onClick="deleteOrder({$item.Order_ID})">取消订单</a>
+                                        </td>
+                                        <else/><td>已支付</td>
+                                        <if condition="$item.Type == '续费'">
+                                        	<td>-</td>
+                                            <else/>
+                                            <td>                                    	
+                                                <a href="javascript:void(0);" onClick="showInfo({$item.Order_ID},this)">展开</a>                                        
+                                            </td>
+                                        </if>
+                                    </if>
+                                </tr>
+                                </volist>
+                            </if>
+                        </tbody>
+                  </table>
+                </li>
+            </ul>
+        </div>
+        <div class="wrap" style="margin-top:20px;">
+            <div class="fenye">   
+                <ul>    
+                	<li style="border:none;">总记录数：{$sum}，本页记录数：{$count}</li>
+                    <li id="first">首页</li>    
+                    <li id="top" onclick="topclick()">上一页</li>    
+                    <li class="xifenye" id="xifenye" onClick="xifenye()">    
+                        <a id="xiye">{$page}</a>/<a id="mo">{$pageCount}</a>
+                        <div class="xab" id="xab" style="display:none">    
+                            <ul id="uljia">    
+                            </ul>    
+                        </div>    
+                    </li>    
+                    <li id="down" onclick="downclick()">下一页</a></li>    
+                    <li id="last">末页</li>    
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    
+    <include file="Public:footer" />
+</html>

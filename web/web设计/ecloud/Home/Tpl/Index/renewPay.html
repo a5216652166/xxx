@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 		$(function(){
 			var balance = "{$balance}",price = "{$price}";
-			if(balance<price){
+			if(parseInt(price) > parseInt(balance)){
 				$("#alipay_rdo").attr("checked","checked");				
 				$('#ess_img').attr({'src':'__ROOT__/Public/images/mergePay.png','alt':'睿江云账户、支付宝合并付款','title':'睿江云账户、支付宝合并付款'});
 				$('#ess_img').next().html("使用余额支付 "+ balance + " 元，使用支付宝支付 " + (price - balance) + " 元");

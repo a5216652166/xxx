@@ -1,0 +1,102 @@
+<div class="account_head">
+    <div class="account_menu">
+        <h1 class="title" id="menu_title">用户中心</h1>
+        <div class="menu_list">
+            <ul>
+                <li><a href="__APP__/Index/account" class="active">首页</a></li>
+                <li><a href="__APP__/Index/userMgr">会员信息</a></li>
+                <li><a href="__APP__/Index/orderMgr">订单管理</a></li>
+                <li><a href="__APP__/Index/beian?b=content_b1" target="_blank">备案管理</a></li>
+                <li><a href="__APP__/Index/console">控制台管理</a></li>
+                <li><a href="#" onclick="establish()">消息中心</a></li>
+                <li><a href="#" onclick="establish()">售后支持</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	function establish(){
+		layer.msg('正在建设，敬请期待！',2,2);
+	}
+	function activeMenu(){
+		var url = window.location.href;
+		$('.menu_list ul li a').removeClass('active');
+		switch(true){
+			case url.indexOf('account')!=-1:
+			$('.menu_list ul li a:eq(0)').addClass('active');
+			$("#menu_title").html('用户中心');
+			break;
+			case url.indexOf('userMgr')!=-1 || url.indexOf('changeUserType')!=-1  || url.indexOf('recharge')!=-1 || url.indexOf('consumption')!=-1:
+			$('.menu_list ul li a:eq(1)').addClass('active');
+			$("#menu_title").html('会员信息');
+			break;
+			case url.indexOf('orderMgr')!=-1:
+			$('.menu_list ul li a:eq(2)').addClass('active');
+			$("#menu_title").html('订单管理');
+			break;
+			case url.indexOf('console')!=-1:
+			$('.menu_list ul li a:eq(4)').addClass('active');
+			$("#menu_title").html('控制台管理');
+			break;
+		}	
+	}
+	$(function(){
+		activeMenu();
+		$(".menu_list ul li a").hover(function(){
+			$(this).addClass('active');
+		},function(){
+			$(this).removeClass('active');
+		});
+		$(".menu_list").mouseleave(function(){			
+			activeMenu();
+		});
+		
+		$(".user-mobile,.user-realname,.user-property,.user-alipay,.user-help").hover(function(){
+			$(this).children().show();
+		},function(){
+			$(this).children().hide();
+		});
+		
+		$(".msg,.worklist,.coupon").hover(function(){
+			switch($(this).attr('class')){
+				case 'msg':					
+				$(this).css({"background":"#7cb552","color":"#fff","cursor":"pointer"});	
+				$(this).find('.ico_msg').css("background-position-x","-80px");
+				break;
+				case 'worklist':					
+				$(this).css({"background":"#00aadd","color":"#fff","cursor":"pointer"});	
+				$(this).find('.ico_worklist').css("background-position-x","-45px");
+				break;
+				case 'coupon':					
+				$(this).css({"background":"#ff945c","color":"#fff","cursor":"pointer"});	
+				$(this).find('.ico_coupon').css("background-position-x","-1px");
+				break;
+			}
+			$(this).find('.num span').css("color","#fff");
+			
+		},function(){
+			switch($(this).attr('class')){
+				case 'msg':					
+				$(this).css({"background":"#fff","color":"#666","cursor":"pointer"});	
+				$(this).find('.num span').css("color","#7cb552");
+				$(this).find('.ico_msg').css("background-position-x","-101px");
+				break;
+				case 'worklist':					
+				$(this).css({"background":"#fff","color":"#666","cursor":"pointer"});	
+				$(this).find('.num span').css("color","#00aadd");
+				$(this).find('.ico_worklist').css("background-position-x","140px");
+				break;
+				case 'coupon':					
+				$(this).css({"background":"#fff","color":"#666","cursor":"pointer"});	
+				$(this).find('.num span').css("color","#ff945c");
+				$(this).find('.ico_coupon').css("background-position-x","-23px");
+				break;
+			}
+			$(this).next().slideUp();
+		});
+		
+		$(".msg,.worklist,.coupon").click(function(){
+			$(this).next().slideToggle();
+		});
+	});
+</script>

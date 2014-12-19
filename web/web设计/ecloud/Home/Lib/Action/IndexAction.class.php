@@ -31,6 +31,147 @@ class IndexAction extends Action {
 			header("Location: ".__APP__."/Index/login");
 		}
 	}
+	//账户充值
+	public function recharge(){
+		if(!empty($_SESSION['user'])){			
+			if($_SERVER['REQUEST_METHOD' ] === 'GET'){				
+				$this->assign('balance',$this->returnBalance());		
+				$this->display();
+			}else{
+				$order = M();
+				$login = M()->table('Ad_Login');
+				$ret = $login->where("Name='".$_SESSION['user']."'")->find();
+				$ord_count = count($order->query("select * from `Ad_Order` where CreateTS between '".date('Y-m-d',time())." 00:00:00"."'  and '".date('Y-m-d',time())." 23:59:59"."' "));				
+				$ord_code = "WEB".date('YmdHis',time()).str_pad($ord_count+1,5,'0',STR_PAD_LEFT);
+				
+				$data['Login_ID'] = $ret['ID'];				
+				$data['Code'] = $ord_code;				
+				$data['Type'] = '充值';
+				$data['IsPay'] = 0;
+				$data['Money'] = $_POST['money'];
+				$data['AliPay'] = $_POST['money'];				
+				$is_ok = $order->table('Ad_Order')->add($data);
+				if($is_ok===false){
+					$this->ajaxReturn('账户充值失败，请联系管理员。','error',0);
+				}
+					$this->ajaxReturn($is_ok,'success',1);
+				
+			}
+		}else{			
+			header("Location: ".__APP__."/Index/login");
+		}
+		
+	}
+	//添加充值记录
+	public function addRecharge(){
+		if(!empty($_SESSION['user'])){	
+			if(!empty($_POST['id'])){
+				$order = M();
+				$recharge = M();
+				$ret = $order->table('Ad_Order')->where('ID='.$_POST['id'])->find();
+				$data['Login_ID'] = $ret['Login_ID'];
+				$data['Type'] = "在线充值";
+				$data['Proof'] = $ret['Code'];
+				$data['Money'] = $ret['Money'];
+				$is_ok = $recharge->table('Ad_Recharge')->add($data);
+				if($is_ok===false){
+					$this->ajaxReturn('账户充值失败，请联系管理员。','error',0);
+				}
+				$data2['IsPay'] = 1;
+				$data2['PayTS'] = date('Y-m-d H:i:s');
+				$order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data2);
+				$this->ajaxReturn(1,'success',1);
+			}
+		}else{			
+			header("Location: ".__APP__."/Index/login");
+		}
+	}
+	//消费记录
+	public function consumption(){
+		if(!empty($_SESSION['user'])){
+			$login = M();
+			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
+			$page = 1;
+			if(!empty($_GET['p'])){
+				$page = $_GET['p'];
+			}
+			$order = M();			
+			$ordlist = $order->query('select * from `Ad_Order` o  where o.Login_ID='.$ret['ID'].' and Type="充值" order by o.ID desc limit '. ($page-1) * 10 .',10 ');			
+			$count = $order->query('select count(*) as count from `Ad_Order` o  where o.Login_ID='.$ret['ID'].' and Type="充值" order by o.ID desc');
+			if($count[0]['count']<=10){
+				$pageCount = 1;
+			}else{
+				if($count[0]['count'] % 10 == 0){
+					$pageCount = $count[0]['count'] / 10;
+				}else{
+					$pageCount = ($count[0]['count'] - $count[0]['count'] % 10) / 10 + 1;
+				}
+			}
+		
+			$this->assign('page',$page);		
+			$this->assign('pageCount',$pageCount);
+			$this->assign('sum',$count[0]['count']);	
+			$this->assign('count',count($ordlist));	
+			$this->assign('ordlist',$ordlist);
+
+			$this->display();				
+		}else{			
+			header("Location: ".__APP__."/Index/login");
+		}
+	}
+	//切换企业用户
+	public function changeUserType(){
+		if(!empty($_SESSION['user'])){			
+			if($_SERVER['REQUEST_METHOD' ] === 'GET'){
+				$login = M();
+				$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
+				$person = M();
+				$tem = $person->table('Ad_Person')->where('ID='.$ret['ObjID'])->find();
+				$this->assign('relt',$tem);
+				$this->display();				
+			}else{
+				$person = M();
+				$is_ok = $person->table('Ad_Person')->where('ID='.$_SESSION['id'])->delete();
+				if($is_ok===false){
+					$this->ajaxReturn('用户身份切换失败，请联系管理员','error',0);
+				}
+				
+				$data['CompanyName'] = $_POST['CompanyName'];
+				$data['CompanyCode'] = $_POST['CompanyCode'];
+				$data['Address'] = $_POST['Address'];
+				$data['LegalPersonName'] = $_POST['LegalPersonName'];
+				$data['LegalPersonPhone'] = $_POST['LegalPersonPhone'];
+				$data['BeiAn'] = $_POST['BeiAn'];
+				$data['LinkmanName'] = $_POST['LinkmanName'];
+				$data['LinkmanPhone'] = $_POST['LinkmanPhone'];
+				$data['LinkmanIdNum'] = strtoupper($_POST['LinkmanIdNum']);
+				$data['LinkmanAdd'] = $_POST['LinkmanAdd'];
+				
+				
+				$Company = M()->table('Ad_Company');
+				$is_ok2 = $Company->add($data);
+				
+				if($is_ok2===false){
+					$this->ajaxReturn('用户身份切换失败，请联系管理员','error',0);
+				}else{
+					$_SESSION['name'] = $_POST['CompanyName'];	
+					$_SESSION['id'] = $is_ok2;
+					$_SESSION['type'] = 2;
+					
+					$login = M();
+					$data = array('ObjType'=>2,'ObjID'=>$is_ok2);
+					$is_ok3 = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->setField($data);
+					if($is_ok3===false){
+						$this->ajaxReturn('用户身份切换失败，请联系管理员','error',0);
+					}
+					$this->ajaxReturn('用户身份切换成功','success',1);
+				}
+			}
+		}else{			
+			header("Location: ".__APP__."/Index/login");
+		}
+	}
+	
 	//购买页面
 	public function buy(){
 		$login = M();
@@ -62,7 +203,7 @@ class IndexAction extends Action {
 				}*/
 				
 				$Person = M()->table('Ad_Person');
-				$is_ok = $Person->where('id='.$_POST['ID'])->save($data);
+				$is_ok = $Person->where('ID='.$_POST['ID'])->save($data);
 				
 				if($is_ok===false){
 					$this->ajaxReturn('用户资料修改失败，请联系管理员','error',0);
@@ -88,7 +229,7 @@ class IndexAction extends Action {
 				}*/
 				
 				$Company = M()->table('Ad_Company');
-				$is_ok = $Company->where('id='.$_POST['ID'])->save($data);
+				$is_ok = $Company->where('ID='.$_POST['ID'])->save($data);
 				
 				if($is_ok===false){
 					$this->ajaxReturn('用户资料修改失败，请联系管理员','error',0);
@@ -112,6 +253,17 @@ class IndexAction extends Action {
 			$this->ajaxReturn('订单支付失败，请联系管理员。','error',0);
 		}
 	}	
+	//删除充值记录
+	public function deleteRechargeOrder(){
+		if(!empty($_POST['id'])){
+			$order = M();
+			$is_ok = $order->table('Ad_Order')->where('ID='.$_POST['id'])->delete();
+			if($is_ok===false){
+				$this->ajaxReturn('取消订单失败，请联系管理员。','error',0);	
+			}
+			$this->ajaxReturn(1,'success',1);
+		}
+	}
 	//删除订单
 	public function deleteOrder(){
 		if(!empty($_POST['id'])){
@@ -121,16 +273,18 @@ class IndexAction extends Action {
 			$is_ok2 = $order->table('Ad_Order')->where('ID='.$_POST['id'])->delete();
 			if($is_ok===false || $is_ok2===false){
 				$this->ajaxReturn('取消订单失败，请联系管理员。','error',0);	
-			}else{
+			}
+			/*else{
 				$login = M();
 				$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
 				$order = M();
-				$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' order by o.ID desc');
+				
+				$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' and Type!="充值" order by o.ID desc');
 				foreach($ordlist as $key => $val){
 					$ordlist[$key]['today'] = date("Y-m-d");
-				}
-				$this->ajaxReturn($ordlist,'success',1);	
-			}
+				}				
+			}*/
+			$this->ajaxReturn(1,'success',1);	
 		}else{
 			$this->ajaxReturn('取消订单失败，请联系管理员。','error',0);
 		}
@@ -175,7 +329,70 @@ class IndexAction extends Action {
 			$login = M();
 			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
 			$order = M();
-			$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' order by o.ID desc');
+			$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' and Type!="充值" order by o.ID desc limit 0,3 ');
+			$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->select();
+			$cloudCount = 0;
+			$fuzaiCount = 0;
+			$vpsLists = array();
+			if(!empty($rslt)){
+				foreach($rslt as $val){
+					if(!empty($val['ContractCode'])){
+						$data = file_get_contents(C('INTERFACE_URL')."/ibss/dev_query.php?opt=get_by_contract&Contract_Code=".$val['ContractCode']."&Dev_Type=vps");
+						$vpsList = json_decode($data,true);
+						if(!empty($vpsList)){
+							$cloudCount++;
+						}
+					}
+				}
+			}
+			
+			$this->assign('balance',$this->returnBalance());
+			$this->assign('ordlist',$ordlist);
+			$this->assign('cloudCount',$cloudCount);
+			$this->display();
+		}else{
+			$this->redirect("/Index/login");
+		}
+	}
+	//订单管理
+	public function orderMgr(){
+		if(!empty($_SESSION['user'])){
+			$login = M();
+			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
+			$page = 1;
+			if(!empty($_GET['p'])){
+				$page = $_GET['p'];
+			}
+			$order = M();			
+			$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' and Type!="充值" order by o.ID desc limit '. ($page-1) * 10 .',10 ');			
+			$count = $order->query('select count(*) as count from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' and Type!="充值" order by o.ID desc');
+			if($count[0]['count']<=10){
+				$pageCount = 1;
+			}else{
+				if($count[0]['count'] % 10 == 0){
+					$pageCount = $count[0]['count'] / 10;
+				}else{
+					$pageCount = ($count[0]['count'] - $count[0]['count'] % 10) / 10 + 1;
+				}
+			}
+		
+			$this->assign('page',$page);		
+			$this->assign('pageCount',$pageCount);
+			$this->assign('sum',$count[0]['count']);	
+			$this->assign('count',count($ordlist));	
+			$this->assign('ordlist',$ordlist);
+			$this->assign('balance',$this->returnBalance());
+			$this->assign('today',date("Y-m-d"));
+			$this->display();
+		}else{
+			$this->redirect("/Index/login");
+		}
+	}
+	//会员信息
+	public function userMgr(){
+		if(!empty($_SESSION['user'])){
+			$login = M();
+			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();			
 			if($ret['ObjType']==1){
 				//个人	
 				$person = M();
@@ -186,34 +403,22 @@ class IndexAction extends Action {
 				$company = M();
 				$relt = $company->table('Ad_Company')->where('ID='.$ret['ObjID'])->find();
 				$this->assign('relt',$relt);
-			}				
-			$this->assign('balance',$this->returnBalance());
+			}
 			$this->assign('login',$ret);
+			$this->assign('balance',$this->returnBalance());
 			$this->display();
 		}else{
 			$this->redirect("/Index/login");
 		}
 	}
-	//账户信息
+	//控制台
 	public function console(){
 		if(!empty($_SESSION['user'])){
 			$login = M();
 			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
 			$order = M();
 			$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' order by o.ID desc');
-			/*if($ret['ObjType']==1){
-				//个人	
-				$person = M();
-				$relt = $person->table('Ad_Person')->where('ID='.$ret['ObjID'])->find();
-				$this->assign('relt',$relt);
-			}else{
-				//企业	
-				$company = M();
-				$relt = $company->table('Ad_Company')->where('ID='.$ret['ObjID'])->find();
-				$this->assign('relt',$relt);
-			}*/
 			//控制台
-			//$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->getField("ContractCode",true);
 			$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->select();
 			$cou = 0;
 			$vpsLists = array();
@@ -417,13 +622,25 @@ class IndexAction extends Action {
 		$VPSPay = M();
 		$time;
 		$ret = $VPSPay->table('Ad_OrderVPSBuy')->where('Order_ID='.$_POST['oid'])->find();
-		if($_POST['time']=='月'){
-			$time = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($ret['PayEnd'])));
-		}else if($_POST['time']=='半年'){
-			$time = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($ret['PayEnd'])));
-		}else if($_POST['time']=='年'){
-			$time = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($ret['PayEnd'])));
-		}
+		
+		if(strtotime($ret['PayEnd']) < strtotime(date('Y-m-d H:i:s',time()))){
+			if($_POST['time']=='月'){
+				$time = date('Y-m-d H:i:s',strtotime('+1 month',strtotime(date('Y-m-d H:i:s',time()))));
+			}else if($_POST['time']=='半年'){
+				$time = date('Y-m-d H:i:s',strtotime('+6 month',strtotime(date('Y-m-d H:i:s',time()))));
+			}else if($_POST['time']=='年'){
+				$time = date('Y-m-d H:i:s',strtotime('+12 month',strtotime(date('Y-m-d H:i:s',time()))));
+			}
+		}else{
+			if($_POST['time']=='月'){
+				$time = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($ret['PayEnd'])));
+			}else if($_POST['time']=='半年'){
+				$time = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($ret['PayEnd'])));
+			}else if($_POST['time']=='年'){
+				$time = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($ret['PayEnd'])));
+			}
+		}		
+		
 		$is_ok2 = $VPSPay->table('Ad_OrderVPSBuy')->where('Order_ID='.$_POST['oid'])->setField('PayEnd',$time);
 		if($is_ok2===false){			
 			$this->ajaxReturn('付款失败，请联系管理员。','error',0);
@@ -555,6 +772,19 @@ class IndexAction extends Action {
 		
 		$this->display();
 	}
+	public function rechargePayment(){
+		$Order = M();
+		$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();		
+		$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
+		$this->assign('DepartCode', "ESS");
+		$this->assign('OrderCode', $tem['Code']);				
+		$name = urlencode("睿江云主机");
+		$name = str_replace('%C2%80','',$name);
+		$this->assign('OrderName', urldecode($name));		
+		$this->assign('OrderDesc', "睿江云账户充值");
+		$this->assign('OrderMoney', $tem['Money']);
+		$this->display();
+	}
 	//支付宝续费
 	public function renewOrder(){
 		$Order = M();
@@ -601,6 +831,7 @@ class IndexAction extends Action {
 		$order = M();					
 		$orderVPS = M();			
 		$VPSPay = M();
+		$ord_count = count($order->query("select * from `Ad_Order` where CreateTS between '".date('Y-m-d',time())." 00:00:00"."'  and '".date('Y-m-d',time())." 23:59:59"."' "));
 		$ord_code = "WEB".date('YmdHis',time()).str_pad($ord_count+1,5,'0',STR_PAD_LEFT);
 		//添加订单
 		$data['Login_ID'] = $ret['ID'];
@@ -642,12 +873,22 @@ class IndexAction extends Action {
 		$time;
 		$ret = $VPSPay->table('Ad_OrderVPSBuy')->where('Order_ID='.$_POST['oid'])->find();
 		//修改vspPay
-		if($_POST['time']=='月'){
-			$time = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($ret['PayEnd'])));
-		}else if($_POST['time']=='半年'){
-			$time = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($ret['PayEnd'])));
-		}else if($_POST['time']=='年'){
-			$time = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($ret['PayEnd'])));
+		if(strtotime($ret['PayEnd']) < strtotime(date('Y-m-d H:i:s',time()))){
+			if($_POST['time']=='月'){
+				$time = date('Y-m-d H:i:s',strtotime('+1 month',strtotime(date('Y-m-d H:i:s',time()))));
+			}else if($_POST['time']=='半年'){
+				$time = date('Y-m-d H:i:s',strtotime('+6 month',strtotime(date('Y-m-d H:i:s',time()))));
+			}else if($_POST['time']=='年'){
+				$time = date('Y-m-d H:i:s',strtotime('+12 month',strtotime(date('Y-m-d H:i:s',time()))));
+			}
+		}else{
+			if($_POST['time']=='月'){
+				$time = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($ret['PayEnd'])));
+			}else if($_POST['time']=='半年'){
+				$time = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($ret['PayEnd'])));
+			}else if($_POST['time']=='年'){
+				$time = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($ret['PayEnd'])));
+			}
 		}
 		$is_ok2 = $VPSPay->table('Ad_OrderVPSBuy')->where('Order_ID='.$_POST['oid'])->setField('PayEnd',$time);
 		if($is_ok2===false){			
@@ -668,6 +909,7 @@ class IndexAction extends Action {
 		$orderVPS = M();			
 		$VPSPay = M();
 		
+		$ord_count = count($order->query("select * from `Ad_Order` where CreateTS between '".date('Y-m-d',time())." 00:00:00"."'  and '".date('Y-m-d',time())." 23:59:59"."' "));
 		$ord_code = "WEB".date('YmdHis',time()).str_pad($ord_count+1,5,'0',STR_PAD_LEFT);
 		//添加订单
 		$data['Login_ID'] = $ret['ID'];
@@ -720,7 +962,7 @@ class IndexAction extends Action {
 				$ret = $login->where("Name='".$_SESSION['user']."'")->find();
 				$order = M();					
 				$orderVPS = M();
-				//$ord_count = count($order->query("select * from `Ad_Order` where TS between '".date('Y-m-d',time())." 00:00:00"."'  and '".date('Y-m-d',time())." 23:59:59"."' "));
+				$ord_count = count($order->query("select * from `Ad_Order` where CreateTS between '".date('Y-m-d',time())." 00:00:00"."'  and '".date('Y-m-d',time())." 23:59:59"."' "));
 				$ord_code = "WEB".date('YmdHis',time()).str_pad($ord_count+1,5,'0',STR_PAD_LEFT);
 				//添加订单
 				$data['Login_ID'] = $ret['ID'];
@@ -924,7 +1166,7 @@ class IndexAction extends Action {
 				$data['LinkmanPhone'] = $_POST['linkmanphone'];
 				$data['LinkmanIdNum'] = $_POST['linkmanidnum'];
 				$data['LinkmanAdd'] = $_POST['linkmanadd'];
-				$isok = $Company->where('id='.$_POST['id'])->save($data);
+				$isok = $Company->where('ID='.$_POST['id'])->save($data);
 				if($isok===false){
 					$this->ajaxReturn("注册用户失败，请稍后再试！",'error',0);
 				}else{
@@ -958,7 +1200,7 @@ class IndexAction extends Action {
 				$data['Address_'] = $_POST['address_'];
 				$data['Phone'] = $_POST['phone'];
 				$data['BeiAn'] = $_POST['beian'];
-				$isok = $Person->where('id='.$_POST['id'])->save($data);
+				$isok = $Person->where('ID='.$_POST['id'])->save($data);
 				if($isok===false){
 					$this->ajaxReturn("注册用户失败，请稍后再试！",'error',0);
 				}else{

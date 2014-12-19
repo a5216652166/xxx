@@ -22,5 +22,10 @@ class PublicAction extends Action {
 	//文档树级菜单
 	public function doc_menu(){
 		$this->display();
+	}	
+	//用户中心菜单
+	public function user_menu(){
+		$this->display();
 	}
+	
 }    

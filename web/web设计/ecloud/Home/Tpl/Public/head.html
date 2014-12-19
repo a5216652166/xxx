@@ -1,10 +1,11 @@
-<script type='text/javascript' src="http://stuff.cdn.biddingx.com/js/vc.min.js"></script>
+<!--script type='text/javascript' src="http://stuff.cdn.biddingx.com/js/vc.min.js"></script>
 <script type='text/javascript'>
     window.BX_CLIENT_ID = 35311; // 帐号ID
     BDX_DMP.trackPdmp('云平台'); //访客分类名称是给访客贴的标签，可以自定义，例如： 访问过官网、注册用户等。
-</script>
+</script-->
 </head>
 <script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/util.js"></script>
 <script type="text/javascript">
 	var ROOT = "__ROOT__";
 	$(function(){
@@ -58,6 +59,7 @@
 				$("#top").hide();
 				break;
 			default:
+				$("#account_ul li:eq(0)").addClass('active');
 				break;
 		}
 	});
@@ -85,7 +87,7 @@
 		}
 	}
 </script>
-<div class="navbar navbar-default navbar-static-top" role="navigation">
+<div class="navbar navbar-default navbar-static-top" role="navigation" style="width:100%; min-width:1200px;">
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="__APP__/Index/login" id="logo"><img src="__ROOT__/Public/images/esslogo.png" alt="睿江云"/></a>
@@ -93,13 +95,13 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav" id="nav_ul">
         <li><a href="__APP__/Index/login">首页</a></li>
-        <li><a href="__APP__/Index/buy">云主机</a></li>
+        <li><a href="__APP__/Index/buy">云主机购买</a></li>
         <li><a href="__APP__/Index/docs">文档</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right " id="account_ul">
       	<if condition="$_SESSION['user'] neq '' ">
-            <li>
-            <a href="javascript:void(0);" onclick="showUserInfo(this)">{$_SESSION['user']}<span class="caret"></span><!--我的控制台--></a>
+            <li id="userinfo_a">
+            <a href="__APP__/Index/account" class="showuserinfo" style="min-width: 176px;">{$_SESSION['user']}<span class="caret"></span><!--我的控制台--></a>
             <ul class="userinfo_ul">
             	<li><a href="__APP__/Index/account">用户中心</a></li>
             	<li style="border-top:1px dashed #ccc;"><a href="__APP__/Index/console">控制台管理</a></li>
@@ -161,10 +163,12 @@ $(function(){
 
 
 /****************user****************/
-.userinfo_ul{list-style:none; border:1px solid #ccc; border-top:none; display:none; background:#fff;position: absolute;}
+.userinfo_ul{list-style:none; border:1px solid #ccc; border-top:none; display:none; background:#fff;position: absolute;width:100%}
 .userinfo_ul li{ cursor:pointer}
 .userinfo_ul li a:hover{ background:#54b6da !important;color:#fff !important;}
-.userinfo_ul li a{ display:block; background:#fff !important; color:#666 !important; height:50px; line-height:50px !important; text-decoration:none !important; width:174px;}
+.userinfo_ul li a{ display:block; background:#fff !important; color:#666 !important; height:50px; line-height:50px !important; text-decoration:none !important; width:100%;}
+
+.showuserinfo{ font-size:14px !important;}
 </style>
 <div id="top"></div>
 <script type="text/javascript" src="__ROOT__/Public/js/script.js"></script>
@@ -172,23 +176,14 @@ $(function(){
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F1fe31f014cf8885689e3e1fd58a6b6c8' type='text/javascript'%3E%3C/script%3E"));
 
-var stopPropagation = function(e) {
-	if(e && e.stopPropagation){         //W3C取消冒泡事件         
-		e.stopPropagation();     
-	}else{         //IE取消冒泡事件        
-		window.event.cancelBubble = true;     
-	} 
-};
 $(function(){
-	$('html').bind('click',function(e){
-		if($(".userinfo_ul").is(":visible")){
-			$(".userinfo_ul").slideToggle();
-		}
+	
+	$("#userinfo_a").hover(function(data){
+		$(".userinfo_ul").slideToggle();
+	},function(){
+		$(".userinfo_ul").slideToggle();
 	});
+
 });
-function showUserInfo(e){
-	$(".userinfo_ul").slideToggle();
-	stopPropagation(e);
-}
 </script>
 

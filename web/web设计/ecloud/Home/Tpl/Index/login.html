@@ -51,7 +51,7 @@
             <div class="grid780 clr" style="padding-top:20px; height:60px; border-bottom:1px solid #e3e3e3;background:url(__ROOT__/Public/images/lgtop.jpg) repeat-x">
                 <h3 style="font-size:20px;margin:0px 50px;">用户登录</h3>
             </div>
-            <div id="content" class="grid780 clr" style="height:230px;margin:12px 55px;">
+            <div id="content" class="grid780 clr" style="height:230px;margin:12px 50px;">
                 <div id="regist-module" class="clr" style="">
                     <div id="regist-wrap">
                     	<if condition="$_SESSION['user'] neq '' ">
@@ -72,16 +72,16 @@
                                 <tbody>
                                 <tr>
                                     <td class="fm-field">
-                                        <div class="fm-field-wrap">
-                                        	邮箱<p/><!--label style="position:absolute; margin:7.5px 0px 0px 10px;color:#999;font-weight:normal;cursor:text;" onClick="input(this)">输入电子邮箱</label-->
-                                            <input type="text" id="username" name="username" onBlur="showLabel(this)" autocomplete="off" onFocus="onBlue(this);" style="width:200px;" tabindex="1" class="fm-text fm-validator" value="{$mail}" placeholder="输入电子邮箱" />                              </div>
+                                        <div class="fm-field-wrap" style="border:1px solid #ccc; background:url(__ROOT__/Public/images/admin.png) no-repeat;">
+                                        	<!--label style="position:absolute; margin:7.5px 0px 0px 10px;color:#999;font-weight:normal;cursor:text;" onClick="input(this)">输入电子邮箱</label-->
+                                            <input type="text" id="username" name="username" onBlur="showLabel(this)" autocomplete="off" onFocus="onBlue(this);" style="margin-left:40px;width:180px;border:none;" tabindex="1" class="fm-text fm-validator" value="{$mail}" placeholder="输入电子邮箱" />                              </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="fm-field">
-                                        <div class="fm-field-wrap">
-                                        	密码<p/><!--label style="position:absolute; margin:7.5px 0px 0px 10px;color:#999;font-weight:normal;cursor:text" onClick="input(this)">输入账号密码</label-->
-                                            <input type="password" onFocus="onBlue(this);" id="password" name="password" value="" onBlur="showLabel(this)" style="width:200px;" tabindex="2" class="fm-text fm-password fm-validator" autocomplete="off" placeholder="输入用户密码"/>
+                                        <div class="fm-field-wrap" style="border:1px solid #ccc; background:url(__ROOT__/Public/images/pwd.png) no-repeat;">
+                                        	<!--label style="position:absolute; margin:7.5px 0px 0px 10px;color:#999;font-weight:normal;cursor:text" onClick="input(this)">输入账号密码</label-->
+                                            <input type="password" onFocus="onBlue(this);" id="password" name="password" value="" onBlur="showLabel(this)" style="margin-left:40px;width:180px;border:none;" tabindex="2" class="fm-text fm-password fm-validator" autocomplete="off" placeholder="输入用户密码"/>
                                         </div>
                                     </td>
                                 </tr>
@@ -93,7 +93,7 @@
                                 <tr>
                                     <td class="fm-field">
                                         <div class="fm-field-wrap">
-                                            <input type="submit" id="fm-regist-submit" value="登录" name="event_submit_do_join" tabindex="3" class="fm-button fm-submit">
+                                            <input type="submit" id="fm-regist-submit" value="登录" style="width:220px;" name="event_submit_do_join" tabindex="3" class="fm-button fm-submit">
                                         </div>
                                     </td>
                                 </tr>
