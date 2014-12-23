@@ -1,0 +1,160 @@
+.account{width:1024px;min-height:650px; margin:0 auto; margin-bottom:20px; }
+.account ul .one{
+margin-right: 2px;
+line-height: 1.42857143;
+border: 1px solid transparent;
+border-radius: 4px 4px 0 0;
+position: relative;
+display: block;
+padding: 10px 15px;
+}
+#main-tab .active a{border-top:3px solid #0089b7}
+#main-tab .no_active a:hover{ border:1px solid #ddd; background:#fafafa; border-bottom:none;border-top:3px solid #0089b7}
+.content_tab{margin:20px 15px;}
+.content_tab ul li{ display:none;}
+.content_tab ul li .tab-page{ margin:0px 0px 0px 30px;}
+.error_msg{ margin:10px 0px 0px 400px;color:red}
+.tab-page .col-sm-10{margin: 7px 0px 0px 0px;}
+.companyfrom input[type="text"]{
+padding-left: 10px;
+line-height: 23px;
+width:220px;
+height:30px;
+border: 1px solid #CCC;
+background: #FFF;
+vertical-align: middle;
+border-radius: 3px;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;}
+.companyfrom input:focus {
+	border-color: #188AD6;
+}
+.companyfrom tr{ height:34px;}
+input[type="button"]{
+border:none;
+margin: 10px 0px 10px 12px;
+background: #0089b7;
+color: #fff;
+width: 80px;
+height: 28px;
+display: block;
+text-align: center;
+line-height: 28px;
+font-weight: bold;
+cursor: pointer;
+float: left;
+box-shadow: 1px 1px 1px #888888;
+-moz-box-shadow: 1px 1px 1px #888888;
+-webkit-box-shadow: 1px 1px 1px #888888;
+-o-box-shadow: 1px 1px 1px #888888;
+-moz-border-radius: 2px;
+-o-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+input[type="button"]:hover{
+	background:#54b6da;	
+}
+.more{position:absolute;width:100px;border:1px solid #ccc;margin:0px 0px 0px 100px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;-o-border-radius:5px; background:#FFF;border: 1px solid rgba(0, 0, 0, 0.15);border-radius: 4px;-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);background-clip: padding-box; display:none;}
+.more ul li{display:block!important; text-align:left; text-indent:20px; cursor:pointer;}
+.more ul li:hover{ background:#f5f5f5;}
+.more ul li a{color:#666; display:block; width:98px; height:30px; line-height:30px;}
+.opt_div{ width:100%;height:40px; border-bottom:1px solid #ccc;}
+.opt_div input[type="checkbox"]{ margin:0px 30px 0px 10px}
+.opt_div button{border: 1px solid #bcbcbc;background-color: #fafafa;background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f9f9f9), color-stop(100%, #f3f3f3));background: -webkit-linear-gradient(top, #f9f9f9,#f3f3f3);background: -moz-linear-gradient(top, #f9f9f9,#f3f3f3);background: -o-linear-gradient(top, #f9f9f9,#f3f3f3);background: linear-gradient(top, #f9f9f9,#f3f3f3);text-shadow: 0px 0px 1px rgba(255,255,255,0.2);}
+
+.account_head{ width:100%;height:56px; border-bottom:1px solid #e5e5e5; min-width:1024px;}
+.account_head .account_menu{ width:1024px;height:56px; margin: 0 auto;}
+.account_menu .title{ float: left;display: inline;border-left: solid 3px #00a1ca;margin-top: 19px;padding-left: 5px;color: #00a1ca;font-size: 18px;line-height: 1;font-weight: 700;}
+.menu_list{ float:right;width:730px;height:56px;}
+.menu_list ul li{ float:left;display: inline;padding-left: 32px;}
+.menu_list ul li a{float: left;display: inline;height: 56px;font-size: 14px;line-height: 3.8;color: #333;text-decoration: none;}
+.menu_list ul li a:hover{ color:#00a1ca}
+.menu_list .active{ border-bottom:3px solid #00a1ca;color:#00a1ca}
+
+
+.user_info_div{width:1024px;min-width:1024px;height:116px; border:1px solid #e1e6e9; margin: 0 auto; margin-top:20px;}
+.user_info_div .user_photo{position: relative;padding: 0;width: 80px;height: 80px;border: 5px #e4e8eb solid;float: left;border-radius: 60px;overflow: hidden; margin: 15px 20px;}
+.user_info_div .user_info{margin: 0 20px;float: left;width: 630px;}
+.user_info .user-item{height: 50px;line-height: 50px;border-bottom: 2px #eee dotted; padding:0px 15px;font-size:12px;}
+.user_info a{color:#00a2ca}
+.user-item .red{color:red;}
+.user-item .green{color:red;}
+.user-item .user-help{width: 16px;height: 16px;zoom: 1;background: url(../images/icon.png) -380px -4px repeat-x;position: relative; cursor:pointer ; margin:-3px 0px;}
+.user_info .user-mobile{width: 30px;height: 24px;margin: -5px 0;zoom: 1;background: url(../images/icon.png) -144px 3px repeat-x;position: relative; cursor:pointer}
+.user_info .user-realname{width: 30px;height: 24px;margin: -5px 0;zoom: 1;background: url(../images/icon.png) -52px 3px repeat-x;position: relative; cursor:pointer}
+.user_info .user-property{width: 30px;height: 28px;margin: -5px 0;zoom: 1;background: url(../images/icon.png) -332px 3px repeat-x;position: relative; cursor:pointer}
+.user_info .user-alipay{width: 30px;height: 28px;margin: -5px 0;zoom: 1;background: url(../images/icon.png) -240px 3px repeat-x;position: relative; cursor:pointer}
+.user-mobile .icon-tips, .user-realname .icon-tips, .user-property .icon-tips, .user-alipay .icon-tips{position: absolute;width: 192px;height: 30px;line-height: 30px;padding-left: 10px;background: #f1f6fa;top: -35px;display: none;left: -166px;border: 1px #e1ebec solid; font-weight:normal; font-size:12px;}
+.user-help .icon-tips{position: absolute;line-height: 30px;padding-left: 10px;padding-right: 10px;background: #f1f6fa;top: -125px;display: none;left: -166px;border: 1px #e1ebec solid; font-weight:normal; font-size:12px;}
+.user-help .icon-tips div{left: 168px;top: 120px;}
+.icon-tips div{height: 7px;display: block;width: 12px;padding: 0;position: absolute;left: 175px;top: 28px;background: url(../images/tips.gif) 0 0 no-repeat;border: 0;}
+.user_info_div .beian{float: left;width: 20%; height: 20px;padding-top: 70px; font-size:12px;}
+.beian .beian-icon{display: inline-block;width: 30px;text-align:right;height: 28px;margin: -8px 0;zoom: 1;background: url(../images/bn.png) no-repeat center center;}
+
+.account_product{width:1024px;min-width:1024px;height:204px; border:1px solid #e1e6e9; margin: 0 auto; margin-top:20px; border-top:2px solid #e1e6e9;}
+.account_left{width:750px;height:204px; float:left}
+.account_right{width:270px;height:202px; border-left:1px solid #e1e6e9; float:right}
+.account_left .account_item{ width:750px;height:100px;}
+.account_item .info-title{height: 22px;line-height: 22px;font-weight: 700;color: #666;padding:10px 20px;}
+.account_item .info-note{ padding:20px 20px;color:#ccc;}
+.account_item .cloud{width:20px;height:20px; display:inline-block; background:url(../images/ico2.png) 75px 3px repeat-x;cursor:pointer; float:left}
+.account_item .fuzai{width:20px;height:20px; display:inline-block; background:url(../images/ico2.png) 56px 3px repeat-x;cursor:pointer; float:left}
+.info-note span{color:#ff945c; font-size:20px;}
+.info-note a{ font-size:12px;margin: 0 15px;}
+.info-note .info-money{font-size: 36px;line-height: 36px;}
+.info-note .btn-recharge{display: inline-block;width: 78px;height: 30px; margin:0px 20px;background: #00a2ca;line-height: 30px;font-size: 14px;color: #fff;text-align: center;outline: none;border-radius: 4px;}
+.info-note .btn-recharge:hover{background:#33b5d4}
+.account_item .property{ display:block;font-size:14px; color:#333; width:180px; float:left;}
+.account_right dl dt{height: 66.5px;line-height: 66px;font-size: 12px;text-align: left;border-top: 1px #e1e6e9 solid;color:#666}
+.account_right dl dd{ color:#666; text-align:center; display:none; position:absolute;width:269px;height:30px;line-height:30px; background:#fff;}
+.account_right .msg{ border:none;}
+.account_right .ico_msg{width:20px;height:20px; display:inline-block; background:url(../images/ico2.png) -101px 3px repeat-x;cursor:pointer; margin-top:22px; float:left}
+.account_right .ico_worklist{width:20px;height:20px; display:inline-block; background:url(../images/ico2.png) 140px 3px repeat-x;cursor:pointer; margin-top:22px; float:left}
+.account_right .ico_coupon{width:20px;height:20px; display:inline-block; background:url(../images/ico2.png) -23px 3px repeat-x;cursor:pointer; margin-top:22px; float:left}
+.msg .num{ float:left; font-size:38px;color:#7cb552; font-weight:normal; margin:0px 20px; width:50px; text-align:center;}
+.worklist .num{ float:left; font-size:38px;color:#00aadd; font-weight:normal; margin:0px 20px; width:50px; text-align:center;}
+.coupon .num{ float:left; font-size:38px;color:#ff945c; font-weight:normal; margin:0px 20px; width:50px; text-align:center;}
+.account_right .msg_ico, .account_right .worklist_ico, .account_right .coupon_ico{width:16px;height:16px; display:inline-block; background: url(../images/icon.png) -474px -3px repeat-x;cursor:pointer; float:right; margin: 20px 20px;}
+.order_title{width:1024px; height:36px; margin: 0 auto; margin-top:20px; background:#f5f5f5;border-left: 3px #00a1cb solid; line-height:36px; padding-left:15px; font-weight:bold; font-size:14px;}
+.order_title a{ float:right; margin-right:30px; font-size:14px;}
+.y-table{width: 1024px;border-collapse: collapse;border-spacing: 0;font-size: 12px;line-height: 1.5;color: #333; margin: 0 auto; margin-bottom:150px;}
+.y-table td, .y-table th{ padding:5px 20px;}
+.y-table th {background: #fff;border-bottom: 1px #e3e3e3 solid; font-size:13px;}
+
+
+/***************分页******************/
+.fenye{ float:right; margin-right: 16px;}
+.fenye ul{ float:left; margin-left:32px; }
+.fenye ul li{ float:left; margin-left:5px;padding: 4px 6px; border:1px solid #ccc;  font-weight:bold; cursor:pointer; color:#666;}
+.fenye ul li a{ color:#666;}
+.fenye ul li.xifenye{ text-align:center; float:left; position:relative;cursor: pointer;}
+.fenye ul li .xab{ float:left; position:absolute; width:39px; border:1px solid #ccc; height:123px; overflow-y: auto;overflow-x: hidden;top:-125px; background-color: #fff; display:inline;left:-1px; width:50px;}
+.fenye ul li .xab ul{ margin-left:0; padding-bottom:0;}
+.fenye ul li .xab ul li{ border:0; padding:4px 0px; color:#999; width:34px; margin-left:0px; text-align:center;}
+
+/***************会员管理***************/
+.left_menu{float:left;width:200px;min-height:700px; background:#f3f3f3;}
+.menu_title{float:left;width:200px; background:#f3f3f3;height:60px; line-height:60px; font-size:18px; color:#666; text-align:center; margin-top:20px; border-bottom:1px dotted #ccc;}
+.left_menu ul li{ width:200px; height:35px; line-height:35px ; color:#333; text-align:center; margin:10px 0px;}
+.left_menu ul a{ width:180px;height:100%; display:inline-block;margin-left:20px; color:#333; font-size:14px;}
+.left_menu .active{ background:#fff;}
+#person_form table th, #company_form table th{ font-size:14px;}
+
+
+/**************账户充值*****************/
+.recharge_tab{ width:800px;border: 6px solid #EBEBEB; min-height:380px; float:right; margin-top:30px;}
+.recharge_tab .recharge_input, .recharge_tab .balance{ width:720px; height:45px; line-height:45px; font-size:14px; padding:5px 0px 0px 100px;}
+.recharge_tab div{ width:720px; line-height:45px; font-size:14px; padding:5px 0px 0px 100px;}
+.recharge_tab label{ width:120px; text-align:right; font-weight:normal; margin-right:30px}
+.recharge_input input{padding: 4px;line-height: 16px;border: 1px solid #CCC;border-radius: 3px;-moz-border-radius: 3px;-webkit-border-radius: 3px;-o-border-radius: 3px; width:82px; color:#666}
+.recharge_input input:focus{ border:1px solid #F60}
+.recharge_tab .balance span{ color:#F60; font-size:20px; font-weight:bold}
+.recharge_type ul{float:left}
+.recharge_type ul li{ width:94px; height:40px; background:#f7f7f7; float:left; margin-right: 10px;}
+.recharge_type ul li a{ color:#666; text-align:center;width:94px; height:40px; display:block}
+.recharge_type ul li .active{ border-top:2px solid #f60; background:#fff; border-left:1px solid #ccc;border-right:1px solid #ccc}
+.recharge_tab img{border:1px solid #ccc; margin:20px 20px;}
+.recharge_tab .btn-recharge{width: 78px;height: 27px;}
+.recharge_tab .bank_ico{float:left;width:121px;height:42px; display:inline-block;border:1px solid #ccc;margin-left: 20px;}
+.recharge_tab p{font-size: 12px;}

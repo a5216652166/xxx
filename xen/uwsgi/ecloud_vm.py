@@ -12,8 +12,8 @@ def _get_vm_power_state():
 
 	ret = {}
 	vm_name_label = args['vm_name_label']
-	vm = session.xenapi.VM.get_by_name_label(vm_name_label)
-	record = session.xenapi.VM.get_record(vm[0])
+	vm = session.xenapi.VM.get_by_name_label(vm_name_label)[0]
+	record = session.xenapi.VM.get_record(vm)
 	ret['vm_name_label'] = vm_name_label
 	ret['power_state'] = record['power_state']
 	return json.dumps(ret)
@@ -24,8 +24,7 @@ def _set_vm_power_state():
 	ret = {}
 	vm_name_label = args['vm_name_label']
 	power_state = args['power_state']
-	vm = session.xenapi.VM.get_by_name_label(vm_name_label)
-	vm = vm[0]
+	vm = session.xenapi.VM.get_by_name_label(vm_name_label)[0]
 	#### Halt|Pause|Run|Suspend|Reboot|Resume ####
 	####
 	if power_state == 'Halt':
@@ -48,6 +47,51 @@ def _set_vm_power_state():
 	ret['vm_name_label'] = vm_name_label
 	return json.dumps(ret)
 
+def read_os_name(vm):
+	global session
+
+	vgm = session.xenapi.VM.get_guest_metrics(vm)
+	try:
+		os = session.xenapi.VM_guest_metrics.get_os_version(vgm)
+		if "name" in os.keys():
+			return os["name"]
+		return None
+	except:
+		return None
+
+def read_ip_address(vm):
+	global session
+
+	vgm = session.xenapi.VM.get_guest_metrics(vm)
+	try:
+		os = session.xenapi.VM_guest_metrics.get_networks(vgm)
+		if "0/ip" in os.keys():
+			return os["0/ip"]
+		return None
+	except:
+		return None
+
+def _get_vm_summary():
+	global args, pool_data, session
+
+	ret = {}
+	vm_name_label = args['vm_name_label']
+	vm = session.xenapi.VM.get_by_name_label(vm_name_label)[0]
+	record = session.xenapi.VM.get_record(vm)
+	#for x in record.keys():
+	#	try:
+	#		print x, record[x]
+	#	except:
+	#		continue
+	ret['vm_name_label'] = vm_name_label
+	ret['name_description'] = record['name_description']
+	ret['memory_target'] = record['memory_target']
+	ret['power_state'] = record['power_state']
+	ret['VCPUs_max'] = record['VCPUs_max']
+	ret['OS'] = read_os_name(vm)
+	ret['IP'] = read_ip_address(vm)
+	return json.dumps(ret)
+
 def _do_main(query):
 	global args, session
 	#
@@ -67,6 +111,8 @@ def _do_main(query):
 		return _get_vm_power_state()
 	elif args['opt'] == 'set_vm_power_state':
 		return _set_vm_power_state()
+	elif args['opt'] == 'get_vm_summary':
+		return _get_vm_summary()
 	else:
 		return 'unknow opt'
 

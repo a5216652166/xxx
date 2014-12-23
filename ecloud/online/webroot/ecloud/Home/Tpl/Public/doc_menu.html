@@ -1,0 +1,42 @@
+<script type="text/javascript">
+	$(function(){
+		var strHref = window.location.href;
+		$(".sphinxsidebarwrapper ul li").each(function(){
+			if(strHref.indexOf($(this).attr('id'))!=-1){
+				$(this).children().attr('class','current reference internal active');
+			}else{
+				$(this).children().attr('class','reference internal');
+			}
+		});
+	});
+</script>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+        <h3><a href="#">睿江云文档</a></h3>
+        <ul>
+            <li class="toctree-l1" id="docs"><a class="reference internal" href="__APP__/Index/docs">常见问题</a></li>
+            <li class="toctree-l1" ><a class="reference internal" href="__APP__/Index/beian?b=content_b1">备案服务</a></li>
+            <ul class="tree_ul">
+                <li class="toctree-l1" id="content_b1"><a class="reference internal" href="__APP__/Index/beian?b=content_b1">备案介绍</a></li>
+                <li class="toctree-l1" id="content_b2"><a class="reference internal" href="__APP__/Index/beian?b=content_b2">备案流程</a></li>
+                <li class="toctree-l1" id="content_b3"><a class="reference internal" href="__APP__/Index/beian?b=content_b3">管局要求</a></li>
+                <li class="toctree-l1" id="content_b4"><a class="reference internal" href="__APP__/Index/beian?b=content_b4">备案材料</a></li>
+                <li class="toctree-l1" id="content_b5"><a class="reference internal" href="__APP__/Index/beian?b=content_b5">填写指南</a></li>                
+                <li class="toctree-l1" id="content_b6"><a class="reference internal" href="__APP__/Index/beian?b=content_b6">前置审批</a></li>                
+            </ul>
+            <li class="toctree-l1" ><a class="reference internal" href="__APP__/Index/contract">发票合同</a></li>
+            <ul class="tree_ul">
+                <li class="toctree-l1" id="content_c1"><a class="reference internal" href="__APP__/Index/contract?c=content_c1">发票索取</a></li>
+                <li class="toctree-l1" id="content_c2"><a class="reference internal" href="__APP__/Index/contract?c=content_c2">合同签订</a></li>
+            </ul>                   
+            <li class="toctree-l1" ><a class="reference internal" href="__APP__/Index/linux">系统安装与维护</a></li>
+            <ul class="tree_ul">
+                <li class="toctree-l1" id="linux"><a class="reference internal" href="__APP__/Index/linux">Linux安装web</a></li>
+                <li class="toctree-l1" id="nginx"><a class="reference internal" href="__APP__/Index/nginx">nginx添加伪静态</a></li>
+                <li class="toctree-l1" id="win2003"><a class="reference internal" href="__APP__/Index/win2003">windows2003配置</a></li>
+                <li class="toctree-l1" id="win2008"><a class="reference internal" href="__APP__/Index/win2008">windows2008配置</a></li>
+            </ul>
+            <li class="toctree-l1" id="report"><a class="reference internal" href="__APP__/Index/report">互联网不良信息举报</a></li>
+        </ul>
+    </div>
+  </div>

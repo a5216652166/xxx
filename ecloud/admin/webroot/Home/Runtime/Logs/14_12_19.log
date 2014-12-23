@@ -1,0 +1,1007 @@
+[ 2014-12-19T10:06:15+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/Group/edit?id=1
+ERR: 模板不存在[./Home/Tpl/Group/edit.html]
+
+[ 2014-12-19T11:23:58+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/Host/get_vps?PoolCode=P-26-001
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000413s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000482s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+SQL: SELECT * FROM `Pool` WHERE ( PoolCode='P-26-001' ) LIMIT 1   [ RunTime:0.008486s ]
+
+[ 2014-12-19T14:10:07+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/Host/get_vps?PoolCode=P-26-001
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000489s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000572s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+SQL: SELECT * FROM `Pool` WHERE ( PoolCode='P-26-001' ) LIMIT 1   [ RunTime:0.009730s ]
+
+[ 2014-12-19T14:20:24+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/Group/group_list
+ERR: XML标签语法错误 : condition="$i < $vo['IPS']|count - 1 "
+
+[ 2014-12-19T14:50:00+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/Pool/checkCode?PoolCode=tewst
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000180s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000222s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+SQL: SELECT * FROM `Pool` WHERE ( PoolCode='tewst' )  [ RunTime:0.008388s ]
+
+[ 2014-12-19T16:13:00+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/Host/get_vps?PoolCode=P-26-001
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000379s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000445s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+SQL: SELECT * FROM `Pool` WHERE ( PoolCode='P-26-001' ) LIMIT 1   [ RunTime:0.009961s ]
+
+[ 2014-12-19T16:26:04+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/css/jquery.fancybox-1.3.4.css
+ERR: 非法操作:css
+
+[ 2014-12-19T16:26:04+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/js/fancybox/jquery.fancybox-1.3.4.js
+ERR: 非法操作:js
+
+[ 2014-12-19T16:26:04+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/js/fancybox/jquery.fancybox-1.3.4.pack.js
+ERR: 非法操作:js
+
+[ 2014-12-19T16:26:04+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/js/fancybox/jquery.fancybox-1.3.4.pack.js
+ERR: 非法操作:js
+
+[ 2014-12-19T16:26:04+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/js/fancybox/jquery.fancybox-1.3.4.js
+ERR: 非法操作:js
+
+[ 2014-12-19T16:26:04+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/css/jquery.fancybox-1.3.4.css
+ERR: 非法操作:css
+
+[ 2014-12-19T16:26:07+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/css/jquery.fancybox-1.3.4.css
+ERR: 非法操作:css
+
+[ 2014-12-19T16:26:17+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/css/jquery.fancybox-1.3.4.css
+ERR: 非法操作:css
+
+[ 2014-12-19T16:26:17+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/js/fancybox/jquery.fancybox-1.3.4.js
+ERR: 非法操作:js
+
+[ 2014-12-19T16:26:17+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/js/fancybox/jquery.fancybox-1.3.4.pack.js
+ERR: 非法操作:js
+
+[ 2014-12-19T16:57:32+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000197s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000236s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006355s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006412s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000206s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000148s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000081s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000160s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000687s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000259s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000291s ]
+
+[ 2014-12-19T16:57:38+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000389s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000465s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007488s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007557s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000200s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000154s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000082s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000167s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000695s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000259s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000296s ]
+
+[ 2014-12-19T16:57:47+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000292s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000351s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006221s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006282s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000238s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000189s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000190s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000214s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000983s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000497s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000579s ]
+
+[ 2014-12-19T16:57:49+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000495s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000603s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006854s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006942s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000267s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000201s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000103s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000168s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000855s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000264s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000301s ]
+
+[ 2014-12-19T16:57:50+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000249s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000296s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.004775s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.004826s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000192s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000195s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000100s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000185s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000796s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000374s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000438s ]
+
+[ 2014-12-19T16:57:52+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000422s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000494s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005368s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005429s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000233s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000215s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000116s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000284s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001012s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000510s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000602s ]
+
+[ 2014-12-19T16:57:54+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000204s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000240s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006522s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006572s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000221s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000143s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000079s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000174s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000704s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000261s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000297s ]
+
+[ 2014-12-19T16:57:57+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000207s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000246s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006672s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006736s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000276s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000211s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000086s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000238s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000938s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000372s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000429s ]
+
+[ 2014-12-19T17:00:43+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000386s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000452s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007526s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007627s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000241s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000187s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000094s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000171s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000800s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000354s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000413s ]
+
+[ 2014-12-19T17:00:45+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000505s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000610s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.008034s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008112s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000343s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000308s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000182s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000218s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001226s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000344s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000389s ]
+
+[ 2014-12-19T17:01:21+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000303s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000367s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005376s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005435s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000167s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000138s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000075s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000148s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000608s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000217s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000244s ]
+
+[ 2014-12-19T17:01:25+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000510s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000612s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007387s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007492s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000459s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000384s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000209s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000257s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001552s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000375s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000433s ]
+
+[ 2014-12-19T17:01:28+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000303s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000357s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005924s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005995s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000225s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000164s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000093s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000170s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000759s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000303s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000350s ]
+
+[ 2014-12-19T17:01:54+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000303s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000363s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007009s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007064s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000178s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000147s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000084s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000157s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000658s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000259s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000299s ]
+
+[ 2014-12-19T17:02:07+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000224s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000265s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007263s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007352s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000447s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000376s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000207s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000334s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001607s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000345s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000396s ]
+
+[ 2014-12-19T17:02:08+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000245s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000308s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005310s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005354s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000149s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000126s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000072s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000177s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000622s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000328s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000372s ]
+
+[ 2014-12-19T17:02:27+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000365s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000443s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006952s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007024s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000243s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000159s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000107s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000162s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000774s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000258s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000291s ]
+
+[ 2014-12-19T17:03:28+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000304s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000367s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005885s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005953s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000164s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000133s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000075s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000155s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000605s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000226s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000255s ]
+
+[ 2014-12-19T17:03:38+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000535s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000643s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006404s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006465s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000189s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000163s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000096s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000170s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000713s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000343s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000379s ]
+
+[ 2014-12-19T17:03:50+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000624s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000748s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: return_url /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 27 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.008548s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008650s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000211s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000215s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000115s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000230s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000900s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000326s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000371s ]
+
+[ 2014-12-19T17:04:37+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000546s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000639s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007278s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007343s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000196s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000157s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000083s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000161s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000683s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000335s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000382s ]
+
+[ 2014-12-19T17:09:14+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000342s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000403s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005256s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005320s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000144s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000126s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000070s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000144s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000561s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000208s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000234s ]
+
+[ 2014-12-19T17:09:17+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/set_group_ip
+ERR: 非法操作:set_group_ip
+
+[ 2014-12-19T17:09:18+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000211s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000249s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005088s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005139s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000199s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000157s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000087s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000164s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000699s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000328s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000372s ]
+
+[ 2014-12-19T17:09:41+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000320s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000389s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 25 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 43 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 49 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 55 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 62 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006460s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006528s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000212s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000179s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000092s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000162s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000767s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000264s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000307s ]
+
+[ 2014-12-19T17:09:45+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000225s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000266s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 25 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 43 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 49 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 55 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 62 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005973s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006036s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000271s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000426s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000186s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000295s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001407s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000421s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000476s ]
+
+[ 2014-12-19T17:10:00+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000178s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000209s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.004113s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.004151s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000135s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000126s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000082s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000147s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000567s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000209s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000234s ]
+
+[ 2014-12-19T17:10:00+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000219s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000257s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005368s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005434s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000322s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000372s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000246s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000353s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001570s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000454s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000518s ]
+
+[ 2014-12-19T17:10:01+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000242s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000285s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007725s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007783s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000219s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000154s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000088s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000174s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000730s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000295s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000338s ]
+
+[ 2014-12-19T17:11:50+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000320s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000383s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007222s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007313s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000226s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000208s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000103s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000231s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000894s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000378s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000425s ]
+
+[ 2014-12-19T17:19:49+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000495s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000615s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006364s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006442s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000239s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000207s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000119s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000199s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000885s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000250s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000284s ]
+
+[ 2014-12-19T17:19:52+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000443s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000554s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006940s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007014s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000260s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000256s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000144s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000299s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001114s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000465s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000520s ]
+
+[ 2014-12-19T17:19:58+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000399s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000478s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005252s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005322s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000265s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000220s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000117s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000216s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000949s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000324s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000374s ]
+
+[ 2014-12-19T17:25:56+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000328s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000395s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007044s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007137s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000248s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000251s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000177s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000202s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001042s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000338s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000389s ]
+
+[ 2014-12-19T17:26:21+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000471s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000573s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006621s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006728s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000307s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000196s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000103s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000247s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000995s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000235s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000270s ]
+
+[ 2014-12-19T17:26:29+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000307s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000365s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005037s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005107s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000134s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000132s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000071s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000156s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000571s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000220s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000248s ]
+
+[ 2014-12-19T17:26:31+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000381s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000449s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 39 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 45 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 51 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 58 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007320s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007398s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000234s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000163s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000084s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000159s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000738s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000236s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000267s ]
+
+[ 2014-12-19T17:27:09+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000439s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000532s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 40 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 46 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 52 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 59 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.005219s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005274s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000155s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000131s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000075s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000153s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000591s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000241s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000269s ]
+
+[ 2014-12-19T17:27:18+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000222s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000269s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 40 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 46 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 52 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 59 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006641s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006704s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000283s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000229s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000096s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000176s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000918s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000316s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000358s ]
+
+[ 2014-12-19T17:27:41+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000334s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000406s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 40 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 46 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 52 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 59 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.007097s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007156s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000223s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000169s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000097s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000178s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000782s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000403s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000437s ]
+
+[ 2014-12-19T17:29:54+08:00 ] 127.0.0.1 /ecloud_admin/WebRoot/index.php/VM/add_vm_ip
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.000402s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000485s ]
+NOTIC: [8] A session had already been started - ignoring session_start() /var/www/ecloud_admin/WebRoot/ThinkPHP/Common/functions.php 第 566 行.
+INFO: [ view_parse ] --START--
+NOTIC: [8] Undefined variable: ipsnow /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 21 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 40 行.
+NOTIC: [8] Undefined variable: errorMsg /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 46 行.
+NOTIC: [8] Undefined variable: data /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 52 行.
+NOTIC: [8] Undefined variable: ips /var/www/ecloud_admin/WebRoot/Home/Runtime/Cache/ee231951b95aac2dc051b7d847f5b0b7.php 第 59 行.
+INFO: ParseTemplate Behavior ::run [ RunTime:0.006683s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006739s ]
+INFO: [ view_filter ] --START--
+INFO: ContentReplace Behavior ::run [ RunTime:0.000240s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000152s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000083s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000164s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000736s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000286s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000331s ]
+

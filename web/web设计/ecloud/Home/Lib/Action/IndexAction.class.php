@@ -183,7 +183,16 @@ class IndexAction extends Action {
 			$result = $orderVPS->table('Ad_OrderNeed')->where('Order_ID='.$ordlist['ID'])->find();			
 			$this->assign('result',$result);
 		}
+		//机房
+		$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/HouseList.php");
+		$houseList = json_decode($data,true);
+		//系统
+		$data2 = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/TemplateList.php");
+		$osList = json_decode($data2,true);
+		
 		$this->assign('balance',$this->returnBalance());
+		$this->assign('houseList',$houseList);
+		$this->assign('osList',$osList);
 		$this->display();
 	}
 	//修改用户信息
@@ -536,6 +545,7 @@ class IndexAction extends Action {
 			$data['BandWidthIPLC'] = $_GET['iplc'];
 			$data['BandWidthBGP'] = $_GET['bgp'];
 			$data['Count'] = $_GET['count'];
+			$data['HouseName'] = $_GET['house'];
 			$data['Oid'] = $_GET['oid'];
 			
 			$this->assign("price",$this->returnPrice($_GET['cpu'],$_GET['ram'],$_GET['disk'],$_GET['bgp'],$_GET['iplc'],$_GET['count'],'月'));
@@ -848,10 +858,11 @@ class IndexAction extends Action {
 		$data2['Order_ID'] = $is_ok;
 		$data2['CPU'] = $_POST['cpu'];
 		$data2['RAM'] = $_POST['ram'];
-		$data2['DISK'] = $_POST['disk'];
+		$data2['DISK'] = $_POST['disk'];	
 		$data2['BandWidthBGP'] = $_POST['bgp'];
 		$data2['BandWidthIPLC'] = $_POST['iplc'];
 		$data2['OS'] = $_POST['os'];
+		$data2['HouseName'] = $_POST['house'];	
 		$data2['Price'] = $this->returnPrice($_POST['cpu'],$_POST['ram'],$_POST['disk'],$_POST['bgp'],$_POST['iplc'],$_POST['num'],$_POST['time']);
 		$data2['Time'] = $_POST['time'];
 		$data2['Count'] = $_POST['count'];
@@ -932,6 +943,7 @@ class IndexAction extends Action {
 		$data2['BandWidthBGP'] = $_POST['bgp'];
 		$data2['BandWidthIPLC'] = $_POST['iplc'];
 		$data2['OS'] = $_POST['os'];
+		$data2['HouseName'] = $_POST['house'];
 		$data2['Price'] = $this->returnPrice($_POST['cpu'],$_POST['ram'],$_POST['disk'],$_POST['bgp'],$_POST['iplc'],$_POST['num'],$_POST['time']);
 		$data2['Time'] = $_POST['time'];
 		$data2['Count'] = $_POST['count'];
@@ -987,6 +999,7 @@ class IndexAction extends Action {
 				$data2['Price'] = $price;
 				
 				$data2['OS'] = $_GET['sys'];
+				$data2['HouseName'] = $_GET['house'];
 				$data2['Time'] = $_GET['time'];
 				$data2['Count'] = $_GET['num'];
 				$orderVPS->table('Ad_OrderNeed')->add($data2);
@@ -1000,6 +1013,7 @@ class IndexAction extends Action {
 				$data2['DISK'] = $_GET['disk'];
 				$data2['BandWidthBGP'] = $_GET['bgp'];
 				$data2['BandWidthIPLC'] = $_GET['iplc'];
+				$data2['HouseName'] = $_GET['house'];
 				
 				$price = $this->returnPrice($_GET['cpu'],$_GET['ram'],$_GET['disk'],$_GET['bgp'],$_GET['iplc'],$_GET['num'],$_GET['time']);
 				$data2['Price'] = $price;

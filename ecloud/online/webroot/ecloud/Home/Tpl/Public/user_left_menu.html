@@ -1,0 +1,40 @@
+<div class="left_menu">
+    <div class="menu_title">会员信息管理</div>
+    <div style=" float:left;margin-top:20px;">
+        <ul>
+            <li><a href="__APP__/Index/userMgr">基本信息</a></li>
+            <if condition="$_SESSION['type'] == 1">
+                <li><a href="__APP__/Index/changeUserType">切换身份</a></li>
+            </if>
+            <li><a href="__APP__/Index/recharge">账户充值</a></li>
+            <li><a href="__APP__/Index/consumption">消费记录</a></li>
+            <li><a href="#" onClick="establish()">实名认证</a></li>
+            <li><a href="#" onClick="establish()">安全设置</a></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var url = window.location.href;
+		switch(true){
+			case url.indexOf('userMgr') != -1 :
+			$(".left_menu ul li a:eq(0)").addClass('active');
+			break;
+			case url.indexOf('changeUserType') != -1 && USERTYPE == 1 :
+			$(".left_menu ul li a:eq(1)").addClass('active');
+			break;
+			case url.indexOf('recharge') != -1 && USERTYPE == 1:
+			$(".left_menu ul li a:eq(2)").addClass('active');
+			break;
+			case url.indexOf('recharge') != -1 && USERTYPE == 2:
+			$(".left_menu ul li a:eq(1)").addClass('active');
+			break;
+			case url.indexOf('consumption') != -1 && USERTYPE == 1:
+			$(".left_menu ul li a:eq(3)").addClass('active');
+			break;
+			case url.indexOf('consumption') != -1 && USERTYPE == 2:
+			$(".left_menu ul li a:eq(2)").addClass('active');
+			break;
+		}
+	});
+</script>

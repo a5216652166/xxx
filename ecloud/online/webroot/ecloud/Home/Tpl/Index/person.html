@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <include file="Public:common"/>
+    <link rel="stylesheet" media="screen" href="__ROOT__/Public/css/bootstrap.min.css?v=74123">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/base.css">
+	<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+	<script type="text/javascript" src="__ROOT__/Public/js/util.js"></script>
+	<script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <title>睿江科技开放服务平台-用户登录</title>
+    <script type="text/javascript">
+        //如果是内部页，父级页面刷新,登录
+        var APP = "__APP__";
+        if(window.top!=this){ 
+            parent.location.reload();
+        }
+        $(function(){
+            clearmsg();
+            /*var msg = $("#error-msg").html();
+            if(msg){
+                $("#regist-error").show();
+            }*/
+        });
+        function clearmsg(){
+            $("#msg-truename").hide();
+            $("#msg-beian").hide();
+            $("#msg-address").hide();
+            $("#msg-phone").hide();
+            $("#msg-idnum").hide();		
+            $("#msg-address_").hide();
+            $("#error-msg").html('');
+        }
+        function regist_form(form){
+            clearmsg();
+            var truename = $("#truename").val(),
+                beian  = $("#beian").val(),
+                address  = $("#address").val(),
+                phone  = $("#phone").val(),
+                idnum  = $("#idnum").val(),
+                address_  = $("#address_").val(),
+                reg_phone = /^1\d{10}$/ ,
+				reg_name = /^[\u4E00-\u9FA5]+$/ ;
+            
+            if(!truename){
+                $("#truename").focus();
+                $("#msg-truename").show();
+                return false; 
+            }
+			if(!reg_name.test(truename)){
+                $("#truename").focus();
+                $("#error-msg").html('请输入正确的真实姓名。');
+                return false; 
+            }
+            if(!idnum){
+                $("#idnum").focus();
+                $("#msg-idnum").show();
+                return false;
+            }
+            if(!checkIDNum(idnum)){
+                $("#idnum").focus();
+                $("#error-msg").html('请输入正确的身份证号码格式。');
+                return false;
+            }
+            if(!address){
+                $("#address").focus();
+                $("#msg-address").show();
+                return false;
+            }
+            if(!phone){
+                $("#phone").focus();
+                $("#msg-phone").show();
+                return false;
+            }
+            if(!reg_phone.test(phone)){
+                $("#phone").focus();
+                $("#error-msg").html('请输入正确的手机号码格式。');
+                return false;
+            }
+            if(!address_){
+                $("#address_").focus();
+                $("#msg-address_").show();
+                return false;
+            }
+            /*
+            if(!beian){
+                $("#beian").focus();
+                $("#msg-beian").show();
+                return false;
+            }
+            */
+            $.ajax({
+                url:'__APP__/Index/person',
+                type:'post',
+                async:false,
+                data:$("#regist").serialize(),
+                success:function(data){
+                    if(data.info=='success'){
+                        //$("#error-msg").html(data.data);
+						layer.msg("完成注册，还需一步，进入邮箱激活账户购买资格。",5,1);
+						setInterval(function(){
+							window.location.href = "__APP__/Index/buy";
+						},5000);
+                    }else{
+                        $("#error-msg").html(data.data);
+                    }
+                },error:function(data){
+                    $("#error-msg").html(data.statusText);
+                }
+            });
+        }
+    </script>
+</head>
+<body class="regist" style="background:none;">
+    <include file="Public:head"/>
+    <div id="regist-process" class="step2">
+        <div id="regist-process-bar"></div>
+        <div id="regist-process-step1">填写登录信息</div>
+        <div id="regist-process-step2">完善帐户信息</div>
+        <div id="regist-process-step3">购买云主机</div>
+    </div>
+	<div id="content-container" style="height:480px;">
+	<div class="grid780 clr" style="margin-top:50px; height:40px;">
+		<h3 style="font-size:20px;margin:0px 100px;">个人用户注册</h3>
+	</div>
+	<div id="content" class="grid780 clr" style="height:450px; width:550px; margin:10px 0px 0px 100px;">
+		<div id="regist-module" class="clr">
+		    <div id="regist-wrap">
+			<form id="regist" method="post">
+            	<input id="id" name="id" value="{$id}" type="hidden" />
+			    <div id="regist-error" class="form-error notice notice-error">
+				<span class="icon-notice icon-error"></span>
+				<span id="error-msg" class="notice-descript" style="font-size:13px;color:red;"></span>
+			    </div>
+			    <table id="regist-form" class="form">
+				<tbody>
+				<tr>
+				    <td class="fm-label">
+					<div class="fm-label-wrap fm-relative">
+					    <span class="icon icon-regist-email"></span>
+					    <label for="truename">真实姓名 ：</label>
+					</div>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="text" id="truename" name="truename" onFocus="clearmsg()" style="width:200px;" value="" tabindex="1" placeholder="输入真实姓名" class="fm-text fm-validator"><span class="noempty">*</span><span id="msg-truename" class="fm-validator-result">输入真实姓名</span>
+					</div>
+				    </td>
+				</tr>
+				<tr>
+				    <td class="fm-label">
+					<label for="idnum">身份证号 ：</label>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="text" id="idnum" name="idnum" style="width:200px;" onFocus="clearmsg()" placeholder="输入身份证号" tabindex="2" class="fm-text fm-password fm-validator" autocomplete="off"><span class="noempty">*</span><span id="msg-idnum" class="fm-validator-result">输入身份证号</span></div>
+				    </td>
+				</tr>
+				<tr>
+				    <td class="fm-label">
+					<label for="address">证件住所 ：</label>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="text" id="address" name="address" style="width:200px;" onFocus="clearmsg()" placeholder="输入证件住所" tabindex="3" class="fm-text fm-password fm-validator" autocomplete="off"><span class="noempty">*</span><span id="msg-address" class="fm-validator-result">输入证件住所</span></div>
+				    </td>
+				</tr>                
+				<tr>
+				    <td class="fm-label">
+					<label for="phone">手机号码 ：</label>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="text" id="phone" name="phone" style="width:200px;" onFocus="clearmsg()" placeholder="输入手机号码" tabindex="4" class="fm-text fm-password fm-validator" autocomplete="off"><span class="noempty">*</span><span id="msg-phone" class="fm-validator-result">输入手机号码</span></div>
+				    </td>
+				</tr>       
+				<tr>
+				    <td class="fm-label">
+					<label for="address_">通信地址 ：</label>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="text" id="address_" name="address_" style="width:200px;" onFocus="clearmsg()" placeholder="输入通信地址" tabindex="5" class="fm-text fm-password fm-validator" autocomplete="off"><span class="noempty">*</span><span id="msg-address_" class="fm-validator-result">输入通信地址</span></div>
+				    </td>
+				</tr>
+				<tr>
+				    <td class="fm-label">
+					<label for="beian">个人网站备案/许可证号 ：</label>
+				    </td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="text" id="beian" name="beian" style="width:200px;" onFocus="clearmsg()" placeholder="输入个人网站备案/许可证号" tabindex="6" class="fm-text fm-password fm-validator" autocomplete="off"><!--span class="noempty">*</span--><span id="msg-beian" class="fm-validator-result">个人网站备案/许可证号</span></div>
+				    </td>
+				</tr>
+				<tr>
+				    <td></td>
+				    <td class="fm-field">
+					<div class="fm-field-wrap">
+					    <input type="button" id="fm-regist-submit" value="完  成" name="event_submit_do_join" onClick="regist_form()" tabindex="7" class="fm-button fm-submit">  <!--a href="" target="_blank">《用户使用协议》</a-->
+					</div>
+				    </td>
+				</tr>
+			    </tbody></table>
+			</form>
+		    </div>
+		  </div>
+	      </div>
+	      <div id="regist-extra">
+		      <h3>免费注册</h3>
+		      <p>&nbsp;</p>
+		      已有账号？<a href="__APP__/Index/login">马上登录</a>
+		      <p>&nbsp;</p>
+		      <p>如果您是企业用户，</p>
+		      请&nbsp;<a href="__APP__/Index/cregist">注册企业账号</a>
+		      <p>&nbsp;</p>
+		      <a href="#">了解更多>></a>
+		      <p>&nbsp;</p>
+              <p>温馨提示：如果忘记备案号请登录"<a href="http://www.miibeian.gov.cn/publish/query/indexFirst.action" target="_blank">工信部备案信息查询页面</a>"进行查询;如果查询结果为"没有符合条件记录",此项可以缺省不填</p>
+	      </div>
+	</div>    
+    <include file="Public:footer" />
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+<meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+<meta content="睿江科技 研发项目组" name="author">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit">
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">
+<include file="Public:common"/>
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+<script type="text/javascript">
+	var APP = "__APP__"
+    //如果是内部页，父级页面刷新,登录
+    if(window.top!=this){ 
+        parent.location.reload();
+    }
+    $(function(){
+		if($("#username").val()!=""){
+			$("#username").prev().hide();
+		}
+        //onBlue();
+        var msg = $("#error-msg").html();
+        if(msg){
+            $("#regist-error").show();
+        }
+    });	
+	function onBlue(obj){
+		$(obj).prev().hide();
+		$("#error-msg").html('');
+	}
+	function input(obj){
+		$(obj).hide();
+		$(obj).next().focus();
+		//$("#error-msg").html('');
+	}
+	function showLabel(obj){
+		if($(obj).val()=="" || typeof($(obj).val())=='undefined'){
+			$(obj).prev().show();
+		}
+	}
+</script>
+<script type="text/javascript" src="__ROOT__/Public/js/login.js"></script>
+</head>
+<body class="regist" style="background:none;">
+	<include file="Public:head"/>
+	<!--include file="Public:head_login" /-->
+	<div class="main">
+        <div id="content-container" style="margin-top:120px;width:320px; height:340px;margin-left:60%; background:#fff; position:absolute;">
+            <div class="grid780 clr" style="padding-top:20px; height:60px; border-bottom:1px solid #e3e3e3;background:url(__ROOT__/Public/images/lgtop.jpg) repeat-x">
+                <h3 style="font-size:20px;margin:0px 50px;">用户登录</h3>
+            </div>
+            <div id="content" class="grid780 clr" style="height:230px;margin:12px 50px;">
+                <div id="regist-module" class="clr" style="">
+                    <div id="regist-wrap">
+                    	<if condition="$_SESSION['user'] neq '' ">
+                        	<div style="margin:10px 50px;width:80px;height:80px;"><img src="__ROOT__/Public/images/header.png" width="90" height="90"/></div>
+                            <if condition="$_SESSION['name'] neq '' ">
+                            	<div style="margin:20px 0px 0px 0px;font-size:16px; width: 200px;text-align: center;">欢迎您，{$_SESSION['name']}</div>
+                                <else/>
+                            	<div style="margin:20px 0px 0px 0px;font-size:16px; width: 220px;text-align: center;">请完善您的信息，<a href="__APP__/Index/account">我的控制台</a></div>
+                            </if>
+                            <input type="button" id="fm-regist-submit" value="购买云主机" onClick="window.location.href='__APP__/Index/buy'" name="event_submit_do_join" style="margin-top:20px;margin-left:12px;" class="fm-button fm-submit"/>
+                        <else/>
+                         <form id="regist" method="post" onSubmit="return validate_form()">
+                            <div id="regist-error" class="form-error notice notice-error" style="height:30px;width: 350px;" >
+                                <span class="icon-notice icon-error"></span>
+                                <span id="error-msg" class="notice-descript" style="color:red">{$error}</span>
+                            </div>
+                            <table id="regist-form" class="form">
+                                <tbody>
+                                <tr>
+                                    <td class="fm-field">
+                                        <div class="fm-field-wrap" style="border:1px solid #ccc; background:url(__ROOT__/Public/images/admin.png) no-repeat;">
+                                        	<!--label style="position:absolute; margin:7.5px 0px 0px 10px;color:#999;font-weight:normal;cursor:text;" onClick="input(this)">输入电子邮箱</label-->
+                                            <input type="text" id="username" name="username" onBlur="showLabel(this)" autocomplete="off" onFocus="onBlue(this);" style="margin-left:40px;width:180px;border:none;" tabindex="1" class="fm-text fm-validator" value="{$mail}" placeholder="输入电子邮箱" />                              </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fm-field">
+                                        <div class="fm-field-wrap" style="border:1px solid #ccc; background:url(__ROOT__/Public/images/pwd.png) no-repeat;">
+                                        	<!--label style="position:absolute; margin:7.5px 0px 0px 10px;color:#999;font-weight:normal;cursor:text" onClick="input(this)">输入账号密码</label-->
+                                            <input type="password" onFocus="onBlue(this);" id="password" name="password" value="" onBlur="showLabel(this)" style="margin-left:40px;width:180px;border:none;" tabindex="2" class="fm-text fm-password fm-validator" autocomplete="off" placeholder="输入用户密码"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr align="right">
+                                    <td class="fm-field" style="float:right">
+                                        <div class="fm-field-wrap"><a href="__APP__/Index/regist">免费注册</a> | <a href="__APP__/Index/forget">忘记密码？</a></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fm-field">
+                                        <div class="fm-field-wrap">
+                                            <input type="submit" id="fm-regist-submit" value="登录" style="width:220px;" name="event_submit_do_join" tabindex="3" class="fm-button fm-submit">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </form>
+                        </if>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <include file="Public:footer" />
+</body>
+</html>

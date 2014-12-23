@@ -1,3 +1,4 @@
+#!/bin/env python
 import sys
 import time
 import config
