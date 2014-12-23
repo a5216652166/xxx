@@ -8,9 +8,8 @@
 <script type="text/javascript" src="__ROOT__/Public/js/jquery.chosen/chosen.jquery.js"></script>
 <script type="text/javascript" src="__ROOT__/Public/js/artDialog/artDialog.js?skin=twitter"></script>
 
-<!-- Add fancyBox main JS and CSS files -->
-<script type="text/javascript" src="__ROOT__/Public/js/fancyBox-2.1.5/jquery.fancybox.js?v=2.1.5"></script>
-<link rel="stylesheet" type="text/css" href="__ROOT__/Public/js/fancyBox-2.1.5/jquery.fancybox.css?v=2.1.5" media="screen" />
+<script type="text/javascript" src="__ROOT__/Public/js/fancybox-1.3.4/jquery.fancybox-1.3.4.pack.js"></script>	
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/js/fancybox-1.3.4/jquery.fancybox-1.3.4.css" media="screen" />
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -24,33 +23,22 @@
 		});
 
 
-		$("#importBtn").click(function(){
-			parent.$.fancybox.open({
-				href  : '__URL__/add_vm_ip',
-				type : 'ajax',
-
-				padding: [5,0,5,0],
-				openEffect : 'elastic',
-				openSpeed  : 150,
-				closeEffect : 'elastic',
-				closeSpeed  : 150,
-
-		        closeClick : false,
-		        afterClose : function() {
-		        	//location.reload();
-		       	}
-		   	});
-		});
-
-		/*$("#importBtn").fancybox({
-			href  : '__URL__/add_vm_ip',
-			type : 'ajax',
-	        hideOnOverlayClick : false,
-	        onClosed : function() {
+		$(".addIP").fancybox({
+	    	//'href'  : '__URL__/add_vm_ip',
+	    	'type' : 'iframe',
+	    	'transitionIn'	: 'elastic',
+			'transitionOut'	: 'elastic',
+			'speedIn' : 150,
+			'speedOut' : 150,
+			'overlayColor'		: '#000',
+			'overlayOpacity'	: 0.7,
+			'showCloseButton' : true,
+	        //'hideOnOverlayClick' : false,
+	        'onClosed' : function() {
 	        	location.reload();
-	       	}
+	        }
 		});
-*/
+
 	});
 
 
@@ -116,6 +104,19 @@
 			}
 		}
 	}
+	
+	function delIp(id){
+		if(id == ''){
+			return;
+		}
+
+		if(confirm('确定要删除这个IP？')){
+			$.get('__URL__/del_vm_ip?id=' + id, function(ret){
+				alert(ret);
+				location.reload();
+			});
+		}
+	}
 
 
 </script>
@@ -165,8 +166,10 @@
 							<th>CPU</th>
 							<th>内存</th>
 							<th>硬盘</th>
+							<th>电源状态</th>
 							<th>模板编号</th>
 							<th>公网Vlan</th>
+							<th>内网Vlan</th>
 							<th>虚拟机IP</th>
 							<th>是否可用</th>
 							<th>操作</th>
@@ -181,11 +184,23 @@
 								<td>{$vo.Cpu}</td>
 								<td>{$vo.Ram}</td>
 								<td>{$vo.Disk}</td>
+								<td>{$vo.PowerState}</td>
 								<td>{$vo.TemplateCode}</td>
 								<td>{$vo.PublicVlan}</td>
-								<td>vmip</td>
-								<td>{$vo.State}</td>
+								<td>{$vo.PrivateVlan}</td>
 								<td>
+									<volist name="vo.ips" id="vo2">
+										<span>
+											{$vo2.IPAddr}
+										</span>
+										<a href="javascript:delIp({$vo2.ID});">删除</a>
+
+										<if condition="$i lt count($vo['ips'])"><br/></if>
+									</volist>
+								</td>
+								<td>{$vo.State}</td>
+								<td class="opt">
+									<a class="addIP" href="__URL__/add_vm_ip?id={$vo.ID}">添加IP</a>
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 
 									<a href="javascript:del({$vo.ID});">删除</a>
 								</td>

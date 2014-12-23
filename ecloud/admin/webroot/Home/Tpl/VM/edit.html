@@ -17,6 +17,7 @@
 
 		$("select[name=PoolCode]").val('{$data.PoolCode}').trigger('chosen:updated');
 		$("select[name=TemplateCode]").val('{$data.TemplateCode}').trigger('chosen:updated');
+		$("select[name=PowerState]").val('{$data.PowerState}');
 	});
 
 </script>
@@ -34,6 +35,12 @@
 			      	修改VM
 			      	<span id="errorMsg" class="errmsg">{$errorMsg}</span>
 			      </th>
+			    </tr>
+			    <tr>
+			      <td width="100px">最后修改时间：</td>
+			      <td class="ui_text_lt">
+			      	{$data.TimeStamp}
+			      </td>
 			    </tr>
 			    <tr>
 			      <td width="100px">池编号：</td>
@@ -70,6 +77,17 @@
 			      </td>
 			    </tr>
 			    <tr>
+			      <td width="100px">电源状态：</td>
+			      <td class="ui_text_lt">
+			      	<select name="PowerState" class="ui_select04">
+			      		<option value="Halted">Halted -- 关机</option>
+			      		<option value="Paused">Paused -- 暂停</option>
+			      		<option value="Running">Running -- 正在运行</option>
+			      		<option value="Suspended">Suspended -- 挂起</option>
+			      	</select>
+			      </td>
+			    </tr>
+			    <tr>
 			      <td width="100px">模板编号：</td>
 			      <td class="ui_text_lt">
 			      	<select name="TemplateCode" class="chzn-select ui_select04">
@@ -83,6 +101,12 @@
 			      <td width="100px">外网Vlan：</td>
 			      <td class="ui_text_lt">
 			      	<input type="text" name="PublicVlan" class="ui_input_txt03" value="{$data.PublicVlan}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">内网Vlan：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="PrivateVlan" class="ui_input_txt03" value="{$data.PrivateVlan}" />
 			      </td>
 			    </tr>
 			    <tr>

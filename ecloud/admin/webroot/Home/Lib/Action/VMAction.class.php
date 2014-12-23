@@ -16,7 +16,12 @@ class VMAction extends Action {
         $pager = PublicAction::get_pager(U(__FUNCTION__), $count, $rpp, $page);
         $this->pager = $pager;
 
-		$this->data = M()->table('VM')->where($where)->limit(($pager['pageNow'] - 1) * $rpp, $rpp)->select();
+		$data = M()->table('VM')->where($where)->limit(($pager['pageNow'] - 1) * $rpp, $rpp)->select();
+		foreach ($data as $k => $v) {
+			$data[$k]['ips'] = M()->table('VMIP')->where('VMCode=\''.$v['VMCode'].'\'')->select();
+		}
+		$this->data = $data;
+
 		//筛选条件
 		$this->pools = M()->table('Pool')->select();
 
@@ -70,6 +75,8 @@ class VMAction extends Action {
 			$this->error('调用错误');
 		}
 
+		//删除它所有VMIP
+		$ret = M()->query('delete from VMIP where VMCode = (select VMCode from VM where ID = ' . $_GET['id'] . ')');
 		$ret = M()->table('VM')->where('ID='.$_GET['id'])->delete();
 		if($ret){
 			$this->success('删除成功', U('vm_list'));
@@ -79,7 +86,37 @@ class VMAction extends Action {
 	}
 
 	public function add_vm_ip(){
-		$this->display();
+		if(empty($_POST)){
+			if(empty($_GET['id'])){
+				$this->error('调用错误');
+			}
+
+			$this->data = M()->table('VM')->where('ID='.$_GET['id'])->find();
+			$this->display();
+			return;
+		}
+		
+		$ret = M()->table('VMIP')->where('ID='.$_GET['id'])->add($_POST);
+		if($ret !== false){
+			$msg = array('status'=> 0,'msg'=>'添加成功');
+		}else{
+			$msg = array('status'=> 1,'msg'=>'添加失败');
+		}
+
+		$this->ajaxReturn($msg);
+	}
+
+	public function del_vm_ip(){
+		if(empty($_GET['id'])){
+			$this->ajaxReturn('调用错误');
+		}
+
+		$ret = M()->table('VMIP')->where('ID='.$_GET['id'])->delete();
+		if($ret){
+			$this->ajaxReturn('删除成功');
+		}else{
+			$this->ajaxReturn('删除失败');
+		}
 	}
 
 }

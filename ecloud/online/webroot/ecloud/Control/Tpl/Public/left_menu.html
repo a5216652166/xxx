@@ -2,18 +2,52 @@
 <nav class="tree">
     <ul>
         <li>
-            <a class="menu" href="#">按类型查找<span></span></a>
+            <a class="menu" href="#">资源概览<span></span></a>
             <dl>
-                <dt class="actived"><a href="modules/main.html" target="framebox">全部类型</a></dt>
-                <dt><a href="modules/tab.html" target="framebox">网站(HTTP/HTTPs)（<b>16</b>）</a></dt>
-                <dt><a href="modules/set.html" target="framebox">Ping（<b>24</b>）</a></dt>
-                <dt><a href="modules/info.html" target="framebox">DNS（<b>0</b>）</a></dt>
-                <dt><a href="#">CDN（<b>0</b>）</a></dt>
-                <dt><a href="#">TCP（<b>0</b>）</a></dt>
-                <dt><a href="#">UDP（<b>0</b>）</a></dt>
+                <dt class="actived"><a href="#">服务器</a></dt>
+                <dt><a href="#">云主机</a></dt>
+                <dt><a href="#">IP</a></dt>
+                <dt><a href="#">接口</a></dt>
+                <dt><a href="#">机柜</a></dt>
             </dl>
         </li>
         <li>
+            <a class="menu" href="#">类别概览<span></span></a>
+            <dl>
+                <dt class="actived"><a href="#">CPU</a></dt>
+                <dt><a href="#">内存</a></dt>
+                <dt><a href="#">硬盘</a></dt>
+                <dt><a href="#">网络</a></dt>
+            </dl>
+        </li>
+        <li>
+            <a class="menu" href="#">服务概览<span></span></a>
+            <dl>
+                <dt class="actived"><a href="#">CDN</a></dt>
+                <dt><a href="#">DNS</a></dt>
+            </dl>
+        </li>
+        <li>
+            <a class="menu" href="#">云服务<span></span></a>
+            <dl>
+                <dt><a href="#">IDC数据中心</a></dt>
+                <dt><a href="#">SBL负载均衡</a></dt>
+                <dt><a href="#">CDN内容分发</a></dt>
+                <dt><a href="#">OSS开放式存储服务</a></dt>
+                <dt><a href="#">EflyDNS智能dns服务</a></dt>
+            </dl>
+        </li>
+        <li>
+            <a class="menu" href="#">云资源资产<span></span></a>
+            <dl>
+                <dt class="actived"><a href="#">服务器</a></dt>
+                <dt><a href="#">云主机</a></dt>
+                <dt><a href="#">IP</a></dt>
+                <dt><a href="#">接口</a></dt>
+                <dt><a href="#">机柜</a></dt>
+            </dl>
+        </li>
+        <!--li>
             <a class="menu" href="#">按分类查找<span></span></a>
             <div><a href="#" class="btnico add"><i></i>创建新分类</a></div>
             <dl>
@@ -23,6 +57,31 @@
                 <dt><a href="#">TCP（<b>0</b>）</a><img src="__ROOT__/Public/images/icon00.png" /></dt>
                 <dt><a href="#">UDP（<b>0</b>）</a><img src="__ROOT__/Public/images/icon00.png" /></dt>
             </dl>
-        </li>
+        </li-->
     </ul>
 </nav>
+<script type="text/javascript">
+	$(function(){
+		var url = window.location.href;
+		switch(true){
+			case url.indexOf('/Index')!=-1:
+			$(".tree").hide();
+			break;
+			case url.indexOf('/Chart')!=-1:
+			$(".tree ul li:eq(1)").show();
+			break;
+			case url.indexOf('/CloudService')!=-1:
+			$(".tree ul li:eq(3)").show();
+			break;
+			case url.indexOf('/CloudProperty')!=-1:
+			$(".tree ul li:eq(4)").show();
+			break;
+			/*case url.indexOf('/Index')!=-1:
+			
+			break;
+			case url.indexOf('/Index')!=-1:
+			
+			break;*/
+		}
+	});
+</script>

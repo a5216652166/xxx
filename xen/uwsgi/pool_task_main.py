@@ -13,7 +13,7 @@ session = ''
 task = ''
 
 def _init_session():
-	# {u'property_code': u'A-08-509-26-20141211-016', 
+	# {u'vm_code': u'A-08-509-26-20141211-016', 
 	# 'pool_code': 'P-26-001', u'ram': u'2048', u'cpu': u'4', 
 	# u'template_code': u'Template_CentOS_6.5_x86_64'}
 	#
@@ -65,6 +65,7 @@ def _get_create_template_vm_task():
 	return True
 
 def _set_task_feedback(taskid, state, ret, result, error):
+	global task 
 	conn = MySQLdb.connect(host=config.ecloud_db_ip, user=config.ecloud_db_user, \
 							passwd=config.ecloud_db_pass, db='ecloud_admin', port=3306)
 	cur = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
@@ -74,14 +75,24 @@ def _set_task_feedback(taskid, state, ret, result, error):
 	print sql
 	cur.execute(sql)
 
+	if ret != 0:
+		return
+	#set vm enabled
+	cur = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
+	sql = "update `VM` set `State` = '%s', "\
+		"`TimeStamp` = now() where `VMCode` = '%s';"\
+		%('enabled', task['vm_code'])
+	print sql
+	cur.execute(sql)
+
 def _vm_provision():
-	# {u'property_code': u'A-08-509-26-20141211-016', 
+	# {u'vm_code': u'A-08-509-26-20141211-016', 
 	# 'pool_code': 'P-26-001', u'ram': u'2048', u'cpu': u'4', 
 	# u'template_code': u'Template_CentOS_6.5_x86_64'}
 	#
 	global session, task
 
-	vm_code = task['property_code']
+	vm_code = task['vm_code']
 	template = session.xenapi.VM.get_by_name_label(task['template_code'])[0]
 	print "create %s %s => %s \n"%(template, task['template_code'], vm_code)
 

@@ -704,7 +704,8 @@ class IndexAction extends Action {
 			if($is_ok3 === false){
 				$this->ajaxReturn('交易失败，请联系管理员。','error',0);
 			}
-			
+			//推送事件
+			$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$tem['Code'].'","Type":"'.$tem['Type'].'","IsPay":'.$tem['IsPay'].',"ContractCode":"'.$tem['ContractCode'].'","Money":"'.$tem['Money'].'","AliPay":"'.$tem['AliPay'].'","BalancePay":"'.$tem['BalancePay'].'"}');
 		}else{
 			$this->ajaxReturn('交易失败，请联系管理员。','error',0);
 		}
@@ -1156,6 +1157,7 @@ class IndexAction extends Action {
 					$cnd["Passwd"] = trim($_POST['password']); 
 					$list = M()->table("Ad_Login");
 					$rslt = $list->where($cnd)->find();
+					$list->table('Ad_Login')->where($cnd)->setField('LastLoginTime',date('Y-m-d H:i:s'));
 					if(!empty($rslt)){
 						$_SESSION['user'] = $rslt["Name"];
 						$_SESSION['customID'] = $rslt["GlobalCustom_ID"];
@@ -1168,7 +1170,7 @@ class IndexAction extends Action {
 						}else{							
 							$company= M();
 							$_SESSION['name'] = $person->table('Ad_Company')->where('ID='.$rslt["ObjID"])->getField('CompanyName');
-						}									
+						}															
 						$this->display();
 					}else {
 						$this->assign('error', "用户名或密码错误，请核对后再试！");
@@ -1204,7 +1206,8 @@ class IndexAction extends Action {
 					//print_r($cnd["pwd"]);
 					//exit;
 					$list = M()->table("Ad_Login");
-					$rslt = $list->where($cnd)->find();
+					$rslt = $list->where($cnd)->find();					
+					$list->table('Ad_Login')->where($cnd)->setField('LastLoginTime',date('Y-m-d H:i:s'));
 					//print_r($list->getLastSQL());exit;
 					if(!empty($rslt)){
 						$_SESSION['user'] = $rslt["Name"];

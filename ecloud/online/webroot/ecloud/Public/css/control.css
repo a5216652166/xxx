@@ -1,9 +1,4 @@
 @charset "utf-8";
-/* CSS Document */
-/* Name:Javie Chan */
-/* Create:2014-11-24 */
-/* Update:2014-12-04 */
-/* Project:RJ评析系统 */
 
 *{ margin:0; padding:0;}
 body{ font-family:"microsoft yahei",Arial, Helvetica, sans-serif; font-size:12px; color:#000;}
@@ -75,9 +70,9 @@ input.warntxt{
 	height:42px;
 	background:#f3f4f7;
 	border-bottom:1px solid #e6e7ec;
-	box-shadow:0 -2px 2px #0675aa;
+	box-shadow:0 -2px 2px #0675aa;	
 }
-.t_nav ul{ margin-left:110px;}
+.t_nav ul{ margin-left:224px; display:none;}
 .t_nav li{ float:left;}
 .t_nav li a{
 	width:114px;
@@ -171,13 +166,16 @@ input.warntxt{
 	/*obca*/
 	height:900px;
 	float:left;
-	position:absolute;
-	top:107px;
+	/*position:absolute;*/
+	/*top:107px;*/
 	left:0;
 }
 .tree ul{
 	width:206px;
 	margin:0 auto;
+}
+.tree ul li{
+	display:none;	
 }
 .tree a, .tree dt a{
 	width:206px;
@@ -230,8 +228,10 @@ input.warntxt{
 	margin:18px 28px 0 30px;
 	position:relative;
 	min-width:970px;
+	float: left;
+	max-width:100%;
 	/*obca*/
-	margin-left:254px;
+	/*margin-left:254px;*/
 }
 .bread{
 	line-height:33px;

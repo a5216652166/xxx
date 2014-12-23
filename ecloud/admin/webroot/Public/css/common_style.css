@@ -58,6 +58,11 @@ a:hover {
 	color: #1A5CC6;
 }
 
+/* 操作列不换行 */
+.table td.opt {
+	white-space: nowrap;
+}
+
 .ui_text_indent {
 	text-indent: 5px;
 	clear: both;

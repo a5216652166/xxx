@@ -1,10 +1,10 @@
 <header class="top">
     <div class="t_left">
         <ul>
-            <li><a href="index.html" class="actived">概览</a></li>
-            <li><a href="index2.html">监控</a></li>
-            <li><a href="#">报表中心</a></li>
-            <li><a href="#">用户中心</a></li>
+            <li><a href="__APP__/Index" class="actived">首页</a></li>
+            <li><a href="__APP__/Chart">图形监控</a></li>
+            <li><a href="__APP__/CloudService">云服务</a></li>
+            <li><a href="__APP__/CloudProperty">云资源资产</a></li>
         </ul>
     </div>
     <div class="t_right">
@@ -19,9 +19,70 @@
 </header>    
 <nav class="t_nav">
     <ul>
-    <li><a href="#" class="actived">网站监控</a></li>
+    	<li><a href="#" class="actived">资源概览</a></li>
+        <li><a href="#">类别概览</a></li>
+        <li><a href="#">服务概览</a></li>
+    </ul>
+    <ul>
+    	<li><a href="#" class="actived">云服务</a></li>
+    </ul>
+    <ul>
+    	<li><a href="#" class="actived">云资源资产</a></li>
+    </ul>
+    <!--ul>
+    	<li><a href="#" class="actived">网站监控</a></li>
         <li><a href="#">服务性能监控</a></li>
         <li><a href="#">网站监控</a></li>
         <li><a href="#">网站监控</a></li>
     </ul>
+    <ul>
+    	<li><a href="#" class="actived">网站监控</a></li>
+        <li><a href="#">服务性能监控</a></li>
+        <li><a href="#">网站监控</a></li>
+        <li><a href="#">网站监控</a></li>
+    </ul-->
 </nav>
+<aside class="as_help">
+    <ul>
+        <li><a href="#">帮助中心</a></li>
+        <li><a href="#">填写反馈</a></li>
+        <li><a href="#">咨询客服QQ</a></li>
+    </ul>
+</aside>
+<aside class="as_notice">
+    <ul>
+        <li><a href="#"><span>2</span> 条警告信息</a></li>
+        <li><a href="#"><span>0</span> 条站内信息</a></li>
+    </ul>
+</aside>
+<aside class="as_admin">
+    <ul>
+        <li><span>javiechan@efly.cc</span><span class="t_img"></span><span class="as_state on"></span></li>
+        <li><span>monitor@efly.cc</span><span class="t_img"></span><span class="as_state"></span></li>
+        <li><a href="#">退出<span></span></a></li>
+    </ul>
+</aside>
+<script type="text/javascript">
+	$(function(){
+		var url = window.location.href;
+		$(".t_left ul li a").removeClass('actived');
+		switch(true){
+			case url.indexOf('/Index')!=-1:
+			$(".t_nav").hide();
+			$(".t_left ul li a:eq(0)").addClass('actived');
+			break;
+			case url.indexOf('/Chart')!=-1:
+			$(".t_nav ul:eq(0)").show();
+			$(".t_left ul li a:eq(1)").addClass('actived');
+			break;
+			case url.indexOf('/CloudService')!=-1:
+			$(".t_nav ul:eq(1)").show();
+			$(".t_left ul li a:eq(2)").addClass('actived');
+			break;
+			case url.indexOf('/CloudProperty')!=-1:
+			$(".t_nav ul:eq(2)").show();
+			$(".t_left ul li a:eq(3)").addClass('actived');
+			break;
+		}
+	});
+</script>

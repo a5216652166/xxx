@@ -7,7 +7,7 @@ class BaseAction extends Action {
 		if (empty($user)) {
 			$actionName = strtolower(ACTION_NAME);
 		if (!in_array($actionName, array("login", "checklogin"))) {
-			header("Location: ".__APP__."/Index/login");
+			header("Location: http://192.168.85.166/ecloud/index.php");
 		exit;
 		} 
 	}

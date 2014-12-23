@@ -1,14 +1,8 @@
-// JavaScript Document
-// Name:Javie Chan
-// Create:2014-11-24
-// Update:2014-12-02
-// Project:RJ评析系统
-
 $(document).ready(function(){
-	$('.t_left li a').click(function(){
+	/*$('.t_left li a').click(function(){
 		$('.t_left li a').removeClass('actived');
 		$(this).addClass('actived');
-	});
+	});*/
 	
 	$('.t_nav li a').click(function(){
 		$('.t_nav li a').removeClass('actived');
