@@ -1,7 +1,7 @@
 <?php
 class BaseAction extends Action {
 	
-	public $user;
+	/*public $user;
 	public function _initialize(){					
 		$user = $this->saveCurrentUserSession();
 		if (empty($user)) {
@@ -15,5 +15,5 @@ class BaseAction extends Action {
 	}
 	function saveCurrentUserSession() {
 		return isset($_SESSION['user']) ? $_SESSION['user'] :null;
-	}
+	}*/
 }

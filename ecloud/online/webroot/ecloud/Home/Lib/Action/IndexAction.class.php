@@ -452,16 +452,31 @@ class IndexAction extends Action {
 			
 			$Ad_OrderVPSBuy = M();
 			$vpsList = $Ad_OrderVPSBuy->query('select * from Ad_OrderVPSBuy ov left join Ad_VPSBuy v on v.ID=ov.VPSBuy_ID where ov.Order_ID in ('.$ids.') ');
-			print($vpsList);exit;
+			
 			foreach($vpsList as $key => $value){
 				if(strtotime(date('Y-m-d H:i:s'))>strtotime($value['PayEnd'])){
 					$vpsList[$key]['is_expire'] = "yes";
-					
-					$result = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$value['PropertyCode']."&Opt=Set&PowerState=Halt");
-					$tempList = json_decode($result,true);
-					
+					$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$value['PropertyCode']."&state=off");
+					$return = json_decode($data,true);
 				}else{
 					$vpsList[$key]['is_expire'] = "no";
+				}
+				$url[$value['PropertyCode']] = C('OPERATION_VM')."/?opt=getvmstate&id=".$value['PropertyCode'];
+				$vpsList[$key]['Brand'] = "RJCloud";
+				$vpsList[$key]['Type'] = "云服务器";
+				$vpsList[$key]['No'] = "RJ001";
+				$vpsList[$key]['Code'] = $value['PropertyCode'];
+			}
+			foreach($url as $k => $v){
+				$rs[$k] = popen('curl -s -m 5 "'.$v.'"','r');
+			}
+			foreach($rs as $k => $v){
+				foreach($vpsList as $kk => $value){
+					if($k == $value['PropertyCode']){
+						$data2 = fread($v,2096);
+						$tem = json_decode($data2,true);
+						$vpsList[$kk]['vmStatus'] = $tem['result'];
+					}
 				}
 			}
 			/*
@@ -558,7 +573,7 @@ class IndexAction extends Action {
 			}
 			*/
 			
-			
+			$this->assign('vpsList', $vpsList);			
 			$this->assign('balance',$this->returnBalance());
 			$this->assign('login',$ret);
 			$this->assign('today',date("Y-m-d"));

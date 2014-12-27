@@ -1,0 +1,105 @@
+@charset "utf-8";
+/* CSS Document */
+/* Name:Javie Chan */
+/* Create:2014-12-01 */
+/* Update:2014-12-05 */
+/* Project:RJ评析系统 */
+
+.breadtop{
+	padding:0 28px 0 72px;   /*margin*/
+	border-bottom:1px solid #e6e7ec;
+}
+.breadtop a{
+	font-size:14px;
+	font-weight:bold;
+	line-height:45px;
+	text-decoration:underline;
+}
+.breadtop a:hover{ color:#3bc6fa;}
+.tree{
+	margin-left:0;    /*margin-left:72px*/
+	padding-top:0;
+	width:223px;      /*width:215px*/
+	top:153px;
+	background:none;
+}
+.tree ul{ width:223px;}   /*width:215px*/
+.tree dt a{ width:223px;}  /*width:215px*/
+.tree h4{
+	width:223px;          /*width:215px*/
+	text-indent:15px;
+	background:#eceef3;
+	height:34px;
+	line-height:34px;
+	font-weight:bold;
+	color:#666;
+	margin-bottom:3px;
+}
+.tree p{
+	text-indent:40px;
+	line-height:34px;
+}
+.tree p a{
+	font-weight:normal;
+	display:inline;
+	color:#058ec4;
+}
+.tree p a:hover{ text-decoration:underline;}
+.kz{ /*margin-left:326px;*/}    /*margin-left:326px*/
+.kz .bread{ font-weight:normal;}
+.kz .floatbtn a{ color:#399ee5; text-decoration:underline;}
+.kz .content ul{
+	margin-left:95px;
+}
+.kz .content .box{
+	border-top:1px solid #ccc;
+	margin-top:-1px;
+}
+.kz .content .innerbox{
+	border:1px solid #ccc;
+	margin-top:13px;
+}
+.kz .content h4{
+	background:#f6f9fe;
+	height:40px;
+	line-height:40px;
+	font-weight:normal;
+	border:none;
+	margin-top:0;
+}
+.kz .content table{
+	width:95%;
+	margin:18px auto;
+	margin-bottom:18px;
+}
+.kz .content tr{ border:none; background:#fff;}
+.kz .content th{
+	background:#fff;
+	border:none;
+	border-bottom:1px solid #ccc;
+}
+.kz .content td{
+	border-bottom:1px dashed #ccc;
+	height:36px;
+}
+
+.kz .setbox li{
+	border:1px solid #ccc;
+	
+	overflow:hidden;
+	margin-bottom:14px;
+}
+.kz .setbox li:hover{ background:#d7f5ff;}
+.kz .setbox div{
+	float:left;
+	padding:16px;
+}
+.kz .setbox .s_title{ width:138px; font-weight:bold; color:#223e59;}
+.kz .setbox .s_content{ color:#223e59;}
+.kz .setbox .s_right{
+	float:right;
+	background:#fafafb;
+	width:212px;
+	border-left:1px solid #ccc;
+}
+.kz .s_right .btn{ margin-right:10px;}

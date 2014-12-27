@@ -155,7 +155,8 @@
 							<th>公网Vlan</th>
 							<th>内网Vlan</th>
 							<th>内网IP</th>
-							<th>掩码</th>
+							<th>内网掩码</th>
+							<th>内网网关</th>
 							<th>操作</th>
 						</tr>
 
@@ -171,7 +172,8 @@
 								<td>{$vo.PublicVlanBegin} ~ {$vo.PublicVlanEnd}</td>
 								<td>{$vo.PrivateVlanBegin} ~ {$vo.PrivateVlanEnd}</td>
 								<td>{$vo.PrivateIPBegin} ~ {$vo.PrivateIPEnd}</td>
-								<td>{$vo.Mask}</td>
+								<td>{$vo.PrivateMask}</td>
+								<td>{$vo.PrivateGateway}</td>
 								<td class="opt">
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 
 									<a href="javascript:del({$vo.ID});">删除</a>

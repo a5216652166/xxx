@@ -62,8 +62,8 @@
                                         	<td class="tacenter">{$v.PayEnd}</td>
                                         </if>
                                         <td class="tacenter">
-                                        <a href="javascript:void(0);" onclick="showOpt(this,'{$v.Code}',{$v.ID})">查看详情</a> | 
-                                        <a href="javascript:void(0);" style="color:#ccc">升级</a> | 
+                                        <!--<a href="javascript:void(0);" onclick="showOpt(this,'{$v.Code}',{$v.ID})">查看详情</a> | 
+                                        <a href="javascript:void(0);" style="color:#ccc">升级</a> | -->
                                         <a href="javascript:void(0);" onclick="renewPay('one',{$v.Order_ID})">续费</a> | 
                                         <a href="javascript:void(0);" onclick="showMore(this,event)">管理<span class="caret"></span></a>
                                         <div class="more">
@@ -87,34 +87,20 @@
                                         	<div style="border-left:3px solid #0089b7;text-align:left;padding:2px 18px;font-weight:bold">云主机详情</div>
                                         </td>
                                     </tr>
-                                    <tr class="vpsinfo_{$v.ID}" style="display:none">
+                                    <!--tr class="vpsinfo_{$v.ID}" style="display:none">
                                         <td colspan="2">IP</td> 
                                     	<td colspan="2" width="300">配置</td>
                                         <td>U数</td> 
                                         <td>机房</td>  
                                         <td>产权</td>
                                     </tr>
-                                    <tr class="vpsinfo_{$v.ID}" style="display:none">
+                                    <<tr class="vpsinfo_{$v.ID}" style="display:none">
                                     	<td colspan="2" style="border-right: 1px dashed #ccc;">{$v.IP_Addr}</td>
                                     	<td colspan="2" style="border-right: 1px dashed #ccc;">CPU：{$v.CPU}&nbsp;&nbsp;内存：{$v.Ram}&nbsp;&nbsp;硬盘：{$v.Disk}</td>
                                         <td style="border-right: 1px dashed #ccc;">{$v.UCount}</td>              
                                         <td style="border-right: 1px dashed #ccc;">{$v.stockHouseName}</td>
                                         <td >{$v.Property_Right}</td>                  
-                                        <!--td>
-	                                        <if condition="$v.vmStatus == 'poweredOff'">
-                                                <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="开机">
-                                                    <img src="__ROOT__/Public/images/start.png" alt="开机"/>
-                                                </a>
-                                                <else/>
-                                                <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="关机">                                            	
-                                                    <img src="__ROOT__/Public/images/stop.png" alt="关机"/>
-                                                </a>
-                                            </if>
-                                            <a href="javascript:void(0);" onclick="operationVM(this,'{$v.Code}')" title="重启">
-                                                <img src="__ROOT__/Public/images/restart.png" alt="重启"/>
-                                            </a>
-                                        </td-->
-                                    </tr>
+                                    </tr-->
                                	</volist>
                             </if>
                         </tbody>

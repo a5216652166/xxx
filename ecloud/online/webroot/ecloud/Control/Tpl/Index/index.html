@@ -6,73 +6,138 @@
 <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
 <title>睿江科技 —— 云控制中心</title>
 <link rel="shortcut icon" href="__ROOT__/default.ico" />
-
 <!--[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+<script type="text/javascript">
+	var APP = "__APP__";
+</script>
 <script type="text/javascript" src="__ROOT__/Public/js/main.js"></script>
 <link rel="stylesheet" href="__ROOT__/Public/css/control.css" />
 </head>
 
 <body>
-	<!------------------------顶栏导航区----------------------------->	
-	<include file="Public:head"/>            
+	<!------------------------顶栏导航区----------------------------->
+	<header class="top">
+    	<div class="t_left">
+        	<ul>
+            	<li><a href="javascript:void(0);" class="actived">首页</a></li>
+                <li><a href="javascript:void(0);">云监控</a></li>
+                <li><a href="javascript:void(0);">云服务</a></li>
+                <li><a href="javascript:void(0);">我的云</a></li>
+            </ul>
+        </div>
+        <div class="t_right">
+        	<ul>               
+                <li><a class="t_help" href="#">help</a></li>
+                <li><a class="t_notice" href="#">notice</a></li>
+                <li>
+                	<span><a class="t_more" href="#">more</a></span><span class="t_img"></span><span>{$_SESSION['user']}</span>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <nav class="t_nav">
+    	<ul>
+	    	<li><a href="javascript:void(0);" class="actived">资源概览</a></li>
+            <li><a href="javascript:void(0);">类别概览</a></li>
+            <li><a href="javascript:void(0);">服务概览</a></li>
+        </ul>
+    	<ul>
+	    	<li><a href="javascript:void(0);" class="actived">云服务</a></li>
+        </ul>
+    	<ul>
+	    	<li><a href="javascript:void(0);" class="actived">我的云</a></li>
+        </ul>
+    </nav>
+    
     <!------------------------左侧菜单区----------------------------->
-    <include file="Public:left_menu"/>    
+    <nav class="tree" style="display:none;">
+    	<ul>
+        	<li>
+            	<a class="menu" href="javascript:void(0);">资源概览<span></span></a>
+                <dl>
+                	<dt class="actived"><a href="__APP__/CloudMonitor/idc_server" target="framebox">服务器</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">云主机</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">IP</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">接口</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">机柜</a></dt>
+                </dl>
+            </li>
+        </ul>
+    	<ul>
+        	<li>
+            	<a class="menu" href="javascript:void(0);">类别概览<span></span></a>
+                <dl>
+                	<dt class="actived"><a href="javascript:void(0);" target="framebox">CPU</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">内存</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">硬盘</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">网络</a></dt>
+                </dl>
+            </li>
+        </ul>
+    	<ul>
+        	<li>
+            	<a class="menu" href="javascript:void(0);">服务概览<span></span></a>
+                <dl>
+                	<dt class="actived"><a href="javascript:void(0);" target="framebox">CDN</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">DNS</a></dt>
+                </dl>
+            </li>
+        </ul>        
+        <ul>
+        	<li>
+            	<a class="menu" href="javascript:void(0);">云服务<span></span></a>
+                <dl>
+                	<dt class="actived"><a href="javascript:void(0);" target="framebox">IDC数据中心</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">SBL负载均衡</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">CDN内容分发</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">OSS开放式存储服务</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">EflyDNS智能dns服务</a></dt>
+                </dl>
+            </li>
+        </ul>        
+        <ul>
+        	<li>
+            	<a class="menu" href="javascript:void(0);">我的云<span></span></a>
+                <dl>
+                	<dt class="actived"><a href="javascript:void(0);" target="framebox">服务器</a></dt>
+                    <dt><a href="__APP__/CloudProperty/vps" target="framebox">云主机</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">IP</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">接口</a></dt>
+                    <dt><a href="javascript:void(0);" target="framebox">机柜</a></dt>
+                </dl>
+            </li>
+        </ul>
+    </nav>
     
     <!------------------------右侧功能区----------------------------->
-    <div class="wrapper">
-        <div class="bread">网站监控 > 所有监控项目</div>        
-        <div class="info">
-            <table>
-                <tr>
-                    <th colspan="2">账号基本信息</th>
-                </tr>
-                <tr>
-                    <td>账户套餐类型：</td>
-                    <td><span class="t_img"></span> <a href="#" class="btnico">升级套餐计划</a></td>
-                </tr>
-                <tr>
-                    <td>到期提醒：</td>
-                    <td>永久使用</td>
-                </tr>
-                <tr>
-                    <td>账户余额：</td>
-                    <td>￥ <span class="red">11.11</span> 元 <a href="#" class="btnico">立即充值</a></td>
-                </tr>
-            </table>
-            
-            <table class="in_table">
-                <tr>
-                    <th colspan="2">修改个人资料</th>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input type="text" value="javiechan@efly.cc" class="iputxt" disabled /> <p>您的注册Email同时也用来接收各种监控报告和告警通知。</p></td>
-                </tr>
-                <tr>
-                    <td>称呼:</td>
-                    <td><input type="text" class="iputxt warntxt" /> <span class="warn">请输入称呼</span></td>
-                </tr>
-                <tr>
-                    <td>公司名称:</td>
-                    <td><input type="text" class="iputxt" placeholder="RJ" /></td>
-                </tr>
-                <tr>
-                    <td>邮寄地址:</td>
-                    <td><input type="text" class="iputxt" /> <p>用于寄送一些出版物，比如站点性能优化等资料。</p></td>
-                </tr>
-                <tr>
-                    <td>邮编:</td>
-                    <td><input type="text" class="iputxt" /></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><a href="#" class="btn">修改</a></td>
-                </tr>
-            </table>
-        </div>
-    </div>        
+    <div class="main">
+   	    <iframe id="page" name="framebox" src="__APP__/Index/main" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+    
+    <aside class="as_help">
+    	<ul>
+        	<li><a href="#">帮助中心</a></li>
+            <li><a href="#">填写反馈</a></li>
+            <li><a href="#">咨询客服QQ</a></li>
+        </ul>
+    </aside>
+    
+    <aside class="as_notice">
+    	<ul>
+            <li><a href="#"><span>2</span> 条警告信息</a></li>
+            <li><a href="#"><span>0</span> 条站内信息</a></li>
+        </ul>
+    </aside>
+    
+    <aside class="as_admin">
+    	<ul>
+        	<li><span>javiechan@efly.cc</span><span class="t_img"></span><span class="as_state on"></span></li>
+            <li><span>monitor@efly.cc</span><span class="t_img"></span><span class="as_state"></span></li>
+            <li><a href="#">退出<span></span></a></li>
+        </ul>
+    </aside>
 </body>
 </html>

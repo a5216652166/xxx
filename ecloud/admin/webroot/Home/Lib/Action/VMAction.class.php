@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class VMAction extends Action {
 
@@ -101,6 +101,31 @@ class VMAction extends Action {
 			$msg = array('status'=> 0,'msg'=>'添加成功');
 		}else{
 			$msg = array('status'=> 1,'msg'=>'添加失败');
+		}
+
+		$this->ajaxReturn($msg);
+	}
+
+	public function edit_vm_ip(){
+		if(empty($_POST)){
+			if(empty($_GET['id'])){
+				$this->error('调用错误');
+			}
+
+			$ip = M()->table('VMIP')->where('ID='.$_GET['id'])->find();
+			$vm = M()->table('VM')->where('VMCode=\''.$ip['VMCode'].'\'')->find();
+			$ip['PoolCode'] = $vm['PoolCode'];
+
+			$this->data = $ip;
+			$this->display();
+			return;
+		}
+
+		$ret = M()->table('VMIP')->where('ID='.$_POST['ID'])->save($_POST);
+		if($ret !== false){
+			$msg = array('status'=> 0,'msg'=>'修改成功');
+		}else{
+			$msg = array('status'=> 1,'msg'=>'修改失败');
 		}
 
 		$this->ajaxReturn($msg);

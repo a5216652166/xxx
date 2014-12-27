@@ -1,4 +1,9 @@
 @charset "utf-8";
+/* CSS Document */
+/* Name:Javie Chan */
+/* Create:2014-11-24 */
+/* Update:2014-12-04 */
+/* Project:RJ评析系统 */
 
 *{ margin:0; padding:0;}
 body{ font-family:"microsoft yahei",Arial, Helvetica, sans-serif; font-size:12px; color:#000;}
@@ -70,7 +75,7 @@ input.warntxt{
 	height:42px;
 	background:#f3f4f7;
 	border-bottom:1px solid #e6e7ec;
-	box-shadow:0 -2px 2px #0675aa;	
+	box-shadow:0 -2px 2px #0675aa;
 }
 .t_nav ul{ margin-left:224px; display:none;}
 .t_nav li{ float:left;}
@@ -164,18 +169,18 @@ input.warntxt{
 	border-right:1px solid #e6e7ec;
 	padding-top:18px;
 	/*obca*/
-	height:900px;
-	float:left;
-	/*position:absolute;*/
-	/*top:107px;*/
+	/*height:900px;
+	float:left;*/
+	position:absolute;
+	top:107px;
 	left:0;
+	bottom:0;
+	overflow-y: auto;
 }
 .tree ul{
 	width:206px;
 	margin:0 auto;
-}
-.tree ul li{
-	display:none;	
+	/*display:none;*/
 }
 .tree a, .tree dt a{
 	width:206px;
@@ -228,8 +233,6 @@ input.warntxt{
 	margin:18px 28px 0 30px;
 	position:relative;
 	min-width:970px;
-	float: left;
-	max-width:100%;
 	/*obca*/
 	/*margin-left:254px;*/
 }
@@ -267,32 +270,32 @@ input.warntxt{
 .scope li a:hover{ background:#f5f5f5;}
 .scope li a.actived{ background:#f6b63c; color:#fff;}
 .search{
-	float:right;
-	width:375px;
-	margin-right:18px;
+	float:left;
+	width:414px;
+	margin-left:30px;
 }
 .search span{ float:left;}
 .search div{
 	border:1px solid #ccc;
-	float:right;
+	float:left;
 	line-height:0;
 	margin-top:10px;
 	height:22px;
-	width: 288px;
+	width: 336px;
 }
 .search div input{
 	height:22px;
 	border:none;
 	border-right:1px solid #ccc;
 	text-indent:10px;
-	width:135px;
+	width:180px;
 	margin-right:5px;
 }
 .search div select{ width:65px;}
 .search div a{
 	text-indent:-9999px;
 	background:url(../images/searchico.png) no-repeat 3px 2px;
-	width:25px;
+	width:26px;
 	height:22px;
 	float:right;
 	border-left:1px solid #ccc;
@@ -300,7 +303,21 @@ input.warntxt{
 }
 
 .content{ position:relative; min-width:970px;}
+.content .opt_div {
+	width: 100%;
+	height: 40px;
+	border-bottom: 1px solid #ccc;
+	margin-top:10px;
+}
+.opt_div .chk{
+	margin:0px 30px;	
+}
+.opt_div button {
+	padding:5px 10px;
+}
+
 .content ul{ overflow:hidden;}
+/*
 .content li{
 	float:left;
 	width:82px;
@@ -312,6 +329,7 @@ input.warntxt{
 	border-left:none;
 	cursor:pointer;
 }
+*/
 .content li:hover{ background:#d7f5ff;}
 .content li.actived{
 	background:#f6f9fe;
@@ -329,6 +347,41 @@ input.warntxt{
 	margin-top:-1px;
 }
 .content table{ margin-top:-1px; text-align:left;}
+.content table .run_ico{width:120px;height:20px;display:block;}
+.content .more{
+	position: absolute;
+	width: 100px;
+	border: 1px solid #ccc;
+	margin: 0px 0px 0px 100px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-o-border-radius: 5px;
+	background: #FFF;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	background-clip: padding-box;
+	display: none;
+}
+.content .caret {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	margin-left: 2px;
+	vertical-align: middle;
+	border-top: 4px solid;
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+}
+.content .more a{
+	color: #666;
+	display: block;
+	width: 98px;
+	height: 30px;
+	line-height: 30px;	
+}
 .content tr{ border:1px solid #ccc;}
 .content th{
 	background:#dfebf7;
@@ -367,7 +420,7 @@ a.bdel{ background-position:0 -32px;}
 
 .floatbtn{
 	position:absolute;
-	top:10px;
+	top:8px;
 	right:0;
 }
 .floatbtnico{
@@ -461,7 +514,7 @@ a.btnico:hover{ background:#e6e6e6;}
 	margin-top:18px;
 	line-height:27px;
 	float:right;
-	width:292px;
+	width:600px;
 }
 .page span{ float:left;}
 .page select{
@@ -469,7 +522,9 @@ a.btnico:hover{ background:#e6e6e6;}
 	height:27px;
 	border:1px solid #ccc;
 	float:left;
+	margin-left:10px;
 }
+.page ul{ float:left; margin-left:10px;}
 .page li{ float:left;}
 .page li a{
 	display:block;
@@ -482,3 +537,12 @@ a.btnico:hover{ background:#e6e6e6;}
 }
 .page li a:hover{ background:#e6e6e6;}
 .page li a.on{ background:#399ee5; color:#fff;}
+.page span{ margin-left:10px;}
+.main{
+	position:absolute;
+	top:107px;
+	left:224px;
+	bottom:0;
+	right:0;
+	overflow: hidden;
+}

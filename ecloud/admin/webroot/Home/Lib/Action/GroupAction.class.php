@@ -71,14 +71,13 @@ class GroupAction extends Action {
 		}
 	}
 
-	public function set_group_ip(){
+	public function add_group_ip(){
 		if(empty($_POST)){
 			if(empty($_GET['id'])){
 				$this->error('调用错误');
 			}
 
 			$this->data = M()->table('Group')->where('ID='.$_GET['id'])->find();
-			$this->ipsnow = M()->table('GroupIP')->where('GroupID='.$_GET['id'])->select();
 			$this->ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/ip_query.php?opt=get_cloud'), true);
 
 			/*排除已经添加的
@@ -90,48 +89,67 @@ class GroupAction extends Action {
 				}
 			}*/
 
-			$this->return_url = U('group_list');
 			$this->display();
 			return;
 		}
 
+		$ips = split(";", $_POST['IP']);
+		unset($_POST['IP']);
+		$_POST['PublicIPBegin'] = $ips[0];
+		$_POST['PublicIPEnd'] = $ips[1];
 
-		//$_POST['IPS']中去掉已添加的，并删除$ipOld中不存在于$_POST['IPS']的
-		//print_r($_POST['IPS']);
-		$ipOld = M()->table('GroupIP')->where('GroupID='.$_POST['ID'])->select();
-		foreach($ipOld as $v){
-			$in = false;
-			foreach ($_POST['IPS'] as $k1 => $v1) {
-				if($v['IPBegin'] . ';' . $v['IPEnd'] === $v1){
-					$in = true;
-					unset($_POST['IPS'][$k1]);
-				}
-			}
-
-			if($in == false){
-				M()->table('GroupIP')->where('ID='.$v['ID'])->delete();
-			}
-		}
-
-		//现在$_POST['IPS']中已经是不重复的，直接添加
-		//print_r($_POST['IPS']);exit;
-		$success = true;
-		foreach($_POST['IPS'] as $v){
-			$ips = split(";", $v);
-			$ret = M()->table('GroupIP')->add(array(
-				'GroupID' => $_POST['ID'],
-				'IPBegin' => $ips[0],
-				'IPEnd' => $ips[1]
-			));
-			if($ret === false){
-				$success = false;
-			}
-		}
-
-		if($success){
-			$this->success('修改IP成功', U('group_list'));
+		$ret = M()->table('GroupIP')->add($_POST);
+		if($ret !== false){
+			$msg = array('status'=> 0,'msg'=>'添加成功');
 		}else{
-			$this->success('一个或多个IP修改失败', U('set_group_ip?ID='.$_POST['ID']));
+			$msg = array('status'=> 1,'msg'=>'添加失败');
+		}
+
+		$this->ajaxReturn($msg);
+	}
+
+	public function edit_group_ip(){
+		if(empty($_POST)){
+			if(empty($_GET['id'])){
+				$this->error('调用错误');
+			}
+
+			$ip = M()->table('GroupIP')->where('ID='.$_GET['id'])->find();
+			$group = M()->table('Group')->where('ID='.$ip['GroupID'])->find();
+			$ip['GroupName'] = $group['Name'];
+			$ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/ip_query.php?opt=get_cloud'), true);
+
+			$this->ips = $ips;
+			$this->data = $ip;
+			$this->display();
+			return;
+		}
+
+		$ips = split(';', $_POST['IP']);
+		unset($_POST['IP']);
+		$_POST['PublicIPBegin'] = $ips[0];
+		$_POST['PublicIPEnd'] = $ips[1];
+
+		$ret = M()->table('GroupIP')->where('ID='.$_POST['ID'])->save($_POST);
+		if($ret !== false){
+			$msg = array('status'=> 0,'msg'=>'修改成功');
+		}else{
+			$msg = array('status'=> 1,'msg'=>'修改失败');
+		}
+
+		$this->ajaxReturn($msg);
+	}
+
+	public function del_group_ip(){
+		if(empty($_GET['id'])){
+			$this->ajaxReturn('调用错误');
+		}
+
+		$ret = M()->table('GroupIP')->where('ID='.$_GET['id'])->delete();
+		if($ret){
+			$this->ajaxReturn('删除成功');
+		}else{
+			$this->ajaxReturn('删除失败');
 		}
 	}
 

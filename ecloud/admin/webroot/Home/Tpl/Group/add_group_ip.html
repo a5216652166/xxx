@@ -11,16 +11,39 @@
 	$(function() {
 		$(".chzn-select").chosen();
 
-		var ipsnow = [];
-		<volist name="ipsnow" id="vo">
-			ipsnow.push("{$vo.IPBegin};{$vo.IPEnd}");
-		</volist>
-
-		$("select[name='IPS\[\]']").val(ipsnow).trigger('chosen:updated');
-
 
 		$("#cancelbutton").click(function(){
-			back('{$return_url}');
+			parent.$.fancybox.close();
+		});
+		
+		$("#addIPForm").submit(function(event){
+			event.preventDefault();
+
+			var $form = $(this);
+			var $errorSpan = $("#errorMsg");
+			$errorSpan.empty();
+			// console.log($form.serialize());//字符串
+			// console.log($form.serializeArray());//json对象
+			
+			var data;
+			$.ajax({
+				url : $form.attr('action'),
+				async : false,
+				type : 'POST',
+				data : $form.serialize(),
+				dataType : 'json',
+				success : function(ret){
+					// console.log(data);
+					data = ret;
+				}
+			});
+
+			if(data.status != 0){
+				$errorSpan.html(data.msg);
+				return;
+			}
+
+			$("#cancelbutton").click();
 		});
 
 	});
@@ -31,31 +54,43 @@
 
 <body>
 	<div id="container">
-		<form action="__URL__/set_group_ip" method="post">
-			<input type="hidden" name="ID" value="{$data.ID}" />
+		<form id="addIPForm" action="__URL__/add_group_ip" method="post">
+			<input type="hidden" name="GroupID" value="{$data.ID}" />
 
 			<table class="table" cellspacing="0" cellpadding="0" width="100%" >
 			    <tr>
 			      <th colspan="2" class="ui_text_lt">
-			      	设置IP
+			      	添加IP
 			      	<span id="errorMsg" class="errmsg">{$errorMsg}</span>
 			      </th>
 			    </tr>
 			    <tr>
 			      <td width="100px">池组名：</td>
 			      <td class="ui_text_lt">
-			      	<input type="text" name="Name" class="ui_input_txt03" value="{$data.Name}" readonly="readonly" />
+			      	{$data.Name}
 			      </td>
 			    </tr>
 			    <tr>
 			    	<td width="100px">IP：</td>
 					<td class="ui_text_lt">
-						<select name="IPS[]" class="chzn-select ui_select04" multiple="multiple">
+						<select name="IP" class="chzn-select ui_select04">
 							<volist name="ips" id="vo">
 								<option value="{$vo.Begin};{$vo.End}">{$vo.Begin} ~ {$vo.End}</option>
 							</volist>
 						</select>
 					</td>
+			    </tr>
+			    <tr>
+			      <td width="100px">公网掩码：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="PublicMask" class="ui_input_txt03" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">公网网关：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="PublicGateway" class="ui_input_txt03" />
+			      </td>
 			    </tr>
 			    <tr>
 					<td class="ui_text_ct" colspan="2">

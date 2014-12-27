@@ -1,0 +1,146 @@
+<!--
+                     
+                                   .. .vr       
+                                 qBMBBBMBMY     
+                                8BBBBBOBMBMv    
+                              iMBMM5vOY:BMBBv        
+              .r,             OBM;   .: rBBBBBY     
+              vUL             7BB   .;7. LBMMBBM.   
+             .@Wwz.           :uvir .i:.iLMOMOBM..  
+              vv::r;             iY. ...rv,@arqiao. 
+               Li. i:             v:.::::7vOBBMBL.. 
+               ,i7: vSUi,         :M7.:.,:u08OP. .  
+                 .N2k5u1ju7,..     BMGiiL7   ,i,i.  
+                  :rLjFYjvjLY7r::.  ;v  vr... rE8q;.:,, 
+                 751jSLXPFu5uU@guohezou.,1vjY2E8@Yizero.    
+                 BB:FMu rkM8Eq0PFjF15FZ0Xu15F25uuLuu25Gi.   
+               ivSvvXL    :v58ZOGZXF2UUkFSFkU1u125uUJUUZ,   
+             :@kevensun.      ,iY20GOXSUXkSuS2F5XXkUX5SEv.  
+         .:i0BMBMBBOOBMUi;,        ,;8PkFP5NkPXkFqPEqqkZu.  
+       .rqMqBBMOMMBMBBBM .           @kexianli.S11kFSU5q5   
+     .7BBOi1L1MM8BBBOMBB..,          8kqS52XkkU1Uqkk1kUEJ   
+     .;MBZ;iiMBMBMMOBBBu ,           1OkS1F1X5kPP112F51kU   
+       .rPY  OMBMBBBMBB2 ,.          rME5SSSFk1XPqFNkSUPZ,.
+              ;;JuBML::r:.:.,,        SZPX0SXSP5kXGNP15UBr.
+                  L,    :@huhao.      :MNZqNXqSqXk2E0PSXPE .
+              viLBX.,,v8Bj. i:r7:,     2Zkqq0XXSNN0NOXXSXOU 
+            :r2. rMBGBMGi .7Y, 1i::i   vO0PMNNSXXEqP@Secbone.
+            .i1r. .jkY,    vE. iY....  20Fq0q5X5F1S2F22uuv1M; 
+-->
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>睿江科技 —— 2015春节大回馈</title>
+<style type="text/css">
+	*{ margin:0; padding:0;}
+	body{background:#ec403c}
+	.bg{
+		width:1024px; 
+		height:1280px; 
+		background:url(images/bg.jpg) no-repeat; 
+		margin:0 auto;
+	}
+	.text{ 
+		width:350px;
+		height:300px; 
+		margin:300px 0px 0px 0px; 
+		float:right
+	}
+	.user{ 
+		width:123px;
+		height:23px; 
+		background:url(images/text.png) no-repeat;
+	}
+	.pwd{ 
+		width:123px;
+		height:23px; 
+		background:url(images/text.png) 0px -24px no-repeat; 
+		margin-top:20px;
+	}
+	.input, .btn{ 
+		width:260px; 
+		height:56px; 
+		margin-top:10px;		
+	}
+	.btn{ margin-top:20px;}
+	.input input{ 
+		border:none; 
+		background:#efefc2;
+		width:250px; 
+		height:50px; 
+		font-size:34px; 
+		padding-left:10px; 
+		color:#ec403c
+	}
+	.btn a{
+		width:260px;
+		height:56px; 
+		background:url(images/btn.png) no-repeat; 
+		display:block;
+	}	
+	.btn a:hover{
+		filter:alpha(opacity=90);
+		-moz-opacity:0.9;
+		opacity:0.9;
+	}
+</style>
+<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="js/layer/layer.min.js"></script>
+<script type="text/javascript" >
+	function receive(){
+		var code = $("#usercode").val() , pwd = $("#password").val();
+		if(!code){
+			$("#usercode").focus();
+			return false;
+		}
+		if(!pwd){
+			$("#password").focus();
+			return false;
+		}
+		$.ajax({
+			url:'receive.php?opt=receive',
+			type:'post',
+			data:{'code':code,'pwd':pwd},
+	        dataType: "json", 
+			success:function(data){
+				if(data.info=="success"){
+					$.layer({
+						type: 2,
+						maxmin: true,
+						title: false,
+						closeBtn: [0, false],
+						offset: [100,''],
+						area: ['820px', '530px'],
+						iframe: {src: 'table.html'}
+					}); 
+					
+				}else{
+					layer.msg(data.data,3,5);
+				}
+			},
+			error:function(data){				
+				layer.msg(data.statusText,3,5);
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<div class="bg">
+        <div class="text">
+            <div class="user"></div>
+            <div class="input">
+            	<input id="usercode"/>
+            </div>
+            <div class="pwd"></div>
+            <div class="input">            	
+            	<input id="password" type="password"/>	
+			</div>
+            <div class="btn">
+            	<a href="javascript:void(0);" onClick="receive()"></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

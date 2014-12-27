@@ -23,7 +23,28 @@
 		});
 
 
-		$(".addIP").fancybox({
+		//编辑IP
+		$("span + a:contains('编辑')").fancybox({
+	    	//'href'  : '__URL__/add_vm_ip',
+	    	'type' : 'iframe',
+	    	'transitionIn'	: 'elastic',
+			'transitionOut'	: 'elastic',
+			'speedIn' : 150,
+			'speedOut' : 150,
+			'overlayColor'		: '#000',
+			'overlayOpacity'	: 0.7,
+			'showCloseButton' : true,
+	        //'hideOnOverlayClick' : false,
+	        'onClosed' : function() {
+	        	location.reload();
+	        },
+	        'onComplete' : function(){
+	        	$.fancybox.resize();
+	        }
+		});
+
+		//添加IP
+		$("a:contains('添加IP')").fancybox({
 	    	//'href'  : '__URL__/add_vm_ip',
 	    	'type' : 'iframe',
 	    	'transitionIn'	: 'elastic',
@@ -71,6 +92,19 @@
 			$("#submitForm").attr("action", "__URL__/del?id=" + id).submit();
 		}
 	}
+
+	function delIp(id){
+		if(id == ''){
+			return;
+		}
+
+		if(confirm('确定要删除这个IP？')){
+			$.get('__URL__/del_vm_ip?id=' + id, function(ret){
+				alert(ret);
+				location.reload();
+			});
+		}
+	}
 	
 	/** 批量删除 **/
 	function batchDel(){
@@ -104,20 +138,6 @@
 			}
 		}
 	}
-	
-	function delIp(id){
-		if(id == ''){
-			return;
-		}
-
-		if(confirm('确定要删除这个IP？')){
-			$.get('__URL__/del_vm_ip?id=' + id, function(ret){
-				alert(ret);
-				location.reload();
-			});
-		}
-	}
-
 
 </script>
 <style>
@@ -168,8 +188,6 @@
 							<th>硬盘</th>
 							<th>电源状态</th>
 							<th>模板编号</th>
-							<th>公网Vlan</th>
-							<th>内网Vlan</th>
 							<th>虚拟机IP</th>
 							<th>是否可用</th>
 							<th>操作</th>
@@ -186,13 +204,13 @@
 								<td>{$vo.Disk}</td>
 								<td>{$vo.PowerState}</td>
 								<td>{$vo.TemplateCode}</td>
-								<td>{$vo.PublicVlan}</td>
-								<td>{$vo.PrivateVlan}</td>
 								<td>
 									<volist name="vo.ips" id="vo2">
-										<span>
+										<span style="margin-right:2px;">
 											{$vo2.IPAddr}
 										</span>
+										<a href="__URL__/edit_vm_ip?id={$vo2.ID}">编辑</a>
+										|
 										<a href="javascript:delIp({$vo2.ID});">删除</a>
 
 										<if condition="$i lt count($vo['ips'])"><br/></if>
@@ -200,9 +218,9 @@
 								</td>
 								<td>{$vo.State}</td>
 								<td class="opt">
-									<a class="addIP" href="__URL__/add_vm_ip?id={$vo.ID}">添加IP</a>
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 
 									<a href="javascript:del({$vo.ID});">删除</a>
+									<a href="__URL__/add_vm_ip?id={$vo.ID}">添加IP</a>
 								</td>
 							</tr>
 						</volist>
