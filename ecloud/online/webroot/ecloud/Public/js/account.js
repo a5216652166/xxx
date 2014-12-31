@@ -457,9 +457,9 @@
 			var val = $(obj).attr('title'),opt="";	
 			layer.load('正在' + val,3);
 			switch(val){
-				case '开机':opt="on"; break;
-				case '关机':opt="off"; break;
-				case '重启':opt="reboot"; break;
+				case '开机':opt="Run"; break;
+				case '关机':opt="Halt"; break;
+				case '重启':opt="Reboot"; break;
 			}	
 			$.ajax({
 				url:APP+'/Index/operationVM',
@@ -659,9 +659,9 @@
 			}
 			layer.load('正在' + val,3);
 			switch(val){		
-				case '启动':opt="on"; break;
-				case '停止':opt="off"; break;
-				case '重启':opt="reboot"; break;
+				case '启动':opt="Run"; break;
+				case '停止':opt="Halt"; break;
+				case '重启':opt="Reboot"; break;
 			}
 			$("#console table :checked").each(function(i){
 				if(i!=$("#console table :checked").length-1){

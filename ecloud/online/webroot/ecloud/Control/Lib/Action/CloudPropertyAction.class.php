@@ -49,9 +49,11 @@ class CloudPropertyAction extends BaseAction {
 			}else{
 				$vpsList[$key]['is_expire'] = "no";
 			}
-			$url[$value['PropertyCode']] = C('OPERATION_VM')."/?opt=getvmstate&id=".$value['PropertyCode'];	
+			$url[$value['PropertyCode']] = C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$value['PropertyCode']."&Opt=Get";	
+			$url2[$value['PropertyCode']] = C('INTERFACE_URL')."/ecloud_admin/GetVMVNCUrl.php?VMCode=".$value['PropertyCode'];	
 			$vpsList[$key]['Code'] = $value['PropertyCode'];
 		}
+		//获取状态
 		foreach($url as $k => $v){
 			$rs[$k] = popen('curl -s -m 5 "'.$v.'"','r');
 		}
@@ -60,12 +62,30 @@ class CloudPropertyAction extends BaseAction {
 				if($k == $value['PropertyCode']){
 					$data2 = fread($v,2096);
 					$tem = json_decode($data2,true);
-					$vpsList[$kk]['vmStatus'] = $tem['result'];
+					$tem2 = json_decode($tem['result'],true);
+					$vpsList[$kk]['vmStatus'] = $tem2['PowerState'];
 				}
 			}
 		}
+		//获取IP地址和端口
+		foreach($url2 as $k => $v){
+			$rs2[$k] = popen('curl -s -m 5 "'.$v.'"','r');
+		}
+		foreach($rs2 as $k => $v){
+			foreach($vpsList as $kk => $value){
+				if($k == $value['PropertyCode']){
+					$data2 = fread($v,2096);
+					$tem = json_decode($data2,true);					
+					$tem2 = json_decode($tem['result'],true);
+					$vpsList[$kk]['port'] = $tem2['VNCProxyPort'];
+					$vpsList[$kk]['host'] = $tem2['VNCProxyHost'];					
+					$vpsList[$kk]['key'] = $tem2['VNCKey'];
+				}
+			}
+		}
+		
 		$this->assign('vpsList',$vpsList);
-		//状态
+		//根据状态查询
 		$cou = 0;
 		if(!empty($_GET['status'])){
 			foreach($vpsList as $kk => $value){
@@ -90,24 +110,53 @@ class CloudPropertyAction extends BaseAction {
 		
 			$Ad_OrderVPSBuy = M();			
 			$vps = $Ad_OrderVPSBuy->query("select * from Ad_OrderVPSBuy ov left join Ad_VPSBuy v on v.ID=ov.VPSBuy_ID where v.ID=%d",$_GET['id']);
-			
-			$vps[0]['PayEnd'] = $order[0]['PayEnd'];
+			$vps[0]['PayStart'] = $vps[0]['PayStart'];
+			$vps[0]['PayEnd'] = $vps[0]['PayEnd'];
 						
 			$Ad_OrderNeed = M();
 			$order = $Ad_OrderNeed->query('select * from Ad_Order a left join Ad_OrderNeed b on a.ID=b.Order_ID where a.ID='.$vps[0]['Order_ID']);
 			$vps[0]['CPU'] = $order[0]['CPU'];
 			$vps[0]['RAM'] = $order[0]['RAM'];
 			$vps[0]['DISK'] = $order[0]['DISK'];
-			$vps[0]['IP'] = '11.11.11.11';
+			$vps[0]['OS'] = $order[0]['OS'];
+			$vps[0]['Time'] = $order[0]['Time'];
 			$vps[0]['HouseName'] = $order[0]['HouseName'];
 			
 			//获取状态
-			$data = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$vps[0]['PropertyCode']);			
-			$tem = json_decode($data,true);
-			$vps[0]['vmStatus'] = $tem['result'];
+			$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$vps[0]['PropertyCode']."&Opt=Get");
+			$ret = json_decode($data,true);
+			$tem = json_decode($ret['result'],true);
+			$vps[0]['Status'] = $tem['PowerState'];
 			
+			$this->assign('vps',$vps[0]);
 			$this->display();	
 		}
 	}
+	//批量操作虚拟机
+	public function batchOperationVM(){
+		if(!empty($_POST['code']) && !empty($_POST['opt'])){
+			$arr = explode(',',$_POST['code']);
+			
+			foreach($arr as $val){
+				$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$val."&Opt=Set&PowerState=".$_POST['opt']);
+				$ret = json_decode($data,true);
+				if($ret['ret']!=0){
+					$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+				}
+			}
+			$this->ajaxReturn(1,'success',1);
+		}
+	}
+	//操作虚拟机
+	public function operationVM(){
+		if(!empty($_POST['code']) && !empty($_POST['opt'])){
+			$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$_POST['code']."&Opt=Set&PowerState=".$_POST['opt']);
+			$ret = json_decode($data,true);
+			if($ret['ret']!=0){
+				$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+			}
+			$this->ajaxReturn($ret['ret'],'success',1);
+		}
+	}	
 	
 }

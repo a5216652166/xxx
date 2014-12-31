@@ -80,7 +80,7 @@
                             <tr>
                                 <td><input type="checkbox" order_id="{$item.Order_ID}" code="{$item.Code}" id="{$item.ID}" expire="{$item.is_expire}" /></td>
                                 <td>{$item.PropertyCode}</td>
-                                <if condition="$item.vmStatus == 'poweredOff'">
+                                <if condition="$item.vmStatus == 'Halted' OR $item.vmStatus == 'Paused' ">
                                     <td id="ico_{$item.ID}"><span class="run_ico" style="background:url(__ROOT__/Public/images/stop_status.png) no-repeat;" >已关机</span></td>   
                                  <else/>
                                     <td id="ico_{$item.ID}"><span class="run_ico" style="background:url(__ROOT__/Public/images/run_status.png) no-repeat;" >运行中</span></td>
@@ -98,7 +98,7 @@
                                     <a href="javascript:void(0);" onclick="showMore(this)">管理<span class="caret"></span></a>
                                     <div class="more">
                                         <ul>
-                                            <if condition="$item.vmStatus == 'poweredOff'">
+                                            <if condition="$item.vmStatus == 'Halted'">
                                                 <li><a href="javascript:void(0);" onClick="operationVM(this,'{$item.PropertyCode}',{$item.ID})" title="开机">开机</a></li>
                                                 <li><a href="javascript:void(0);" style="color:#ccc" title="关机">关机</a></li>
                                                 <else/>                                                    
@@ -106,7 +106,7 @@
                                                 <li><a href="javascript:void(0);" onClick="operationVM(this,'{$item.PropertyCode}',{$item.ID})" title="关机">关机</a></li>
                                             </if>
                                             <li><a href="javascript:void(0);" onClick="operationVM(this,'{$item.PropertyCode}',{$item.ID})" title="重启">重启</a></li>
-                                            <li><a href="javascript:void(0);" style="color:#ccc;">连接终端</a></li>
+                                            <li><a href="__ROOT__/noVNC/vnc.html?key={$item.key}&host={$item.host}&port={$item.port}" target="_blank" >连接终端</a></li>
                                         </ul>
                                     </div>
                                 </td>

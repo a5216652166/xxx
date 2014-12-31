@@ -34,10 +34,49 @@
 					$p.trigger('chosen:updated');
 				}
 			});
+
+			$.ajax({
+				url : '__APP__/Pool/get_pool',
+				type : 'GET',
+				data : {'PoolCode':poolCode},
+				dataType : 'json',
+				success : function(data){
+					$("#ipHint").html("当前池的控制IP段：" + data.ControlIPBegin + " -- " + data.ControlIPEnd);
+					$(":text[name='ControlIP']").val(data.ControlIPBegin);
+				}
+			});
 		});
 
 		//初始化资产
 		$("select[name=PoolCode]").change();
+
+		$("#addForm").submit(function(){
+			$("#errorMsg").empty();
+			var msg = '';
+
+			var poolCode = $("select[name='PoolCode']").val();
+			var ip = $(":text[name='ControlIP']").val();
+
+			$.ajax({
+				url : '__APP__/Host/checkIP',
+				async: false,
+				type : 'GET',
+				data : {'PoolCode':poolCode, 'IP':ip},
+				dataType : 'json',
+				success : function(data){
+					if(data.ret != 0){
+						msg = data.msg;
+					}
+				}
+			});
+
+			if(msg != ''){
+				$("#errorMsg").html(msg);
+				return false;
+			}
+
+			return true;
+		});
 
 	});
 
@@ -47,7 +86,7 @@
 
 <body>
 	<div id="container">
-		<form action="__URL__/add" method="post">
+		<form id="addForm" action="__URL__/add" method="post">
 			<table class="table" cellspacing="0" cellpadding="0" width="100%" >
 			    <tr>
 			      <th colspan="2" class="ui_text_lt">
@@ -70,6 +109,14 @@
 			      <td class="ui_text_lt">
 			      	<select name="PropertyCode" class="chzn-select ui_select03">
 			      	</select>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">控制IP：</td>
+			      <td class="ui_text_lt">
+			      	<span id="ipHint" style="margin-left: 5px; color: red;"></span>
+			      	<br/>
+			      	<input type="text" name="ControlIP" class="ui_input_txt03" />
 			      </td>
 			    </tr>
 			    <tr>

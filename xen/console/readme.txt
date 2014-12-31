@@ -1,0 +1,1 @@
+./configure --prefix=/opt/ECloud-Admin-VNC/nginx --with-http_secure_link_module --add-module=/opt/ECloud-Admin-VNC/websockify-nginx-module-master

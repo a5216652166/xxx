@@ -9,7 +9,7 @@ class DB {
 	
 	var $conn;
 
-	function DB($host='localhost', $username='root', $password='123456', $dbname='gift'){
+	function DB($host='ibss.efly.cc', $username='root', $password='rjkj@2009#8', $dbname='gift'){
 		$this->host = $host;
 		$this->username = $username;
 		$this->password = $password;

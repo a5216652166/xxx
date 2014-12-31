@@ -86,9 +86,9 @@ $(document).ready(function(){
 	});
 	
 	$('.content li:first').css("border-left","1px solid #ccc");
-	
-	$('.info table tr').find("td:eq(0)").addClass('in_td');
-	
+	if(window.location.href.indexOf('/CloudProperty/vps_info')==-1){	
+		$('.info table tr').find("td:eq(0)").addClass('in_td');
+	}
 	$('.in_table tr').find("td:eq(0)").css("line-height","27px");
 	
 	$('.content table tr:even').css("background","#f6f9fe");
@@ -185,12 +185,12 @@ function operationVM(obj,code,id){
 	var val = $(obj).attr('title'),opt="";	
 	layer.load('正在' + val,3);
 	switch(val){
-		case '开机':opt="on"; break;
-		case '关机':opt="off"; break;
-		case '重启':opt="reboot"; break;
+		case '开机':opt="Run"; break;
+		case '关机':opt="Halt"; break;
+		case '重启':opt="Reboot"; break;
 	}	
 	$.ajax({
-		url:INDEX+'/Index/operationVM',
+		url:APP+'/CloudProperty/operationVM',
 		type:'post',
 		data:{'opt':opt,'code':code},
 		success:function(data){
@@ -250,9 +250,9 @@ function batchOperationVM(obj){
 	}
 	layer.load('正在' + val,3);
 	switch(val){		
-		case '启动':opt="on"; break;
-		case '停止':opt="off"; break;
-		case '重启':opt="reboot"; break;
+		case '启动':opt="Run"; break;
+		case '停止':opt="Halt"; break;
+		case '重启':opt="Reboot"; break;
 	}
 	$("#console table :checked").each(function(i){
 		if(i!=$("#console table :checked").length-1){
@@ -262,7 +262,7 @@ function batchOperationVM(obj){
 		}
 	});
 	$.ajax({
-		url:INDEX+'/Index/batchOperationVM',
+		url:APP+'/CloudProperty/batchOperationVM',
 		type:'post',
 		data:{'opt':opt,'code':code},
 		success:function(data){

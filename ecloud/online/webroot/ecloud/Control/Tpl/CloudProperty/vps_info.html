@@ -11,8 +11,12 @@
 <script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
 <script type="text/javascript" src="__ROOT__/Public/js/main.js"></script>
 <link rel="stylesheet" href="__ROOT__/Public/css/control.css" />
+<style type="text/css">
+	table td{border:1px solid #eeeeee; border-top:none; width:33%; text-indent:26px; color:#333;}
+	.lf{ text-align:left;}
+	.info table img{ margin-top:10px;}
+</style>
 </head>
-
 <body>
 	
     <div class="wrapper">
@@ -20,20 +24,43 @@
         <div class="info">
             <table>
                 <tr>
-                    <th colspan="2">基本信息</th>
+                    <th colspan="3">基本信息</th>
                 </tr>                
+                <tr>
+                	<td>编号：{$vps['PropertyCode']}</td>                    
+                    <if condition="$vps.Status == 'Halted' OR $vps.Status == 'Paused' ">
+                        <td>状态：<img src="__ROOT__/Public/images/stop_status.png" /> 已关机</td>   
+                     <else/>
+                        <td>状态：<img src="__ROOT__/Public/images/run_status.png" /> 运行中</td>
+                    </if> 
+                	<td>机房：{$vps['HouseName']}</td>
+                </tr>
             </table>
             
-            <table class="in_table">
+            <table>
                 <tr>
-                    <th colspan="2">配置信息</th>
+                    <th colspan="3">配置信息</th>
                 </tr>                
-            </table>
-            
-            <table class="in_table">
                 <tr>
-                    <th colspan="2">付费信息</th>
-                </tr>                
+                	<td>CPU：{$vps['CPU']}</td>
+                	<td>内存：{$vps['RAM']}</td>
+                	<td>数据盘：{$vps['DISK']}G</td>
+                </tr>          
+                <tr>
+                	<td>操作系统：{$vps['OS']}</td>
+                	<td>公网IP：</td>
+                	<td>内网IP：</td>
+                </tr>
+            </table>            
+            <table>
+                <tr>
+                    <th colspan="3">付费信息</th>
+                </tr>                  
+                <tr>
+                	<td>付费方式：{$vps['Time']}</td>
+                	<td>创建时间：{$vps['PayStart']}</td>
+                	<td>到期时间：{$vps['PayEnd']}</td>
+                </tr>              
             </table>
         </div>
     </div>

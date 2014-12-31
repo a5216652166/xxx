@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <!--
                      
                                    .. .vr       
@@ -27,19 +28,19 @@
             :r2. rMBGBMGi .7Y, 1i::i   vO0PMNNSXXEqP@Secbone.
             .i1r. .jkY,    vE. iY....  20Fq0q5X5F1S2F22uuv1M; 
 -->
-<!DOCTYPE>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>睿江科技 —— 2015春节大回馈</title>
 <style type="text/css">
-	*{ margin:0; padding:0;}
+	*{ margin:0; padding:0;font-family:"微软雅黑"}
 	body{background:#ec403c}
 	.bg{
-		width:1024px; 
-		height:1280px; 
-		background:url(images/bg.jpg) no-repeat; 
 		margin:0 auto;
+		width:1024px;
+		height:1280px;
+		background-image:url(images/bg.jpg);
+		background-repeat:no-repeat;
 	}
 	.text{ 
 		width:350px;
@@ -73,6 +74,9 @@
 		padding-left:10px; 
 		color:#ec403c
 	}
+	.input input:focus{
+		outline:0;
+	}
 	.btn a{
 		width:260px;
 		height:56px; 
@@ -88,6 +92,13 @@
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="js/layer/layer.min.js"></script>
 <script type="text/javascript" >
+	$(function(){
+        $('#usercode,#password').bind('keypress',function(event){
+            if(event.keyCode == "13"){
+				receive();
+            }
+        });
+    });
 	function receive(){
 		var code = $("#usercode").val() , pwd = $("#password").val();
 		if(!code){
@@ -107,14 +118,12 @@
 				if(data.info=="success"){
 					$.layer({
 						type: 2,
-						maxmin: true,
 						title: false,
-						closeBtn: [0, false],
+						closeBtn: [0, true],
 						offset: [100,''],
-						area: ['820px', '530px'],
-						iframe: {src: 'table.html'}
-					}); 
-					
+						area: ['820px', '500px'],
+						iframe: {src: 'table.html?ID='+data.data}
+					}); 					
 				}else{
 					layer.msg(data.data,3,5);
 				}
@@ -127,18 +136,18 @@
 </script>
 </head>
 <body>
-	<div class="bg">
+    <div class="bg">
         <div class="text">
             <div class="user"></div>
             <div class="input">
-            	<input id="usercode"/>
+                <input id="usercode"/>
             </div>
             <div class="pwd"></div>
             <div class="input">            	
-            	<input id="password" type="password"/>	
-			</div>
+                <input id="password" type="password"/>
+            </div>
             <div class="btn">
-            	<a href="javascript:void(0);" onClick="receive()"></a>
+                <a href="javascript:void(0);" onClick="receive()"></a>
             </div>
         </div>
     </div>

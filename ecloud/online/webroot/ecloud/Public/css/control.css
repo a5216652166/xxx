@@ -9,7 +9,7 @@
 body{ font-family:"microsoft yahei",Arial, Helvetica, sans-serif; font-size:12px; color:#000;}
 li{ list-style:none;}
 table{ border-collapse:collapse; width:100%;}
-a{ text-decoration:none; color:#223e69;}
+a{ text-decoration:none; color:#184b88;}
 b{ font-weight:normal;}
 .block{ display:block;}
 .blue{ color:#058ec4;}
@@ -255,6 +255,16 @@ input.warntxt{
 	line-height:44px;
 	margin-bottom:18px;
 }
+
+.filtbox2 {
+	min-width:970px;
+	/*height:115px;*/
+	background:#fafafb;
+	box-shadow:0 2px 6px #e6e7ec;
+	line-height:40px;
+	margin-bottom:18px;
+}
+
 .datetime{
 	margin-left:28px;
 	float:left;
@@ -290,6 +300,9 @@ input.warntxt{
 	text-indent:10px;
 	width:180px;
 	margin-right:5px;
+}
+.search div input:focus,.search div select:focus{
+	outline:0;
 }
 .search div select{ width:65px;}
 .search div a{
@@ -523,6 +536,9 @@ a.btnico:hover{ background:#e6e6e6;}
 	border:1px solid #ccc;
 	float:left;
 	margin-left:10px;
+}
+.page select:focus{	
+	outline:0;
 }
 .page ul{ float:left; margin-left:10px;}
 .page li{ float:left;}

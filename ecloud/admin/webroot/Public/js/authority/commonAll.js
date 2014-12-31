@@ -149,6 +149,55 @@ function getNextDay(dd, dadd) {
 }
 
 
+
+/** 检测IP是否正确 **/
+function checkValidIP(ip){
+	var a = ip.split('.');
+	if(a.length != 4){
+		return false;
+	}
+
+	for(var i = 0; i < a.length; i++){
+		var n = parseInt(a[i]);
+		if(isNaN(n)){
+			return false;
+		}
+		if(n < 0 || n > 255){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/** 将IP字符串转换为数字 **/
+function IPStrToNum(s){
+	if(!checkValidIP(s)){
+		return false;
+	}
+
+	var a = s.split('.');
+	var n = parseInt(a[0]) << 24;
+	n |= parseInt(a[1]) << 16;
+	n |= parseInt(a[2]) << 8;
+	n |= parseInt(a[3]);
+	n = n >>> 0;
+
+	return n;
+}
+
+/** 将IP数字转换为字符串 **/
+function IPNumToStr(n){
+	var s = [];
+	s[0] = n >>> 24;
+	s[1] = (n << 8) >>> 24;
+	s[2] = (n << 16) >>> 24;
+	s[3] = (n << 24) >>> 24;
+
+	return s.join(".");
+}
+
+
 /* table鼠标悬停换色 
 $(function() {
 	// 如果鼠标移到行上时，执行函数

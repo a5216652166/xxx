@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" href="__ROOT__/Public/css/control.css" />
+
+<style type="text/css">
+    .clear {
+        clear: both;
+    }
+
+    .charts {
+        text-align: center;
+    }
+
+    .charts .ct_box {
+        /*background: #87CEEB;*/
+        width: 33%;
+        /*border: 1px solid #000;*/
+        float: left;
+        height: 300px;
+    }
+
+    .filtbox2 .con_row {
+        margin-left: 28px;
+    }
+
+</style>
+
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    !window.jQuery && document.write('<script src="__ROOT__/Public/js/jquery.js"><\/script>');//1.7.2
+</script>
+<script type="text/javascript" src="__ROOT__/Public/js/main.js"></script>
+
+<script src="__ROOT__/Public/js/Highcharts-4.0.3/highcharts.js"></script>
+
+<script type="text/javascript">
+
+    Highcharts.setOptions({
+        global : {
+            useUTC : false
+        }
+    });
+    
+    /*var codes = [];
+    <volist name="data" id="vo">
+        codes.push("{$vo}");
+    </volist>*/
+
+    //资产编号
+    var codes = ['A-02-507-26-20140923-001', 'A-02-507-26-20140923-003', 'A-02-507-26-20140923-008', 'A-02-507-26-20140923-009'];
+    //图表类型
+    var types = [];
+
+    $(function(){
+        //设置面包屑
+        var mt = parent.$(".tree dt.actived").parent().prev().text();
+        var subMt = parent.$(".tree dt.actived").text();
+        $(".wrapper:first .bread:first").html(mt + ' > ' + subMt);
+
+        console.log(codes);
+
+        //绑定参数
+        //$("select[name='source']").val('{$source}');
+        <volist name="type" id="vo">
+            types.push('{$vo}');
+            $(":checkbox[value='{$vo}']").attr('checked', 'checked');
+        </volist>
+
+        $("#look").click(function(){
+            $("#searchForm").submit();
+        });
+    });
+</script>
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<div class="bread"><!--网站监控 > 所有监控项目 --></div>
+        
+        <div class="filtbox2">
+            <form id="searchForm" action="__URL__/cloud_server" type="GET">
+                <!-- <div class="con_row">
+                    数据来源：
+                    <select name="source">
+                        <option value="all">全部</option>
+                        <option value="idc">IDC托管</option>
+                        <option value="cloud">云平台</option>
+                    </select>
+                </div> -->
+
+                <div class="con_row">
+                    图形种类：
+                    <input type="checkbox" name="type[]" value="ip" /> IP
+                    <input type="checkbox" name="type[]" value="iface" /> 接口
+                    <input type="checkbox" name="type[]" value="cpu" /> CPU
+                    <input type="checkbox" name="type[]" value="ram" /> 内存
+                    <input type="checkbox" name="type[]" value="disk" /> 硬盘
+                </div>
+
+                <div class="con_row">
+                    <a id="look" href="javascript:;" class="btnico">查看</a>
+                </div>
+            </form>
+        </div>
+        
+        <div id="main_content">
+            <!-- <div class="bread">图形</div>
+            <div class="content">
+                <div class="charts">
+                    <div class="ct_box"></div>
+                    <div class="ct_box"></div>
+                    <div class="ct_box"></div>
+                    <div class="ct_box"></div>
+                    <div class="ct_box"></div>
+                </div>
+                <div class="clear"></div>
+            </div> -->
+        </div>
+    
+    </div>
+
+    <script type="text/javascript">
+        $(function(){
+            for(var k in codes){
+                $("#main_content").append('<div id="' + codes[k] + '" class="bread">设备：' + codes[k] + '</div>');
+                $("#main_content").append('<div class="content"><div class="charts"></div><div class="clear"></div></div>');
+
+                //根据条件插入表格类型
+                for(var i = 0; i < types.length; i++){
+                    var $div = $('<div class="ct_box"></div>');
+                    //存储数据
+                    $div.data('code', k);
+                    $div.data('type', types[i]);
+                    $("#" + codes[k]).next().find('.charts').append($div);
+                }
+
+                $("#" + codes[k]).next().find('.charts').children().each(function(index, el) {
+                    var code = $(el).parents('.content').prev().attr('id');
+                    var type = types[index];
+                    var title = '';
+                    switch(type){
+                    case 'ip':
+                        title = 'IP';
+                        break;
+                    case 'iface':
+                        title = '接口';
+                        break;
+                    case 'cpu':
+                        title = 'CPU';
+                        break;
+                    case 'ram':
+                        title = '内存';
+                        break;
+                    case 'disk':
+                        title = '硬盘';
+                        break;
+                    default:
+                    }
+
+                    //获取数据
+                    $.ajax({
+                        url : '__URL__/get_data',
+                        type : 'GET',
+                        data : {'Code' : code, 'Type' : type},
+                        dataType : 'json',
+                        success : function(data){
+                            var x = [];
+                            var inflow = [];
+                            var outflow = [];
+
+                            //每个ip
+                            for(var k in data){
+                                //ip的每个流量
+                                for(var k1 in data[k]){
+                                    var t = parseInt(data[k][k1]['keytime']) * 1000;
+                                    inflow.push( [t, parseInt(data[k][k1]['inflow'])] );
+                                    outflow.push( [t, parseInt(data[k][k1]['outflow'])]  );
+                                }
+                            }
+
+                            var chart = createChart(el, title, []);
+                            chart.series[0].setData(inflow, true);
+                            chart.series[1].setData(outflow, true);
+                        }
+                    });
+                });
+            }
+           
+        });
+
+
+        function createChart(dom, title, data){
+            var chart = new Highcharts.Chart({
+                chart : {
+                    renderTo: dom,
+                    zoomType: 'x'
+                    /*animation: Highcharts.svg,
+                    events : {
+                        load : function(){
+                            var dom = this.container;
+                            var code = $(dom).data('code');
+                            var type = $(dom).data('type');
+                            var series = this.series;
+
+                            setInterval(function() {
+                                //获取数据
+                                $.ajax({
+                                    url : '__URL__/get_data',
+                                    type : 'GET',
+                                    data : {'Code' : code, 'Type' : type},
+                                    dataType : 'json',
+                                    success : function(data){
+                                        var x = [];
+                                        var inflow = [];
+                                        var outflow = [];
+
+                                        //每个ip
+                                        for(var k in data){
+                                            //ip的每个流量
+                                            for(var k1 in data[k]){
+                                                var t = parseInt(data[k][k1]['keytime']) * 1000;
+                                                inflow.push( [t, parseInt(data[k][k1]['inflow'])] );
+                                                outflow.push( [t, parseInt(data[k][k1]['outflow'])]  );
+                                            }
+                                        }
+
+                                        //var chart = createChart(el, title, []);
+                                        series[0].setData(inflow, true);
+                                        series[1].setData(outflow, true);
+                                    }
+                                });
+                            }, 5000);
+                        }
+                    }*/
+                    /*animation: Highcharts.svg,
+                    events : {
+                        load : function(){
+                            var series = this.series;
+
+                            setInterval(function() {      
+                                $.getJSON('http://localhost/ecloud/online/webroot/ecloud/control.php/CloudMonitor/get_last_5_data', function(ret){
+                                    var t = parseInt(ret['keytime']) * 1000;
+                                    var x = [t, parseInt(ret['inflow'])];
+                                    var y = [t, parseInt(ret['outflow'])];
+
+                                    series[0].addPoint(x, true, true);
+                                    series[1].addPoint(y, true, true);
+                                });
+                            }, 1000);
+                        }
+                    }*/
+                },
+                credits : {
+                    enabled: false
+                },
+                title : {
+                    text : '<a href="">'+title+'</a>'
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval : 60,
+                    gridLineWidth: 1,
+                    minorTickInterval: 'auto',
+                    lineColor: '#C0C0C0',
+                    tickColor: '#C0C0C0'
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    min: 0,
+                    minorTickInterval: 'auto',
+                    lineColor: '#000',
+                    lineWidth: 1,
+                    tickWidth: 1,
+                    tickColor: '#C0C0C0'
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    //valueSuffix: ' Byte/s',
+                    //xDateFormat: '%Y-%m-%d %H:%M',
+                    //enabled: false,
+                    shared: true,
+                    //pointFormat: '<span style="color:{series.color}">{series.name}</span>： <b>{point.y}</b> Byte/s<br/>'
+                    formatter: function(){
+                        //console.log(this);
+                        var y0 = this.points[0].y + " bps";
+                        if(this.points[0].y >= 1024 && (this.points[0].y / 1024) < 1024){
+                            var tmp = (this.points[0].y / 1024).toFixed(2);
+                            y0 = tmp + " kbps";
+                        }
+                        if((this.points[0].y / 1024) >= 1024 && (this.points[0].y / 1024 / 1024) < 1024){
+                            var tmp = (this.points[0].y / 1024 / 1024).toFixed(2);
+                            y0 = tmp + " mbps";
+                        }
+                        if((this.points[0].y / 1024 / 1024) >= 1024){
+                            var tmp = (this.points[0].y / 1024 / 1024 / 1024).toFixed(2);
+                            y0 = tmp + " gbps";
+                        }
+                        
+                        var y1 = this.points[1].y + " bps";
+                        if(this.points[1].y >= 1024 && (this.points[1].y / 1024) < 1024){
+                            var tmp = (this.points[1].y / 1024).toFixed(2);
+                            y1 = tmp + " kbps";
+                        }
+                        if((this.points[1].y / 1024) >= 1024 && (this.points[1].y / 1024 / 1024) < 1024){
+                            var tmp = (this.points[1].y / 1024 / 1024).toFixed(2);
+                            y1 = tmp + " mbps";
+                        }
+                        if((this.points[1].y / 1024 / 1024) >= 1024){
+                            var tmp = (this.points[1].y / 1024 / 1024 / 1024).toFixed(2);
+                            y1 = tmp + " gbps";
+                        }
+                        return '<b>'+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',this.points[0].x) +'</b><br/>' + 
+                        '<span style="color:'+this.points[1].point.series.color+'">' + this.points[1].point.series.name + "：" + y1 + '</span><br/><span style="color:'+this.points[0].point.series.color+'">' + this.points[0].point.series.name + '：' + y0 + '</span>';
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                            /*hover: {
+                                lineWidth: 1,
+                                radiusPlus: 0
+                            }*/
+                        },
+                        threshold: null
+                    },area: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                            /*hover: {
+                                lineWidth: 1,
+                                radiusPlus: 0
+                            }*/
+                        },
+                        threshold: null
+                    },
+                    series: {
+                        marker: {
+                            radius:0,//默认点半径
+                            states: {                        
+                                //选中某个数据点所显示的样式
+                                hover: {
+                                    radius: 0.1
+                                }
+                            }
+                        }
+                    }
+                },
+                exporting: {
+                    enabled: false
+                },
+                series : [{
+                    type: 'area',
+                    name : "流入",
+                    color: 'rgba(4,206,3,.9)',
+                    data : data,
+                    fillColor : {
+                        linearGradient : {
+                            x1: 0, 
+                            y1: 0, 
+                            x2: 0, 
+                            y2: 1
+                        },
+                        stops : [[0, 'rgba(4,206,3,.9)'], [1, 'rgba(4,206,3,.9)']]
+                    }
+                },{
+                    type : 'line',
+                    name : "流出",
+                    color: "blue",
+                    data : data
+                },{
+                    type: 'line',
+                    name : "95峰值",
+                    color: "red",
+                    data : data,
+                    dashStyle: 'dash'
+                }]
+            });
+            
+            return chart;
+        }
+
+    </script>
+</body>
+</html>

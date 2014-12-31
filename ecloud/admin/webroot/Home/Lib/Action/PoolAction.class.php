@@ -88,4 +88,10 @@ class PoolAction extends Action {
 		$this->ajaxReturn($data);
 	}
 
+	public function get_pool(){
+		$ret = M()->table('Pool')->where('PoolCode=\'' . $_GET['PoolCode'] . '\'')->find();
+
+		$this->ajaxReturn($ret);
+	}
+
 }

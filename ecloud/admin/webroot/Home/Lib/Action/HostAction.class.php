@@ -82,4 +82,38 @@ class HostAction extends Action {
 		}
 	}
 
+
+	/** 检查控制IP是否合法和有没有重复 **/
+	public function checkIP(){
+		$msg = array('ret' => 0, 'msg' => '');
+
+		$ip = ip2long($_GET['IP']);
+		if($ip === false){
+			$msg = array('ret' => 1, 'msg' => '控制IP非法');
+			$this->ajaxReturn($msg);
+			return;
+		}
+
+		$ret = M()->table('Pool')->where('PoolCode=\'' . $_GET['PoolCode'] . '\'')->find();
+		if($ip < ip2long($ret['ControlIPBegin']) || $ip > ip2long($ret['ControlIPEnd'])){
+			$msg = array('ret' => 1, 'msg' => '控制IP不属于该池');
+			$this->ajaxReturn($msg);
+			return;
+		}
+
+		$where = 'PoolCode=\'' . $_GET['PoolCode'] . '\' and ControlIP=\'' . $_GET['IP'] . '\'';
+		if(!empty($_GET['ID'])){
+			$where .= ' and ID != ' . $_GET['ID'];
+		}
+
+		$ret = M()->table('Host')->where($where)->select();
+		if(count($ret) > 0){
+			$msg = array('ret' => 1, 'msg' => '控制IP已被使用');
+			$this->ajaxReturn($msg);
+			return;
+		}
+
+		$this->ajaxReturn($msg);
+	}
+
 }

@@ -315,10 +315,10 @@ class IndexAction extends Action {
 		if(!empty($_POST['code']) && !empty($_POST['opt'])){
 			$arr = explode(',',$_POST['code']);
 			foreach($arr as $val){
-				$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$val."&state=".$_POST['opt']);
+				$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$val."&Opt=Set&PowerState=".$_POST['opt']);
 				$ret = json_decode($data,true);
 				if($ret['ret']!=0){
-					$this->ajaxReturn(0,'error',0);
+					$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
 				}
 			}
 			$this->ajaxReturn(1,'success',1);
@@ -327,8 +327,11 @@ class IndexAction extends Action {
 	//操作虚拟机
 	public function operationVM(){
 		if(!empty($_POST['code']) && !empty($_POST['opt'])){
-			$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$_POST['code']."&state=".$_POST['opt']);
+			$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$_POST['code']."&Opt=Set&PowerState=".$_POST['opt']);
 			$ret = json_decode($data,true);
+			if($ret['ret']!=0){
+				$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+			}
 			$this->ajaxReturn($ret['ret'],'success',1);
 		}
 	}
@@ -456,17 +459,30 @@ class IndexAction extends Action {
 			foreach($vpsList as $key => $value){
 				if(strtotime(date('Y-m-d H:i:s'))>strtotime($value['PayEnd'])){
 					$vpsList[$key]['is_expire'] = "yes";
-					$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$value['PropertyCode']."&state=off");
+					$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$value['PropertyCode']."&Opt=Set&PowerState=Halt");
 					$return = json_decode($data,true);
 				}else{
 					$vpsList[$key]['is_expire'] = "no";
 				}
-				$url[$value['PropertyCode']] = C('OPERATION_VM')."/?opt=getvmstate&id=".$value['PropertyCode'];
+				$url[$value['PropertyCode']] = C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$value['PropertyCode']."&Opt=Get";	
+				$url2[$value['PropertyCode']] = C('INTERFACE_URL')."/ecloud_admin/GetVMVNCUrl.php?VMCode=".$value['PropertyCode'];
+				$url3[$value['PropertyCode']] = C('INTERFACE_URL')."/ecloud_admin/VMSummary.php?VMCode=".$value['PropertyCode'];
 				$vpsList[$key]['Brand'] = "RJCloud";
 				$vpsList[$key]['Type'] = "云服务器";
 				$vpsList[$key]['No'] = "RJ001";
 				$vpsList[$key]['Code'] = $value['PropertyCode'];
+				
+				//详情
+				$Ad_OrderNeed = M();
+				$orderNeed = $Ad_OrderNeed->table('Ad_OrderNeed')->where('Order_ID='.$value['Order_ID'])->find();
+				$vpsList[$key]['CPU'] = $orderNeed['CPU'];
+				$vpsList[$key]['RAM'] = $orderNeed['RAM'];
+				$vpsList[$key]['DISK'] = $orderNeed['DISK'];
+				$vpsList[$key]['HouseName'] = $orderNeed['HouseName'];
+				
+				
 			}
+			//获取状态
 			foreach($url as $k => $v){
 				$rs[$k] = popen('curl -s -m 5 "'.$v.'"','r');
 			}
@@ -475,103 +491,42 @@ class IndexAction extends Action {
 					if($k == $value['PropertyCode']){
 						$data2 = fread($v,2096);
 						$tem = json_decode($data2,true);
-						$vpsList[$kk]['vmStatus'] = $tem['result'];
+						$tem2 = json_decode($tem['result'],true);
+						$vpsList[$kk]['vmStatus'] = $tem2['PowerState'];
 					}
 				}
 			}
-			/*
-			$vpsLists = array();
-			if(!empty($rslt)){
-				foreach($rslt as $val){
-					if(!empty($val['ContractCode'])){
-						$data = file_get_contents(C('INTERFACE_URL')."/ibss/dev_query.php?opt=get_by_contract&Contract_Code=".$val['ContractCode']."&Dev_Type=vps");
-						$vpsList = json_decode($data,true);
-						if(!empty($vpsList)){
-							foreach($vpsList as $value){
-								
-								//$data2 = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code']);
-								//$tem = json_decode($data2,true);								
-								//$value['vmStatus'] = $tem['result'];
-								
-								$url[$value['Code']] = C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code'];
-								
-								$value['MyCode'] = substr($value['Code'],0,8);
-								$value['Order_ID'] = $val['ID'];
-								$ip_arr = explode(';',$value['IP_Addr']);
-								if(count($ip_arr) == 1){
-									$value['IP_Addr'] = str_replace(';','',$value['IP_Addr']);
-								}else{
-									$value['IP_Addr'] = str_replace(';','<p/>',$value['IP_Addr']);
-								}
-								$vpsLists[$cou] = $value;
-								$cou ++;
-							}
-						}
-					}
-				}
-				foreach($url as $k => $v){
-					$rs[$k] = popen('curl -s -m 5 "'.$v.'"','r');
-				}
-				foreach($rs as $k => $v){
-					foreach($vpsLists as $kk => $value){
-						if($k == $value['Code']){
-							$data2 = fread($v,2096);
-							$tem = json_decode($data2,true);
-							$vpsLists[$kk]['vmStatus'] = $tem['result'];
-						}
-					}
-				}
-				//插入续费表信息
-				foreach($vpsLists as $value){
-					//Ad_VPSBuy信息
-					$vap['PropertyCode'] = $value['Code'];
-					//Ad_OrderVPSBuy信息
-					$vap_pay['Order_ID'] = $value['Order_ID'];
-					
-					$order = M();
-					$tem = $order->table("Ad_Order")->where('ID='.$value['Order_ID'])->find();
-					$vap_pay['PayStart'] = $tem['PayTS'];
-					$vps = M();
-					$rslt = $vps->table('Ad_OrderNeed')->where('Order_ID='.$value['Order_ID'])->find();
-					
-					if($rslt['Time']=='月'){
-						$vap_pay['PayEnd'] = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($tem['PayTS'])));
-					}else if($rslt['Time']=='半年'){
-						$vap_pay['PayEnd'] = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($tem['PayTS'])));
-					}else if($rslt['Time']=='年'){
-						$vap_pay['PayEnd'] = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($tem['PayTS'])));
-					}
-					
-					
-					$vpsBuy = M();
-					$orderVpsBuy = M();
-					$entity = $vpsBuy->table('Ad_VPSBuy')->where("PropertyCode='".$value['Code']."'")->find();
-					if(empty($entity)){
-						$is_ok = $vpsBuy->table('Ad_VPSBuy')->add($vap);
-						$vap_pay['VPSBuy_ID'] = $is_ok;					
-						$orderVpsBuy->table('Ad_OrderVPSBuy')->add($vap_pay);
-					}
-				}
-				//获取到期时间
-				foreach($vpsLists as $key => $value){
-					$vpsPay = M();
-					$orderVpsBuy = M();
-					$tem = $vpsPay->table('Ad_VPSBuy')->where("PropertyCode='".$value['Code']."'")->find();
-					$result = $orderVpsBuy->table('Ad_OrderVPSBuy')->where('VPSBuy_ID='.$tem['ID'])->order('PayEnd desc')->find();
-					$vpsLists[$key]['PayEnd'] = $result['PayEnd'];
-					if(strtotime(date('Y-m-d H:i:s'))>strtotime($result['PayEnd'])){
-						$vpsLists[$key]['is_expire'] = "yes";
-						$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$value['Code']."&state=off");
-						$return = json_decode($data,true);
-					}else{
-						$vpsLists[$key]['is_expire'] = "no";
-					}
-				}
-				
-				$this->assign('vpsList', $vpsLists);
-				
+			//获取host地址和端口
+			foreach($url2 as $k => $v){
+				$rs2[$k] = popen('curl -s -m 5 "'.$v.'"','r');
 			}
-			*/
+			foreach($rs2 as $k => $v){
+				foreach($vpsList as $kk => $value){
+					if($k == $value['PropertyCode']){
+						$data2 = fread($v,2096);
+						$tem = json_decode($data2,true);					
+						$tem2 = json_decode($tem['result'],true);
+						$vpsList[$kk]['port'] = $tem2['VNCProxyPort'];
+						$vpsList[$kk]['host'] = $tem2['VNCProxyHost'];					
+						$vpsList[$kk]['key'] = $tem2['VNCKey'];
+					}
+				}
+			}
+			//获取IP
+			foreach($url3 as $k => $v){
+				$rs3[$k] = popen('curl -s -m 5 "'.$v.'"','r');
+			}
+			foreach($rs3 as $k => $v){
+				foreach($vpsList as $kk => $value){
+					if($k == $value['PropertyCode']){
+						$data2 = fread($v,2096);
+						$tem = json_decode($data2,true);					
+						$tem2 = json_decode($tem['result'],true);
+						$vpsList[$kk]['IP'] = $tem2['IP'];
+					}
+				}
+			}
+			
 			
 			$this->assign('vpsList', $vpsList);			
 			$this->assign('balance',$this->returnBalance());
@@ -615,55 +570,11 @@ class IndexAction extends Action {
 	//新增合同和工单
 	public function insert(){
 		if(!empty($_POST['id'])){
-			/*
-			$Order = M();
-			$tem = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->find();
-			
-			$OrderVPS = M();
-			$vps = $OrderVPS->table('Ad_OrderNeed')->where('Order_ID='.$tem['ID'])->find();
-			
-			if($vps['BandWidthBGP']!=0){
-				$bandwidth = $vps['BandWidthBGP'] . "M BGP带宽 ;";
-			}else{
-				$bandwidth = $vps['BandWidthIPLC'] . "M IPLC带宽 ;";
-			}
-			if($vps['Time']=='月'){
-				$time = " 1 个月 " ;
-			}
-			else if($vps['Time']=='半年'){
-				$time = " 6 个月 " ;
-			}else{
-				$time = " 1 年 " ;
-			}
-			$str = $vps['CPU'] . " CPU ; " . $vps['RAM'] . " 内存 ; " . $vps['DISK'] . "G 硬盘 ; 系统：" . $vps['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $vps['Count'] ."<br/>";
-			
-			// post 请求方案
-			include_once('HttpClient.class.php');
-			
-			$params = array('opt'=>'insert','data'=>json_encode(array('type'=>'业务新增','sellType'=>'IDC','content'=>'<p style="color:red"><h3>客户【' . $_SESSION['name'] . '】施工要求</h3>：<br/>'.$str,'stockId'=>'160','cabinet'=>'','ucount'=>'NULL','ucount2'=>'NULL','ucount4'=>'NULL','cmoney'=>$vps['Price'],'payType'=>$vps['Time'].'付','beginDate'=>date('Y-m-d'),'endDate'=>date('Y-m-d'),'customId'=>C('customID'),'globalCustomId'=>$_SESSION['customID'],'about'=>$str.';','cpayDate'=>date('Y-m-d'),'prePay'=>'1')));
-			$pageContents = HttpClient::quickPost(C('INTERFACE_URL').'/ibss/contract.1.php', $params);
-			$ret = json_decode($pageContents,true);
-			
-			$params2 = array('opt'=>'insert','data'=>json_encode(array('type'=>'新业务上架单','businessType'=>'IDC业务','ywtype'=>'租用','contractCode'=>$ret['error'],'doReq'=>'客户【' . $_SESSION['name'] . '】配置要求 : '. "\n" .$str.';','stockHouseId'=>'160','doTime'=>date('Y-m-d'))));
-			
-			$pageContents2 = HttpClient::quickPost(C('INTERFACE_URL').'/ibss/worklist.php', $params2);
-			//修改订单状态
-			$pageContents2 = json_decode($pageContents2,true);
-			if($pageContents2['ret']==0){
-				$data = array('IsPay'=>1,'ContractCode'=>$ret['error'],'PayTS'=>date('Y-m-d H:i:s'));
-				$Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data);
-				//推送事件
-				$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$ret['Code'].'","Type":"'.$ret['Type'].'","IsPay":'.$ret['IsPay'].',"ContractCode":"'.$ret['ContractCode'].'","Money":"'.$ret['Money'].'","AliPay":"'.$ret['AliPay'].'","BalancePay":"'.$ret['BalancePay'].'"}');
-				
-				$this->ajaxReturn(1,'success',1);
-			}else{
-				$this->ajaxReturn('订单状态修改失败，请联系管理员。','error',0);
-			}*/
 			
 			$Order = M();
 			$orderData = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'));
 			//修改订单状态
-			//$is_ok = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($orderData);
+			$is_ok = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($orderData);
 			if($is_ok === false){
 				$this->ajaxReturn('修改订单状态失败，请联系管理员。','error',0);
 			}
@@ -688,37 +599,42 @@ class IndexAction extends Action {
 			$RAM[16] = 16384;
 			$RAM[32] = 32768;
 			
-			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']);			
+			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']);
 			$createTem = json_decode($create,true);
+			
 			if($createTem['ret'] != 0){
 				$this->ajaxReturn('创建云主机失败，请联系管理员。','error',0);
 			}
-			$vmcode = json_decode($createTem['result'],true);			
-			$data['PropertyCode'] = $vmcode['VMCode'];
-			//添加vps信息
-			$Ad_VPSBuy = M();
-			$is_ok2 = $Ad_VPSBuy->table('Ad_VPSBuy')->add($data);
-			if($is_ok2 === false){
-				$this->ajaxReturn('交易失败，请联系管理员。','error',0);
-			}
-			
-			$Ad_OrderVPSBuy = M();
-			$data2['Order_ID'] = $_POST['id'];
-			$data2['VPSBuy_ID'] = $is_ok2;
-			$data2['PayStart'] = $tem['PayTS'];
-			
-			if($vps['Time']=='月'){
-				$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($tem['PayTS'])));
-			}else if($vps['Time']=='半年'){
-				$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($tem['PayTS'])));
-			}else if($vps['Time']=='年'){
-				$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($tem['PayTS'])));
-			}
-			
-			$is_ok3 = $Ad_OrderVPSBuy->table('Ad_OrderVPSBuy')->add($data2);
-			if($is_ok3 === false){
-				$this->ajaxReturn('交易失败，请联系管理员。','error',0);
-			}
+			$vmcode = json_decode($createTem['result'],true);
+			foreach($vmcode as $value){
+				$data['PropertyCode'] = $value;
+				//添加vps信息
+				$Ad_VPSBuy = M();
+				$is_ok2 = $Ad_VPSBuy->table('Ad_VPSBuy')->add($data);
+				
+				if($is_ok2 === false){
+					$this->ajaxReturn('交易失败，请联系管理员。','error',0);
+				}
+				
+				$Ad_OrderVPSBuy = M();
+				$data2['Order_ID'] = $_POST['id'];
+				$data2['VPSBuy_ID'] = $is_ok2;
+				$data2['PayStart'] = $tem['PayTS'];
+				
+				if($vps['Time']=='月'){
+					$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($tem['PayTS'])));
+				}else if($vps['Time']=='半年'){
+					$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($tem['PayTS'])));
+				}else if($vps['Time']=='年'){
+					$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($tem['PayTS'])));
+				}
+				
+				$is_ok3 = $Ad_OrderVPSBuy->table('Ad_OrderVPSBuy')->add($data2);
+				if($is_ok3 === false){
+					$this->ajaxReturn('交易失败，请联系管理员。','error',0);
+				}
+			}			
+			$this->ajaxReturn(1,'success',1);
 			//推送事件
 			$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$tem['Code'].'","Type":"'.$tem['Type'].'","IsPay":'.$tem['IsPay'].',"ContractCode":"'.$tem['ContractCode'].'","Money":"'.$tem['Money'].'","AliPay":"'.$tem['AliPay'].'","BalancePay":"'.$tem['BalancePay'].'"}');
 		}else{

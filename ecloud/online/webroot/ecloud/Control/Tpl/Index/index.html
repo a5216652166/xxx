@@ -16,7 +16,6 @@
 <script type="text/javascript" src="__ROOT__/Public/js/main.js"></script>
 <link rel="stylesheet" href="__ROOT__/Public/css/control.css" />
 </head>
-
 <body>
 	<!------------------------顶栏导航区----------------------------->
 	<header class="top">
@@ -40,7 +39,7 @@
     </header>
     <nav class="t_nav">
     	<ul>
-	    	<li><a href="javascript:void(0);" class="actived">资源概览</a></li>
+	    	<li><a href="javascript:void(0);" class="actived">图形概览</a></li>
             <li><a href="javascript:void(0);">类别概览</a></li>
             <li><a href="javascript:void(0);">服务概览</a></li>
         </ul>
@@ -56,11 +55,11 @@
     <nav class="tree" style="display:none;">
     	<ul>
         	<li>
-            	<a class="menu" href="javascript:void(0);">资源概览<span></span></a>
+            	<a class="menu" href="javascript:void(0);">图形概览<span></span></a>
                 <dl>
-                	<dt class="actived"><a href="__APP__/CloudMonitor/idc_server" target="framebox">服务器</a></dt>
-                    <dt><a href="javascript:void(0);" target="framebox">云主机</a></dt>
-                    <dt><a href="javascript:void(0);" target="framebox">IP</a></dt>
+                	<dt class="actived"><a href="__APP__/CloudMonitor/idc_server?source=all&type[]=ip&type[]=iface&type[]=cpu&type[]=ram&type[]=disk" target="framebox">服务器</a></dt>
+                    <dt><a href="__APP__/CloudMonitor/cloud_server?type[]=ip&type[]=iface&type[]=cpu&type[]=ram&type[]=disk" target="framebox">云主机</a></dt>
+                    <dt><a href="__APP__/CloudMonitor/idc_server3" target="framebox">IP</a></dt>
                     <dt><a href="javascript:void(0);" target="framebox">接口</a></dt>
                     <dt><a href="javascript:void(0);" target="framebox">机柜</a></dt>
                 </dl>

@@ -48,9 +48,9 @@ def _update_pool_vm_info(pool_code, vm_code, vm_info):
 							passwd=config.ecloud_db_pass, db='ecloud_admin', port=3306)
 	cur = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
 	sql = "update `VM` set `PowerState` = '%s', "\
-		"`Cpu` = '%s', `Ram` = '%s', "\
+		"`Cpu` = '%s', `Ram` = '%s', `Disk` = '%s', `HostCode` = '%s', "\
 		"`TimeStamp` = now() where `VMCode` = '%s';"\
-		%(vm_info['power_state'], vm_info['cpu'], vm_info['ram'], vm_code)
+		%(vm_info['power_state'], vm_info['cpu'], vm_info['ram'], vm_info['disk'], vm_info['host'], vm_code)
 	#print sql
 	cur.execute(sql)
 
@@ -64,11 +64,38 @@ def _get_pool_vm_list(pool_code, pool_data):
 			continue
 		#print record['uuid'], record['name_label'], record['power_state']
 		#print record['name_label'], record['VCPUs_max'], record['memory_static_max']
+
+		#get host code
+		host = record['resident_on']
+		host_code = session.xenapi.host.get_name_label(host)
+		#print record['name_label'], host, host_code
+
+		#get ram
 		ram = int(int(record['memory_static_max']) / 1024 / 1024)
+
+		#get disk virtual size
+		vdisk_size = 0
+		for vbd in record['VBDs']:
+			vbd_record = session.xenapi.VBD.get_record(vbd)
+			if vbd_record['type'] != 'Disk':
+				continue
+			vdi = vbd_record['VDI']
+			if vdi == 'OpaqueRef:NULL':
+				continue
+			vdi_record = session.xenapi.VDI.get_record(vdi)
+			vsize = int(vdi_record['virtual_size']) / 1024 / 1024 / 1024
+			#print vbd_record['device'], vbd_record['type'], vbd_record['bootable'], vbd_record['userdevice'], vsize
+			#xvda Disk True 0 20
+			#xvdb Disk False 1 10
+			if vbd_record['device']	== 'xvda':
+				vdisk_size = vsize
+
 		vm_code = record['name_label']
 		vm_info = { 'power_state':record['power_state'], \
 					'cpu':record['VCPUs_max'], \
-					'ram':str(ram)}
+					'ram':str(ram), \
+					'disk':str(vdisk_size), \
+					'host':host_code }
 		_update_pool_vm_info(pool_code, vm_code, vm_info)
 	session.xenapi.session.logout()
 
