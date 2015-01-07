@@ -149,7 +149,6 @@
 							<th>ID</th>
 							<th>池组名</th>
 							<th>池编号</th>
-							<th>机房名字</th>
 							<th>数据</th>
 							<th>是否可用</th>
 							<th>公网Vlan</th>
@@ -157,10 +156,6 @@
 							<th>内网IP</th>
 							<th>内网掩码</th>
 							<th>内网网关</th>
-							<th>控制Vlan</th>
-							<th>控制IP</th>
-							<th>控制掩码</th>
-							<th>控制网关</th>
 							<th>操作</th>
 						</tr>
 
@@ -170,7 +165,6 @@
 								<td>{$vo.ID}</td>
 								<td>{$vo.Name}</td>
 								<td>{$vo.PoolCode}</td>
-								<td>{$vo.StockHouseName}</td>
 								<td>{$vo.Data}</td>
 								<td>{$vo.State}</td>
 								<td>{$vo.PublicVlanBegin} ~ {$vo.PublicVlanEnd}</td>
@@ -178,10 +172,6 @@
 								<td>{$vo.PrivateIPBegin} ~ {$vo.PrivateIPEnd}</td>
 								<td>{$vo.PrivateMask}</td>
 								<td>{$vo.PrivateGateway}</td>
-								<td>{$vo.ControlVlan}</td>
-								<td>{$vo.ControlIPBegin} ~ {$vo.ControlIPEnd}</td>
-								<td>{$vo.ControlMask}</td>
-								<td>{$vo.ControlGateway}</td>
 								<td class="opt">
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 
 									<a href="javascript:del({$vo.ID});">删除</a>

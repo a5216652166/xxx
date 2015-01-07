@@ -158,5 +158,9 @@ class CloudMonitorAction extends BaseAction {
 
 		echo json_encode($data);
 	}
+
+	public function ip(){
+		$this->display();
+	}
 	
 }

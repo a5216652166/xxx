@@ -129,6 +129,11 @@
 							<th>池编号</th>
 							<th>资产编号</th>
 							<th>控制IP</th>
+							<th>控制网关</th>
+							<th>控制Vlan</th>
+							<th>存储IP</th>
+							<th>存储网关</th>
+							<th>存储Vlan</th>
 							<th>是否可用</th>
 							<th>操作</th>
 						</tr>
@@ -140,6 +145,11 @@
 								<td>{$vo.PoolCode}</td>
 								<td>{$vo.PropertyCode}</td>
 								<td>{$vo.ControlIP}</td>
+								<td>{$vo.ControlGateway}</td>
+								<td>{$vo.ControlVlan}</td>
+								<td>{$vo.StorageIP}</td>
+								<td>{$vo.StorageGateway}</td>
+								<td>{$vo.StorageVlan}</td>
 								<td>{$vo.State}</td>
 								<td class="opt">
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 

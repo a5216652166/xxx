@@ -22,6 +22,7 @@ class GroupAction extends Action {
 
 	public function add(){
 		if(empty($_POST)){
+			$this->house = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/house_query.php'), true);
 
 			$this->return_url = U('group_list');
 			$this->display();
@@ -42,6 +43,7 @@ class GroupAction extends Action {
 				$this->error('调用错误');
 			}
 
+			$this->house = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/house_query.php'), true);
 			$this->data = M()->table('Group')->where('ID='.$_GET['id'])->find();
 
 			$this->return_url = U('group_list');
@@ -78,7 +80,7 @@ class GroupAction extends Action {
 			}
 
 			$this->data = M()->table('Group')->where('ID='.$_GET['id'])->find();
-			$this->ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/ip_query.php?opt=get_cloud'), true);
+			$this->ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/assignIp_query.php?CustomName=xen云平台项目'), true);
 
 			/*排除已经添加的
 			foreach($this->ips as $k => $v){
@@ -117,7 +119,7 @@ class GroupAction extends Action {
 			$ip = M()->table('GroupIP')->where('ID='.$_GET['id'])->find();
 			$group = M()->table('Group')->where('ID='.$ip['GroupID'])->find();
 			$ip['GroupName'] = $group['Name'];
-			$ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/ip_query.php?opt=get_cloud'), true);
+			$this->ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/assignIp_query.php?CustomName=xen云平台项目'), true);
 
 			$this->ips = $ips;
 			$this->data = $ip;
@@ -151,6 +153,47 @@ class GroupAction extends Action {
 		}else{
 			$this->ajaxReturn('删除失败');
 		}
+	}
+
+
+	public function get_group_by_pool_code(){
+		$sql = "
+			select g.* from `Group` g
+			left join Pool p on p.GroupID = g.ID
+			where p.PoolCode = '" . $_GET['PoolCode'] . "'
+			limit 1
+		";
+
+		$ret = M()->query($sql);
+		$ret = $ret[0];
+
+		$sql = "
+			select ControlIP, StorageIP from `Host` where PoolCode = '" . $_GET['PoolCode'] . "'
+		";
+		$ips = M()->query($sql);
+		//整理IP数据
+		foreach($ips as $v){
+			$ip[] = ip2long($v['ControlIP']);
+			$sip[] = ip2long($v['StorageIP']);
+		}
+
+		//去掉已经使用的控制IP
+		$begin = ip2long($ret['ControlIPBegin']);
+		$end = ip2long($ret['ControlIPEnd']);
+		while($begin <= $end && in_array($begin, $ip)){
+			$begin++;
+		}
+		$ret['TheIP'] = $begin === $end ? '全部控制IP已经被使用' : long2ip($begin);
+
+		//去掉已经使用的存储IP
+		$begin = ip2long($ret['StorageIPBegin']);
+		$end = ip2long($ret['StorageIPEnd']);
+		while($begin <= $end && in_array($begin, $sip)){
+			$begin++;
+		}
+		$ret['TheSIP'] = $begin === $end ? '全部控制IP已经被使用' : long2ip($begin);
+
+		$this->ajaxReturn($ret);
 	}
 
 }

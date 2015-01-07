@@ -599,12 +599,12 @@
 				}
 			});
 		}
-		function showMore(obj){
+		function showMore(obj,e){
 			if($(obj).next().is(":visible")){
 				$(obj).next().slideToggle();	
 			}
 			$(obj).next().slideToggle();
-			stopPropagation(obj);
+			stopPropagation(e);
 		}
 		$(function(){
 			if(USERTYPE==1){

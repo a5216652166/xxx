@@ -11,7 +11,6 @@
 	$(function() {
 		$(".chzn-select").chosen();
 
-		$("select[name=StockHouseName]").val('{$data.StockHouseName}').trigger('chosen:updated');
 		$("select[name=GroupID]").val('{$data.GroupID}').trigger('chosen:updated');
 
 		$("#cancelbutton").click(function(){
@@ -55,16 +54,7 @@
 			      	</select>
 			      </td>
 			    </tr>
-			    <tr>
-			      <td width="100px">机房名称：</td>
-			      <td class="ui_text_lt">
-			      	<select name="StockHouseName" class="chzn-select ui_select03">
-			      		<volist name="house" id="vo">
-			      			<option value="{$vo.Name}">{$vo.Name}</option>
-			      		</volist>
-			      	</select>
-			      </td>
-			    </tr>
+			   
 			    <tr>
 			      <td width="100px">数据：</td>
 			      <td class="ui_text_lt">
@@ -107,32 +97,7 @@
 			      	<input type="text" name="PrivateGateway" class="ui_input_txt03" value="{$data.PrivateGateway}" />
 			      </td>
 			    </tr>
-			    <tr>
-			      <td width="100px">控制Vlan段：</td>
-			      <td class="ui_text_lt">
-			      	<input type="text" name="ControlVlan" class="ui_input_txt02" value="{$data.ControlVlan}" />
-			      </td>
-			    </tr>
-			    <tr>
-			      <td width="100px">控制IP段：</td>
-			      <td class="ui_text_lt">
-			      	<input type="text" name="ControlIPBegin" class="ui_input_txt02" value="{$data.ControlIPBegin}" />
-			      	-- 
-			      	<input type="text" name="ControlIPEnd" class="ui_input_txt02" value="{$data.ControlIPEnd}" />
-			      </td>
-			    </tr>
-			    <tr>
-			      <td width="100px">控制掩码：</td>
-			      <td class="ui_text_lt">
-			      	<input type="text" name="ControlMask" class="ui_input_txt03" value="{$data.ControlMask}" />
-			      </td>
-			    </tr>
-			    <tr>
-			      <td width="100px">控制网关：</td>
-			      <td class="ui_text_lt">
-			      	<input type="text" name="ControlGateway" class="ui_input_txt03" value="{$data.ControlGateway}" />
-			      </td>
-			    </tr>
+			    
 			    <tr>
 					<td class="ui_text_ct" colspan="2">
 						      <input id="submitbutton" type="submit" value="提交" class="ui_input_btn01"/>

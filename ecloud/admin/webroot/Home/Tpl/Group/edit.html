@@ -11,6 +11,8 @@
 	$(function() {
 		$(".chzn-select").chosen();
 
+		$("select[name=StockHouseName]").val('{$data.StockHouseName}').trigger('chosen:updated');
+
 		$("#cancelbutton").click(function(){
 			back('{$return_url}');
 		});
@@ -39,6 +41,74 @@
 			      	<input type="text" name="Name" class="ui_input_txt03" value="{$data.Name}" />
 			      </td>
 			    </tr>
+			    <tr>
+			      <td width="100px">机房名称：</td>
+			      <td class="ui_text_lt">
+			      	<select name="StockHouseName" class="chzn-select ui_select03">
+			      		<volist name="house" id="vo">
+			      			<option value="{$vo.Name}">{$vo.Name}</option>
+			      		</volist>
+			      	</select>
+			      </td>
+			    </tr>
+
+			    <tr>
+			      <td width="100px">控制Vlan段：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="ControlVlanBegin" class="ui_input_txt02" value="{$data.ControlVlanBegin}" />
+			      	-- 
+			      	<input type="text" name="ControlVlanEnd" class="ui_input_txt02" value="{$data.ControlVlanEnd}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">控制IP段：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="ControlIPBegin" class="ui_input_txt02" value="{$data.ControlIPBegin}" />
+			      	-- 
+			      	<input type="text" name="ControlIPEnd" class="ui_input_txt02" value="{$data.ControlIPEnd}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">控制掩码：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="ControlMask" class="ui_input_txt03" value="{$data.ControlMask}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">控制网关：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="ControlGateway" class="ui_input_txt03" value="{$data.ControlGateway}" />
+			      </td>
+			    </tr> 
+			    <tr>
+			      <td width="100px">存储Vlan段：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="StorageVlanBegin" class="ui_input_txt02" value="{$data.StorageVlanBegin}" />
+			      	-- 
+			      	<input type="text" name="StorageVlanEnd" class="ui_input_txt02" value="{$data.StorageVlanEnd}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">存储IP段：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="StorageIPBegin" class="ui_input_txt02" value="{$data.StorageIPBegin}" />
+			      	-- 
+			      	<input type="text" name="StorageIPEnd" class="ui_input_txt02" value="{$data.StorageIPEnd}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">存储掩码：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="StorageMask" class="ui_input_txt03" value="{$data.StorageMask}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">存储网关：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="StorageGateway" class="ui_input_txt03" value="{$data.StorageGateway}" />
+			      </td>
+			    </tr>
+
 			    <tr>
 					<td class="ui_text_ct" colspan="2">
 						      <input id="submitbutton" type="submit" value="提交" class="ui_input_btn01"/>

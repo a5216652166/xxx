@@ -33,7 +33,7 @@
 		});
 
 		//添加IP
-		$("a:contains('添加IP')").fancybox({
+		$("a:contains('添加公网IP')").fancybox({
 	    	//'href'  : '__URL__/add_vm_ip',
 	    	'type' : 'iframe',
 	    	'transitionIn'	: 'elastic',
@@ -198,7 +198,18 @@
 							</th>
 							<th>ID</th>
 							<th>池组名</th>
-							<th>IP</th>
+							<th>机房</th>
+							<th>公网IP</th>
+
+							<th>控制Vlan段</th>
+							<th>控制IP段</th>
+							<th>控制掩码</th>
+							<th>控制网关</th>
+							<th>存储Vlan段</th>
+							<th>存储IP段</th>
+							<th>存储掩码</th>
+							<th>存储网关</th>
+
 							<th>操作</th>
 						</tr>
 
@@ -207,6 +218,7 @@
 								<td><input type="checkbox" name="IDCheck" value="" class="acb" /></td>
 								<td>{$vo.ID}</td>
 								<td>{$vo.Name}</td>
+								<td>{$vo.StockHouseName}</td>
 								<td>
 									<volist name="vo['IPS']" id="vo2">
 										<span style="margin-right:2px;">
@@ -219,10 +231,20 @@
 										<if condition="$i lt count($vo['IPS'])"><br/></if>
 									</volist>
 								</td>
+
+								<td>{$vo.ControlVlanBegin} ~ {$vo.ControlVlanEnd}</td>
+								<td>{$vo.ControlIPBegin} ~ {$vo.ControlIPEnd}</td>
+								<td>{$vo.ControlMask}</td>
+								<td>{$vo.ControlGateway}</td>
+								<td>{$vo.StorageVlanBegin} ~ {$vo.StorageVlanEnd}</td>
+								<td>{$vo.StorageIPBegin} ~ {$vo.StorageIPEnd}</td>
+								<td>{$vo.StorageMask}</td>
+								<td>{$vo.StorageGateway}</td>
+
 								<td class="opt">
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 
 									<a href="javascript:del({$vo.ID});">删除</a>
-									<a href="__URL__/add_group_ip?id={$vo.ID}">添加IP</a>
+									<a href="__URL__/add_group_ip?id={$vo.ID}">添加公网IP</a>
 								</td>
 							</tr>
 						</volist>

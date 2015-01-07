@@ -38,7 +38,8 @@
 			exit;
 		}
 		
-		$arr['info'] = 'success'; 
+		$arr['info'] = 'success';
+		$arr['page'] = $result[0]['GiftPage'];
 		$arr['data'] = $result[0]['ID']; 
 		
 		echo json_encode($arr);

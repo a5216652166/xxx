@@ -9,91 +9,66 @@
 
 <script type="text/javascript">
 	$(function() {
-		$(".chzn-select").chosen();
+		$("select[name='PoolCode']").chosen();
+		$("select[name='PropertyCode']").chosen({
+			no_results_text: "没有可用的服务器..."	
+		});
 
 		$("#cancelbutton").click(function(){
 			back('{$return_url}');
 		});
 
+	
 		$("select[name=PoolCode]").change(function(){
-			console.log('change');
 			var poolCode = $(this).val();
 
 			$.ajax({
-				url : '__URL__/get_vps',
+				url : '__APP__/Group/get_group_by_pool_code',
 				type : 'GET',
 				data : {'PoolCode':poolCode},
 				dataType : 'json',
 				success : function(data){
-					var $p = $("select[name=PropertyCode]");
-					$p.html('');
+					$("#ipHint").html("当前池组的控制IP段：" + data.ControlIPBegin + " -- " + data.ControlIPEnd);
+					$("#vlanHint").html("当前池组的控制Vlan段：" + data.ControlVlanBegin + " -- " + data.ControlVlanEnd);
+					$("#sIpHint").html("当前池组的存储IP段：" + data.StorageIPBegin + " -- " + data.StorageIPEnd);
+					$("#sVlanHint").html("当前池组的存储Vlan段：" + data.StorageVlanBegin + " -- " + data.StorageVlanEnd);
 
-					for(var k in data){
-						$p.append('<option value="' + data[k].Code + '">' + data[k].Code + '</option>');
-					}
-
-					$p.trigger('chosen:updated');
-				}
-			});
-
-			$.ajax({
-				url : '__APP__/Pool/get_pool',
-				type : 'GET',
-				data : {'PoolCode':poolCode},
-				dataType : 'json',
-				success : function(data){
-					$("#ipHint").html("当前池的控制IP段：" + data.ControlIPBegin + " -- " + data.ControlIPEnd);
-					$(":text[name='ControlIP']").val(data.ControlIPBegin);
+					$(":text[name='ControlIP']").val(data.TheIP);
+					$(":text[name='ControlVlan']").val(data.ControlVlanBegin);
+					$(":text[name='StorageIP']").val(data.TheSIP);
+					$(":text[name='StorageVlan']").val(data.StorageVlanBegin);
 				}
 			});
 		});
 
 		$("select[name=PoolCode]").val('{$data.PoolCode}').trigger('chosen:updated');
+		$("select[name=PropertyCode]").val('{$data.PropertyCode}').trigger('chosen:updated');
 
-
-		//参数绑定
-		var poolCode = $("select[name=PoolCode]").val();
+		//初始化控制IP段显示
+		var poolCode = '{$data.PoolCode}';
 		$.ajax({
-			url : '__URL__/get_vps',
+			url : '__APP__/Group/get_group_by_pool_code',
 			type : 'GET',
 			data : {'PoolCode':poolCode},
 			dataType : 'json',
 			success : function(data){
-				var $p = $("select[name=PropertyCode]");
-				$p.html('');
-
-				for(var k in data){
-					$p.append('<option value="' + data[k].Code + '">' + data[k].Code + '</option>');
-				}
-
-				$p.val('{$data.PropertyCode}').trigger('chosen:updated');
+				$("#ipHint").html("当前池组的控制IP段：" + data.ControlIPBegin + " -- " + data.ControlIPEnd);
+				$("#vlanHint").html("当前池组的控制Vlan段：" + data.ControlVlanBegin + " -- " + data.ControlVlanEnd);
+				$("#sIpHint").html("当前池组的存储IP段：" + data.StorageIPBegin + " -- " + data.StorageIPEnd);
+				$("#sVlanHint").html("当前池组的存储Vlan段：" + data.StorageVlanBegin + " -- " + data.StorageVlanEnd);
 			}
 		});
-		$.ajax({
-			url : '__APP__/Pool/get_pool',
-			type : 'GET',
-			data : {'PoolCode':poolCode},
-			dataType : 'json',
-			success : function(data){
-				$("#ipHint").html("当前池的控制IP段：" + data.ControlIPBegin + " -- " + data.ControlIPEnd);
-			}
-		});
-
 
 
 		$("#editForm").submit(function(){
 			$("#errorMsg").empty();
 			var msg = '';
 
-			var poolCode = $("select[name='PoolCode']").val();
-			var ip = $(":text[name='ControlIP']").val();
-			var id = $(":hidden[name='ID']").val();
-
 			$.ajax({
-				url : '__APP__/Host/checkIP',
+				url : '__APP__/Host/checkHost',
 				async: false,
 				type : 'GET',
-				data : {'PoolCode':poolCode, 'IP':ip, 'ID':id},
+				data : $(this).serialize(),
 				dataType : 'json',
 				success : function(data){
 					if(data.ret != 0){
@@ -131,7 +106,7 @@
 			    <tr>
 			      <td width="100px">池编号：</td>
 			      <td class="ui_text_lt">
-			      	<select name="PoolCode" class="chzn-select ui_select03">
+			      	<select name="PoolCode" class="chzn-select ui_select04">
 			      		<volist name="pools" id="vo">
 			      			<option value="{$vo.PoolCode}">{$vo.PoolCode}</option>
 			      		</volist>
@@ -141,16 +116,55 @@
 			    <tr>
 			      <td width="100px">资产编号：</td>
 			      <td class="ui_text_lt">
-			      	<select name="PropertyCode" class="chzn-select ui_select03">
+			      	<select name="PropertyCode" class="chzn-select ui_select04" style="width:500px;">
+			      		<volist name="propertys" id="vo">
+			      			<option value="{$vo.Code}">{$vo.Code} | {$vo.SN} | {$vo.Brand} | {$vo.No}</option>
+			      		</volist>
 			      	</select>
 			      </td>
 			    </tr>
 			    <tr>
 			      <td width="100px">控制IP：</td>
 			      <td class="ui_text_lt">
-			      	<span id="ipHint" style="margin-left: 5px; color: red;"></span>
+			      	<span id="ipHint" style="margin-left: 5px; color: red;">当前池组的控制IP段：</span>
 			      	<br/>
 			      	<input type="text" name="ControlIP" class="ui_input_txt03" value="{$data.ControlIP}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">控制网关：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="ControlGateway" class="ui_input_txt03" value="{$data.ControlGateway}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">控制Vlan：</td>
+			      <td class="ui_text_lt">
+			      	<span id="vlanHint" style="margin-left: 5px; color: red;">当前池组的控制Vlan段：</span>
+			      	<br/>
+			      	<input type="text" name="ControlVlan" class="ui_input_txt03" value="{$data.ControlVlan}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">存储IP：</td>
+			      <td class="ui_text_lt">
+			      	<span id="sIpHint" style="margin-left: 5px; color: red;">当前池组的存储IP段：</span>
+			      	<br/>
+			      	<input type="text" name="StorageIP" class="ui_input_txt03" value="{$data.StorageIP}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">存储网关：</td>
+			      <td class="ui_text_lt">
+			      	<input type="text" name="StorageGateway" class="ui_input_txt03" value="{$data.StorageGateway}" />
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">存储Vlan：</td>
+			      <td class="ui_text_lt">
+			      	<span id="sVlanHint" style="margin-left: 5px; color: red;">当前池组的存储Vlan段：</span>
+			      	<br/>
+			      	<input type="text" name="StorageVlan" class="ui_input_txt03" value="{$data.StorageVlan}" />
 			      </td>
 			    </tr>
 			    <tr>

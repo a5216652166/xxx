@@ -50,7 +50,8 @@ a:hover {
 	border-right: 1px solid #ECECEC;
 	border-top: 1px solid #ECECEC;
 	font-size: 13px;
-	color: #909090;
+	/*color: #909090;*/
+	color: #353535;
 	padding: 8px;
 }
 

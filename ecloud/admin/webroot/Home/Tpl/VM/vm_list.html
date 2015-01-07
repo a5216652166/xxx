@@ -142,6 +142,57 @@
 </script>
 <style>
 	.alt td{ background:black !important;}
+
+	.green_mark {
+		background: #00CD66;
+
+		/* 如果浏览器不支持渐变，使用图像作为背景 */ 
+		/*background:url('__ROOT__/Public/images/header-bg.jpg');*/
+		background-image: -khtml-gradient(linear, left top, left bottom, from(#00CD66), to(#00FF80));
+		/* Firefox 3.6+ */ 
+		background-image: -moz-linear-gradient(top, #00CD66, #00FF80);
+		/* Webkit: Safari 4-5, Chrome 1-9 */ 
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #00CD66), color-stop(100%, #00FF80));
+		/* Webkit: Safari 5.1+, Chrome 10+ */ 
+		background-image: -webkit-linear-gradient(top, #00CD66, #00FF80);
+		/* Opera 11.10+ */ 
+		background-image: -o-linear-gradient(top, #00CD66, #00FF80);
+		background-image: linear-gradient(top, #00CD66, #00FF80);
+		/* IE 10 */ 
+		background-image: -ms-linear-gradient(top, #00CD66, #00FF80);
+		/* IE < 10 */ 
+		/* 注意：这一行必须写在最后 */ 
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00CD66', endColorstr='#00FF80', GradientType=0);
+	}
+
+	.red_mark {
+		background: #FF3030;
+
+		/* 如果浏览器不支持渐变，使用图像作为背景 */ 
+		/*background:url('__ROOT__/Public/images/header-bg.jpg');*/
+		background-image: -khtml-gradient(linear, left top, left bottom, from(#FF3030), to(#FF6565));
+		/* Firefox 3.6+ */ 
+		background-image: -moz-linear-gradient(top, #FF3030, #FF6565);
+		/* Webkit: Safari 4-5, Chrome 1-9 */ 
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FF3030), color-stop(100%, #FF6565));
+		/* Webkit: Safari 5.1+, Chrome 10+ */ 
+		background-image: -webkit-linear-gradient(top, #FF3030, #FF6565);
+		/* Opera 11.10+ */ 
+		background-image: -o-linear-gradient(top, #FF3030, #FF6565);
+		background-image: linear-gradient(top, #FF3030, #FF6565);
+		/* IE 10 */ 
+		background-image: -ms-linear-gradient(top, #FF3030, #FF6565);
+		/* IE < 10 */ 
+		/* 注意：这一行必须写在最后 */ 
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF3030', endColorstr='#FF6565', GradientType=0);
+	}
+
+	/*.green_mark {
+		background: #00CD66;
+	}
+	.red_mark {
+		background: #FF3030;
+	}*/
 </style>
 </head>
 <body>
@@ -181,8 +232,9 @@
 							<th width="30"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" />
 							</th>
 							<th>ID</th>
-							<th>池编号</th>
 							<th>虚拟机编号</th>
+							<th>池编号</th>
+							<th>主机编号</th>
 							<th>CPU</th>
 							<th>内存</th>
 							<th>硬盘</th>
@@ -190,15 +242,24 @@
 							<th>模板编号</th>
 							<th>虚拟机IP</th>
 							<th>是否可用</th>
+							<th>更新时间</th>
 							<th>操作</th>
 						</tr>
 
 						<volist name="data" id="vo">
+							<php>
+								if(time() - strtotime($vo['TimeStamp']) <= 300){
+									echo '<tr class="green_mark">';
+								}else{
+									echo '<tr class="red_mark">';
+								}
+							</php>
 							<tr>
 								<td><input type="checkbox" name="IDCheck" value="" class="acb" /></td>
 								<td>{$vo.ID}</td>
-								<td>{$vo.PoolCode}</td>
 								<td>{$vo.VMCode}</td>
+								<td>{$vo.PoolCode}</td>
+								<td>{$vo.HostCode}</td>
 								<td>{$vo.Cpu}</td>
 								<td>{$vo.Ram}</td>
 								<td>{$vo.Disk}</td>
@@ -217,6 +278,17 @@
 									</volist>
 								</td>
 								<td>{$vo.State}</td>
+
+								<php>
+									if(time() - strtotime($vo['TimeStamp']) <= 300){
+										echo '<td class="green_mark">';
+									}else{
+										echo '<td class="red_mark">';
+									}
+								</php>
+									{$vo.TimeStamp}
+								</td>
+
 								<td class="opt">
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 
 									<a href="javascript:del({$vo.ID});">删除</a>

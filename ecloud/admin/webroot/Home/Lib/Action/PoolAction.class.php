@@ -24,7 +24,6 @@ class PoolAction extends Action {
 
 	public function add(){
 		if(empty($_POST)){
-			$this->house = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/house_query.php'), true);
 			$this->groups = M()->table('Group')->select();
 
 			$this->return_url = U('pool_list');
@@ -46,7 +45,6 @@ class PoolAction extends Action {
 				$this->error('调用错误');
 			}
 
-			$this->house = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/house_query.php'), true);
 			$this->groups = M()->table('Group')->select();
 			$this->data = M()->table('Pool')->where('ID='.$_GET['id'])->find();
 			

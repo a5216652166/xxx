@@ -140,6 +140,7 @@ def _do_main():
 	
 	if _get_create_template_vm_task() == False:
 		return
+	print time.strftime('%Y-%m-%d %X',time.localtime(time.time()))
 	print task
 
 	if _init_session() == False:
@@ -177,5 +178,6 @@ if __name__ == "__main__":
 		_do_main()
 	except:
 		error = traceback.format_exc()
+		print time.strftime('%Y-%m-%d %X',time.localtime(time.time()))
 		print error
 

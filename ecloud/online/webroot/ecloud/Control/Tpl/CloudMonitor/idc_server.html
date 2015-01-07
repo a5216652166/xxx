@@ -31,7 +31,7 @@
 <!--[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://lib.sinaapp.com/js/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
     !window.jQuery && document.write('<script src="__ROOT__/Public/js/jquery.js"><\/script>');//1.7.2
 </script>
@@ -129,8 +129,8 @@
     <script type="text/javascript">
         $(function(){
             for(var k in codes){
-                $("#main_content").append('<div id="' + codes[k] + '" class="bread">设备：' + codes[k] + '</div>');
-                $("#main_content").append('<div class="content"><div class="charts"></div><div class="clear"></div></div>');
+                //$("#main_content").append('<div id="' + codes[k] + '" class="bread">设备：' + codes[k] + '</div>');
+                $("#main_content").append('<div class="content" style="margin-bottom:45px;"><div id="' + codes[k] + '" class="bread">设备：' + codes[k] + '</div><div class="charts"></div><div class="clear"></div></div>');
 
                 //根据条件插入表格类型
                 for(var i = 0; i < types.length; i++){
@@ -138,11 +138,11 @@
                     //存储数据
                     $div.data('code', k);
                     $div.data('type', types[i]);
-                    $("#" + codes[k]).next().find('.charts').append($div);
+                    $("#" + codes[k]).next().append($div);
                 }
 
-                $("#" + codes[k]).next().find('.charts').children().each(function(index, el) {
-                    var code = $(el).parents('.content').prev().attr('id');
+                $("#" + codes[k]).next().children().each(function(index, el) {
+                    var code = $(el).parent().prev().attr('id');
                     var type = types[index];
                     var title = '';
                     switch(type){

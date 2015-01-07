@@ -2,7 +2,7 @@
 return array(
 	//'配置项'=>'配置值'
 	//'SESSION_AUTO_START' => true,
-	'SHOW_PAGE_TRACE' => true,
+	//'SHOW_PAGE_TRACE' => true, //开启调试页面
 
 	'DB_TYPE'   => 'mysql',
 	'DB_HOST'   => '121.201.54.213',

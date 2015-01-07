@@ -116,13 +116,17 @@
 	        dataType: "json", 
 			success:function(data){
 				if(data.info=="success"){
+					var url = 'table.html?ID='+data.data;
+					if(data.page==2){
+						url = 'table2.html?ID='+data.data;
+					}
 					$.layer({
 						type: 2,
 						title: false,
 						closeBtn: [0, true],
 						offset: [100,''],
 						area: ['820px', '500px'],
-						iframe: {src: 'table.html?ID='+data.data}
+						iframe: {src:url}
 					}); 					
 				}else{
 					layer.msg(data.data,3,5);
