@@ -1153,8 +1153,22 @@ class IndexAction extends Action {
 							$company= M();
 							$_SESSION['name'] = $company->table('Ad_Company')->where('ID='.$rslt["ObjID"])->getField('CompanyName');
 						}
-						//$this->ajaxReturn(1,'success',1);
-						header("Location: ".__APP__."/Index/buy");
+						//获取vps数量
+						$order = M();
+						$orderID = $order->table('Ad_Order')->where('Login_ID='.$rslt['ID'])->getField('ID',true);
+						$ids = "";
+						foreach($orderID as $val){
+							$ids .= $val . ',';
+						}
+						$ids = substr($ids,0,-1);
+						
+						$Ad_OrderVPSBuy = M();
+						$vpsList = $Ad_OrderVPSBuy->query('select * from Ad_OrderVPSBuy ov left join Ad_VPSBuy v on v.ID=ov.VPSBuy_ID where ov.Order_ID in ('.$ids.') ');
+						if($vpsList==0){
+							header("Location: ".__APP__."/Index/buy");
+						}else{
+							header("Location: ".__APP__."/Index/account");	
+						}
 					} else {
 						//$this->success("用户名或密码输入错误，请核对后再试！",U("/Index/login"));
 						//$this->ajaxReturn( "用户名或密码错误，请核对后再试！",'error',0);

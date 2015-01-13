@@ -3,7 +3,47 @@
 		receive();
 	}else if($_GET['opt'] === 'insert'){
 		insert();
+	}else if($_GET['opt'] === 'recharge'){
+		recharge();
 	}
+	//充值睿江云账户
+	function recharge(){
+		
+		require_once('./db.class.php');
+		$db = new DB();
+		$db->openConn();
+		
+		$sql = "select * from Ad_Gift where ID=".$_POST['ID'];
+		$vo = $db->query($sql);
+		
+		$data = file_get_contents("http://api.efly.cc/ecloud/coupon.php?opt=recharge&mail=".$_POST['mail']."&pwd=".$_POST['pwd']."&code=".$vo[0]['UserCode']);
+		$result = json_decode($data,true);
+		if($result['ret'] != 0 ){
+			$arr['info'] = 'error'; 
+			$arr['data'] = $result['error'];
+			echo json_encode($arr);
+			exit;
+		}
+		$data2 = file_get_contents("http://api.efly.cc/ecloud/user.php?opt=query&mail=".$_POST['mail']);
+		$user = json_decode($data2,true);
+		
+		date_default_timezone_set('PRC');
+		$sql = "update Ad_Gift set  Status=1,ReceiverName='" . $user[0]['userName'] . "' , CompanyName='" . $user[0]['companyName'] . "' , ReceiverPhone='" . $user[0]['phone'] . "' , ReceiverMail='" . $_POST['mail'] . "' , ReceiverAdd='" . $user[0]['address'] . "' , TS='" . date('Y-m-d H:i:s',time()) . "' where ID=".$_POST['ID'];
+		
+		$rs = $db->execute($sql);
+		if($rs === false){
+			$arr['info'] = 'error'; 
+			$arr['data'] = '数据库错误';
+			echo json_encode($arr);
+			exit;
+		}
+		
+		$arr['info'] = 'success'; 
+		$arr['data'] = 'ok'; 		
+		echo json_encode($arr);
+		
+	}
+	
 	//验证账户密码
 	function receive(){
 		
@@ -31,7 +71,7 @@
 			echo json_encode($arr);
 			exit;
 		}
-		if(!empty($result[0]['ReceiverName']) && !empty($result[0]['CompanyName']) && !empty($result[0]['ReceiverMail']) && !empty($result[0]['ReceiverPhone']) && !empty($result[0]['ReceiverAdd'])){
+		if(!empty($result[0]['ReceiverName']) && !empty($result[0]['CompanyName']) && !empty($result[0]['ReceiverMail']) && !empty($result[0]['ReceiverPhone']) && !empty($result[0]['ReceiverAdd']) && $result[0]['ReceiverAdd']!=1){
 			$arr['info'] = 'error'; 
 			$arr['data'] = '输入的礼品券已经领取，如有疑问咨询客服。';
 			echo json_encode($arr);

@@ -76,12 +76,16 @@ class VMAction extends Action {
 		}
 
 		//删除它所有VMIP
-		$ret = M()->query('delete from VMIP where VMCode = (select VMCode from VM where ID = ' . $_GET['id'] . ')');
+		$ret = M()->execute('delete from VMIP where VMCode = (select VMCode from VM where ID = ' . $_GET['id'] . ')');
+		if(!$ret){
+			$this->error('删除VMIP失败');
+		}
+
 		$ret = M()->table('VM')->where('ID='.$_GET['id'])->delete();
 		if($ret){
 			$this->success('删除成功', U('vm_list'));
 		}else{
-			$this->error('删除失败');
+			$this->error('VMIP成功删除，VM删除失败');
 		}
 	}
 

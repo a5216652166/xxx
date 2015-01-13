@@ -105,7 +105,8 @@ input[type="button"]:hover{
 .info-note .info-money{font-size: 36px;line-height: 36px;}
 .info-note .btn-recharge{display: inline-block;width: 78px;height: 30px; margin:0px 20px;background: #00a2ca;line-height: 30px;font-size: 14px;color: #fff;text-align: center;outline: none;border-radius: 4px;}
 .info-note .btn-recharge:hover{background:#33b5d4}
-.account_item .property{ display:block;font-size:14px; color:#333; width:180px; float:left;}
+.account_item .property{ display:block;font-size:14px; color:#333; float:left;}
+.account_item .buy{ margin:5px 0px 0px 10px; height:20px; line-height:20px;}
 .account_right dl dt{height: 66.5px;line-height: 66px;font-size: 12px;text-align: left;border-top: 1px #e1e6e9 solid;color:#666}
 .account_right dl dd{ color:#666; text-align:center; display:none; position:absolute;width:269px;height:30px;line-height:30px; background:#fff;}
 .account_right .msg{ border:none;}

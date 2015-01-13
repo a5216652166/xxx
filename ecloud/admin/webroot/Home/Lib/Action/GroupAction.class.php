@@ -73,6 +73,35 @@ class GroupAction extends Action {
 		}
 	}
 
+	public function get_assign_ips($pass = array()){
+		$ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/assignIp_query.php?CustomName=xen云平台项目'), true);
+		$gips = M()->table('GroupIP')->select();
+		foreach($ips as $k => $v){
+			foreach($gips as $k1 => $v1){
+				if($v['Begin'] === $v1['PublicIPBegin'] && $v['End'] === $v1['PublicIPEnd'] ){
+					//判断是否在pass中
+					$inPass = false;
+					foreach($pass as $v2){
+						if($v['Begin'] === $v2['PublicIPBegin'] && $v['End'] === $v2['PublicIPEnd'] ){
+							$inPass = true;
+							break;
+						}
+					}
+
+					if(false === $inPass){
+						unset($ips[$k]);
+						unset($gips[$k1]);
+					}
+					
+					break;
+				}
+			}
+		}
+
+		//print_r($ips);
+		return $ips;
+	}
+
 	public function add_group_ip(){
 		if(empty($_POST)){
 			if(empty($_GET['id'])){
@@ -80,16 +109,7 @@ class GroupAction extends Action {
 			}
 
 			$this->data = M()->table('Group')->where('ID='.$_GET['id'])->find();
-			$this->ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/assignIp_query.php?CustomName=xen云平台项目'), true);
-
-			/*排除已经添加的
-			foreach($this->ips as $k => $v){
-				foreach($this->ipsnow as $v1){
-					if($v['Begin'] === $v1['IPBegin'] && $v['End'] === $v1['IPEnd']){
-						unset($this->ips[$k]);
-					}
-				}
-			}*/
+			$this->ips = $this->get_assign_ips();
 
 			$this->display();
 			return;
@@ -119,9 +139,8 @@ class GroupAction extends Action {
 			$ip = M()->table('GroupIP')->where('ID='.$_GET['id'])->find();
 			$group = M()->table('Group')->where('ID='.$ip['GroupID'])->find();
 			$ip['GroupName'] = $group['Name'];
-			$this->ips = json_decode(file_get_contents('http://api.efly.cc/ibss/standard/assignIp_query.php?CustomName=xen云平台项目'), true);
+			$this->ips = $this->get_assign_ips(array(array('PublicIPBegin'=>$ip['PublicIPBegin'], 'PublicIPEnd'=>$ip['PublicIPEnd'])));
 
-			$this->ips = $ips;
 			$this->data = $ip;
 			$this->display();
 			return;

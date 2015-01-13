@@ -1,33 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-                     
-                                   .. .vr       
-                                 qBMBBBMBMY     
-                                8BBBBBOBMBMv    
-                              iMBMM5vOY:BMBBv        
-              .r,             OBM;   .: rBBBBBY     
-              vUL             7BB   .;7. LBMMBBM.   
-             .@Wwz.           :uvir .i:.iLMOMOBM..  
-              vv::r;             iY. ...rv,@arqiao. 
-               Li. i:             v:.::::7vOBBMBL.. 
-               ,i7: vSUi,         :M7.:.,:u08OP. .  
-                 .N2k5u1ju7,..     BMGiiL7   ,i,i.  
-                  :rLjFYjvjLY7r::.  ;v  vr... rE8q;.:,, 
-                 751jSLXPFu5uU@guohezou.,1vjY2E8@Yizero.    
-                 BB:FMu rkM8Eq0PFjF15FZ0Xu15F25uuLuu25Gi.   
-               ivSvvXL    :v58ZOGZXF2UUkFSFkU1u125uUJUUZ,   
-             :@kevensun.      ,iY20GOXSUXkSuS2F5XXkUX5SEv.  
-         .:i0BMBMBBOOBMUi;,        ,;8PkFP5NkPXkFqPEqqkZu.  
-       .rqMqBBMOMMBMBBBM .           @kexianli.S11kFSU5q5   
-     .7BBOi1L1MM8BBBOMBB..,          8kqS52XkkU1Uqkk1kUEJ   
-     .;MBZ;iiMBMBMMOBBBu ,           1OkS1F1X5kPP112F51kU   
-       .rPY  OMBMBBBMBB2 ,.          rME5SSSFk1XPqFNkSUPZ,.
-              ;;JuBML::r:.:.,,        SZPX0SXSP5kXGNP15UBr.
-                  L,    :@huhao.      :MNZqNXqSqXk2E0PSXPE .
-              viLBX.,,v8Bj. i:r7:,     2Zkqq0XXSNN0NOXXSXOU 
-            :r2. rMBGBMGi .7Y, 1i::i   vO0PMNNSXXEqP@Secbone.
-            .i1r. .jkY,    vE. iY....  20Fq0q5X5F1S2F22uuv1M; 
--->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -116,9 +87,17 @@
 	        dataType: "json", 
 			success:function(data){
 				if(data.info=="success"){
-					var url = 'table.html?ID='+data.data;
-					if(data.page==2){
+					var url = "";
+					switch(data.page){
+						case "1" :
+						url = 'table.html?ID='+data.data;
+						break;
+						case "2" :
 						url = 'table2.html?ID='+data.data;
+						break;
+						case "3" :
+						url = 'table3.html?ID='+data.data;
+						break;
 					}
 					$.layer({
 						type: 2,
@@ -129,11 +108,11 @@
 						iframe: {src:url}
 					}); 					
 				}else{
-					layer.msg(data.data,3,5);
+					layer.msg(data.data,2,5);
 				}
 			},
 			error:function(data){				
-				layer.msg(data.statusText,3,5);
+				layer.msg(data.statusText,2,5);
 			}
 		});
 	}

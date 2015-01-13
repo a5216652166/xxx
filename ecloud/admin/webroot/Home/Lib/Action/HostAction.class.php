@@ -30,6 +30,7 @@ class HostAction extends Action {
 			foreach($hosts as $k1 => $v1){
 				if( $v['Code'] === $v1['PropertyCode'] && !in_array($v1['PropertyCode'], $pass) ){
 					unset($propertys[$k]);
+					unset($host[$k1]);
 					break;
 				}
 			}
