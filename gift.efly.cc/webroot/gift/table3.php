@@ -1,13 +1,22 @@
 <!DOCTYPE HTML>
+<?php 
+
+	session_start(); 
+	
+	if(empty($_SESSION['user'])){
+		echo '<script type="text/javascript">window.location.href = "./index.html";</script>';
+	}
+	
+?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title></title>
 <style type="text/css">
-	a:link {text-decoration:none;} 
-	a:visited {text-decoration:none;}
-	a:hover{text-decoration:none;}
-	a:active {text-decoration:none;} 
+	a:link {text-decoration:none; color:#00aadd} 
+	a:visited {text-decoration:none;color:#00aadd}
+	a:hover{text-decoration:none;color:#00aadd}
+	a:active {text-decoration:none;color:#00aadd} 
 
 	#regist-process { position:relative;margin:0 auto;width:780px;margin-top:18px;font-size:14px;color:#999; height: 80px;}
 	#regist-process-bar { width:780px;height:36px;background:url(images/regist-process.png) no-repeat; }
@@ -26,7 +35,7 @@
 	.btn{ width:780px; margin:0 auto; bottom: 18px; position:absolute;}
 	.btn a{width:160px; text-align:center; height:40px; display:block; float:right; background:#f8d650;color:#fff; margin-right:80px; font-size:24px; line-height:40px;}
 	.btn a:hover{ background:#f6c64d}
-	#item_1{ margin-top:20px;}
+	#item_1{ margin-top:50px;}
 	#item_1 p{ margin:5px 0px;}
 	#item_2{ overflow-y:scroll; border:1px solid #9d9d9d; height:316px;}
 	#item_2, #item_3{ display:none; width:760px; margin:0 auto;}
@@ -52,78 +61,39 @@
 			}
 			$("#regist-process").attr('class','step3');
 		}else if(str=='ok'){
-			var ReceiverName = $("#ReceiverName").val(),
-				CompanyName = $("#CompanyName").val(),
-				ReceiverMail = $("#ReceiverMail").val(),
-				ReceiverPhone = $("#ReceiverPhone").val(),
-				ReceiverAdd = $("#ReceiverAdd").val(),
-				SelProvince = $("#SelProvince").val(),
-				SelCity = $("#SelCity").val(),
-				SelArea = $("#SelArea").val(),Add_str = "";
-			if(!ReceiverName){
-				$("#ReceiverName").focus();
+			var mail = $("#mail").val(),
+				pwd = $("#pwd").val(),
+				reg =/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+			if(!mail){
+				$("#mail").focus();
 				return ;
 			}
-			if(!CompanyName){
-				$("#CompanyName").focus();
+			if(!reg.test(mail)){
+				$("#mail").focus();
+				layer.msg('输入的睿江云账户格式不正确',2,5);
 				return ;
 			}
-			if(!ReceiverPhone){
-				$("#ReceiverPhone").focus();
+			if(!pwd){
+				$("#pwd").focus();
 				return ;
-			}
-			if(!isPhone(ReceiverPhone)){
-				$("#ReceiverPhone").focus();
-				layer.msg('手机格式输入有误',2,5);
-				return ;
-			}
-			if(!ReceiverMail){
-				$("#ReceiverMail").focus();
-				return ;
-			}
-			if(!isEmail(ReceiverMail)){
-				$("#ReceiverMail").focus();
-				layer.msg('邮箱格式输入有误',2,5);
-				return ;
-			}
-			if(SelProvince == "请选择" || SelCity == "请选择"){
-				$("#SelProvince").focus();
-				layer.msg('请选择省份城市',2,5);
-				return ;
-			}
-			if(!ReceiverAdd){
-				$("#ReceiverAdd").focus();
-				return ;
-			}
-			if(SelProvince != "请选择" && SelCity != "请选择"){
-				if(SelProvince == SelCity){
-					Add_str += SelProvince ;
-				}else{
-					Add_str += SelProvince + SelCity ;
-				}
-			}
-			if(SelArea != "请选择"){
-				Add_str += SelArea;
 			}
 			//通过验证
 			$.ajax({
-				url:'receive.php?opt=insert',
+				url:'receive.php?opt=recharge',
 				type:'post',
 				data:{
-						'ID':$("#ID").val(),
-						'ReceiverName':ReceiverName,
-						'CompanyName':CompanyName,
-						'ReceiverPhone':ReceiverPhone,
-						'ReceiverMail':ReceiverMail,
-						'ReceiverAdd':Add_str + ReceiverAdd
+						'mail':mail,
+						'pwd':pwd,
+						'ID':$("#ID").val()
 				},
 				dataType: "json", 
 				success:function(data){
 					if(data.info=="success"){						
-						layer.msg('礼品领取完毕，耐心等待快递。',2,1);
+						layer.msg('礼品领取完毕，可登陆睿江云平台使用代金券。',2,1);
 						setInterval(function(){window.parent.location.reload();},2000);						
 					}else{
-						layer.msg(data.data,3,5);
+						layer.msg(data.data,2,5);
+						setInterval(function(){window.location.reload();},2000);
 					}
 				},
 				error:function(data){				
@@ -141,55 +111,7 @@
 		 if(r!=null)return  unescape(r[2]); return null;
 	}
 	$(function(){
-		if(GetQueryString('ID')==null){
-			window.location.href = "./index.html";
-		}
 		$("#ID").val(GetQueryString('ID'));
-		$.ajax({
-			url: "./xml/area.xml",
-			dataType: "xml",
-			success: function (xml) {
-				$(xml).find("province").each(function () {                                                  //找到(province)省份节点;
-					$("<option></option>").html($(this).attr("name")).appendTo("#SelProvince");             //加载(province)省份信息到列表中
-				})
-			}
-		})
-		//省份列表信息更改时，加载城市列表信息
-		$("#SelProvince").change(function () {
-		var value = $("#SelProvince").val();                                                            //省份值;
-		if (value != "请选择") {
-			$("#SelCity").css("display", "inline-block").find("option").remove();                              //显示城市下拉列表框删除城市下拉列表中的数据;
-			$("#SelCity").html("<option>请选择</option>");                                              //加载城市列表中的请选择;
-			$("#SelArea").find("option").remove();                                                      //删除地区下拉列表中的数据;
-			$("#SelArea").html("<option>请选择</option>")                                               //加载地区列表中的请选择;
-			$.ajax({
-				url: "./xml/area.xml",
-				dataType: "xml",
-				success: function (xml) {
-					$(xml).find("[name='" + value + "']").find("city").each(function () {               //根据省份name属性得到子节点City节点name属性;
-						$("<option></option>").html($(this).attr("name")).appendTo("#SelCity");         //加载City(城市)信息到下拉列表中;
-					})
-				}
-			})
-		}
-		})
-		//城市列表信息改变时，加载地区列表信息
-		$("#SelCity").change(function () {
-			var value = $("#SelCity").val();                                                                //城市值;
-			if (value != "请选择") {
-				$("#SelArea").css("display", "inline-block").find("option").remove();                              //显示地区下拉列表框删除地区下拉列表中的数据;
-				$("#SelArea").html("<option>请选择</option>");                                              //加载地区列表中的请选择;
-				$.ajax({
-					url: "./xml/area.xml",
-					dataType: "xml",
-					success: function (xml) {
-						$(xml).find("[name='" + value + "']").find("country").each(function () {            //根据城市节点name得到子节点Area节点name属性;
-							$("<option></option>").html($(this).attr("name")).appendTo("#SelArea");         //加载到Area(地区)下拉列表中;
-						})
-					}
-				})
-			}
-		})
 	});
 	function isEmail(str){
         var myReg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
@@ -225,24 +147,14 @@
                     <th>说明</th>
                 </tr>
                 <tr>
-                    <td>睿江国际互联账号</td>
+                    <td>睿江云代金券账号</td>
                     <td>x 1</td>
-                    <td>国际互联VPN账号</td>
+                    <td>睿江云代金券账号</td>
                 </tr>
                 <tr>
-                    <td>睿江国际互联账号密码</td>
+                    <td>睿江云代金券密码</td>
                     <td>x 1</td>
-                    <td>睿江国际互联账号密码</td>
-                </tr>
-                <tr>
-                    <td>国际VPN类型</td>
-                    <td>x 1</td>
-                    <td>PPTP</td>
-                </tr>
-                <tr>
-                    <td>支持系统</td>
-                    <td>x 1</td>
-                    <td>Windows系列，安卓，IOS</td>
+                    <td>睿江云代金券账号密码</td>
                 </tr>
             </table>
             <div class="btn">
@@ -283,45 +195,20 @@
             </div>
         </div>
         <div id="item_3">        	
-        	<div style="width: 530px;margin: 0 auto;margin-top: 20px;">
+        	<div style="width: 530px;margin: 0 auto;margin-top: 90px;">
                 <form action="" method="post">
                     <p>
                         <input type="hidden" id="ID"/>
-                        <label>联系人姓名：</label>
-                        <input id="ReceiverName" tabindex="1" />
-                        <span>* 请输入联系人姓名</span>
+                        <label>睿江云账户：</label>
+                        <input id="mail" tabindex="1" />
+                        <span>* 请输入睿江云账户</span>
                     </p>
-                    <p>
-                        <label>单位名称：</label>
-                        <input id="CompanyName" tabindex="2"/>
-                        <span>* 请输入单位名称</span>
+                    <p style="margin-top:20px;">
+                        <label>睿江云密码：</label>
+                        <input id="pwd" type="password" tabindex="2"/>
+                        <span>* 请输入睿江云密码</span>
                     </p>
-                    <p>
-                        <label>手机号码：</label>
-                        <input id="ReceiverPhone" tabindex="3"/>
-                        <span>* 请输入手机号码</span>
-                    </p>
-                    <p>
-                        <label>邮箱地址：</label>
-                        <input id="ReceiverMail" tabindex="4"/>
-                        <span>* 请输入邮箱地址</span>
-                    </p>
-                    <p>
-                        <label>收货地址：</label>
-                        <select id="SelProvince" tabindex="5">
-                            <option>请选择</option>
-                        </select>
-                        <select id="SelCity" tabindex="6">
-                            <option>请选择</option>
-                        </select>
-                        <select id="SelArea" tabindex="7">
-                            <option>请选择</option>
-                        </select>
-                    </p>
-                    <p>
-                        <input style="margin-left:110px;"  id="ReceiverAdd" tabindex="8"/>
-                        <span>* 请输入详细地址</span>
-                    </p>
+                    <p style="text-align:right;margin-top:20px">充值成功？跳到 <a href="http://ecloud.efly.cc" target="_blank">睿江云客户平台</a></p>
              	</form>
            	</div>        
             <div class="btn">

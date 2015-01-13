@@ -31,7 +31,8 @@ def _get_all_pool_data():
 	conn = MySQLdb.connect(host=config.ecloud_db_ip, user=config.ecloud_db_user, \
 							passwd=config.ecloud_db_pass, db='ecloud_admin', port=3306)
 	cur = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
-	cur.execute("select * from `Pool` where `State` = 'enabled' and `PoolCode` like 'P-%-%';")
+	#cur.execute("select * from `Pool` where `State` = 'enabled' and `PoolCode` like 'P-%-%';")
+	cur.execute("select * from `Pool` where `State` = 'enabled';")
 	rows = cur.fetchall()
 	if rows == None:
 		return False

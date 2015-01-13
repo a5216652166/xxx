@@ -26,10 +26,12 @@ def _init_session():
 	cur = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
 	sql = "select * from `Pool` where `PoolCode` = '%s'"\
 				" and `State` = 'enabled';"%(pool_code)
+	print sql
 	cur.execute(sql)
 	row = cur.fetchone()
 	if row == None:
 		return False
+	print row['Data']
 	pool_data = json.loads(row['Data'])
 	#print pool_data
 	# {u'uuid': u'7106005d-e8e3-4da5-8adc-4e8035da77ad', 

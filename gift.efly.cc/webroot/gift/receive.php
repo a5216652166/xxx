@@ -1,11 +1,54 @@
 <?php
+	session_start();
+	
 	if($_GET['opt'] === 'receive'){
 		receive();
 	}else if($_GET['opt'] === 'insert'){
 		insert();
 	}else if($_GET['opt'] === 'recharge'){
 		recharge();
+	}else if($_GET['opt'] === 'create'){
+		create();
+	}else{
+		echo '<script type="text/javascript">window.location.href = "./index.html";</script>'; 	
 	}
+	//创建vpn账户
+	function create(){
+		require_once('./db.class.php');
+		$db = new DB();
+		$db->openConn();
+		
+		$sql = "select * from Ad_Gift where ID=".$_POST['ID'];
+		$vo = $db->query($sql);
+		
+		$data = file_get_contents("http://api.efly.cc/vpn/interface_user_add.php?opt=insert&user=".$_POST['user']."&pwd=".$_POST['pwd']);
+		$user = json_decode($data,true);
+		if($user[0] != 0){
+			$arr['info'] = 'error'; 
+			$arr['data'] = $user[2];
+			echo json_encode($arr);
+			exit;
+		}
+		
+		date_default_timezone_set('PRC');
+		$sql = "update Ad_Gift set  Status=1, TS='" . date('Y-m-d H:i:s',time()) . "' where ID=".$_POST['ID'];
+		
+		$rs = $db->execute($sql);
+		if($rs === false){
+			$arr['info'] = 'error'; 
+			$arr['data'] = '数据库错误';
+			echo json_encode($arr);
+			exit;
+		}
+		
+		$arr['info'] = 'success'; 
+		$arr['data'] = 'ok';
+		unset ($_SESSION['user']);
+		unset ($_SESSION['pwd']);
+		echo json_encode($arr);
+		
+	}
+	
 	//充值睿江云账户
 	function recharge(){
 		
@@ -39,7 +82,9 @@
 		}
 		
 		$arr['info'] = 'success'; 
-		$arr['data'] = 'ok'; 		
+		$arr['data'] = 'ok';
+		unset ($_SESSION['user']);
+		unset ($_SESSION['pwd']);
 		echo json_encode($arr);
 		
 	}
@@ -71,12 +116,15 @@
 			echo json_encode($arr);
 			exit;
 		}
-		if(!empty($result[0]['ReceiverName']) && !empty($result[0]['CompanyName']) && !empty($result[0]['ReceiverMail']) && !empty($result[0]['ReceiverPhone']) && !empty($result[0]['ReceiverAdd']) && $result[0]['ReceiverAdd']!=1){
+		if((!empty($result[0]['ReceiverName']) && !empty($result[0]['CompanyName']) && !empty($result[0]['ReceiverMail']) && !empty($result[0]['ReceiverPhone']) && !empty($result[0]['ReceiverAdd'])) || $result[0]['Status']==1){
 			$arr['info'] = 'error'; 
 			$arr['data'] = '输入的礼品券已经领取，如有疑问咨询客服。';
 			echo json_encode($arr);
 			exit;
 		}
+		
+		$_SESSION['user'] = $_POST['code'];
+		$_SESSION['pwd'] = $_POST['pwd'];
 		
 		$arr['info'] = 'success';
 		$arr['page'] = $result[0]['GiftPage'];
@@ -143,6 +191,9 @@
 		
 		$arr['info'] = 'success'; 
 		$arr['data'] = 'ok'; 
+		
+		unset ($_SESSION['user']);
+		unset ($_SESSION['pwd']);
 		
 		echo json_encode($arr);
 	}

@@ -1,4 +1,13 @@
 <!DOCTYPE HTML>
+<?php 
+
+	session_start(); 
+	
+	if(empty($_SESSION['user'])){
+		echo '<script type="text/javascript">window.location.href = "./index.html";</script>';
+	}
+	
+?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -124,6 +133,7 @@
 						setInterval(function(){window.parent.location.reload();},2000);						
 					}else{
 						layer.msg(data.data,3,5);
+						setInterval(function(){window.location.reload();},2000);
 					}
 				},
 				error:function(data){				
@@ -141,9 +151,6 @@
 		 if(r!=null)return  unescape(r[2]); return null;
 	}
 	$(function(){
-		if(GetQueryString('ID')==null){
-			window.location.href = "./index.html";
-		}
 		$("#ID").val(GetQueryString('ID'));
 		$.ajax({
 			url: "./xml/area.xml",

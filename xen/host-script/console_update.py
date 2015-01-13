@@ -31,7 +31,7 @@ def do_main():
         print vm_name, vnc_port, tty
         params = urllib.urlencode({'VMCode':vm_name, 'VNCPort':vnc_port, 'TTY':tty})
         try:
-            f = urllib.urlopen("http://121.201.55.35:8000/ecloud_admin/UpdateVMConsole.php?%s"%(params))
+            f = urllib.urlopen("http://xen-http-proxy:8000/ecloud_admin/UpdateVMConsole.php?%s"%(params))
             f.read()   
         except:
             traceback.print_exc()

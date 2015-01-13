@@ -1,13 +1,22 @@
 <!DOCTYPE HTML>
+<?php 
+
+	session_start(); 
+	
+	if(empty($_SESSION['user'])){
+		echo '<script type="text/javascript">window.location.href = "./index.html";</script>';
+	}
+	
+?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title></title>
 <style type="text/css">
-	a:link {text-decoration:none; color:#00aadd} 
-	a:visited {text-decoration:none;color:#00aadd}
-	a:hover{text-decoration:none;color:#00aadd}
-	a:active {text-decoration:none;color:#00aadd} 
+	a:link {text-decoration:none;} 
+	a:visited {text-decoration:none;}
+	a:hover{text-decoration:none;}
+	a:active {text-decoration:none;} 
 
 	#regist-process { position:relative;margin:0 auto;width:780px;margin-top:18px;font-size:14px;color:#999; height: 80px;}
 	#regist-process-bar { width:780px;height:36px;background:url(images/regist-process.png) no-repeat; }
@@ -26,7 +35,7 @@
 	.btn{ width:780px; margin:0 auto; bottom: 18px; position:absolute;}
 	.btn a{width:160px; text-align:center; height:40px; display:block; float:right; background:#f8d650;color:#fff; margin-right:80px; font-size:24px; line-height:40px;}
 	.btn a:hover{ background:#f6c64d}
-	#item_1{ margin-top:50px;}
+	#item_1{ margin-top:20px;}
 	#item_1 p{ margin:5px 0px;}
 	#item_2{ overflow-y:scroll; border:1px solid #9d9d9d; height:316px;}
 	#item_2, #item_3{ display:none; width:760px; margin:0 auto;}
@@ -52,16 +61,10 @@
 			}
 			$("#regist-process").attr('class','step3');
 		}else if(str=='ok'){
-			var mail = $("#mail").val(),
-				pwd = $("#pwd").val(),
-				reg =/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-			if(!mail){
-				$("#mail").focus();
-				return ;
-			}
-			if(!reg.test(mail)){
-				$("#mail").focus();
-				layer.msg('输入的睿江云账户格式不正确',2,5);
+			var user = $("#user").val(),
+				pwd = $("#pwd").val();
+			if(!user){
+				$("#user").focus();
 				return ;
 			}
 			if(!pwd){
@@ -70,20 +73,20 @@
 			}
 			//通过验证
 			$.ajax({
-				url:'receive.php?opt=recharge',
+				url:'receive.php?opt=create',
 				type:'post',
 				data:{
-						'mail':mail,
-						'pwd':pwd,
-						'ID':$("#ID").val()
+					'ID':$("#ID").val(),
+					'user':user,
+					'pwd':pwd
 				},
 				dataType: "json", 
 				success:function(data){
 					if(data.info=="success"){						
-						layer.msg('礼品领取完毕，可登陆睿江云平台使用代金券。',2,1);
+						layer.msg('礼品领取完毕，可登陆睿江VPN平台试用。',2,1);
 						setInterval(function(){window.parent.location.reload();},2000);						
 					}else{
-						layer.msg(data.data,2,5);
+						layer.msg(data.data,3,5);
 						setInterval(function(){window.location.reload();},2000);
 					}
 				},
@@ -102,66 +105,8 @@
 		 if(r!=null)return  unescape(r[2]); return null;
 	}
 	$(function(){
-		if(GetQueryString('ID')==null){
-			window.location.href = "./index.html";
-		}
-		$("#ID").val(GetQueryString('ID'));
-		/*$.ajax({
-			url: "./xml/area.xml",
-			dataType: "xml",
-			success: function (xml) {
-				$(xml).find("province").each(function () {                                                  //找到(province)省份节点;
-					$("<option></option>").html($(this).attr("name")).appendTo("#SelProvince");             //加载(province)省份信息到列表中
-				})
-			}
-		})
-		//省份列表信息更改时，加载城市列表信息
-		$("#SelProvince").change(function () {
-		var value = $("#SelProvince").val();                                                            //省份值;
-		if (value != "请选择") {
-			$("#SelCity").css("display", "inline-block").find("option").remove();                              //显示城市下拉列表框删除城市下拉列表中的数据;
-			$("#SelCity").html("<option>请选择</option>");                                              //加载城市列表中的请选择;
-			$("#SelArea").find("option").remove();                                                      //删除地区下拉列表中的数据;
-			$("#SelArea").html("<option>请选择</option>")                                               //加载地区列表中的请选择;
-			$.ajax({
-				url: "./xml/area.xml",
-				dataType: "xml",
-				success: function (xml) {
-					$(xml).find("[name='" + value + "']").find("city").each(function () {               //根据省份name属性得到子节点City节点name属性;
-						$("<option></option>").html($(this).attr("name")).appendTo("#SelCity");         //加载City(城市)信息到下拉列表中;
-					})
-				}
-			})
-		}
-		})
-		//城市列表信息改变时，加载地区列表信息
-		$("#SelCity").change(function () {
-			var value = $("#SelCity").val();                                                                //城市值;
-			if (value != "请选择") {
-				$("#SelArea").css("display", "inline-block").find("option").remove();                              //显示地区下拉列表框删除地区下拉列表中的数据;
-				$("#SelArea").html("<option>请选择</option>");                                              //加载地区列表中的请选择;
-				$.ajax({
-					url: "./xml/area.xml",
-					dataType: "xml",
-					success: function (xml) {
-						$(xml).find("[name='" + value + "']").find("country").each(function () {            //根据城市节点name得到子节点Area节点name属性;
-							$("<option></option>").html($(this).attr("name")).appendTo("#SelArea");         //加载到Area(地区)下拉列表中;
-						})
-					}
-				})
-			}
-		})*/
+		$("#ID").val(GetQueryString('ID'));		
 	});
-	function isEmail(str){
-        var myReg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
-        if(myReg.test(str)) return true; 
-        return false; 
-    }
-	function isPhone(str){
-        var myReg = /^1\d{10}$/;
-        if(myReg.test(str)) return true; 
-        return false; 
-    }
 	
 </script>
 
@@ -186,14 +131,24 @@
                     <th>说明</th>
                 </tr>
                 <tr>
-                    <td>睿江云代金券账号</td>
+                    <td>睿江国际互联账号</td>
                     <td>x 1</td>
-                    <td>睿江云代金券账号</td>
+                    <td>国际互联VPN账号</td>
                 </tr>
                 <tr>
-                    <td>睿江云代金券密码</td>
+                    <td>睿江国际互联账号密码</td>
                     <td>x 1</td>
-                    <td>睿江云代金券账号密码</td>
+                    <td>睿江国际互联账号密码</td>
+                </tr>
+                <tr>
+                    <td>国际VPN类型</td>
+                    <td>x 1</td>
+                    <td>PPTP</td>
+                </tr>
+                <tr>
+                    <td>支持系统</td>
+                    <td>x 1</td>
+                    <td>Windows系列，安卓，IOS</td>
                 </tr>
             </table>
             <div class="btn">
@@ -234,20 +189,20 @@
             </div>
         </div>
         <div id="item_3">        	
-        	<div style="width: 530px;margin: 0 auto;margin-top: 90px;">
+        	<div style="width: 530px;margin: 0 auto;margin-top: 80px;">
                 <form action="" method="post">
                     <p>
                         <input type="hidden" id="ID"/>
-                        <label>睿江云账户：</label>
-                        <input id="mail" tabindex="1" />
-                        <span>* 请输入睿江云账户</span>
+                        <label>睿江VPN账户：</label>
+                        <input id="user" tabindex="1" value="<?php echo $_SESSION['user']; ?>" />
+                        <span>* 该密码为礼品券账户</span>
+                    </p>                    
+                    <p style="margin-top:20px;">
+                        <input type="hidden" id="ID"/>
+                        <label>睿江VPN密码：</label>
+                        <input id="pwd" type="password" tabindex="2" value="<?php echo $_SESSION['pwd']; ?>" />
+                        <span>* 该密码为礼品券密码</span>
                     </p>
-                    <p style="margin-top:10px;">
-                        <label>睿江云密码：</label>
-                        <input id="pwd" type="password" tabindex="2"/>
-                        <span>* 请输入睿江云密码</span>
-                    </p>
-                    <p style="text-align:right;margin-top:20px">充值成功？跳到 <a href="http://ecloud.efly.cc" target="_blank">睿江云客户平台</a></p>
              	</form>
            	</div>        
             <div class="btn">
