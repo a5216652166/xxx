@@ -10,6 +10,94 @@ class IndexAction extends Action {
 	public function index(){
 		$this->redirect('Index/login');
 	}
+	//消息详情页面
+	public function msgDetail(){
+		if(!empty($_GET['id'])){
+			$msg = M();
+			$entity = $msg->table('Ad_Message')->where("ID=".$_GET['id'])->find();
+			//标记为已读
+			$msg->table('Ad_Message')->where("ID=".$_GET['id'])->setField("Status",1);
+			
+			$this->assign('entity',$entity);
+			$this->display();
+		}
+	}
+	//标记消息
+	public function maskMsg(){
+		if(isset($_SESSION['user'])){
+			if(!empty($_POST['id'])){
+				$msg = M();
+				$map['ID'] = array('in',$_POST['id']);
+				$is_ok = $msg->table('Ad_Message')->where($map)->setField('Status',1);
+				if($is_ok === false){
+					$this->ajaxReturn('标记消息记录失败，请联系管理员。','error',0);
+				}
+				$this->ajaxReturn('标记为已读完成','success',1);
+			}
+		}else{
+			header("Location: ".__APP__."/Index/login");
+		}			
+	}
+	//删除消息
+	public function deleteMsg(){
+		if(isset($_SESSION['user'])){
+			if(!empty($_POST['id'])){
+				$msg = M();
+				$map['ID'] = array('in',$_POST['id']);
+				$is_ok = $msg->table('Ad_Message')->where($map)->delete();
+				if($is_ok === false){
+					$this->ajaxReturn('删除消息记录失败，请联系管理员。','error',0);
+				}
+				$this->ajaxReturn(1,'success',1);
+			}		
+		}else{
+			header("Location: ".__APP__."/Index/login");
+		}
+	}
+	//消息中心
+	public function msgMgr(){
+		if(isset($_SESSION['user'])){
+		
+			$login = M();
+			$user = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();		
+			
+			$msg = M();
+			
+			$page = 1;
+			if(!empty($_GET['p'])){
+				$page = $_GET['p'];
+			}
+			$map['Login_ID'] = $user['ID'];
+			if(!empty($_GET['type'])){
+				$map['Type'] = $_GET['type'];
+			}
+			$msgList = $msg->table('Ad_Message')->where($map)->limit(($page-1) * 10,10)->select();	
+			$sum = $msg->table('Ad_Message')->where($map)->count();	
+			if($sum<=10){
+				$pageCount = 1;
+			}else{
+				if($sum % 10 == 0){
+					$pageCount = $sum / 10;
+				}else{
+					$pageCount = ($sum - $sum % 10) / 10 + 1;
+				}
+			}
+				
+			//未读
+			$map['Status'] = 0;
+			$unread_count = $msg->table('Ad_Message')->where($map)->count();
+			
+			$this->assign('page',$page);
+			$this->assign('pageCount',$pageCount);
+			$this->assign('sum',$sum);
+			$this->assign('count',count($msgList));
+			$this->assign('msgList',$msgList);
+			$this->assign('unread_count',$unread_count);
+			$this->display();	
+		}else{
+			header("Location: ".__APP__."/Index/login");
+		}
+	}
 	//修改用户密码
 	public function updateUserPwd(){
 		if(isset($_SESSION['user'])){
@@ -574,7 +662,7 @@ class IndexAction extends Action {
 			$Order = M();
 			$orderData = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'));
 			//修改订单状态
-			$is_ok = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($orderData);
+			//$is_ok = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($orderData);
 			if($is_ok === false){
 				$this->ajaxReturn('修改订单状态失败，请联系管理员。','error',0);
 			}
@@ -599,7 +687,15 @@ class IndexAction extends Action {
 			$RAM[16] = 16384;
 			$RAM[32] = 32768;
 			
-			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']);
+			$ip_type = "VM_BGPIP";
+			$bindwith = $vps['BandWidthBGP'];
+			if($vps['BandWidthBGP'] == 0){
+				$ip_type = "VM_IPLCIP";				
+				$bindwith = $vps['BandWidthIPLC'];
+			}
+			
+			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&Disk=".$vps['DISK']."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);
+			print(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&Disk=".$vps['DISK']."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);exit;
 			$createTem = json_decode($create,true);
 			
 			if($createTem['ret'] != 0){

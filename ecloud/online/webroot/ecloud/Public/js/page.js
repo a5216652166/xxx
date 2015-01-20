@@ -8,7 +8,7 @@ function xifenye(a){
 	var pages=parseInt($("#mo").html());//获取当前的总页数
 	for(var i=1;i<=pages;i++)
 	{
-		var H="<li  onclick='fl("+i+","+pages+")'>"+i+"</li>";//添加一共多少页和点击事件
+		var H="<li  onClick='fl("+i+","+pages+")'>"+i+"</li>";//添加一共多少页和点击事件
 		
 		uljia.append(H);
 	}
@@ -45,31 +45,47 @@ function downclick(){
 	}
 }
 function selectByPage(page){
-	var url = window.location.href;
+	var url = window.location.href;	
 	switch(true){
 		case url.indexOf('orderMgr')!=-1 :
 		window.location.href = APP + "/Index/orderMgr?p=" + page;
 		break;
 		case url.indexOf('consumption')!=-1 :
 		window.location.href = APP + "/Index/consumption?p=" + page;
+		break;		
+		case url.indexOf('msgMgr')!=-1 :
+			if(url.getQuery("type")!=null){
+				window.location.href = APP + "/Index/msgMgr?type=" + url.getQuery("type") + "&p=" + page;
+			}else{
+				window.location.href = APP + "/Index/msgMgr?p=" + page;	
+			}
 		break;
 	}
 
 }
 //分页的的首页和未页
-$("#first").bind("click",function(){
+function firstclick(){
 	var v=document.getElementById("xiye");
-	v.innerHTML=1;
-	scrolltop(v.innerHTML);
-	selectByPage(1);
-})
-$("#last").bind("click",function(){
-	var v=document.getElementById("xiye");
-	var l=document.getElementById("mo");
-	v.innerHTML=l.innerHTML;
-	scrolltop(v.innerHTML);
-	selectByPage($("#mo").html());
-})
+	var num=v.innerHTML;
+	if(num>1){
+		var v=document.getElementById("xiye");
+		v.innerHTML=1;
+		scrolltop(v.innerHTML);
+		selectByPage(1);
+	}
+}
+function lastclick(){
+	var pages=parseInt($("#mo").html());
+	var x=$("#xiye");
+	var num=parseInt(x.html());
+	if(num < pages){
+		var v=document.getElementById("xiye");
+		var l=document.getElementById("mo");
+		v.innerHTML=l.innerHTML;
+		scrolltop(v.innerHTML);
+		selectByPage($("#mo").html());
+	}
+}
 //滚动条
 function scrolltop(top){
 	var hei=25*top-25;

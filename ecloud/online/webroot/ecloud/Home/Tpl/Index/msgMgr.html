@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="睿江云,云主机,云服务器,BGP多线,IPLC,国际带宽" name="keywords">
+    <meta content="提供云主机租赁服务，BGP多线带宽接入服务，IPLC国际互联带宽接入。广东睿江科技有限公司是国内领先的IDC数据中心服务提供商，拥有雄厚的资源力量和技术力量，并在此基础上提供完备的虚拟化云主机服务，致力于打造一个智慧的可持续发展的云数据中心生态系统" name="description">
+    <meta content="睿江科技 研发项目组" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/main.css">    
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/account.css">    
+	<include file="Public:common"/>
+    <style type="text/css">.no_color:hover{ background:red;}</style>
+    <script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+    <script type="text/javascript">
+    	var APP = "__APP__",ROOT = "__ROOT__",balance = '{$balance}',USER = "{$_SESSION['user']}",USERTYPE = "{$_SESSION['type']}";
+    </script>
+    <script type="text/javascript" src="__ROOT__/Public/js/util.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/account.js"></script>
+    <script type="text/javascript" src="__ROOT__/Public/js/page.js"></script>
+    <script type="text/javascript" >
+    	function selectAll(){
+			$(".msg_list dd :checkbox").each(function(){
+				$(this).attr('checked',!$(this).attr('checked'));
+			});
+		}
+		function deleteMsg(){
+			var id = returnId();
+			var del_layer = $.layer({
+				offset: ['180px',''],
+				area: ['300px', '150px'],
+				dialog: {
+					msg: '确定删除选中消息？',
+					btns: 2,            
+					type: 4,
+					btn: ['确定','关闭'],
+					yes: function(){
+						$.ajax({
+							url:'__APP__/Index/deleteMsg',
+							type:'post',
+							data:{'id':id},
+							success:function(data){
+								if(data.info=="success"){
+									window.location.reload();				
+								}else{
+									layer.msg("温馨提示："+data.data,2,5);
+								}
+							},
+							error:function(data){
+								layer.msg(data.statusText,2,5);
+							}
+						});
+						layer.close(del_layer);
+					}
+				}
+			});
+		}
+		function maskRead(){
+			var id = returnId();
+			$.ajax({
+				url:'__APP__/Index/maskMsg',
+				type:'post',
+				data:{'id':id},
+				success:function(data){
+					if(data.info=="success"){
+						window.location.reload();				
+					}else{
+						layer.msg("温馨提示："+data.data,2,5);
+					}
+				},
+				error:function(data){
+					layer.msg(data.statusText,2,5);
+				}
+			});
+		}
+		function returnId(){
+			var id = "";
+			if($(".msg_list dd :checked").length == 0){
+				layer.msg("请选择一条消息记录！",2,5);
+				return false;
+			}
+			$(".msg_list dd :checked").each(function(i){
+				if(i!=$(".msg_list dd :checked").length-1){
+					id += $(this).val() + ",";
+				}else{
+					id += $(this).val() ;
+				}
+			});
+			return id;	
+		}
+    </script>
+    
+</head>
+<body>
+	<include file="Public:head"/>
+	<include file="Public:user_menu"/>
+    <div style="margin:0 auto; width:1024px;">
+	<include file="Public:msg_left_menu"/>        
+        <div class="account" style="float:left; width:824px;">
+            <div class="content_tab">
+                <div class="tab-page">
+                    <h4 id="msg_title">全部消息</h4>（<b>&nbsp;{$unread_count}&nbsp;</b>封<span>未读</span>）
+                    <div class="msg_line"></div>
+                    <div class="msg_list">
+                        <dl>
+                            <dt>
+                                <input type="checkbox" value="" name="megall" class="megall" onClick="selectAll()">
+                                <span class="selall">全选/反选</span>
+                                <a class="t_blue" onClick="deleteMsg()">删除</a>
+                                <a class="t_blue" onClick="maskRead()">标记为已读</a>
+                            </dt>
+                            <if condition="count($msgList) !=0 ">
+                                <volist name="msgList" id="item">
+                                    <dd>
+                                        <input type="checkbox" value="{$item.ID}" >
+                                        <if condition="$item.Status ==0 ">
+                                            <span class="msg_ico"></span>
+                                            <else/>
+                                            <span class="none"></span>
+                                        </if>
+                                        <a href="__APP__/Index/msgDetail?id={$item.ID}" class="msg_item">{$item.Title}</a>
+                                        <if condition="$item.Type == 1">
+                                            <span class="msg_type">产品消息</span>
+                                            <elseif condition="$item.Type == 2" />
+                                            <span class="msg_type">安全消息</span>
+                                            <elseif condition="$item.Type == 3" />
+                                            <span class="msg_type">营销活动</span>
+                                            <elseif condition="$item.Type == 4" />
+                                            <span class="msg_type">服务通知</span>
+                                        </if>
+                                        <span class="msg_date">2015-01-09</span>
+                                    </dd>
+                                </volist>
+                                <else />
+                                <div class="msg_null">
+                                  <img src="__ROOT__/Public/images/msg_null.png" style="margin-top:-8px;" />
+                                  <h5>对不起，还没有您的消息！</h5>
+                                </div>
+                            </if>
+                        </dl>
+                    </div>
+                </div>
+                <if condition="count($msgList) !=0 ">
+                <div class="wrap" style="margin-top:20px;">
+                    <div class="fenye">   
+                        <ul>    
+                            <li style="border:none;">总记录数：{$sum}，本页记录数：{$count}</li>
+                            <li id="first" onClick="firstclick()">首页</li>    
+                            <li id="top" onClick="topclick()">上一页</li>    
+                            <li class="xifenye" id="xifenye" onClick="xifenye()">    
+                                <a id="xiye">{$page}</a>/<a id="mo">{$pageCount}</a>
+                                <div class="xab" id="xab" style="display:none">    
+                                    <ul id="uljia">  
+                                    </ul>    
+                                </div>    
+                            </li>    
+                            <li id="down" onClick="downclick()">下一页</a></li>    
+                            <li id="last" onClick="lastclick()">末页</li>    
+                        </ul>
+                    </div>
+                </div>
+                </if>
+            </div>
+        </div>
+    </div>
+    <include file="Public:footer" />
+</html>

@@ -102,6 +102,25 @@ window.layer = {
         conf.end = typeof parme === 'function' ? parme : callback;
         return $.layer(conf);	
     }, 
+
+     //(带关闭按钮)普通消息框，一般用于行为成功后的提醒,默认两秒自动关闭
+    msgClose: function(msgText, msgTime, parme, callback){
+        var icon, conf = {title: false};
+        (msgText == '' || msgText == undefined) && (msgText = '&nbsp;');
+        msgTime === undefined && (msgTime = 2);
+        if(typeof parme === 'number'){
+            icon = parme;
+        } else {
+            parme = parme || {};
+            icon = parme.type;
+            conf.success = function(){layer.shift(parme.rate)};
+            conf.shade = parme.shade;
+        }
+        conf.time = msgTime;
+        conf.dialog = {msg: msgText, type: icon};
+        conf.end = typeof parme === 'function' ? parme : callback;
+        return $.layer(conf);   
+    }, 
     
     //加载层快捷引用
     load: function(parme, loadIcon){

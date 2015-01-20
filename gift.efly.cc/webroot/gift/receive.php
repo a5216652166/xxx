@@ -9,14 +9,51 @@
 		recharge();
 	}else if($_GET['opt'] === 'create'){
 		create();
+	}else if($_GET['opt'] === 'download'){
+		download();
+	}else if($_GET['opt'] == 'confirmReceiveInfo'){
+		confirmReceiveInfo();
 	}else{
 		echo '<script type="text/javascript">window.location.href = "./index.html";</script>'; 	
 	}
+
+
 	//创建vpn账户
 	function create(){
 		require_once('./db.class.php');
 		$db = new DB();
 		$db->openConn();
+
+		if(empty($_POST['ReceiverName'])){			
+			$arr['info'] = 'error'; 
+			$arr['data'] = '联系人姓名不能为空';
+			echo json_encode($arr);
+			exit;
+		}
+		if(empty($_POST['CompanyName'])){			
+			$arr['info'] = 'error'; 
+			$arr['data'] = '公司名称不能为空';
+			echo json_encode($arr);
+			exit;
+		}
+		if(empty($_POST['ReceiverPhone'])){			
+			$arr['info'] = 'error'; 
+			$arr['data'] = '联系人手机不能为空';
+			echo json_encode($arr);
+			exit;
+		}
+		if(empty($_POST['ReceiverMail'])){			
+			$arr['info'] = 'error'; 
+			$arr['data'] = '邮箱地址不能为空';
+			echo json_encode($arr);
+			exit;
+		}
+		if(empty($_POST['ReceiverAdd'])){			
+			$arr['info'] = 'error'; 
+			$arr['data'] = '收货地址不能为空';
+			echo json_encode($arr);
+			exit;
+		}
 		
 		$sql = "select * from Ad_Gift where ID=".$_POST['ID'];
 		$vo = $db->query($sql);
@@ -31,8 +68,17 @@
 		}
 		
 		date_default_timezone_set('PRC');
-		$sql = "update Ad_Gift set  Status=1, TS='" . date('Y-m-d H:i:s',time()) . "' where ID=".$_POST['ID'];
-		
+		$sql = "update Ad_Gift set 
+			ReceiverName='" . $_POST['ReceiverName'] . "' 
+			, CompanyName='" . $_POST['CompanyName'] . "' 
+			, ReceiverPhone='" . $_POST['ReceiverPhone'] . "' 
+			, ReceiverMail='" . $_POST['ReceiverMail'] . "' 
+			, ReceiverAdd='" . $_POST['ReceiverAdd'] . "' 
+			, TS='" . date('Y-m-d H:i:s',time()) . "' 
+			, Status = 1 
+			where ID=".$_POST['ID'];
+
+		//$sql = "update Ad_Gift set  Status=1, TS='" . date('Y-m-d H:i:s',time()) . "' where ID=".$_POST['ID'];
 		$rs = $db->execute($sql);
 		if($rs === false){
 			$arr['info'] = 'error'; 
@@ -48,10 +94,40 @@
 		echo json_encode($arr);
 		
 	}
+
+	//再次确认VPN盒子收货信息
+	function confirmReceiveInfo(){
+		require_once('./db.class.php');
+		$db = new DB();
+		$db->openConn();
+		
+		date_default_timezone_set('PRC');
+		$sql = "update Ad_Gift set 
+			ReceiverName='" . $_POST['ReceiverName'] . "' 
+			, ReceiverPhone='" . $_POST['ReceiverPhone'] . "' 
+			, ReceiverAdd='" . $_POST['ReceiverAdd'] . "' 
+			, TS='" . date('Y-m-d H:i:s',time()) . "' 
+			, Status = 1 
+			where ID=".$_POST['ID'];
+
+		$rs = $db->execute($sql);
+		if($rs === false){
+			$arr['info'] = 'error'; 
+			$arr['data'] = '数据库错误';
+			echo json_encode($arr);
+			exit;
+		}
+
+		$arr['info'] = 'success'; 
+		$arr['data'] = 'ok';
+		unset ($_SESSION['user']);
+		unset ($_SESSION['pwd']);
+		echo json_encode($arr);
+	}
 	
 	//充值睿江云账户
 	function recharge(){
-		
+
 		require_once('./db.class.php');
 		$db = new DB();
 		$db->openConn();
@@ -196,6 +272,22 @@
 		unset ($_SESSION['pwd']);
 		
 		echo json_encode($arr);
+	}
+
+	//下载安全协议
+	function download(){
+		$file_dir = './';
+		$file_name = 'agreement.doc';
+
+		$file = fopen($file_dir . $file_name,"r"); // 打开文件
+		// 输入文件标签
+		Header("Content-type: application/octet-stream");
+		Header("Accept-Ranges: bytes");
+		Header("Accept-Length: ".filesize($file_dir . $file_name));
+		Header("Content-Disposition: attachment; filename=" . $file_name);
+		// 输出文件内容
+		echo fread($file,filesize($file_dir . $file_name));
+		fclose($file);
 	}
 	
 ?>

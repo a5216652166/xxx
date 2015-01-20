@@ -1,0 +1,49 @@
+<div class="left_menu">
+    <div class="menu_title">消息中心</div>
+    <div style=" float:left;margin-top:20px;">
+        <ul>
+            <li><a href="javascript:void(0);" onClick="establish()">消息订阅</a></li>
+            <li>
+            	<a href="__APP__/Index/msgMgr" >站内信</a>
+            </li>
+            <li>            	
+                <ul class="msg_ul">
+                	<li><a href="__APP__/Index/msgMgr">全部信息</a></li>
+                	<li><a href="__APP__/Index/msgMgr?type=1">产品消息</a></li>
+                	<li><a href="__APP__/Index/msgMgr?type=2">安全消息</a></li>
+                	<li><a href="__APP__/Index/msgMgr?type=3">营销活动</a></li>
+                	<li><a href="__APP__/Index/msgMgr?type=4">服务通知</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:void(0);" onClick="establish()">故障信息</a></li>
+            <li><a href="javascript:void(0);" onClick="establish()">论坛信息</a></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var url = window.location.href;
+		switch(true){
+			case url.indexOf('msgMgr?type=1') != -1 :
+			$(".msg_ul li a:eq(1)").addClass('active');
+			$("#msg_title").html("产品消息");
+			break;
+			case url.indexOf('msgMgr?type=2') != -1 :
+			$(".msg_ul li a:eq(2)").addClass('active');
+			$("#msg_title").html("安全消息");
+			break;
+			case url.indexOf('msgMgr?type=3') != -1 :
+			$(".msg_ul li a:eq(3)").addClass('active');
+			$("#msg_title").html("营销活动");
+			break;
+			case url.indexOf('msgMgr?type=4') != -1 :
+			$(".msg_ul li a:eq(4)").addClass('active');
+			$("#msg_title").html("服务通知");
+			break;
+			default:
+			$(".msg_ul li a:eq(0)").addClass('active');
+//			$("#msg_title").html("全部消息");
+			break;
+		}
+	});
+</script>

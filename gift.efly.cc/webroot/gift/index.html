@@ -61,7 +61,7 @@
 	}
 </style>
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="js/layer/layer.min.js"></script>
+<script type="text/javascript" src="js/layer/layer.js"></script>
 <script type="text/javascript" >
 	$(function(){
         $('#usercode,#password').bind('keypress',function(event){
@@ -69,6 +69,23 @@
 				receive();
             }
         });
+
+        /*$.layer({
+        	type: 1,
+            btn: ['修改', '完成'],
+            title : false,
+            area: ['auto', 'auto'],
+            closeBtn: [0, true],
+            page: {
+				html: '<div>' + msg + '<div>'
+			},
+			yes: function(index){
+				alert('yes');
+			},
+			no: function(index){
+				alert('no');
+			}
+        });*/
     });
 	function receive(){
 		var code = $("#usercode").val() , pwd = $("#password").val();
@@ -108,11 +125,11 @@
 						iframe: {src:url}
 					}); 					
 				}else{
-					layer.msg(data.data,2,5);
+					layer.msgClose(data.data,2,5);
 				}
 			},
 			error:function(data){				
-				layer.msg(data.statusText,2,5);
+				layer.msgClose(data.statusText,2,5);
 			}
 		});
 	}

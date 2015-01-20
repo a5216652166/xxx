@@ -223,7 +223,16 @@
 								<td>
 									<volist name="vo['IPS']" id="vo2">
 										<span style="margin-right:2px;">
-											{$vo2.PublicIPBegin} ~ {$vo2.PublicIPEnd}
+											{$vo2.PublicIPBegin} ~ {$vo2.PublicIPEnd} 
+											(
+											<if condition="$vo2.PublicIPType eq 'VM_BGPIP'">云主机国内BGP
+											<elseif condition="$vo2.PublicIPType eq 'VM_IPLCIP'"/>云主机国际BGP
+											<elseif condition="$vo2.PublicIPType eq 'SLB_BGPIP'"/>负载均衡国内BGP
+											<elseif condition="$vo2.PublicIPType eq 'SLB_IPLCIP'"/>负载均衡国际BGP
+											<elseif condition="$vo2.PublicIPType eq 'OSS_BGPIP'"/>开放云存储国内BGP
+											<elseif condition="$vo2.PublicIPType eq 'OSS_IPLCIP'"/>开放云存储国际BGP
+											</if>
+											)
 										</span>
 										<a href="__URL__/edit_group_ip?id={$vo2.ID}">编辑</a>
 										|

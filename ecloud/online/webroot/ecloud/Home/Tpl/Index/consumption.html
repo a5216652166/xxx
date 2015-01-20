@@ -68,9 +68,9 @@
           <div class="wrap" style="margin-top:20px;">
             <div class="fenye">   
                 <ul>    
-                	<li style="border:none;">总记录数：{$sum}，本页记录数：{$count}</li>
-                    <li id="first">首页</li>    
-                    <li id="top" onclick="topclick()">上一页</li>    
+                    <li style="border:none;">总记录数：{$sum}，本页记录数：{$count}</li>
+                    <li id="first" onClick="firstclick()">首页</li>    
+                    <li id="top" onClick="topclick()">上一页</li>    
                     <li class="xifenye" id="xifenye" onClick="xifenye()">    
                         <a id="xiye">{$page}</a>/<a id="mo">{$pageCount}</a>
                         <div class="xab" id="xab" style="display:none">    
@@ -78,8 +78,8 @@
                             </ul>    
                         </div>    
                     </li>    
-                    <li id="down" onclick="downclick()">下一页</a></li>    
-                    <li id="last">末页</li>    
+                    <li id="down" onClick="downclick()">下一页</a></li>    
+                    <li id="last" onClick="lastclick()">末页</li>    
                 </ul>
             </div>
         </div>
