@@ -1,3 +1,4 @@
+<!-- VPN帐号 -->
 <!DOCTYPE HTML>
 <?php 
 
@@ -39,10 +40,8 @@
 				CompanyName = $("#CompanyName").val(),
 				ReceiverMail = $("#ReceiverMail").val(),
 				ReceiverPhone = $("#ReceiverPhone").val(),
-				ReceiverAdd = $("#ReceiverAdd").val(),
-				SelProvince = $("#SelProvince").val(),
-				SelCity = $("#SelCity").val(),
-				SelArea = $("#SelArea").val(),Add_str = "";
+				ReceiverAdd = $("#ReceiverAdd").val();
+				
 			if(!ReceiverName){
 				$("#ReceiverName").focus();
 				return ;
@@ -69,24 +68,9 @@
 				layer.msgClose('邮箱格式输入有误',2,5);
 				return ;
 			}
-			if(SelProvince == "请选择" || SelCity == "请选择"){
-				$("#SelProvince").focus();
-				layer.msgClose('请选择省份城市',2,5);
-				return ;
-			}
 			if(!ReceiverAdd){
 				$("#ReceiverAdd").focus();
 				return ;
-			}
-			if(SelProvince != "请选择" && SelCity != "请选择"){
-				if(SelProvince == SelCity){
-					Add_str += SelProvince ;
-				}else{
-					Add_str += SelProvince + SelCity ;
-				}
-			}
-			if(SelArea != "请选择"){
-				Add_str += SelArea;
 			}
 
 			var user = $("#user").val(),
@@ -110,7 +94,7 @@
 					'CompanyName':CompanyName,
 					'ReceiverPhone':ReceiverPhone,
 					'ReceiverMail':ReceiverMail,
-					'ReceiverAdd':Add_str + ReceiverAdd,
+					'ReceiverAdd':ReceiverAdd,
 					'user':user,
 					'pwd':pwd
 				},
@@ -141,52 +125,6 @@
 
 	$(function(){
 		$("#ID").val(GetQueryString('ID'));
-
-		$.ajax({
-			url: "./xml/area.xml",
-			dataType: "xml",
-			success: function (xml) {
-				$(xml).find("province").each(function () {                                                  //找到(province)省份节点;
-					$("<option></option>").html($(this).attr("name")).appendTo("#SelProvince");             //加载(province)省份信息到列表中
-				})
-			}
-		})
-		//省份列表信息更改时，加载城市列表信息
-		$("#SelProvince").change(function () {
-		var value = $("#SelProvince").val();                                                            //省份值;
-		if (value != "请选择") {
-			$("#SelCity").css("display", "inline-block").find("option").remove();                              //显示城市下拉列表框删除城市下拉列表中的数据;
-			$("#SelCity").html("<option>请选择</option>");                                              //加载城市列表中的请选择;
-			$("#SelArea").find("option").remove();                                                      //删除地区下拉列表中的数据;
-			$("#SelArea").html("<option>请选择</option>")                                               //加载地区列表中的请选择;
-			$.ajax({
-				url: "./xml/area.xml",
-				dataType: "xml",
-				success: function (xml) {
-					$(xml).find("[name='" + value + "']").find("city").each(function () {               //根据省份name属性得到子节点City节点name属性;
-						$("<option></option>").html($(this).attr("name")).appendTo("#SelCity");         //加载City(城市)信息到下拉列表中;
-					})
-				}
-			})
-		}
-		})
-		//城市列表信息改变时，加载地区列表信息
-		$("#SelCity").change(function () {
-			var value = $("#SelCity").val();                                                                //城市值;
-			if (value != "请选择") {
-				$("#SelArea").css("display", "inline-block").find("option").remove();                              //显示地区下拉列表框删除地区下拉列表中的数据;
-				$("#SelArea").html("<option>请选择</option>");                                              //加载地区列表中的请选择;
-				$.ajax({
-					url: "./xml/area.xml",
-					dataType: "xml",
-					success: function (xml) {
-						$(xml).find("[name='" + value + "']").find("country").each(function () {            //根据城市节点name得到子节点Area节点name属性;
-							$("<option></option>").html($(this).attr("name")).appendTo("#SelArea");         //加载到Area(地区)下拉列表中;
-						})
-					}
-				})
-			}
-		})
 	});
 
 	function isEmail(str){
@@ -316,25 +254,17 @@
                     </p>
                     <p>
                         <label>收货地址：</label>
-                        <select id="SelProvince" tabindex="5">
-                            <option>请选择</option>
-                        </select>
-                        <select id="SelCity" tabindex="6">
-                            <option>请选择</option>
-                        </select>
-                        <select id="SelArea" tabindex="7">
-                            <option>请选择</option>
-                        </select>
-                    </p>
-                    <p style="margin-bottom:4px;">
-                        <input style="margin-left:110px;"  id="ReceiverAdd" tabindex="8"/>
+                        <input id="ReceiverAdd" tabindex="8"/>
                         <span>* 请输入详细地址</span>
                     </p>
-
                     <p>
                         <input type="hidden" id="ID"/>
                         <label>睿江VPN账户：</label>
-                        <input id="user" tabindex="1" value="<?php echo $_SESSION['user']; ?>" />
+                        <!-- <input id="user" tabindex="1" value="<?php echo $_SESSION['user']; ?>" readonly="readonly" style="border:none;" /> -->
+
+                        <input type="hidden" id="user" value="<?php echo $_SESSION['user']; ?>" />
+                        <label style="width:220px; padding: 9px 0 0 9px;"><?php echo $_SESSION['user']; ?></label>
+
                         <span>* 该密码为礼品券账户</span>
                     </p>                    
                     <p>

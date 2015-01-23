@@ -2,6 +2,10 @@
 Vendor('PHPMailer.class#phpmailer');
 // 本类由系统自动生成，仅供测试用途
 class IndexAction extends Action {
+	function _empty(){ 
+        header("HTTP/1.0 404 Not Found");//使HTTP返回404状态码 
+        $this->display("Public:404"); 
+    }
 	public function verify(){
 		//导入Image类库
 		import("ORG.Util.Image");
@@ -662,7 +666,7 @@ class IndexAction extends Action {
 			$Order = M();
 			$orderData = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'));
 			//修改订单状态
-			//$is_ok = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($orderData);
+			$is_ok = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($orderData);
 			if($is_ok === false){
 				$this->ajaxReturn('修改订单状态失败，请联系管理员。','error',0);
 			}
@@ -693,9 +697,12 @@ class IndexAction extends Action {
 				$ip_type = "VM_IPLCIP";				
 				$bindwith = $vps['BandWidthIPLC'];
 			}
+			$disk = "";
+			if($vps['DISK'] != 0){
+				$disk = $vps['DISK'];
+			}
 			
-			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&Disk=".$vps['DISK']."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);
-			print(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&Disk=".$vps['DISK']."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);exit;
+			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&Disk=".$disk."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);
 			$createTem = json_decode($create,true);
 			
 			if($createTem['ret'] != 0){

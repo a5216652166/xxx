@@ -17,7 +17,7 @@ a:active {text-decoration:none;}
 .step2 #regist-process-step2 { color:#626262; }
 
 .table{font-size:14px; color:#333; width:800px; margin:0 auto;}
-.table span{ margin-left:50px;}
+.table span{ margin-left:45px;}
 .table table{ border:1px solid #ccc; color:#333;border-collapse: collapse;border: none; margin:40px 0px 0px 50px;}
 .table table td, .table table th{border: solid #ccc 1px; width:200px; padding-left:20px; height:30px; text-align:left;}
 

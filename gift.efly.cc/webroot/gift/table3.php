@@ -1,3 +1,4 @@
+<!-- 代金券 -->
 <!DOCTYPE HTML>
 <?php 
 

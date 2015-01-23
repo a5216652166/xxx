@@ -122,8 +122,8 @@
     <div class="mt20 clearfix">
         <div class="col-md-1 title for-slider">数据盘:</div>
         <div class="col-md-9">
-            <input id="disk" type="text" value="" data-slider-min="50" data-slider-max="1000" data-slider-step="50" data-slider-value="50" data-slider-tooltip="hide" data-slider-handle="square" >
-            <div id="disk-slider-input" style="float: left;"><input id="disk_value" value="50" data-original-title="" title=""><span class="unit">GB</span><span class="zero_tip"></span></div>
+            <input id="disk" type="text" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="50" data-slider-value="0" data-slider-tooltip="hide" data-slider-handle="square" >
+            <div id="disk-slider-input" style="float: left;"><input id="disk_value" value="0" data-original-title="" title=""><span class="unit">GB</span><span class="zero_tip"></span></div>
         </div>        
         <div class="col-md-2"><h4>实用型套餐</h4></div>
     </div>
@@ -177,7 +177,7 @@
             <div class="col-md-2 hidden-xs"></div>
             <div class="col-md-4">
                 <span class="price-text">价格:</span>
-                <span id="price" class="money">145.00</span>
+                <span id="price" class="money">125.00</span>
             </div>
             <div id="buy-div" class="col-md-6 anonymous"><a href="javascript:void(0);" onClick="order()" id="buy" class="btn btn-info">立即购买</a></div>
         </div>
@@ -485,7 +485,7 @@
 	  };
 	  
 	  r = $('#disk').slider().on('slide', diskChange).data('slider');
-          r.setValue(50);
+          r.setValue(0);
 	  
 	  g = $('#bgp').slider().on('slide', bgpChange).data('slider');
 	  	  
