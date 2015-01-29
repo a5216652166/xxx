@@ -8,15 +8,15 @@
 	body{background:#ec403c}
 	.bg{
 		margin:0 auto;
-		width:1024px;
-		height:1280px;
-		background-image:url(images/bg.jpg);
+		width:1027px;
+		height:1899px;
+		background-image:url(images/bg_new.jpg);
 		background-repeat:no-repeat;
 	}
 	.text{ 
 		width:350px;
 		height:300px; 
-		margin:300px 0px 0px 0px; 
+		margin:265px -20px 0px 0px; 
 		float:right
 	}
 	.user{ 
@@ -62,7 +62,9 @@
 </style>
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="js/layer/layer.js"></script>
-<script type="text/javascript" >
+<!-- 补全css3属性前缀 -->
+<script src=”http://leaverou.github.com/prefixfree/prefixfree.min.js”></script>
+<script type="text/javascript">
 	$(function(){
         $('#usercode,#password').bind('keypress',function(event){
             if(event.keyCode == "13"){
@@ -87,6 +89,7 @@
 			}
         });*/
     });
+
 	function receive(){
 		var code = $("#usercode").val() , pwd = $("#password").val();
 		if(!code){
@@ -134,6 +137,7 @@
 		});
 	}
 </script>
+
 </head>
 <body>
     <div class="bg">
@@ -150,6 +154,157 @@
                 <a href="javascript:void(0);" onClick="receive()"></a>
             </div>
         </div>
+
+        <style type="text/css">
+            .link {
+                float: left;
+                margin: 1105px 0 0 95px;
+                color: #FDFEC2;
+            }
+
+            .link p {
+            	font-size: 18px;
+            	padding: 5px 0;
+            }
+
+            .link a {
+                font-family: microsoft yahei;
+                font-size: 18px;
+                color: #FDFEC2;
+                text-decoration: none;
+            }
+
+            .link a:hover {
+                text-decoration: underline;
+            }
+        </style>
+        <div class="link">
+        	<p>1. 活动期间，获赠睿江新春礼品券的客户在此页面输入账号及密码，</p>
+        	<p style="text-indent: 107px;">填写相应信息，即可成功领取大礼。</p>
+        	<p>2. 活动期间，凡购买国际盒子可享优惠价300元/M/月（原价600元</p>
+        	<p style="text-indent: 107px;">/M/月），更有国际带宽超值套餐3000元/M/年，详情</p>
+        	<p style="text-indent: 107px;">请点击<a target="_blank" href="http://efly.cc/ContactUs/">http://efly.cc/ContactUs/</a>联系我们。</p>
+        	<p style="font-size: 14px; margin-top: 10px;">★ 睿江科技有权在法律许可范围内对该活动进行解释。</p>
+        </div>
+
+
+        <style type="text/css">
+        	.star {
+				float: left;
+				margin: 40px 25px;
+				color: #FEFEC2;
+        	}
+
+        	.star .star_inner {
+        		margin: 0 35px;
+        	}
+
+        	.star h1 {
+        		text-align: center;
+        		padding: 10px 0;
+        		font-size: 24px;
+        		border: 2px solid #FEFEC2;
+        		margin-bottom: 10px;
+        	}
+
+        	.star .brief {
+        		border: 2px solid #FEFEC2;
+        		margin-bottom: 10px;
+        	}
+
+        	.star .brief ul {
+        		list-style-type: none;
+        		padding: 10px 25px;
+
+        		margin: 0 auto;
+        		width: 460px;
+        	}
+
+        	.star .brief ul li {
+				padding: 7px 0;
+        	}
+
+        	.star .detail {
+        	}
+
+        	.star .detail .box {
+        		position:relative;
+        		width: 441px;
+        		display: inline-block;
+        		border: 2px solid #FEFEC2;
+        		margin: 5px 0px;
+
+        		height: 97px;
+				overflow: hidden;
+        	}
+
+        	.star .detail .box:hover {
+        		cursor: pointer;
+        	}
+
+        	.star .detail .box h2 {
+        		text-align: center;
+				font-size: 24px;
+        	}
+
+        	.star .detail .box h2 a {
+        		color: #FEFEC2;
+        		text-decoration: none;
+        		display: block;
+        		padding: 15px 0;
+
+        		transition: all 0.5s ease;
+        	}
+
+        	.star .detail .box:hover h2 a {
+        		color: #EB3F3D;
+        		background: #FEFEC2;
+        		padding: 31px 0;
+				font-size: 30px;
+        	}
+
+        	.star .detail .box p {
+        		padding-bottom: 16px;
+				text-align: center;
+        	}
+
+        	.right {
+        		right: -13px;
+        	}
+        </style>
+        <div class="star">
+        	<div class="star_inner">
+	        	<h1>明星产品推荐</h1>
+	        	<div class="brief">
+	        		<ul>
+	        			<li>睿江数据中心 —— 专业之选，贴心服务，您首选的IDC运营商！</li>
+	        			<li>睿江宁波云数据中心 —— 快速稳定，不再感叹时间都去哪了！</li>
+	        			<li>常州武进数据中心 —— 优质不加价，低价不减速！</li>
+	        			<li>山东潍坊数据中心 —— IDC机房哪家强，中国山东找睿江！</li>
+	        			<li>深圳坂田数据中心 —— 自建机房最优选，优质服务更高效！</li>
+	        		</ul>
+	        	</div>
+	        	<div class="detail">
+	        		<div class="box">
+	        			<h2><a target="_blank" href="http://www.efly.cc/bgp.php?laiyuan=efly.cc">睿江BGP</a></h2>
+	        			<p>多线BGP，您不敢相信的性价比！</p>
+	        		</div>
+	        		<div class="right box">
+	        			<h2><a target="_blank" href="http://cloud.efly.cc/index.php/Index/buy">睿江云</a></h2>
+	        			<p>睿江云，您创业路上的最佳搭档！</p>
+	        		</div>
+	        		<div class="box">
+	        			<h2><a target="_blank" href="http://www.efly.cc/IPLC/">国际专线</a></h2>
+	        			<p>直达世界，瞬连全球！</p>
+	        		</div>
+	        		<div class="right box">
+	        			<h2><a target="_blank" href="http://www.efly.cc/EflyVPN/">VPN盒子</a></h2>
+	        			<p>全球资讯，紧握掌中！</p>
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+
     </div>
-</body>
+
 </html>

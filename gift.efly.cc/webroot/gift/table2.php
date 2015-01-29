@@ -4,7 +4,7 @@
 
 	session_start(); 
 	
-	if(empty($_SESSION['user'])){
+	if(empty($_SESSION['code'])){
 		echo '<script type="text/javascript">window.location.href = "./index.html";</script>';
 	}
 	
@@ -35,12 +35,12 @@
 				return;
 			}
 			$("#regist-process").attr('class','step3');
-		}else if(str=='ok'){
+		}else if(str=='item_4'){
 			var ReceiverName = $("#ReceiverName").val(),
 				CompanyName = $("#CompanyName").val(),
 				ReceiverMail = $("#ReceiverMail").val(),
-				ReceiverPhone = $("#ReceiverPhone").val(),
-				ReceiverAdd = $("#ReceiverAdd").val();
+				ReceiverPhone = $("#ReceiverPhone").val();
+				//ReceiverAdd = $("#ReceiverAdd").val();
 				
 			if(!ReceiverName){
 				$("#ReceiverName").focus();
@@ -68,51 +68,58 @@
 				layer.msgClose('邮箱格式输入有误',2,5);
 				return ;
 			}
-			if(!ReceiverAdd){
+			/*if(!ReceiverAdd){
 				$("#ReceiverAdd").focus();
 				return ;
-			}
+			}*/
+		}else if(str == 'ok'){
+            var ReceiverName = $("#ReceiverName").val(),
+                CompanyName = $("#CompanyName").val(),
+                ReceiverMail = $("#ReceiverMail").val(),
+                ReceiverPhone = $("#ReceiverPhone").val();
 
-			var user = $("#user").val(),
-				pwd = $("#pwd").val();
-			if(!user){
-				$("#user").focus();
-				return ;
-			}
-			if(!pwd){
-				$("#pwd").focus();
-				return ;
-			}
+            var user = $("#user").val(),
+                pwd = $("#pwd").val();
+            if(!user){
+                $("#user").focus();
+                return ;
+            }
+            if(!pwd){
+                $("#pwd").focus();
+                return ;
+            }
 
-			//通过验证
-			$.ajax({
-				url:'receive.php?opt=create',
-				type:'post',
-				data:{
-					'ID':$("#ID").val(),
-					'ReceiverName':ReceiverName,
-					'CompanyName':CompanyName,
-					'ReceiverPhone':ReceiverPhone,
-					'ReceiverMail':ReceiverMail,
-					'ReceiverAdd':ReceiverAdd,
-					'user':user,
-					'pwd':pwd
-				},
-				dataType: "json", 
-				success:function(data){
-					if(data.info=="success"){						
-						layer.msgClose('礼品领取完毕，可登陆睿江VPN平台试用。',2,1);
-						setInterval(function(){window.parent.location.reload();},2000);						
-					}else{
-						layer.msgClose(data.data,3,5);
-						setInterval(function(){window.location.reload();},2000);
-					}
-				},
-				error:function(data){				
-					layer.msgClose(data.statusText,3,5);
-				}
-			});
-		}
+            //通过验证
+            $.ajax({
+                url:'receive.php?opt=create',
+                type:'post',
+                data:{
+                    'ID':$("#ID").val(),
+                    'ReceiverName':ReceiverName,
+                    'CompanyName':CompanyName,
+                    'ReceiverPhone':ReceiverPhone,
+                    'ReceiverMail':ReceiverMail,
+                    //'ReceiverAdd':ReceiverAdd,
+                    'user':user,
+                    'pwd':pwd
+                },
+                dataType: "json", 
+                success:function(data){
+                    if(data.info=="success"){                       
+                        layer.msgClose('礼品领取完毕，可登陆睿江VPN平台试用。',2,1, function(){
+                            //window.top.location = 'http://192.168.85.166/vpn/help.html?num=2';
+                            window.top.location = 'http://www.efly.cc/EflyVPN/help.html?num=2';
+                        });
+                    }else{
+                        layer.msgClose(data.data,3,5);
+                    }
+                },
+                error:function(data){               
+                    layer.msgClose(data.statusText,3,5);
+                }
+            });
+        }
+
 		$(".table #item_1,.table #item_2,.table #item_3").hide();
 		$("#"+str).show();
 	}
@@ -217,7 +224,7 @@
                 <p>六、若违反本承诺书有关条款和国家相关法律法规的，本单位（个人）直接承担相应法律责任，造成财产损失的，由本单位（个人）直接赔偿。你单位有权停止服务。</p>
                 <p>七、本承诺书自签署之日起生效。</p>
                 <p>
-                	<input type="checkbox" style="margin: 10px 8px 10px 300px; top: 2px; position: relative;" id="agreeBox" />
+                	<input type="checkbox" style="margin: 10px 8px 0 300px;" id="agreeBox" />
                 	<label for="agreeBox" style="font-size: 14px;">我同意本协议</label>
                 </p>
             </div>            
@@ -229,7 +236,7 @@
             </div>
         </div>
         <div id="item_3">        	
-        	<div style="width: 530px;margin: 0 auto;">
+        	<div style="width: 530px;margin: 80px auto;">
                 <form action="" method="post">
                 	<p>
                         <input type="hidden" id="ID"/>
@@ -252,10 +259,39 @@
                         <input id="ReceiverMail" tabindex="4"/>
                         <span>* 请输入邮箱地址</span>
                     </p>
-                    <p>
+                    <!-- <p>
                         <label>收货地址：</label>
                         <input id="ReceiverAdd" tabindex="8"/>
                         <span>* 请输入详细地址</span>
+                    </p> -->
+                    <!-- <p>
+                        <input type="hidden" id="ID"/>
+                        <label>睿江VPN账户：</label>
+
+                        <input type="hidden" id="user" value="<?php echo $_SESSION['user']; ?>" />
+                        <label style="width:220px; padding: 9px 0 0 9px;"><?php echo $_SESSION['user']; ?></label>
+
+                        <span>* 该账户为礼品券账户</span>
+                    </p>                    
+                    <p>
+                        <input type="hidden" id="ID"/>
+                        <label>睿江VPN密码：</label>
+                        <input id="pwd" type="password" tabindex="2" value="<?php echo $_SESSION['pwd']; ?>" />
+                        <span>* 该密码为礼品券密码</span>
+                    </p> -->
+             	</form>
+           	</div>
+            <div class="btn">
+                <a href="javascript:void(0);" onClick="next('item_4')">下一步</a>
+            </div>
+        </div>
+
+        <div id="item_4">           
+            <div style="width: 530px;margin: 55px auto;">
+                <form action="" method="post">
+                    <p style="margin: 15px 0 50px; font-size: 24px; border-bottom: 2px solid #000;">
+                        <!-- <span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype1" style="top:168px; left:50px;"></span> -->
+                        最后，请设置您的VPN密码
                     </p>
                     <p>
                         <input type="hidden" id="ID"/>
@@ -265,7 +301,7 @@
                         <input type="hidden" id="user" value="<?php echo $_SESSION['user']; ?>" />
                         <label style="width:220px; padding: 9px 0 0 9px;"><?php echo $_SESSION['user']; ?></label>
 
-                        <span>* 该密码为礼品券账户</span>
+                        <span>* 该账户为礼品券账户</span>
                     </p>                    
                     <p>
                         <input type="hidden" id="ID"/>
@@ -273,12 +309,13 @@
                         <input id="pwd" type="password" tabindex="2" value="<?php echo $_SESSION['pwd']; ?>" />
                         <span>* 该密码为礼品券密码</span>
                     </p>
-             	</form>
-           	</div>        
+                </form>
+            </div>        
             <div class="btn">
                 <a href="javascript:void(0);" onClick="next('ok')">完成</a>
             </div>
         </div>
+
     </div>
     
 </body>

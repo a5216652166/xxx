@@ -18,7 +18,7 @@
 	}
 
 
-	//创建vpn账户
+	//创建vpn账户 2
 	function create(){
 		require_once('./db.class.php');
 		$db = new DB();
@@ -48,12 +48,12 @@
 			echo json_encode($arr);
 			exit;
 		}
-		if(empty($_POST['ReceiverAdd'])){			
+		/*if(empty($_POST['ReceiverAdd'])){			
 			$arr['info'] = 'error'; 
 			$arr['data'] = '收货地址不能为空';
 			echo json_encode($arr);
 			exit;
-		}
+		}*/
 		
 		$sql = "select * from Ad_Gift where ID=".$_POST['ID'];
 		$vo = $db->query($sql);
@@ -68,12 +68,22 @@
 		}
 		
 		date_default_timezone_set('PRC');
-		$sql = "update Ad_Gift set 
+		/*$sql = "update Ad_Gift set 
 			ReceiverName='" . $_POST['ReceiverName'] . "' 
 			, CompanyName='" . $_POST['CompanyName'] . "' 
 			, ReceiverPhone='" . $_POST['ReceiverPhone'] . "' 
 			, ReceiverMail='" . $_POST['ReceiverMail'] . "' 
 			, ReceiverAdd='" . $_POST['ReceiverAdd'] . "' 
+			, TS='" . date('Y-m-d H:i:s',time()) . "' 
+			, Status = 1 
+			where ID=".$_POST['ID'];*/
+
+		$sql = "update Ad_Gift set 
+			ReceiverName='" . $_POST['ReceiverName'] . "' 
+			, CompanyName='" . $_POST['CompanyName'] . "' 
+			, ReceiverPhone='" . $_POST['ReceiverPhone'] . "' 
+			, ReceiverMail='" . $_POST['ReceiverMail'] . "' 
+			, ReceiverAdd='vpn账号无需填写地址' 
 			, TS='" . date('Y-m-d H:i:s',time()) . "' 
 			, Status = 1 
 			where ID=".$_POST['ID'];
@@ -89,13 +99,13 @@
 		
 		$arr['info'] = 'success'; 
 		$arr['data'] = 'ok';
-		unset ($_SESSION['user']);
+		unset ($_SESSION['code']);
 		unset ($_SESSION['pwd']);
 		echo json_encode($arr);
 		
 	}
 
-	//再次确认VPN盒子收货信息
+	//再次确认VPN盒子收货信息 1
 	function confirmReceiveInfo(){
 		require_once('./db.class.php');
 		$db = new DB();
@@ -120,14 +130,13 @@
 
 		$arr['info'] = 'success'; 
 		$arr['data'] = 'ok';
-		unset ($_SESSION['user']);
+		unset ($_SESSION['code']);
 		unset ($_SESSION['pwd']);
 		echo json_encode($arr);
 	}
 	
-	//充值睿江云账户
+	//充值睿江云账户 3
 	function recharge(){
-
 		require_once('./db.class.php');
 		$db = new DB();
 		$db->openConn();
@@ -159,18 +168,18 @@
 		
 		$arr['info'] = 'success'; 
 		$arr['data'] = 'ok';
-		unset ($_SESSION['user']);
+		unset ($_SESSION['code']);
 		unset ($_SESSION['pwd']);
 		echo json_encode($arr);
 		
 	}
 	
-	//验证账户密码
+	//验证账户密码 index
 	function receive(){
-		
 		require_once('./db.class.php');
 		$db = new DB();
 		$db->openConn();
+
 		if(empty($_POST['code'])){			
 			$arr['info'] = 'error'; 
 			$arr['data'] = '礼品券账号不能为空';
@@ -199,7 +208,7 @@
 			exit;
 		}
 		
-		$_SESSION['user'] = $_POST['code'];
+		$_SESSION['code'] = $_POST['code'];
 		$_SESSION['pwd'] = $_POST['pwd'];
 		
 		$arr['info'] = 'success';
@@ -209,7 +218,7 @@
 		echo json_encode($arr);
 	}
 	
-	//插入用户信息
+	//插入用户信息 1
 	function insert(){
 		
 		require_once('./db.class.php');
@@ -268,7 +277,7 @@
 		$arr['info'] = 'success'; 
 		$arr['data'] = 'ok'; 
 		
-		unset ($_SESSION['user']);
+		unset ($_SESSION['code']);
 		unset ($_SESSION['pwd']);
 		
 		echo json_encode($arr);

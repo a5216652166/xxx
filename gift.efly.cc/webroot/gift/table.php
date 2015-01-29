@@ -4,7 +4,7 @@
 
 	session_start(); 
 	
-	if(empty($_SESSION['user'])){
+	if(empty($_SESSION['code'])){
 		echo '<script type="text/javascript">window.location.href = "./index.html";</script>';
 	}
 	
@@ -304,11 +304,16 @@
 		    	dom : '#item_4'
 		    },
 		    close: function(index){
-		    	layer.close(index);
-				$(".table #item_1,.table #item_2,.table #item_3").hide();
-				$(".table #item_3").show();
+		    	layer.msgClose('礼品领取完毕，耐心等待快递。',2,1, function(){
+					goToHelp();
+				});
 			}
 		});
+    }
+
+    function goToHelp(){
+    	//window.top.location = 'http://192.168.85.166/vpn/help.html?num=0';
+    	window.top.location = 'http://www.efly.cc/EflyVPN/help.html?num=0';
     }
 
     function confirmReceiveInfo(){
@@ -361,8 +366,10 @@
 
 		//检查是否变更, 无变更直接结束
 		if(ReceiverNameS && ReceiverPhoneS && ReceiverAddS && SelProvinceS && SelCityS && SelAreaS){
-			layer.msgClose('确认成功，礼品领取完毕，耐心等待快递。',2,1);
-			setInterval(function(){window.top.location.reload();},2000);
+			layer.msgClose('确认成功，礼品领取完毕，耐心等待快递。',2,1, function(){
+				goToHelp();
+			});
+			
 			return;
 		}
 
@@ -379,11 +386,11 @@
 			dataType: "json", 
 			success:function(data){
 				if(data.info=="success"){				
-					layer.msgClose('确认成功，礼品领取完毕，耐心等待快递。',2,1);
-					setInterval(function(){window.top.location.reload();},2000);
+					layer.msgClose('确认成功，礼品领取完毕，耐心等待快递。',2,1, function(){
+						goToHelp();
+					});
 				}else{
 					layer.msgClose(data.data,3,5);
-					setInterval(function(){window.top.location.reload();},2000);
 				}
 			},
 			error:function(data){				
@@ -467,7 +474,7 @@
                 <p>六、若违反本承诺书有关条款和国家相关法律法规的，本单位（个人）直接承担相应法律责任，造成财产损失的，由本单位（个人）直接赔偿。你单位有权停止服务。</p>
                 <p>七、本承诺书自签署之日起生效。</p>
                 <p>
-                	<input type="checkbox" style="margin: 10px 8px 10px 300px; top: 2px; position: relative;" id="agreeBox" />
+                	<input type="checkbox" style="margin: 10px 8px 0 300px;" id="agreeBox" />
                 	<label for="agreeBox" style="font-size: 14px;">我同意本协议</label>
                 </p>
             </div>

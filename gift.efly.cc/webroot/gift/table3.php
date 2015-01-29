@@ -4,7 +4,7 @@
 
 	session_start(); 
 	
-	if(empty($_SESSION['user'])){
+	if(empty($_SESSION['code'])){
 		echo '<script type="text/javascript">window.location.href = "./index.html";</script>';
 	}
 	
@@ -41,8 +41,12 @@
 
 				return;
 			}
-			$("#regist-process").attr('class','step3');
-		}else if(str=='ok'){
+			//$("#regist-process").attr('class','step3');
+			var code = '<?php echo $_SESSION['code']; ?>',pwd = '<?php echo $_SESSION['pwd']; ?>';
+			window.parent.location.href = "http://ecloud.efly.cc/index.php/Index/gift?code=" + code + "&pwd=" + pwd;
+		}
+		/*else if(str=='ok'){
+			
 			var mail = $("#mail").val(),
 				pwd = $("#pwd").val(),
 				reg =/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
@@ -95,9 +99,11 @@
 					layer.msgClose(data.statusText,3,5);
 				}
 			});
-		}
+		}*/
 		$(".table #item_1,.table #item_2,.table #item_3").hide();
-		$("#"+str).show();
+		if(str != "item_3"){
+			$("#"+str).show();
+		}
 	}
 	
 	function GetQueryString(name){
@@ -135,10 +141,8 @@
     </div>
     <div class="table">
     	<div id="item_1">
-            <p><span>VPN账号：活动价：免费使用一年</span></p>
-            <!--p><span>标准价：600元/M/月；超值套餐：1M国际带宽，年付3000元</span></p>
-            <p><span>活动优惠价：400元/M月</span></p-->
-            <p><span>恭喜您获得睿江"VPN账号"礼品一份</span></p>
+            <p><span>恭喜您获得睿江云代金券一份，赶快完成充值吧</span></p>
+            <p><span>优质BGP等您体验，最懂您的睿江云</span></p>
             <table>
                 <tr>
                     <th>名称</th>
@@ -188,7 +192,7 @@
                 <p>六、若违反本承诺书有关条款和国家相关法律法规的，本单位（个人）直接承担相应法律责任，造成财产损失的，由本单位（个人）直接赔偿。你单位有权停止服务。</p>
                 <p>七、本承诺书自签署之日起生效。</p>
                 <p>
-                    <input type="checkbox" style="margin: 10px 8px 10px 300px; top: 2px; position: relative;" id="agreeBox" />
+                    <input type="checkbox" style="margin: 10px 8px 0 300px;" id="agreeBox" />
                     <label for="agreeBox" style="font-size: 14px;">我同意本协议</label>
                 </p>
             </div>            

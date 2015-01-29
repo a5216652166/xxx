@@ -55,8 +55,10 @@
 		function payType(obj){
 			$(obj).prev().attr('checked','checked');
 		}
-		function gotoPay(id,type,oid,time){			
-			if($(":radio[name='payType']:checked").val()=='alipay'){
+		var layer_load;
+		function gotoPay(id,type,oid,time){
+			if($(":radio[name='payType']:checked").val()=='alipay'){				
+				layer_load = layer.load('等待付款...');
 				if(type=='续费'){
 					window.open(APP+'/Index/renewOrder?id='+id+'&type='+$(":radio[name='payType']:checked").val());
 					_interval = setInterval(function (){finishPayment2(id,time,oid);},3000);										
@@ -77,6 +79,7 @@
 								setInterval(function (){window.top.location.reload();},3000);								
 							}else{
 								if(confirm("提示信息："+data.data)){
+									layer_load = layer.load('等待付款...');
 									window.open(APP+'/Index/mergePay?id='+id);
 									$(".regist").html('<style>a:visited{color:#00b0ec}a:hover{color:#00b0ec}a:link{color:#00b0ec}</style><div style="margin-top:100px;"><input id="id" value="'+id+'" type="hidden"/><h3 style="padding:20px 0px 0px 30px;">登录支付宝进行支付</h3><img src="'+ROOT+'/Public/images/loading.gif" style="float:right;margin-top:50px;"/><br/><div style="width:480px;height:1px; border-top:1px solid #ccc;margin-left:20px;"></div><h5 style="padding:10px 0px 0px 30px; font-weight:normal">请在新开的支付页面完成支付：</h5><br/><div style="width:70%;float:left;"><img src="'+ROOT+'/Public/images/success.png" style="float:left;padding:3px 0px 0px 30px;"/><h5 style="float:left;">支付成功</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">您可以选择查看：</h5><a href="javascript:window.top.location.href=\''+APP+'/Index/account\'" style="float:left;margin:12px 0px 0px 10px;font-size:12px;text-decoration:none">我的订单</a></div><br/><div style="width:70%;float:left;"><img src="'+ROOT+'/Public/images/error.png" style="float:left;padding:3px 0px 0px 30px;"/><h5 style="float:left;">支付失败</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">建议你重新支付：</h5><a href="javascript:window.top.location.reload();" style="float:left;padding:12px 0px 20px 10px;font-size:12px;text-decoration:none">刷新页面</a></div></div>');
 									_interval = setInterval(function (){finishPayment2(id,time,oid);},3000);
@@ -97,7 +100,8 @@
 							if(data.info=='success'){
 								insert(id);
 							}else{
-								if(confirm("提示信息："+data.data)){
+								if(confirm("提示信息："+data.data)){									
+									layer_load = layer.load('等待付款...');
 									window.open(APP+'/Index/mergePay?id='+id);
 									$(".regist").html('<style>a:visited{color:#00b0ec}a:hover{color:#00b0ec}a:link{color:#00b0ec}</style><div style="margin-top:100px;"><input id="id" value="'+id+'" type="hidden"/><h3 style="padding:20px 0px 0px 30px;">登录支付宝进行支付</h3><img src="'+ROOT+'/Public/images/loading.gif" style="float:right;margin-top:50px;"/><br/><div style="width:480px;height:1px; border-top:1px solid #ccc;margin-left:20px;"></div><h5 style="padding:10px 0px 0px 30px; font-weight:normal">请在新开的支付页面完成支付：</h5><br/><div style="width:70%;float:left;"><img src="'+ROOT+'/Public/images/success.png" style="float:left;padding:3px 0px 0px 30px;"/><h5 style="float:left;">支付成功</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">您可以选择查看：</h5><a href="javascript:window.top.location.href=\''+APP+'/Index/account\'" style="float:left;margin:12px 0px 0px 10px;font-size:12px;text-decoration:none">我的订单</a></div><br/><div style="width:70%;float:left;"><img src="'+ROOT+'/Public/images/error.png" style="float:left;padding:3px 0px 0px 30px;"/><h5 style="float:left;">支付失败</h5><h5 style="padding:0px 10px 0px 10px;float:left;font-weight:normal">|</h5><h5 style="float:left;font-weight:normal">建议你重新支付：</h5><a href="javascript:window.top.location.reload();" style="float:left;padding:12px 0px 20px 10px;font-size:12px;text-decoration:none">刷新页面</a></div></div>');
 									_interval = setInterval(function (){finishPayment(id);},3000);
@@ -135,6 +139,7 @@
 				url:APP+'/Index/finishPayment',
 				type:'post',
 				async:false,
+				data:{'id':id},
 				success:function(data){
 					if(data.data=="SUCC"){
 						clearInterval(_interval);
@@ -154,6 +159,7 @@
 				data:{'id':id,'time':time,'oid':oid},
 				success:function(data){
 					if(data.info=="success"){
+						layer.close(layer_load);
 						$("#pay_div").html('<h4 style="padding: 20px 0px 0px 40px;">您的订单已经支付成功，系统正在处理中。</h4><h4 style="padding:20px 0px 0px 40px;">请耐心等待我们的邮件通知。</h4><h4 style="padding:20px 0px 0px 40px;">登录[' + USER + ']邮箱查看邮件。</h4><h4 style="padding:20px 0px 0px 40px;"> 3 秒跳转订单页面。</h4>');
 						setInterval(function (){window.top.location.reload();},3000);
 					}else{
@@ -184,6 +190,7 @@
 							data:{'id':id},
 							success:function(data){
 								if(data.info=="success"){
+									layer.close(layer_load);
 									$("#pay_div").html('<h4 style="padding: 20px 0px 0px 40px;">您的订单已经支付成功，系统正在处理中。</h4><h4 style="padding:20px 0px 0px 40px;">请耐心等待我们的邮件通知。</h4><h4 style="padding:20px 0px 0px 40px;">登录[' + USER + ']邮箱查看邮件。</h4><h4 style="padding:20px 0px 0px 40px;"> 3 秒跳转订单页面。</h4>');
 									setInterval(function (){window.top.location.reload();},3000);									
 								}else{

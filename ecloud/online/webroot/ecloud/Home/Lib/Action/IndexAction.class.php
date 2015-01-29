@@ -123,6 +123,9 @@ class IndexAction extends Action {
 			header("Location: ".__APP__."/Index/login");
 		}
 	}
+	public function docs(){
+		$this->display();	
+	}
 	//账户充值
 	public function recharge(){
 		if(!empty($_SESSION['user'])){			
@@ -702,7 +705,7 @@ class IndexAction extends Action {
 				$disk = $vps['DISK'];
 			}
 			
-			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&Disk=".$disk."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);
+			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&DiskSize=".$disk."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);
 			$createTem = json_decode($create,true);
 			
 			if($createTem['ret'] != 0){
@@ -746,12 +749,22 @@ class IndexAction extends Action {
 	}
 	//返回订单状态
 	public function finishPayment(){
-		$ret = $order = M()->table('Ad_Order')->where('ID='.$_POST['id'])->find();
-		
-		$data = file_get_contents(C('INTERFACE_URL')."/alipay/order_query.php?OrderCode=".$ret['Code']."&DepartCode=ESS");
-		$obj = json_decode($data,true);
-		
-		$this->ajaxReturn($obj[0]['Status'],'success',1);
+		$order = M();
+		$ret = $order->table('Ad_Order')->where('ID='.$_POST['id'])->find();		
+		if(!empty($ret['Code'])){
+			$data = file_get_contents(C('INTERFACE_URL')."/alipay/order_query.php?OrderCode=".$ret['Code']."&DepartCode=ESS");
+			$obj = json_decode($data,true);			
+			$this->ajaxReturn($obj[0]['Status'],'success',1);
+		}
+	}
+	public function returnOrderStatus($id){
+		$order = M();
+		$ret = $order->table('Ad_Order')->where('ID='.$id)->find();		
+		if(!empty($ret['Code'])){
+			$data = file_get_contents(C('INTERFACE_URL')."/alipay/order_query.php?OrderCode=".$ret['Code']."&DepartCode=ESS");
+			$obj = json_decode($data,true);			
+			return $obj[0]['Status'];
+		}
 	}
 	//订单页面 去付款 余额支付
 	public function gotopay(){		
@@ -791,7 +804,7 @@ class IndexAction extends Action {
 			$this->ajaxReturn('付款失败，请联系管理员。','error',0);
 		}else{
 		//修改状态
-			$data = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'),'BalancePay'=>$tem);
+			$data = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'),'BalancePay'=>$tem,'AliPay'=>0);
 			$order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data);
 			$this->ajaxReturn(1,'success',1);
 		}
@@ -850,7 +863,9 @@ class IndexAction extends Action {
 			$this->ajaxReturn('对不起，您的账户余额不足，使用支付宝合并付款？','error',0);	
 		}else{
 			//修改支付方式
-			$Order->table('Ad_Order')->where("ID=".$_POST['id'])->setField('BalancePay',$tem);
+			$data['BalancePay'] = $tem;
+			$data['AliPay'] = 0;
+			$Order->table('Ad_Order')->where("ID=".$_POST['id'])->save($data);
 			$this->ajaxReturn(1,'success',0);	
 		}
 	}
@@ -902,7 +917,10 @@ class IndexAction extends Action {
 		$str = $ret['CPU'] . " CPU ; " . $ret['RAM'] . " 内存 ; " . $ret['DISK'] . "G 硬盘 ; 系统：" . $ret['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $ret['Count'] ."<br/>";
 		
 		//修改支付方式
-		$Order->table('Ad_Order')->where("ID=".$_GET['id'])->setField('AliPay',$ret['Price']);
+		
+		$data['AliPay'] = $ret['Price'];
+		$data['BalancePay'] = 0;
+		$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
 		
 		$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
 		$this->assign('DepartCode', "ESS");
@@ -935,8 +953,10 @@ class IndexAction extends Action {
 		$Order = M();
 		$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();
 		//修改支付方式
-		if(!empty($_POST['type'])){
-			$Order->table('Ad_Order')->where("ID=".$_GET['id'])->setField('AliPay',$tem['Money']);	
+		if(!empty($_GET['type'])){
+			$data['AliPay'] = $tem['Money'];
+			$data['BalancePay'] = 0;
+			$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
 		}
 		
 		$OrderVPS = M();
@@ -1012,8 +1032,15 @@ class IndexAction extends Action {
 	//修改到期时间
 	public function updateOrder(){
 		$Order = M();
+		if($this->returnOrderStatus($_POST['id']) != "SUCC"){
+			$this->ajaxReturn('续费云主机失败，请联系管理员。','error',0);		
+		}
+		
 		$data = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'));
-		$Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data);		
+		$is_ok = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data);		
+		if($is_ok === false){
+			$this->ajaxReturn('续费云主机失败，请联系管理员。','error',0);
+		}
 		
 		$VPSPay = M();
 		$time;

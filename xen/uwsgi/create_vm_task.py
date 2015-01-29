@@ -71,7 +71,7 @@ def _set_task_feedback(taskid, state, ret, result, error):
 	conn = MySQLdb.connect(host=config.ecloud_db_ip, user=config.ecloud_db_user, \
 							passwd=config.ecloud_db_pass, db='ecloud_admin', port=3306)
 	cur = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
-	sql = "update `PoolTask` set `State` = '%s', `Tried` = `Tried` + 1, "\
+	sql = "update `PoolTask` set `State` = '%s', "\
 			"`FinishTime` = now(), `Ret` = %d, `Result` = '%s', `Error` = '%s' where `ID` = %d;"\
 			%(state, ret, result, error, taskid)
 	print sql

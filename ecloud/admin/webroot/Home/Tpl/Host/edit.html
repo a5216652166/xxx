@@ -43,6 +43,7 @@
 
 		$("select[name=PoolCode]").val('{$data.PoolCode}').trigger('chosen:updated');
 		$("select[name=PropertyCode]").val('{$data.PropertyCode}').trigger('chosen:updated');
+		$("select[name=Type]").val('{$data.Type}');
 
 		//初始化控制IP段显示
 		var poolCode = '{$data.PoolCode}';
@@ -120,6 +121,17 @@
 			      		<volist name="propertys" id="vo">
 			      			<option value="{$vo.Code}">{$vo.Code} | {$vo.SN} | {$vo.Brand} | {$vo.No}</option>
 			      		</volist>
+			      	</select>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td width="100px">类型：</td>
+			      <td class="ui_text_lt">
+			      	<select name="Type" class="ui_select04">
+			      		<option value="VMHost">VMHost</option>
+			      		<option value="SLBHost">SLBHost</option>
+			      		<option value="OSSHost">OSSHost</option>
+			      		<option value="StorageHost">StorageHost</option>
 			      	</select>
 			      </td>
 			    </tr>
