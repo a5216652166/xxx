@@ -695,19 +695,18 @@ class IndexAction extends Action {
 			$RAM[32] = 32768;
 			
 			$ip_type = "VM_BGPIP";
-			$bindwith = $vps['BandWidthBGP'];
+			$bandwith = $vps['BandWidthBGP'];
 			if($vps['BandWidthBGP'] == 0){
 				$ip_type = "VM_IPLCIP";				
-				$bindwith = $vps['BandWidthIPLC'];
+				$bandwith = $vps['BandWidthIPLC'];
 			}
 			$disk = "";
 			if($vps['DISK'] != 0){
 				$disk = $vps['DISK'];
 			}
 			
-			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&DiskSize=".$disk."&PublicIPType=".$ip_type."&Bindwidth=".$bindwith);
+			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&DiskSize=".$disk."&PublicIPType=".$ip_type."&Bandwidth=".$bandwith);
 			$createTem = json_decode($create,true);
-			
 			if($createTem['ret'] != 0){
 				$this->ajaxReturn('创建云主机失败，请联系管理员。','error',0);
 			}

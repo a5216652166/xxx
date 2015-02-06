@@ -101,6 +101,7 @@
 		$.ajax({
 			url:'__APP__/Index/finishPayment',
 			type:'post',
+			data:{'id':id},
 			async:false,
 			success:function(data){
 				if(data.data=="SUCC"){

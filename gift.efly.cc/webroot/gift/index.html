@@ -1,7 +1,8 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
 <title>睿江科技 —— 2015春节大回馈</title>
 <style type="text/css">
 	*{ margin:0; padding:0;font-family:"微软雅黑"}
@@ -59,6 +60,7 @@
 		-moz-opacity:0.9;
 		opacity:0.9;
 	}
+
 </style>
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="js/layer/layer.js"></script>
@@ -71,6 +73,9 @@
 				receive();
             }
         });
+
+        /*var dlgHtml = '<span class="xubox_msg xulayer_png32 xubox_msgico1 xubox_msgtype1" style="top:19px;"></span><p style="margin-left:37px;">确认成功，礼品领取完毕。<br/>依照指引设置好盒子之后，您就可以开始使用了。</p>';
+        layer.msgClose(dlgHtml,null,-1);*/
 
         /*$.layer({
         	type: 1,
@@ -189,6 +194,10 @@
 
 
         <style type="text/css">
+        	.radius_border {
+        		border-radius: 15px;
+        	}
+
         	.star {
 				float: left;
 				margin: 40px 25px;
@@ -249,7 +258,7 @@
 
         	.star .detail .box h2 a {
         		color: #FEFEC2;
-        		text-decoration: none;
+        		/*text-decoration: none;*/
         		display: block;
         		padding: 15px 0;
 
@@ -261,6 +270,7 @@
         		background: #FEFEC2;
         		padding: 31px 0;
 				font-size: 30px;
+				text-decoration: none;
         	}
 
         	.star .detail .box p {
@@ -274,8 +284,8 @@
         </style>
         <div class="star">
         	<div class="star_inner">
-	        	<h1>明星产品推荐</h1>
-	        	<div class="brief">
+	        	<h1 class="radius_border">明星产品推荐</h1>
+	        	<div class="brief radius_border">
 	        		<ul>
 	        			<li>睿江数据中心 —— 专业之选，贴心服务，您首选的IDC运营商！</li>
 	        			<li>睿江宁波云数据中心 —— 快速稳定，不再感叹时间都去哪了！</li>
@@ -284,20 +294,20 @@
 	        			<li>深圳坂田数据中心 —— 自建机房最优选，优质服务更高效！</li>
 	        		</ul>
 	        	</div>
-	        	<div class="detail">
-	        		<div class="box">
+	        	<div class="detail radius_border">
+	        		<div class="box radius_border">
 	        			<h2><a target="_blank" href="http://www.efly.cc/bgp.php?laiyuan=efly.cc">睿江BGP</a></h2>
 	        			<p>多线BGP，您不敢相信的性价比！</p>
 	        		</div>
-	        		<div class="right box">
+	        		<div class="right box radius_border">
 	        			<h2><a target="_blank" href="http://cloud.efly.cc/index.php/Index/buy">睿江云</a></h2>
 	        			<p>睿江云，您创业路上的最佳搭档！</p>
 	        		</div>
-	        		<div class="box">
+	        		<div class="box radius_border">
 	        			<h2><a target="_blank" href="http://www.efly.cc/IPLC/">国际专线</a></h2>
 	        			<p>直达世界，瞬连全球！</p>
 	        		</div>
-	        		<div class="right box">
+	        		<div class="right box radius_border">
 	        			<h2><a target="_blank" href="http://www.efly.cc/EflyVPN/">VPN盒子</a></h2>
 	        			<p>全球资讯，紧握掌中！</p>
 	        		</div>

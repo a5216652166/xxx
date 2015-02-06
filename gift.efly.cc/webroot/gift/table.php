@@ -12,6 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
 <title></title>
 
 <link rel="stylesheet" href="./css/gift.css?200" />
@@ -304,16 +305,19 @@
 		    	dom : '#item_4'
 		    },
 		    close: function(index){
-		    	layer.msgClose('礼品领取完毕，耐心等待快递。',2,1, function(){
-					goToHelp();
-				});
+		    	goToHelp();
 			}
 		});
     }
 
+
     function goToHelp(){
-    	//window.top.location = 'http://192.168.85.166/vpn/help.html?num=0';
-    	window.top.location = 'http://www.efly.cc/EflyVPN/help.html?num=0';
+    	var dlgHtml = '<span class="xubox_msg xulayer_png32 xubox_msgico1 xubox_msgtype1" style="top:19px;"></span><p style="margin-left:37px;">确认成功，礼品领取完毕。<br/>依照指引设置好盒子之后，您就可以开始使用了。</p>';
+
+    	layer.msgClose(dlgHtml,2,-1, function(){
+			//window.top.location = 'http://192.168.85.166/vpn/help.html?num=0';
+    		window.top.location = 'http://www.efly.cc/EflyVPN/help.html?num=0';
+		});
     }
 
     function confirmReceiveInfo(){
@@ -366,9 +370,7 @@
 
 		//检查是否变更, 无变更直接结束
 		if(ReceiverNameS && ReceiverPhoneS && ReceiverAddS && SelProvinceS && SelCityS && SelAreaS){
-			layer.msgClose('确认成功，礼品领取完毕，耐心等待快递。',2,1, function(){
-				goToHelp();
-			});
+			goToHelp();
 			
 			return;
 		}
@@ -386,9 +388,7 @@
 			dataType: "json", 
 			success:function(data){
 				if(data.info=="success"){				
-					layer.msgClose('确认成功，礼品领取完毕，耐心等待快递。',2,1, function(){
-						goToHelp();
-					});
+					goToHelp();
 				}else{
 					layer.msgClose(data.data,3,5);
 				}
@@ -413,7 +413,7 @@
     	<div id="item_1">
             <p><span>VPN盒子：活动价：免费使用一年</span></p>
             <p><span>标准价：600元/M/月；超值套餐：1M国际带宽，年付3000元</span></p>
-            <p><span>活动优惠价：400元/M月</span></p>
+            <p><span>活动优惠价：300元/M月</span></p>
             <p><span>恭喜您获得睿江"国际互联盒子"礼品一份</span></p>
             <table>
                 <tr>
@@ -490,9 +490,9 @@
                 <form action="" method="post">
                     <p>
                         <input type="hidden" id="ID"/>
-                        <label>联系人姓名：</label>
+                        <label>用户姓名：</label>
                         <input id="ReceiverName" tabindex="1" />
-                        <span>* 请输入联系人姓名</span>
+                        <span>* 请输入用户姓名</span>
                     </p>
                     <p>
                         <label>单位名称：</label>
@@ -510,7 +510,7 @@
                         <span>* 请输入邮箱地址</span>
                     </p>
                     <p>
-                        <label>收货地址：</label>
+                        <label>用户地址：</label>
                         <select id="SelProvince" tabindex="5">
                             <option>请选择</option>
                         </select>
@@ -534,17 +534,21 @@
 
 
 	    <div id="item_4">
-	    	<p style="text-indent: 115px;margin: 15px 0 30px;">
-	    		<span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype1" style="top:21px;"></span>
-	    		礼品领取完毕，耐心等待快递。请最后确认您的收货信息。
+	    	<p style="margin: 15px 0 30px;">
+	    		<span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype1" style="top:30px;"></span>
+	    		<div style="margin: -10px 0 30px 115px;">
+	    			礼品领取成功，请最后确认您的个人信息，以便激活VPN服务
+		    		<br/>
+		    		（用户个人信息仅用于用户账户资料设置）
+	    		</div>
 	    	</p>
 	    	<div style="width: 530px;margin: 0 auto;">
 	            <form action="" method="post">
 	                <p>
 	                    <input type="hidden" id="ID"/>
-	                    <label>联系人姓名：</label>
+	                    <label>用户姓名：</label>
 	                    <input id="ReceiverName2" tabindex="1" />
-	                    <span>* 请输入联系人姓名</span>
+	                    <span>* 请输入用户姓名</span>
 	                </p>
 	                <p>
 	                    <label>手机号码：</label>
@@ -552,7 +556,7 @@
 	                    <span>* 请输入手机号码</span>
 	                </p>
 	                <p>
-	                    <label>收货地址：</label>
+	                    <label>用户地址：</label>
 	                    <select id="SelProvince2" tabindex="5">
 	                        <option>请选择</option>
 	                    </select>

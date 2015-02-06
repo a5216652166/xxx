@@ -61,3 +61,8 @@ a.jump:visited {text-decoration:none;color:#00aadd}
 a.jump:hover{text-decoration:none;color:#00aadd}
 a.jump:active {text-decoration:none;color:#00aadd} 
 
+
+/* 冲掉layer默认信息框图标 */
+.xubox_msgico1 {
+	position:absolute;width:32px;height:32px;top:52px;left:15px;background:url(default/xubox_ico0.png) no-repeat;
+}

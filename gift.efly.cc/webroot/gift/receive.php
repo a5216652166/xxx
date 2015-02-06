@@ -55,10 +55,12 @@
 			exit;
 		}*/
 		
-		$sql = "select * from Ad_Gift where ID=".$_POST['ID'];
-		$vo = $db->query($sql);
-		
-		$data = file_get_contents("http://api.efly.cc/vpn/interface_user_add.php?opt=insert&user=".$_POST['user']."&pwd=".$_POST['pwd']);
+		/*$sql = "select * from Ad_Gift where ID=".$_POST['ID'];
+		$vo = $db->query($sql);*/
+
+		$param = '&realname='.$_POST['ReceiverName'].'&phoneNum='.$_POST['ReceiverPhone'].'&address=&email='.$_POST['ReceiverMail'].'&desc='.$_POST['CompanyName'];
+
+		$data = file_get_contents("http://api.efly.cc/vpn/interface_user_add.php?opt=insert&user=".$_POST['user']."&pwd=".$_POST['pwd'].$param);
 		$user = json_decode($data,true);
 		if($user[0] != 0){
 			$arr['info'] = 'error'; 
@@ -254,12 +256,25 @@
 			echo json_encode($arr);
 			exit;
 		}
-		
+
 		$sql = "select * from Ad_Gift where ID=".$_POST['ID'];
 		$result = $db->query($sql);
 		if(empty($result)){
 			$arr['info'] = 'error'; 
 			$arr['data'] = '输入的礼品券不存在';
+			echo json_encode($arr);
+			exit;
+		}
+
+
+		$param = '&realname='.$_POST['ReceiverName'].'&phoneNum='.$_POST['ReceiverPhone'].'&address='.$_POST['ReceiverAdd'].'&email='.$_POST['ReceiverMail'].'&desc='.$_POST['CompanyName'];
+
+		//调用vpn添加接口
+		$data = file_get_contents("http://api.efly.cc/vpn/interface_user_add.php?opt=insert&user=".$_SESSION['code']."&pwd=".$_SESSION['pwd']."rjkjhezi".$param);
+		$user = json_decode($data,true);
+		if($user[0] != 0){
+			$arr['info'] = 'error'; 
+			$arr['data'] = $user[2];
 			echo json_encode($arr);
 			exit;
 		}

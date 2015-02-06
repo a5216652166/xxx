@@ -12,6 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
 <title></title>
 
 <link rel="stylesheet" href="./css/gift.css" />
@@ -105,7 +106,7 @@
                 },
                 dataType: "json", 
                 success:function(data){
-                    if(data.info=="success"){                       
+                    if(data.info=="success"){               
                         layer.msgClose('礼品领取完毕，可登陆睿江VPN平台试用。',2,1, function(){
                             //window.top.location = 'http://192.168.85.166/vpn/help.html?num=2';
                             window.top.location = 'http://www.efly.cc/EflyVPN/help.html?num=2';
@@ -163,7 +164,7 @@
     	<div id="item_1">
             <p><span>VPN账号：活动价：免费使用一年</span></p>
             <!--p><span>标准价：600元/M/月；超值套餐：1M国际带宽，年付3000元</span></p>
-            <p><span>活动优惠价：400元/M月</span></p-->
+            <p><span>活动优惠价：300元/M月</span></p-->
             <p><span>恭喜您获得睿江"VPN账号"礼品一份</span></p>
             <table>
                 <tr>
@@ -240,9 +241,9 @@
                 <form action="" method="post">
                 	<p>
                         <input type="hidden" id="ID"/>
-                        <label>联系人姓名：</label>
+                        <label>用户姓名：</label>
                         <input id="ReceiverName" tabindex="1" />
-                        <span>* 请输入联系人姓名</span>
+                        <span>* 请输入用户姓名</span>
                     </p>
                     <p>
                         <label>单位名称：</label>
@@ -260,7 +261,7 @@
                         <span>* 请输入邮箱地址</span>
                     </p>
                     <!-- <p>
-                        <label>收货地址：</label>
+                        <label>用户地址：</label>
                         <input id="ReceiverAdd" tabindex="8"/>
                         <span>* 请输入详细地址</span>
                     </p> -->
@@ -296,13 +297,13 @@
                     <p>
                         <input type="hidden" id="ID"/>
                         <label>睿江VPN账户：</label>
-                        <!-- <input id="user" tabindex="1" value="<?php echo $_SESSION['user']; ?>" readonly="readonly" style="border:none;" /> -->
+                        <!-- <input id="user" tabindex="1" value="<?php echo $_SESSION['code']; ?>" readonly="readonly" style="border:none;" /> -->
 
-                        <input type="hidden" id="user" value="<?php echo $_SESSION['user']; ?>" />
-                        <label style="width:220px; padding: 9px 0 0 9px;"><?php echo $_SESSION['user']; ?></label>
+                        <input type="hidden" id="user" value="<?php echo $_SESSION['code']; ?>" />
+                        <label style="width:220px; padding: 9px 0 0 9px;"><?php echo $_SESSION['code']; ?></label>
 
                         <span>* 该账户为礼品券账户</span>
-                    </p>                    
+                    </p>
                     <p>
                         <input type="hidden" id="ID"/>
                         <label>睿江VPN密码：</label>
