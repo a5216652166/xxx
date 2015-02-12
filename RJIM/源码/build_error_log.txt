@@ -1,0 +1,12 @@
+错误发生在文件---------------:
+C:\Documents and Settings\Administrator\桌面\aauto测试\fangqq\main.aau
+错误发生在代码---------------：
+
+错误信息---------------:
+
+error:
+line:#70
+file:C:\Documents and Settings\Administrator\桌面\aauto测试\fangqq\main.aau
+error:<unexpected symbol>
+near:...')'
+byte:0x29
