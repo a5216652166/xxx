@@ -21,6 +21,10 @@ import thread.event;
 import win.ui.menu;
 import mouse;
 import thread.manage;
+import win.clip;
+import gdip;
+import crypt.bin;
+import win.timer;
 
 tray = win.util.tray(winform.hwnd,"\layout\img\im010.ico");
 tray.message = 0x400+9981;
@@ -37,10 +41,9 @@ if( _STUDIO_INVOKED ){
 }
 wbLayout.go("/layout/fang-qq.html") 
 http = inet.http();
-threadMgr = thread.manage(3);
+threadMgr = thread.manage(4);
 thtab = {};
 //初始化 
-
 
 //登录表单响应
 wbLayout.onButtonClick = {
@@ -80,10 +83,16 @@ wbLayout.onButtonClick = {
 			io.print("username:" ++ (session["trueName"]));
 			wbLayout.onDocumentComplete = null;
 			charInput.xcall("load","http://192.168.85.166/rjchat/view/chatInput.php?sessionID=" ++ session["ID"]);
-			noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ session["ID"] ++ "&to=" ++ inet.url.encode("所有人",true) ++ "&group=" ++ inet.url.encode("个人群组",true));
-    		panelSiderInit();
+			//noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ session["ID"] ++ "&to=" ++ inet.url.encode("所有人",true) ++ "&group=" ++ inet.url.encode("个人群组",true));
+			var thGetNoticeRight = threadMgr.create(getNoticeRight, session, "个人群组", "所有人");
+			thGetNoticeRight.onEnd = function( str ){
+				showNoticeRight(str);
+			}
+			threadMgr.waitOne(thGetNoticeRight);
+			panelSiderInit();
 		}
 		wbLayout.go("/layout/index.html");
+		wbLayout.queryEle("#hl_user_info .face").src="/layout/face/" ++ session["userIco"];
 	}
 }
 
@@ -106,6 +115,19 @@ getMessageNotice = function(session){
 	http = inet.http();
 	var str = http.get("http://192.168.85.166/rjchat/view/messageNotice.php?sessionID=" ++ session["ID"]);
 	return str;
+}
+getNoticeRight = function(session, group, to){
+	import inet.http;
+	http = inet.http();
+	var str = http.get("http://192.168.85.166/rjchat/view/buildinNoticeRight.php?sessionID=" ++ session["ID"] ++ "&to=" ++ inet.url.encode(to,true) ++ "&group=" ++ inet.url.encode(group,true));
+	return str;
+}
+showNoticeRight = function( str ){
+	..noticRight.innerHTML = string.fromto(str);
+}
+getImage = function ( url, save ){
+	//io.print(ele.src);
+	//return "asd";
 }
 
 var timer = winform.addtimer(
@@ -208,22 +230,38 @@ namespace web.layout.behavior.changeTo {
 				else{
 					..charShow.innerHTML='';
 				}
-				..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(ltOwner.innerText,true) ++ "&group=" ++ inet.url.encode(ltOwner.group,true));
-				..charInput.querySelector("#charInput").state.focus = true;
+				//..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(ltOwner.innerText,true) ++ "&group=" ++ inet.url.encode(ltOwner.group,true));
+				..noticRight.innerHTML="加载中...";
+				var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ltOwner.group, ltOwner.innerText);
+				thGetNoticeRight.onEnd = function( str ){
+					..showNoticeRight(str);
+				}
+				..threadMgr.waitOne(thGetNoticeRight);
+				..charInput.querySelector("#charInputArea").state.focus = true;
 	}
 }
 namespace web.layout.behavior.taskPickUp {
 	import inet;
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
 		..http.get("http://192.168.85.166/rjchat/view/taskDo.php?sessionID=" ++ ..session["ID"] ++ "&taskID=" ++ ltOwner.taskid ++ "&opt=pickup");
-		..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(..charInput.querySelector("#to").value,true) ++ "&group=" ++ inet.url.encode(..charInput.querySelector("#group").value,true));
+		//..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(..charInput.querySelector("#to").value,true) ++ "&group=" ++ inet.url.encode(..charInput.querySelector("#group").value,true));
+		var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ..charInput.querySelector("#group").value, ..charInput.querySelector("#to").value);
+		thGetNoticeRight.onEnd = function( str ){
+			..showNoticeRight(str);
+		}
+		..threadMgr.waitOne(thGetNoticeRight);
 	}
 }
 namespace web.layout.behavior.taskPutDown {
 	import inet;
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
 		..http.get("http://192.168.85.166/rjchat/view/taskDo.php?sessionID=" ++ ..session["ID"] ++ "&taskID=" ++ ltOwner.taskid ++ "&opt=putdown");
-		..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(..charInput.querySelector("#to").value,true) ++ "&group=" ++ inet.url.encode(..charInput.querySelector("#group").value,true));
+		//..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(..charInput.querySelector("#to").value,true) ++ "&group=" ++ inet.url.encode(..charInput.querySelector("#group").value,true));
+		var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ..charInput.querySelector("#group").value, ..charInput.querySelector("#to").value);
+		thGetNoticeRight.onEnd = function( str ){
+			..showNoticeRight(str);
+		}
+		..threadMgr.waitOne(thGetNoticeRight);
 	}
 }
 namespace web.layout.behavior.toBrowser {
@@ -231,6 +269,17 @@ namespace web.layout.behavior.toBrowser {
 		var wb = winform.loadForm("/layout/browser.aau");
 		if(ltOwner.alt)
 		wb.go(ltOwner.alt);
+	}
+}
+namespace web.layout.behavior.imgLoad {
+	import inet;
+	onAttach = function (ltEle) {
+		..io.print("imgLoad++++++++++++++++++++++++++++++++++++++");
+		var thImgLoad = ..threadMgr.create(..getImage, ltEle.src, ..io.fullpath("/chatHistory/image/" ++ ltEle.img_name));
+		thImgLoad.onEnd = function( src ){
+			//..showNoticeRight(str);
+		}
+		..threadMgr.waitOne(thImgLoad);
 	}
 }
 
@@ -260,6 +309,30 @@ winform.wndproc = function(hwnd,message,wparam,lparam){
             }
             if (key.getState('ESC')) {
             	::PostMessage(winform.hwnd, 0x112,0xF020, 0);
+            }
+            if (key.getState('CTRL') && wparam == 86) {
+               	charInputArea = charInput.querySelector("#charInputArea");
+               	win.clip.OpenClipboard(0);
+               	var hbitmap = win.clip.GetClipboardData(0x2/*_CF_BITMAP*/);
+				if(hbitmap){
+					var bitmap = gdip.bitmap(hbitmap, 0);
+					var tm=time.now();
+					tm.format = "%Y%m%d%H%M%S";
+					var imageName="/chatHistory/image/" ++ tostring(tm) ++ ".jpg";
+					//var imageName="/" ++ imageName1;
+					bitmap.save(io.fullpath(imageName));
+					var imgData = crypt.bin.encodeBase64( string.load(io.fullpath(imageName)) );
+					var iwidth,iheight = bitmap.getResolution();
+					charInputArea.xcall("insertHtml", '<img img_name="asd" src="'++ io.fullpath(imageName) ++'" style="behavior:imgLoad; width:100px;" /> ');
+					upload=charInput.querySelector("[name='uploadedfile']");
+					upload.value=io.fullpath(imageName);
+					win.clip.CloseClipboard(); 
+					io.print(charInputArea.xcall("saveHTML"));
+				}
+				else{
+					charInputArea.xcall("doPaste");
+					return;
+				}
             }
         }
         case 0x10/*_WM_CLOSE窗口关闭消息*/{
@@ -321,7 +394,7 @@ panelSiderInit = function(){
 	//超链接触发事件
 	var $links = wbLayout.queryEles("#panel_sider ul li a");
 	if ( #$links ) {
-		current_selected = null;
+		current_selected = init_selected = null;
 		for (i,link in $links ) {
 			link.onHyperlinkClick = function( ltTarget,ltEle,x,y,mouseParams ) {
 				var target = ltEle.parent().parent().child(2);
@@ -341,7 +414,12 @@ panelSiderInit = function(){
 				ltEle.style["background-repeat"]="no-repeat";
 			}
 			link.attachEventHandler();
+			if(link.innerText == "所有人") init_selected = link;
 		}
+	}
+	if(init_selected){
+		init_selected.setAttribute("selected", "true");
+		current_selected = init_selected;
 	}
 }
 //圆角窗口

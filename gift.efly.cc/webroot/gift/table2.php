@@ -80,7 +80,8 @@
                 ReceiverPhone = $("#ReceiverPhone").val();
 
             var user = $("#user").val(),
-                pwd = $("#pwd").val();
+                pwd = $("#pwd").val(),
+                pwdConfirm = $("#pwdConfirm").val();
             if(!user){
                 $("#user").focus();
                 return ;
@@ -88,6 +89,10 @@
             if(!pwd){
                 $("#pwd").focus();
                 return ;
+            }
+            if(pwdConfirm != pwd){
+                $("#pwdConfirm").focus();
+                return;
             }
 
             //通过验证
@@ -107,7 +112,7 @@
                 dataType: "json", 
                 success:function(data){
                     if(data.info=="success"){               
-                        layer.msgClose('礼品领取完毕，可登陆睿江VPN平台试用。',2,1, function(){
+                        layer.msgClose('VPN账号领取成功，祝您使用愉快！',2,1, function(){
                             //window.top.location = 'http://192.168.85.166/vpn/help.html?num=2';
                             window.top.location = 'http://www.efly.cc/EflyVPN/help.html?num=2';
                         });
@@ -288,7 +293,7 @@
         </div>
 
         <div id="item_4">           
-            <div style="width: 530px;margin: 55px auto;">
+            <div style="width: 545px;margin: 55px auto;">
                 <form action="" method="post">
                     <p style="margin: 15px 0 50px; font-size: 24px; border-bottom: 2px solid #000;">
                         <!-- <span class="xubox_msg xulayer_png32 xubox_msgico xubox_msgtype1" style="top:168px; left:50px;"></span> -->
@@ -308,7 +313,13 @@
                         <input type="hidden" id="ID"/>
                         <label>睿江VPN密码：</label>
                         <input id="pwd" type="password" tabindex="2" value="<?php echo $_SESSION['pwd']; ?>" />
-                        <span>* 该密码为礼品券密码</span>
+                        <span>* 请输出自定义密码</span>
+                    </p>
+                    <p>
+                        <input type="hidden" id="ID"/>
+                        <label>密码确认：</label>
+                        <input id="pwdConfirm" type="password" tabindex="3" value="<?php echo $_SESSION['pwd']; ?>" />
+                        <span>* 请再次输入上面的密码</span>
                     </p>
                 </form>
             </div>        

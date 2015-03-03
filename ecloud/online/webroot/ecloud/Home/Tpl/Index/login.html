@@ -17,18 +17,19 @@
         parent.location.reload();
     }
     $(function(){
+		$("#username").focus();
 		if($("#username").val()!=""){
 			$("#username").prev().hide();
 		}
         //onBlue();
-        var msg = $("#error-msg").html();
-        if(msg){
-            $("#regist-error").show();
-        }
+        //var msg = $("#error-msg").html();
+        //if(msg){
+        //    $("#regist-error").show();
+        //}
     });	
 	function onBlue(obj){
 		$(obj).prev().hide();
-		$("#error-msg").html('');
+		//$("#error-msg").html('');
 	}
 	function input(obj){
 		$(obj).hide();
@@ -64,9 +65,9 @@
                             <input type="button" id="fm-regist-submit" value="购买云主机" onClick="window.location.href='__APP__/Index/buy'" name="event_submit_do_join" style="margin-top:20px;margin-left:12px;" class="fm-button fm-submit"/>
                         <else/>
                          <form id="regist" method="post" onSubmit="return validate_form()">
-                            <div id="regist-error" class="form-error notice notice-error" style="height:30px;width: 350px;" >
+                            <div id="regist-error" class="form-error notice notice-error" style="height:30px;width: 350px; display:block" >
                                 <span class="icon-notice icon-error"></span>
-                                <span id="error-msg" class="notice-descript" style="color:red">{$error}</span>
+                                <span id="error-msg" style="color:red">{$error}</span>
                             </div>
                             <table id="regist-form" class="form">
                                 <tbody>

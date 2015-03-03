@@ -11,6 +11,44 @@ class IndexAction extends Action {
 		import("ORG.Util.Image");
 		Image::buildImageVerify(4,1,"png",60,30,"myverify"); //(length,mode,type,width,height,verifyName)
 	}
+	public function gift(){
+		if($_SERVER['REQUEST_METHOD' ] === 'GET'){
+			$this->assign('code',$_GET['code']);
+			$this->assign('pwd',$_GET['pwd']);
+			$this->display();	
+		}else{
+			if(!empty($_POST['mail']) && !empty($_POST['pwd']) && !empty($_POST['code']) && !empty($_POST['cpwd'])){
+				$data = file_get_contents("http://api.efly.cc/ecloud/coupon.php?opt=recharge&mail=".$_POST['mail']."&pwd=".$_POST['pwd']."&code=".$_POST['code']."&cpwd=".$_POST['cpwd']);
+				$result = json_decode($data,true);
+				if($result['ret']!=0){
+					$this->ajaxReturn($result['error'],'error',0);
+				}
+			
+				$data2 = file_get_contents("http://api.efly.cc/ecloud/user.php?opt=query&mail=".$_POST['mail']);
+				$user = json_decode($data2,true);
+				if($result['ret']!=0){
+					$this->ajaxReturn($result['error'],'error',0);
+				}
+				$data3 = file_get_contents("http://api.efly.cc/gift/gift.php?opt=update&code=".$_POST['code']."&userName=".$user[0]['userName']."&companyName=".$user[0]['companyName']."&phone=".$user[0]['phone']."&address=".$user[0]['address']."&mail=".$_POST['mail']);
+				$result2 = json_decode($data3,true);
+				if($result['ret']!=0){
+					$this->ajaxReturn($result['error'],'error',0);
+				}
+				$cnd["Name"] = trim($_POST['mail']);
+				$cnd["Passwd"] = trim($_POST['pwd']);
+				$list = M()->table("Ad_Login");
+				$rslt = $list->where($cnd)->find();
+				if(!empty($rslt)){
+					$_SESSION['user'] = $rslt["Name"];
+					$_SESSION['customID'] = $rslt["GlobalCustom_ID"];
+					$_SESSION['id'] = $rslt["ObjID"];
+					$_SESSION['type'] = $rslt["ObjType"];
+					$_SESSION['audit'] = $rslt["Audit"];
+				}
+				$this->ajaxReturn("成功充值代金券",'success',1);
+			}
+		}
+	}
 	public function index(){
 		$this->redirect('Index/login');
 	}
@@ -409,11 +447,28 @@ class IndexAction extends Action {
 	public function batchOperationVM(){
 		if(!empty($_POST['code']) && !empty($_POST['opt'])){
 			$arr = explode(',',$_POST['code']);
-			foreach($arr as $val){
-				$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$val."&Opt=Set&PowerState=".$_POST['opt']);
-				$ret = json_decode($data,true);
-				if($ret['ret']!=0){
-					$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+			foreach($arr as $val){				
+				if(substr($val,0,8) == "A-08-509"){
+					//新版接口
+					$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$val."&Opt=Set&PowerState=".$_POST['opt']);
+					$ret = json_decode($data,true);
+					if($ret['ret']!=0){
+						$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+					}
+				}else{
+					if($_POST['opt']=="Run"){
+						$opt = "on";
+					}else if ($_POST['opt']=="Halt"){
+						$opt = "off";
+					}else if ($_POST['opt']=="Reboot"){
+						$opt = "reboot";
+					}
+					//旧版接口
+					$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$val."&state=".$opt);
+					$ret = json_decode($data,true);
+					if($ret['ret']!=0){
+						$this->ajaxReturn(0,'error',0);
+					}
 				}
 			}
 			$this->ajaxReturn(1,'success',1);
@@ -422,11 +477,30 @@ class IndexAction extends Action {
 	//操作虚拟机
 	public function operationVM(){
 		if(!empty($_POST['code']) && !empty($_POST['opt'])){
-			$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$_POST['code']."&Opt=Set&PowerState=".$_POST['opt']);
-			$ret = json_decode($data,true);
-			if($ret['ret']!=0){
-				$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+			if(substr($_POST['code'],0,8) == "A-08-509"){
+				//新版接口
+				$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$_POST['code']."&Opt=Set&PowerState=".$_POST['opt']);
+				$ret = json_decode($data,true);
+				if($ret['ret']!=0){
+					$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+				}
+			}else{
+				//旧版接口
+				if($_POST['opt']=="Run"){
+					$opt = "on";
+				}else if ($_POST['opt']=="Halt"){
+					$opt = "off";
+				}else if ($_POST['opt']=="Reboot"){
+					$opt = "reboot";
+				}
+				//旧版接口
+				$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$_POST['code']."&state=".$opt);
+				$ret = json_decode($data,true);
+				if($ret['ret']!=0){
+					$this->ajaxReturn(0,'error',0);
+				}
 			}
+			
 			$this->ajaxReturn($ret['ret'],'success',1);
 		}
 	}
@@ -533,13 +607,11 @@ class IndexAction extends Action {
 	//控制台
 	public function console(){
 		if(!empty($_SESSION['user'])){
+			
+			//新版XEN接口
 			$login = M();
 			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
 			$order = M();
-			//$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' order by o.ID desc');
-			//控制台
-			//$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->select();
-//			$cou = 0;
 			
 			$orderID = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->getField('ID',true);
 			$ids = "";
@@ -584,10 +656,23 @@ class IndexAction extends Action {
 			foreach($rs as $k => $v){
 				foreach($vpsList as $kk => $value){
 					if($k == $value['PropertyCode']){
-						$data2 = fread($v,2096);
-						$tem = json_decode($data2,true);
-						$tem2 = json_decode($tem['result'],true);
-						$vpsList[$kk]['vmStatus'] = $tem2['PowerState'];
+						//新版查询借口
+						if(substr($value['PropertyCode'],0,8)=="A-08-509"){
+							$data2 = fread($v,2096);
+							$tem = json_decode($data2,true);
+							$tem2 = json_decode($tem['result'],true);
+							$vpsList[$kk]['vmStatus'] = $tem2['PowerState'];
+						}else{							
+							//旧版查询借口
+							$data2 = file_get_contents(C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code']);
+							$tem = json_decode($data2,true);
+							if($tem['result']=="poweredOff"){
+								$status = "Halted";
+							}else{
+								$status = "Running";
+							}
+							$vpsList[$kk]['vmStatus'] = $status;
+						}
 					}
 				}
 			}
@@ -629,6 +714,119 @@ class IndexAction extends Action {
 			$this->assign('today',date("Y-m-d"));
 			$this->assign('ordlist',$ordlist);
 			$this->display();
+			/*
+			$login = M();
+			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
+			$order = M();
+			$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' order by o.ID desc');
+			
+			$rslt = $order->table('Ad_Order')->where('Login_ID='.$ret['ID'])->select();
+			$cou = 0;
+			$vpsLists = array();
+			if(!empty($rslt)){
+				foreach($rslt as $val){
+					if(!empty($val['ContractCode'])){
+						$data = file_get_contents(C('INTERFACE_URL')."/ibss/dev_query.php?opt=get_by_contract&Contract_Code=".$val['ContractCode']."&Dev_Type=vps");
+						$vpsList = json_decode($data,true);
+						if(!empty($vpsList)){
+							foreach($vpsList as $value){
+																
+								$url[$value['Code']] = C('OPERATION_VM')."/?opt=getvmstate&id=".$value['Code'];
+								
+								$value['MyCode'] = substr($value['Code'],0,8);
+								$value['Order_ID'] = $val['ID'];
+								$ip_arr = explode(';',$value['IP_Addr']);
+								if(count($ip_arr) == 1){
+									$value['IP'] = str_replace(';','',$value['IP_Addr']);
+								}else{
+									$value['IP'] = str_replace(';','<p/>',$value['IP_Addr']);
+								}
+								$Ad_OrderNeed = M();
+								$orderNeed = $Ad_OrderNeed->table('Ad_OrderNeed')->where('Order_ID='.$value['Order_ID'])->find();
+								$value['CPU'] = $orderNeed['CPU'];
+								$value['RAM'] = $orderNeed['RAM'];
+								$value['DISK'] = $orderNeed['DISK'];
+								$value['HouseName'] = $orderNeed['HouseName'];
+								
+								$vpsLists[$cou] = $value;
+								$cou ++;
+							}
+						}
+					}
+				}
+				foreach($url as $k => $v){
+					$rs[$k] = popen('curl -s -m 5 "'.$v.'"','r');
+				}
+				foreach($rs as $k => $v){
+					foreach($vpsLists as $kk => $value){
+						if($k == $value['Code']){
+							$data2 = fread($v,2096);
+							$tem = json_decode($data2,true);
+							if($tem['result']=="poweredOff"){
+								$status = "Halted";
+							}else{
+								$status = "Running";
+							}
+							$vpsLists[$kk]['vmStatus'] = $status;
+						}
+					}
+				}
+				//插入续费表信息
+				foreach($vpsLists as $value){
+					//Ad_VPSBuy信息
+					$vap['PropertyCode'] = $value['Code'];
+					//Ad_OrderVPSBuy信息
+					$vap_pay['Order_ID'] = $value['Order_ID'];
+					
+					$order = M();
+					$tem = $order->table("Ad_Order")->where('ID='.$value['Order_ID'])->find();
+					$vap_pay['PayStart'] = $tem['PayTS'];
+					$vps = M();
+					$rslt = $vps->table('Ad_OrderNeed')->where('Order_ID='.$value['Order_ID'])->find();
+					
+					if($rslt['Time']=='月'){
+						$vap_pay['PayEnd'] = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($tem['PayTS'])));
+					}else if($rslt['Time']=='半年'){
+						$vap_pay['PayEnd'] = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($tem['PayTS'])));
+					}else if($rslt['Time']=='年'){
+						$vap_pay['PayEnd'] = date('Y-m-d H:i:s',strtotime('+12 month',strtotime($tem['PayTS'])));
+					}
+					
+					
+					$vpsBuy = M();
+					$orderVpsBuy = M();
+					$entity = $vpsBuy->table('Ad_VPSBuy')->where("PropertyCode='".$value['Code']."'")->find();
+					if(empty($entity)){
+						$is_ok = $vpsBuy->table('Ad_VPSBuy')->add($vap);
+						$vap_pay['VPSBuy_ID'] = $is_ok;					
+						$orderVpsBuy->table('Ad_OrderVPSBuy')->add($vap_pay);
+					}
+				}
+				//获取到期时间
+				foreach($vpsLists as $key => $value){
+					$vpsPay = M();
+					$orderVpsBuy = M();
+					$tem = $vpsPay->table('Ad_VPSBuy')->where("PropertyCode='".$value['Code']."'")->find();
+					$result = $orderVpsBuy->table('Ad_OrderVPSBuy')->where('VPSBuy_ID='.$tem['ID'])->order('PayEnd desc')->find();
+					$vpsLists[$key]['PayEnd'] = $result['PayEnd'];
+					if(strtotime(date('Y-m-d H:i:s'))>strtotime($result['PayEnd'])){
+						$vpsLists[$key]['is_expire'] = "yes";
+						$data = file_get_contents(C('OPERATION_VM')."/?opt=setvmpower&id=".$value['Code']."&state=off");
+						$return = json_decode($data,true);
+					}else{
+						$vpsLists[$key]['is_expire'] = "no";
+					}
+				}
+				
+				$this->assign('vpsList', $vpsLists);
+				
+			}		
+			$this->assign('balance',$this->returnBalance());
+			$this->assign('login',$ret);
+			$this->assign('today',date("Y-m-d"));
+			$this->assign('ordlist',$ordlist);
+			$this->display();
+			*/
 		}else{
 			$this->redirect("/Index/login");
 		}
@@ -665,7 +863,8 @@ class IndexAction extends Action {
 	//新增合同和工单
 	public function insert(){
 		if(!empty($_POST['id'])){
-			
+			 
+			//新版XEN接口
 			$Order = M();
 			$orderData = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'));
 			//修改订单状态
@@ -742,6 +941,54 @@ class IndexAction extends Action {
 			$this->ajaxReturn(1,'success',1);
 			//推送事件
 			$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$tem['Code'].'","Type":"'.$tem['Type'].'","IsPay":'.$tem['IsPay'].',"ContractCode":"'.$tem['ContractCode'].'","Money":"'.$tem['Money'].'","AliPay":"'.$tem['AliPay'].'","BalancePay":"'.$tem['BalancePay'].'"}');
+			/*
+			$Order = M();
+			$tem = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->find();
+			
+			$OrderVPS = M();
+			$vps = $OrderVPS->table('Ad_OrderNeed')->where('Order_ID='.$tem['ID'])->find();
+			
+			if($vps['BandWidthBGP']!=0){
+				$bandwidth = $vps['BandWidthBGP'] . "M BGP带宽 ;";
+			}else{
+				$bandwidth = $vps['BandWidthIPLC'] . "M IPLC带宽 ;";
+			}
+			if($vps['Time']=='月'){
+				$time = " 1 个月 " ;
+				$standard_time='+1 month';
+			}
+			else if($vps['Time']=='半年'){
+				$time = " 6 个月 " ;
+				$standard_time='+6 month';
+			}else{
+				$time = " 1 年 " ;
+				$standard_time='+12 month';
+			}
+			$str = $vps['CPU'] . " CPU ; " . $vps['RAM'] . " 内存 ; " . $vps['DISK'] . "G 硬盘 ; 系统：" . $vps['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $vps['Count'] ."<br/>";
+			
+			// post 请求方案
+			include_once('HttpClient.class.php');
+			
+			$params = array('opt'=>'insert','data'=>json_encode(array('type'=>'业务新增','sellType'=>'IDC','content'=>'<p style="color:red"><h3>客户【' . $_SESSION['name'] . '】施工要求</h3>：<br/>'.$str,'stockId'=>'160','cabinet'=>'','ucount'=>'NULL','ucount2'=>'NULL','ucount4'=>'NULL','cmoney'=>$vps['Price'],'payType'=>$vps['Time'].'付','beginDate'=>date('Y-m-d'),'endDate'=>date('Y-m-d',strtotime($standard_time)),'customId'=>C('customID'),'globalCustomId'=>$_SESSION['customID'],'about'=>$str.';','cpayDate'=>date('Y-m-d'),'prePay'=>'1')));
+			$pageContents = HttpClient::quickPost(C('INTERFACE_URL').'/ibss/contract.1.php', $params);
+			$ret = json_decode($pageContents,true);
+			
+			$params2 = array('opt'=>'insert','data'=>json_encode(array('type'=>'新业务上架单','businessType'=>'IDC业务','ywtype'=>'租用','contractCode'=>$ret['error'],'doReq'=>'客户【' . $_SESSION['name'] . '】配置要求 : '. "\n" .$str.';','stockHouseId'=>'160','doTime'=>date('Y-m-d'))));
+			
+			$pageContents2 = HttpClient::quickPost(C('INTERFACE_URL').'/ibss/worklist.php', $params2);
+			//修改订单状态
+			$pageContents2 = json_decode($pageContents2,true);
+			if($pageContents2['ret']==0){
+				$data = array('IsPay'=>1,'ContractCode'=>$ret['error'],'PayTS'=>date('Y-m-d H:i:s'));
+				$Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data);
+				//推送事件
+				$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$ret['Code'].'","Type":"'.$ret['Type'].'","IsPay":'.$ret['IsPay'].',"ContractCode":"'.$ret['ContractCode'].'","Money":"'.$ret['Money'].'","AliPay":"'.$ret['AliPay'].'","BalancePay":"'.$ret['BalancePay'].'"}');
+				
+				$this->ajaxReturn(1,'success',1);
+			}else{
+				$this->ajaxReturn('订单状态修改失败，请联系管理员。','error',0);
+			}
+			*/
 		}else{
 			$this->ajaxReturn('交易失败，请联系管理员。','error',0);
 		}
