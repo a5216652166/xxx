@@ -212,6 +212,8 @@ html body {
   overflow:hidden;
   width:100%;
   height:100%%;
+  border: 1px solid #FFF;
+  background: transparent;
 }
 ptr p {
   padding: 0px;
@@ -220,6 +222,7 @@ ptr p {
 
 .message-body {
   margin-left:4px;
+  margin-bottom: 20px;
 }
 .message-body[self] {
   direction: rtl;
@@ -274,8 +277,8 @@ ptr p {
   background-repeat: stretch; 
   border:1px solid #005897; border-radius: 4px; 
   margin-top:0px;
-  width:36px;
-  height:36px;
+  width:26px;
+  height:26px;
 }
 .message-ico div {
   height:100%%;

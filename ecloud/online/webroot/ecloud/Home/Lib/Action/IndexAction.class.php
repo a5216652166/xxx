@@ -18,7 +18,7 @@ class IndexAction extends Action {
 			$this->display();	
 		}else{
 			if(!empty($_POST['mail']) && !empty($_POST['pwd']) && !empty($_POST['code']) && !empty($_POST['cpwd'])){
-				$data = file_get_contents("http://api.efly.cc/ecloud/coupon.php?opt=recharge&mail=".$_POST['mail']."&pwd=".$_POST['pwd']."&code=".$_POST['code']."&cpwd=".$_POST['cpwd']);
+				$data = file_get_contents("http://api.efly.cc/ecloud/coupon.php?opt=recharge&mail=".$_POST['mail']."&pwdmd5=".md5($_POST['pwd'])."&code=".$_POST['code']."&cpwd=".$_POST['cpwd']);
 				$result = json_decode($data,true);
 				if($result['ret']!=0){
 					$this->ajaxReturn($result['error'],'error',0);

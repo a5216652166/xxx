@@ -9,7 +9,7 @@ import web.layout.behavior.windowCommand;
 import web.layout.behavior.windowSizer;
  
 var wbLayout = web.layout( winform )
-wbLayout.go("http://update.aau.cn/aauto/api/new-file/htmlayout/") ;
+//wbLayout.go("http://update.aau.cn/aauto/api/new-file/htmlayout/") ;
 
 winform.show() 
 win.loopMessage();

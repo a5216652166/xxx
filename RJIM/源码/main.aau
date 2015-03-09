@@ -25,6 +25,7 @@ import win.clip;
 import gdip;
 import crypt.bin;
 import win.timer;
+import fsys;
 
 tray = win.util.tray(winform.hwnd,"\layout\img\im010.ico");
 tray.message = 0x400+9981;
@@ -77,13 +78,12 @@ wbLayout.onButtonClick = {
 			noticRight = wbLayout.queryEle("#noticRight");
 			charInput = wbLayout.queryEle("#charInput");
 			user = wbLayout.queryEle("#user");
+			imgStack={};
 			charHistory={};
 			prvAlt="所有人";
 			user.value=(session["trueName"]);
 			io.print("username:" ++ (session["trueName"]));
 			wbLayout.onDocumentComplete = null;
-			charInput.xcall("load","http://192.168.85.166/rjchat/view/chatInput.php?sessionID=" ++ session["ID"]);
-			//noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ session["ID"] ++ "&to=" ++ inet.url.encode("所有人",true) ++ "&group=" ++ inet.url.encode("个人群组",true));
 			var thGetNoticeRight = threadMgr.create(getNoticeRight, session, "个人群组", "所有人");
 			thGetNoticeRight.onEnd = function( str ){
 				showNoticeRight(str);
@@ -133,14 +133,13 @@ getImage = function ( url, save ){
 var timer = winform.addtimer(
     	1000,
     	function(hwnd,msg,id,tick){
-    		if(!session || !charInput.querySelector("#charAlt")){ return; }
-    		//io.print("into timer");
+    		if(!session || !wbLayout.queryEle("#char_alt")){ return; }
     		var group=charInput.querySelector("#group").value;
     		var to=charInput.querySelector("#to").value;
     		var thSessionMessage = threadMgr.create(getSessionMessage, session, group, to);
     		thSessionMessage.onEnd = function( str ){
     			if(str != ""){
-					//io.print(str);
+					//io.print("sessionMessage:" ++ str);
 					charShow.insertAdjacentHTML("beforeEnd",string.fromto(str));
 					var last = wbLayout.createEle("p");
 					charShow.append(last);
@@ -215,9 +214,8 @@ namespace web.layout.behavior.changeTo {
 	import table;
 	import io;
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
-				var charAlt=..charInput.querySelector("#charAlt");
-				charAlt.innerHTML="沟通对象：" ++ ltOwner.innerText;
-				..io.print(ltOwner.innerHTML);
+				..charInput.querySelector("#char_alt").value="沟通对象：" ++ ltOwner.innerText;
+				..charInput.querySelector("#chat_history").arg="group=" ++ ltOwner.group;
 				..charInput.querySelector("#to").value=ltOwner.innerText;
 				..charInput.querySelector("#group").value=ltOwner.group;
 				..charHistory[..prvAlt] = ..charShow.innerHTML;
@@ -230,7 +228,6 @@ namespace web.layout.behavior.changeTo {
 				else{
 					..charShow.innerHTML='';
 				}
-				//..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(ltOwner.innerText,true) ++ "&group=" ++ inet.url.encode(ltOwner.group,true));
 				..noticRight.innerHTML="加载中...";
 				var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ltOwner.group, ltOwner.innerText);
 				thGetNoticeRight.onEnd = function( str ){
@@ -244,7 +241,6 @@ namespace web.layout.behavior.taskPickUp {
 	import inet;
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
 		..http.get("http://192.168.85.166/rjchat/view/taskDo.php?sessionID=" ++ ..session["ID"] ++ "&taskID=" ++ ltOwner.taskid ++ "&opt=pickup");
-		//..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(..charInput.querySelector("#to").value,true) ++ "&group=" ++ inet.url.encode(..charInput.querySelector("#group").value,true));
 		var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ..charInput.querySelector("#group").value, ..charInput.querySelector("#to").value);
 		thGetNoticeRight.onEnd = function( str ){
 			..showNoticeRight(str);
@@ -256,7 +252,6 @@ namespace web.layout.behavior.taskPutDown {
 	import inet;
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
 		..http.get("http://192.168.85.166/rjchat/view/taskDo.php?sessionID=" ++ ..session["ID"] ++ "&taskID=" ++ ltOwner.taskid ++ "&opt=putdown");
-		//..noticRight.xcall("load","http://192.168.85.166/rjchat/view/noticeRight.php?sessionID=" ++ ..session["ID"] ++ "&to=" ++ inet.url.encode(..charInput.querySelector("#to").value,true) ++ "&group=" ++ inet.url.encode(..charInput.querySelector("#group").value,true));
 		var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ..charInput.querySelector("#group").value, ..charInput.querySelector("#to").value);
 		thGetNoticeRight.onEnd = function( str ){
 			..showNoticeRight(str);
@@ -267,20 +262,52 @@ namespace web.layout.behavior.taskPutDown {
 namespace web.layout.behavior.toBrowser {
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
 		var wb = winform.loadForm("/layout/browser.aau");
-		if(ltOwner.alt)
-		wb.go(ltOwner.alt);
+		if(ltOwner.alt){
+			if(ltOwner.arg){
+				wb.go(ltOwner.alt ++ "?" ++ ltOwner.arg);
+			}
+			else{
+				wb.go(ltOwner.alt);
+			}
+		}
 	}
 }
 namespace web.layout.behavior.imgLoad {
 	import inet;
 	onAttach = function (ltEle) {
-		..io.print("imgLoad++++++++++++++++++++++++++++++++++++++");
-		var thImgLoad = ..threadMgr.create(..getImage, ltEle.src, ..io.fullpath("/chatHistory/image/" ++ ltEle.img_name));
-		thImgLoad.onEnd = function( src ){
-			//..showNoticeRight(str);
+		if(ltEle.file_name){
+			ltEle.src = "http://192.168.85.166/rjchat/view" ++ ltEle.file_name;
 		}
-		..threadMgr.waitOne(thImgLoad);
 	}
+}
+wbLayout.sinking = {
+    onFormSubmit = function (ltTarget,ltOwner,reason,behaviorParams) {
+
+		import curl;
+    	var curl = curl.easy();
+    	var message = {
+			message=string.fromto(ltOwner.getElementById("message").value,0,65001);
+			from=string.fromto(session["trueName"],0,65001);
+			to=string.fromto(ltOwner.getElementById("to").value,0,65001);
+			group=string.fromto(ltOwner.getElementById("group").value,0,65001);
+			ext=string.fromto(ltOwner.getElementById("ext").value,0,65001);
+		}
+		var i=0;
+		while(1){
+			var img=table.pop(imgStack);
+			if(img){
+				message["image" ++ i] = "@" ++ img;
+				i++;
+			}
+			else{
+				break;
+			}
+		}
+    	var str = curl.post("http://192.168.85.166/rjchat/view/chatInput.php?sessionID=" ++ ..session["ID"],message);
+		io.print("post return:" ++ str);
+		ltOwner.getElementById("message").xcall("loadHTML", '');
+        return true;
+    }
 }
 
 winform.popmenu=win.ui.popmenu(winform);
@@ -319,15 +346,14 @@ winform.wndproc = function(hwnd,message,wparam,lparam){
 					var tm=time.now();
 					tm.format = "%Y%m%d%H%M%S";
 					var imageName="/chatHistory/image/" ++ tostring(tm) ++ ".jpg";
-					//var imageName="/" ++ imageName1;
+					fsys.createDir("/chatHistory/image/");
 					bitmap.save(io.fullpath(imageName));
 					var imgData = crypt.bin.encodeBase64( string.load(io.fullpath(imageName)) );
 					var iwidth,iheight = bitmap.getResolution();
-					charInputArea.xcall("insertHtml", '<img img_name="asd" src="'++ io.fullpath(imageName) ++'" style="behavior:imgLoad; width:100px;" /> ');
-					upload=charInput.querySelector("[name='uploadedfile']");
-					upload.value=io.fullpath(imageName);
+					charInputArea.xcall("insertHtml", '<img img_name="asd" file_name="' ++ imageName ++ '" src="'++ io.fullpath(imageName) ++'" style="behavior:imgLoad; width:100px;" /> ');
 					win.clip.CloseClipboard(); 
 					io.print(charInputArea.xcall("saveHTML"));
+					table.push(imgStack,imageName);
 				}
 				else{
 					charInputArea.xcall("doPaste");
