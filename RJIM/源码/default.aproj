@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="0.60" name="睿江IM" libEmbed="true" icon="\layout\img\im010.ico" CompanyName="睿江科技" FileDescription="广东睿江科技有限公司-内部沟通系统" LegalCopyright="睿江科技" ProductName="睿江IM" InternalName="RJIM" FileVersion="0.0.1.56" ProductVersion="0.0.1.56" publishDir="\" ui="win" output="睿江IM.exe">
+<project ver="0.60" name="睿江IM" libEmbed="true" icon="\layout\img\im010.ico" CompanyName="睿江科技" FileDescription="广东睿江科技有限公司-内部沟通系统" LegalCopyright="睿江科技" ProductName="睿江IM" InternalName="RJIM" FileVersion="0.0.1.60" ProductVersion="0.0.1.60" publishDir="\" ui="win" output="睿江IM.exe">
 	<file name="main.aau" path="main.aau"/>
 	<folder name="资源文件(web.layout)" path="layout" comment="" embed="true">
+		<file name="imgbrowser.aau" path="layout\imgbrowser.aau" comment="layout\imgbrowser.aau"/>
+		<file name="iebrowser.aau" path="layout\iebrowser.aau" comment="layout\iebrowser.aau"/>
 		<file name="index.html" path="layout\index.html" comment="layout\index.html"/>
 		<file name="fang-qq.html" path="layout\fang-qq.html" comment="layout\fang-qq.html"/>
 		<file name="browser.aau" path="layout\browser.aau" comment="layout\browser.aau"/>
+		<folder name="clipimg" path="layout\clipimg" comment="layout\clipimg"/>
 		<folder name="face" path="layout\face" comment="layout\face">
 			<file name="125.png" path="layout\face\125.png" comment="layout\face\125.png"/>
 			<file name="124.png" path="layout\face\124.png" comment="layout\face\124.png"/>
@@ -83,8 +86,10 @@
 			<file name="001.png" path="layout\face\001.png" comment="layout\face\001.png"/>
 		</folder>
 		<folder name="img" path="layout\img" comment="layout\img">
+			<file name="skinbg.png" path="layout\img\skinbg.png" comment="layout\img\skinbg.png"/>
 			<file name="sider_normal.png" path="layout\img\sider_normal.png" comment="layout\img\sider_normal.png"/>
 			<file name="sider_hover.png" path="layout\img\sider_hover.png" comment="layout\img\sider_hover.png"/>
+			<file name="showbg.jpg" path="layout\img\showbg.jpg" comment="layout\img\showbg.jpg"/>
 			<file name="search_input.png" path="layout\img\search_input.png" comment="layout\img\search_input.png"/>
 			<file name="msg.png" path="layout\img\msg.png" comment="layout\img\msg.png"/>
 			<file name="im_new.png" path="layout\img\im_new.png" comment="layout\img\im_new.png"/>
@@ -113,6 +118,7 @@
 		<folder name="styles" path="layout\styles" comment="layout\styles">
 			<file name="style.css" path="layout\styles\style.css" comment="layout\styles\style.css"/>
 			<file name="fang-qq.css" path="layout\styles\fang-qq.css" comment="layout\styles\fang-qq.css"/>
+			<file name="content.css" path="layout\styles\content.css" comment="layout\styles\content.css"/>
 			<folder name="images" path="layout\styles\images" comment="layout\styles\images">
 				<file name="photo.png" path="layout\styles\images\photo.png" comment="layout\styles\images\photo.png"/>
 				<file name="password.png" path="layout\styles\images\password.png" comment="layout\styles\images\password.png"/>
@@ -138,6 +144,12 @@
 				<file name="button2.png" path="layout\styles\images\button2.png" comment="layout\styles\images\button2.png"/>
 				<file name="button.png" path="layout\styles\images\button.png" comment="layout\styles\images\button.png"/>
 				<file name="background.png" path="layout\styles\images\background.png" comment="layout\styles\images\background.png"/>
+				<file name="add3.png" path="layout\styles\images\add3.png" comment="layout\styles\images\add3.png"/>
+				<file name="add2.png" path="layout\styles\images\add2.png" comment="layout\styles\images\add2.png"/>
+				<file name="add2.jpg" path="layout\styles\images\add2.jpg" comment="layout\styles\images\add2.jpg"/>
+				<file name="add2.2.png" path="layout\styles\images\add2.2.png" comment="layout\styles\images\add2.2.png"/>
+				<file name="add2.1.png" path="layout\styles\images\add2.1.png" comment="layout\styles\images\add2.1.png"/>
+				<file name="add1.png" path="layout\styles\images\add1.png" comment="layout\styles\images\add1.png"/>
 			</folder>
 		</folder>
 	</folder>

@@ -77,6 +77,10 @@ wbLayout.onButtonClick = {
 			charShow = wbLayout.queryEle("#charShow");
 			noticRight = wbLayout.queryEle("#noticRight");
 			charInput = wbLayout.queryEle("#charInput");
+			charInputArea = charInput.querySelector("#charInputArea");
+			charInputArea.onKeyDown = function( ltTarget,ltOwner,keyCode, altState, ltKeyParams ) {
+				io.print(keyCode);
+			}
 			user = wbLayout.queryEle("#user");
 			imgStack={};
 			charHistory={};
@@ -156,7 +160,6 @@ var timer = winform.addtimer(
 					}
 					charShow.innerHTML = newRecord;
 				}
-				
 			}
 			var thMessageNotice = threadMgr.create(getMessageNotice,session);
 			thMessageNotice.onEnd = function( str ){
@@ -272,12 +275,45 @@ namespace web.layout.behavior.toBrowser {
 		}
 	}
 }
+namespace web.layout.behavior.toIEBrowser {
+	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
+		var wb = winform.loadForm("/layout/iebrowser.aau");
+		if(ltOwner.alt){
+			if(ltOwner.arg){
+				wb.go(ltOwner.alt ++ "?" ++ ltOwner.arg);
+			}
+			else{
+				wb.go(ltOwner.alt);
+			}
+		}
+	}
+}
+namespace web.layout.behavior.imgBrowser {
+	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
+		var wb = winform.loadForm("/layout/imgbrowser.aau");
+		if(ltOwner.alt){
+			if(ltOwner.arg){
+				wb.go(ltOwner.alt ++ "?" ++ ltOwner.arg);
+			}
+			else{
+				wb.go(ltOwner.alt);
+			}
+		}
+	}
+}
 namespace web.layout.behavior.imgLoad {
 	import inet;
+	import gdip;
 	onAttach = function (ltEle) {
 		if(ltEle.file_name){
 			ltEle.src = "http://192.168.85.166/rjchat/view" ++ ltEle.file_name;
 		}
+	}
+	onMouseDblClick = function( ltTarget,ltOwner,x,y,ltMouseParams ) {
+		var wb = winform.loadForm("/layout/imgbrowser.aau");
+		//var img = gdip.image('http://192.168.85.166/rjchat/view' ++ ltTarget.file_name);
+		//io.print(img.width,img.height);
+		wb.queryEle("#imgShow").src='http://192.168.85.166/rjchat/view' ++ ltTarget.file_name;
 	}
 }
 wbLayout.sinking = {
@@ -304,7 +340,7 @@ wbLayout.sinking = {
 			}
 		}
     	var str = curl.post("http://192.168.85.166/rjchat/view/chatInput.php?sessionID=" ++ ..session["ID"],message);
-		io.print("post return:" ++ str);
+		io.print("post return:" ++ string.fromto(str));
 		ltOwner.getElementById("message").xcall("loadHTML", '');
         return true;
     }
@@ -326,12 +362,17 @@ winform.popmenu.add('ÍË³ö',function(id){
 winform.wndproc = function(hwnd,message,wparam,lparam){
     select (message) {
         case 0x100/*_WM_KEYDOWN*/ {
-            if (key.getState('ENTER')) {
+			if (key.getState('ENTER')) {
             	if(wbLayout.queryEle("#username") && wbLayout.queryEle("#passwd") && wbLayout.queryEle("#username").value != '' && wbLayout.queryEle("#passwd").value != ''){
             		wbLayout.queryEle("#button").click();
             	}
+            	if(wbLayout.queryEle("#charInputArea")){
+            		//wbLayout.queryEle("#charInputArea").xcall("insertHtml",'\n');
+            		//io.print(wbLayout.queryEle("#charInputArea").value);
+            		//return 1;
+            	}
             }
-            if (key.getState('CTRL') && wparam == 0xD/*_VK_ENTER*/ && charInput.querySelector("#charInput") && charInput.querySelector("#charInput").value != '') {
+            if (key.getState('CTRL') && wparam == 0xD/*_VK_ENTER*/ && charInput.querySelector("#charInputArea") && string.trim(charInput.querySelector("#charInputArea").value) != '') {
                 charInput.querySelector("#send").click();
             }
             if (key.getState('ESC')) {
@@ -357,7 +398,7 @@ winform.wndproc = function(hwnd,message,wparam,lparam){
 				}
 				else{
 					charInputArea.xcall("doPaste");
-					return;
+					return 1;
 				}
             }
         }

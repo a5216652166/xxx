@@ -10,5 +10,14 @@ h1.green { color:green; }
 code { background-color:green; }
 img {
 	
-
+}
+p {
+	display: inline;
+	margin: 0px;
+	padding: 0px;
+}
+li {
+	display: inline;
+	margin: 0px;
+	padding: 0px;
 }
