@@ -38,7 +38,7 @@ wbLayout = web.layout( winform,0xFFFF/*_HL_HANDLE_ALL*/)
 if( _STUDIO_INVOKED ){
 	io.open();
 	import web.layout.debug;
-	wbLayout.attachEventHandler( web.layout.debug );
+	//wbLayout.attachEventHandler( web.layout.debug );
 }
 wbLayout.go("/layout/fang-qq.html") 
 http = inet.http();
@@ -201,17 +201,6 @@ var timer = winform.addtimer(
 			threadMgr.waitOne(thSessionMessage,thMessageNotice);
 		}
 );
-
-namespace web.layout.behavior.inputResize {
-	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
-		if(..charInput.style.height=="180px"){
-			..charInput.style.height="380px";
-		}
-		else{
-			..charInput.style.height="180px";
-		}
-	}
-}
 namespace web.layout.behavior.changeTo {
 	import inet;
 	import table;
@@ -311,8 +300,6 @@ namespace web.layout.behavior.imgLoad {
 	}
 	onMouseDblClick = function( ltTarget,ltOwner,x,y,ltMouseParams ) {
 		var wb = winform.loadForm("/layout/imgbrowser.aau");
-		//var img = gdip.image('http://192.168.85.166/rjchat/view' ++ ltTarget.file_name);
-		//io.print(img.width,img.height);
 		wb.queryEle("#imgShow").src='http://192.168.85.166/rjchat/view' ++ ltTarget.file_name;
 	}
 }
@@ -341,7 +328,8 @@ wbLayout.sinking = {
 		}
     	var str = curl.post("http://192.168.85.166/rjchat/view/chatInput.php?sessionID=" ++ ..session["ID"],message);
 		io.print("post return:" ++ string.fromto(str));
-		ltOwner.getElementById("message").xcall("loadHTML", '');
+		ltOwner.getElementById("charInputArea").xcall("loadHTML", '');
+		ltOwner.getElementById("charInputArea").state.focus=true;
         return true;
     }
 }

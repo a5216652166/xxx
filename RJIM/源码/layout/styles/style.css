@@ -63,66 +63,77 @@ html body {
 #window-caption-buttons{
   behavior:windowCommand;
   position: absolute;
-  right: 2px;
-  top: 1;
-  height: 19px; 
+  right: 0px;
+  top: 0;
+  height: 30px; 
 }
 #window-caption-buttons [command] {  
   float: left;
-  height: 19px;
-  width: 26x;
+  height: 25px;
+  width: 20x;
+  line-height: 25px;
   padding: 0px;
+  padding-left: 7px;
+  font-weight: bolder;
+  display: inline-block;
+  font-family:"Marlett";
+  text-decoration:none;
  
   background-repeat:no-repeat;  
   transition: blend;
 }
 
 [command=window-setting] { 
-  background-position: -4px 0;
-  background-image:url( images/caption-buttons.png);
+  color: #888;
 }  
 [command=window-setting]:hover  {
-  background-image:url( images/caption-buttons-hover2.png);
+  background-color: rgb(58,149,222);
+  color: #FFF;
 }  
 [command=window-setting]:active {
-  background-image:url( images/caption-buttons-active2.png);
 }  
 
 [command=window-min] { 
-  background-position: -30px 0;
-  background-image:url( images/caption-buttons.png);
+  color: #888;
 }  
 [command=window-min]:hover {
-  background-image:url( images/caption-buttons-hover.png);
+  background-color: rgb(58,149,222);
+  color: #FFF;
 }  
 [command=window-min]:active {
-  background-image:url( images/caption-buttons-active.png);
 }  
-[command=window-max] { 
-  background-position: -30px 0;
-  background-image:url( images/caption-buttons.png);
+[command=window-max] {  
+  color: #888;
 }  
 [command=window-max]:hover {
-  background-image:url( images/caption-buttons-hover.png);
+  background-color: rgb(58,149,222);
+  color: #FFF;
 }  
 [command=window-max]:active {
-  background-image:url( images/caption-buttons-active.png);
 } 
+[command="window-restore"] {
+  content:"2";/*改变文本,Marlett字体为还原符号*/ 
+  color: #888;
+} 
+[command="window-restore"]:hover  {
+  background-color: rgb(58,149,222);
+  color: #FFF;
+}
 
-[command=window-close]  { 
-  background-position: -56px 0;
-  background-image:url( images/caption-buttons.png);
+[command=window-close]  {  
+  color: #888;
+  font-weight: normal;
 }
 [command=window-close]:hover  {
-   background-image:url( images/caption-buttons-hover1.png);
+  background-color: rgb(212,64,36);
+  color: #FFF;
 }  
 [command=window-close]:active {
-   background-image:url( images/caption-buttons-active1.png); 
 } 
 
 /*主体内容样式*/
 #hl_content { height: *; border-radius: 0 0 2px 2px; flow: horizontal; }
-#panel_sider { width: 224px; background-color: rgb(133,77,177); color: #FFF; height: *; }
+#panel_sider { width: 224px; background-color: rgb(133,77,177); color: #FFF; height: *; behavior: windowCommand; }
 
 /*侧边栏*/
 #panel_sider a { color: #FFF; text-decoration: none; }
@@ -262,6 +273,7 @@ pre {
   padding-bottom:2px;
   text-align:right;
   display:none;
+  width:57px;
 }
 .message-tools:hover {
   display:block;
