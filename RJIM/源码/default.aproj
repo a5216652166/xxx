@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="0.60" name="睿江IM" libEmbed="true" icon="\layout\img\im010.ico" CompanyName="睿江科技" FileDescription="广东睿江科技有限公司-内部沟通系统" LegalCopyright="睿江科技" ProductName="睿江IM" InternalName="RJIM" FileVersion="0.0.1.64" ProductVersion="0.0.1.64" publishDir="\" ui="win" output="睿江IM.exe">
+<project ver="0.60" name="睿江IM" libEmbed="true" icon="\layout\img\im010.ico" CompanyName="睿江科技" FileDescription="广东睿江科技有限公司-内部沟通系统" LegalCopyright="睿江科技" ProductName="睿江IM" InternalName="RJIM" FileVersion="0.0.1.66" ProductVersion="0.0.1.66" publishDir="\" ui="win" output="睿江IM.exe">
 	<file name="main.aau" path="main.aau"/>
 	<folder name="资源文件(web.layout)" path="layout" comment="" embed="true">
 		<file name="index.html" path="layout\index.html" comment="layout\index.html"/>

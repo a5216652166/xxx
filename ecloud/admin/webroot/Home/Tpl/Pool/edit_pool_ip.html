@@ -56,9 +56,9 @@
 
 <body>
 	<div id="container">
-		<form id="editIPForm" action="__URL__/edit_group_ip" method="post">
+		<form id="editIPForm" action="__URL__/edit_pool_ip" method="post">
 			<input type="hidden" name="ID" value="{$data.ID}" />
-			<input type="hidden" name="GroupID" value="{$data.GroupID}" />
+			<input type="hidden" name="PoolID" value="{$data.PoolID}" />
 
 			<table class="table" cellspacing="0" cellpadding="0" width="100%" >
 			    <tr>
@@ -68,9 +68,9 @@
 			      </th>
 			    </tr>
 			    <tr>
-			      <td width="100px">池组名：</td>
+			      <td width="100px">池编号：</td>
 			      <td class="ui_text_lt">
-			      	{$data.GroupName}
+			      	{$data.PoolCode}
 			      </td>
 			    </tr>
 			    <tr>
@@ -87,12 +87,8 @@
 			      <td width="100px">类型：</td>
 			      <td class="ui_text_lt">
 			      	<select name="PublicIPType" class="ui_select04">
-			      		<option value="SLB_BGPIP">负载均衡国内BGP</option>
-			      		<option value="SLB_IPLCIP">负载均衡国际BGP</option>
-			      		<option value="OSS_BGPIP">开放云存储国内BGP</option>
-			      		<option value="OSS_IPLCIP">开放云存储国际BGP</option>
-			      		<option value="MGR_BGPIP">管理国内BGP</option>
-			      		<option value="MGR_IPLCIP">管理国际BGP</option>
+			      		<option value="VM_BGPIP">云主机国内BGP</option>
+			      		<option value="VM_IPLCIP">云主机国际BGP</option>
 					</select>
 			      </td>
 			    </tr>

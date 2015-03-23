@@ -15,6 +15,20 @@
 		background-image: url(/layout/img/sider_hover.png);
 	}
 }
+@set hiden_scrollbar {
+  .base { width: 0px; height: 0px; }
+  :root { background-color: #f9f9f9; }
+  :root:hover { background-color: #ececec; }
+  .base, .prev, .next, .next-page, .prev-page { 
+    background-color: transparent; border: none;
+  }
+  .slider { 
+    background-color: transparent;
+  }
+  .slider:hover {
+    background-color: transparent;
+  }
+}
 /*链接基本样式*/
 a { color: #369; text-decoration: none; }
 a:hover { color: #369; text-decoration: underline; }
@@ -24,7 +38,6 @@ html body {
 	font-family: '微软雅黑','宋体';
 	background:url(/layout/img/skinbg.png) repeat;
 }
-
 /*标题栏*/
 #hl_header {
 	position: relative; height: 52px; 
@@ -80,7 +93,7 @@ html body {
   text-decoration:none;
  
   background-repeat:no-repeat;  
-  transition: blend;
+  //transition: blend;
 }
 
 [command=window-setting] { 
@@ -127,20 +140,24 @@ html body {
 [command=window-close]:hover  {
   background-color: rgb(212,64,36);
   color: #FFF;
+  border-radius:0px 2px 0px 0px;
 }  
 [command=window-close]:active {
 } 
 
 /*主体内容样式*/
 #hl_content { height: *; border-radius: 0 0 2px 2px; flow: horizontal; }
-#panel_sider { width: 224px; background-color: rgb(133,77,177); color: #FFF; height: *; behavior: windowCommand; }
+#panel_sider { width: 224px; background-color: rgb(133,77,177); color: #FFF; height: *; overflow: auto; height: 100%; vertical-scrollbar: hiden_scrollbar; }
 
 /*侧边栏*/
 #panel_sider a { color: #FFF; text-decoration: none; }
 #panel_sider h5 {
 	margin: 0; height: 30px; overflow: hidden; border-top: 1px solid #4A4E52;
 	font-size: 15px; font-weight: bold; text-indent: 5px; line-height: 30px;
-	cursor: pointer;
+	cursor: pointer; color: #b2b974;
+}
+#panel_sider h5:hover {
+  background-color: #A2A92B; color: #000;
 }
 #panel_sider h5:active {
 	background-color: #FFF; color: #000;
@@ -184,39 +201,52 @@ html body {
 	background-repeat: no-repeat;
 	text-indent: 30px;
 	font-weight: bold; color: #000; 
-	border-left: 4px solid #A2A92B;
+	//border-left: 4px solid #A2A92B;
 	background-color: rgb(200,174,220);
+}
+#panel_sider ul li a[selected=notice] {
+  background-image: url(/layout/img/im_new.png);
+  background-position: 10px center;
+  background-repeat: no-repeat;
 }
 #person_sider {
 	padding:6px;
 }
 #person_sider a {
-	behavior:changeTo;
 	display: inline-block;
-	border: 1px solid #666;
+	border: 1px solid #B2B92F;
 	margin: 4px;
 	border-radius:6px;
-	padding: 6px;
+	padding: 4px;
 	padding-top:2px;
 	padding-bottom:2px;
 	line-height:16px;
 	color: #FFF;
 }
+#person_sider a:hover {
+  background-color: #A2A92B; color: #fff;
+}
+#person_sider a[selected=true] {
+  background-color: #A2A92B; color: #000;
+}
+#person_sider a[selected=notice] {
+  background-color: #b2b92F; color: #FFF;
+}
 
 #panel_main { height: *; flow: horizontal; border-radius: 0 0 3px 0; }
-#panel_main .list { width: 325px; height: *; color: #4A5E78; }
+#panel_main .list { width: 325px; height: *; color: #4A5E78;}
 #panel_main .editor {
 	width: *; height: *; color: #000; 
-	overflow: hidden; vertical-scrollbar: mini_scrollbar;
+	overflow: hidden; vertical-scrollbar: mini_scrollbar; horizontal-scrollbar: hiden_scrollbar;
 	behavior: frame-set;
 	flow:vertical;
 	border-spacing: 2px; /* width of splitter */
 }
 
 #panel_main .list {
-  overflow: auto; vertical-scrollbar: mini_scrollbar;
+  overflow: auto; vertical-scrollbar: mini_scrollbar; horizontal-scrollbar: hiden_scrollbar;
   behavior:htmlarea;
-  padding: 6px;
+  padding: 1px;
   border-left: 1px solid #CCC;
 }
 #charInputArea {
@@ -293,4 +323,19 @@ pre {
 }
 .message-ico div {
   height:100%%;
+}
+fieldset {
+  margin-top: 15px;
+}
+legend {
+  height:18px;
+  width:55px; 
+  border-radius:6px;
+  background:rgb(133,76,177); 
+  padding-left: 8px;
+  padding-right: 8px;
+  color: #FFF;
+}
+legend a {
+  color: #FFF;
 }

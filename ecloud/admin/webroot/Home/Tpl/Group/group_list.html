@@ -225,8 +225,8 @@
 										<span style="margin-right:2px;">
 											{$vo2.PublicIPBegin} ~ {$vo2.PublicIPEnd} 
 											(
-											<if condition="$vo2.PublicIPType eq 'VM_BGPIP'">云主机国内BGP
-											<elseif condition="$vo2.PublicIPType eq 'VM_IPLCIP'"/>云主机国际BGP
+											<if condition="$vo2.PublicIPType eq 'MGR_BGPIP'">管理国内BGP
+											<elseif condition="$vo2.PublicIPType eq 'MGR_IPLCIP'"/>管理国际BGP
 											<elseif condition="$vo2.PublicIPType eq 'SLB_BGPIP'"/>负载均衡国内BGP
 											<elseif condition="$vo2.PublicIPType eq 'SLB_IPLCIP'"/>负载均衡国际BGP
 											<elseif condition="$vo2.PublicIPType eq 'OSS_BGPIP'"/>开放云存储国内BGP

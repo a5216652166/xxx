@@ -129,10 +129,10 @@ getNoticeRight = function(session, group, to){
 showNoticeRight = function( str ){
 	..noticRight.innerHTML = string.fromto(str);
 }
-getImage = function ( url, save ){
-	//io.print(ele.src);
-	//return "asd";
+updateConnPerson = function(){
+	
 }
+
 
 var timer = winform.addtimer(
     	1000,
@@ -166,26 +166,17 @@ var timer = winform.addtimer(
 				//io.print("thMessageNotice" ++ str);
 				messageNotice = web.json.parse(str);
 				session = messageNotice["session"];
+				if(session["connUpdate"] < messageNotice["connUpdate"]){
+					panelSiderInit();
+				}
 				wbLayout.queryEle("#hl_user_info .face").src="/layout/face/" ++ session["userIco"];
 				var $links = wbLayout.queryEles("#panel_sider a");
 				if ( #$links ) {
 					var newMessage='';
 					for (i,link in $links ){
 						if(messageNotice && messageNotice[link.group] != null && messageNotice[link.group][link.innerText] !=null){
-							if(link.group=="个人群组" && link.innerText != "所有人"){
-								link.style.border="2px solid #0073c8";
-							}
-							elseif(current_selected != link){
-								link.style["background-image"]="url(/layout/img/im_new.png)";
-								link.style["background-position"]="10px center";
-								link.style["background-repeat"]="no-repeat";
-							}
+							link.selected="notice";
 							newMessage = newMessage ++ link.innerText ++ '\r\n';
-						}
-						else{
-							if(link.group=="个人群组" && link.innerText != "所有人"){
-								link.style.border="1px solid #666";
-							}
 						}
 					}
 					if(newMessage != ''){
@@ -433,6 +424,24 @@ hkid = winform.reghotkey(function(id,mod,vk){
 , 0,0x70/*_VK_F1*/ );
 
 panelSiderInit = function(){
+	var str=http.get("http://192.168.85.166/rjchat/view/connPerson.php");
+	var connPerson = web.json.parse(str);
+	var html='';
+	for k,v in connPerson["workGroup"]{
+		html = html ++ '<li><a href="#" group="工作组">' ++ v ++ '</a></li>';
+	}
+	wbLayout.queryEle("#conn_workgroup").insertAdjacentHTML("beforeEnd",html);
+	html = '';
+	for k,v in connPerson["topic"]{
+		html = html ++  '<li><a href="#" group="话题组">' ++ v ++ '</a></li>';
+	}
+	wbLayout.queryEle("#conn_topic").insertAdjacentHTML("beforeEnd",html);
+	html='';
+	for k,v in connPerson["connPerson"]{
+		html = html ++ '<a href="#" group="个人群组">' ++ v ++ '</a>';
+	}
+	wbLayout.queryEle("#person_sider").insertAdjacentHTML("beforeEnd",html);
+	io.print(wbLayout.queryEle("#person_sider").outerHTML);
 	//绑定h5事件
 	var $h5 = wbLayout.queryEles("#panel_sider h5");
 	if ( #$h5 ) {
@@ -445,7 +454,6 @@ panelSiderInit = function(){
 			h5.attachEventHandler();
 		}
 	}
-	
 	//超链接触发事件
 	var $links = wbLayout.queryEles("#panel_sider ul li a");
 	if ( #$links ) {
@@ -457,16 +465,17 @@ panelSiderInit = function(){
 				if ( target && "ul" == target.tagName ) {
 					target.style.display = ("none" == target.style.display) ? "block" : "none";
 				}
-				//设置当前点中高亮状态
+				//设置之前点中高亮状态熄灭
 				if ( current_selected ) {
 					current_selected.setAttribute("selected", "false");
 				}
+				if( person_selected ){
+					person_selected.setAttribute("selected", "false");
+				}
+				//设置当前点中高亮状态
 				ltEle.setAttribute("selected", "true");
 				current_selected = ltEle;
 				web.layout.behavior.changeTo.onMouseClick( ltTarget,ltEle,x,y,mouseParams );
-				ltEle.style["background-image"]="url(/layout/img/im.png)";
-				ltEle.style["background-position"]="10px center";
-				ltEle.style["background-repeat"]="no-repeat";
 			}
 			link.attachEventHandler();
 			if(link.innerText == "所有人") init_selected = link;
@@ -475,6 +484,23 @@ panelSiderInit = function(){
 	if(init_selected){
 		init_selected.setAttribute("selected", "true");
 		current_selected = init_selected;
+	}
+	
+	$links = wbLayout.queryEles("#person_sider a");
+	if ( #$links ) {
+		person_selected = null;
+		for (i,link in $links ) {
+			link.onHyperlinkClick = function( ltTarget,ltEle,x,y,mouseParams ) {
+				//设置当前点中高亮状态
+				if ( person_selected ) {
+					person_selected.setAttribute("selected", "false");
+				}
+				ltEle.setAttribute("selected", "true");
+				person_selected = ltEle;
+				web.layout.behavior.changeTo.onMouseClick( ltTarget,ltEle,x,y,mouseParams );
+			}
+			link.attachEventHandler();
+		}
 	}
 }
 //圆角窗口

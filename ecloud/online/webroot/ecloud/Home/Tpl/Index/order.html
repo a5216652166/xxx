@@ -68,7 +68,10 @@
 			success:function(data){
 				if(data.data=="SUCC"){
 					clearInterval(_interval);
-					insert(id)
+					//insert(id);
+					$(".regist").html('<h4 style="padding: 120px 0px 0px 60px;">您的订单已经支付成功，系统正在处理中。</h4><h4 style="padding:20px 0px 0px 60px;">请耐心等待我们的邮件通知。</h4><h4 style="padding:20px 0px 0px 60px;">登录[' + USER + ']邮箱查看邮件。</h4><h4 style="padding:20px 0px 0px 60px;"> 3 秒跳转订单页面。</h4>');
+					setInterval(function (){},3000);
+					window.top.location.href="__APP__/Index/account";
 				}
 			},
 			error:function(data){

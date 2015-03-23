@@ -999,8 +999,15 @@ class IndexAction extends Action {
 		$ret = $order->table('Ad_Order')->where('ID='.$_POST['id'])->find();		
 		if(!empty($ret['Code'])){
 			$data = file_get_contents(C('INTERFACE_URL')."/alipay/order_query.php?OrderCode=".$ret['Code']."&DepartCode=ESS");
-			$obj = json_decode($data,true);			
-			$this->ajaxReturn($obj[0]['Status'],'success',1);
+			$obj = json_decode($data,true);
+			if($obj[0]['Status']=="SUCC"){				
+				$result = $order->table('Ad_Order')->where('ID='.$_POST['id'])->find();		
+				if($result['IsPay']==0){
+					$this->ajaxReturn('WAIT','success',1);		
+				}else{
+					$this->ajaxReturn($obj[0]['Status'],'success',1);
+				}
+			}
 		}
 	}
 	public function returnOrderStatus($id){

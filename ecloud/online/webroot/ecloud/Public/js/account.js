@@ -169,7 +169,7 @@
 				error:function(data){
 					alert("提示信息："+data.statusText);	
 				}
-			});
+			}); 
 		}
 		function finishPayment(id){
 			if($(".error_msg").html()!=""){
@@ -183,24 +183,24 @@
 				success:function(data){
 					if(data.data=="SUCC"){
 						clearInterval(_interval);
-						$.ajax({
+						/*$.ajax({
 							url:APP+'/Index/insert',
 							type:'post',
 							async:false,
 							data:{'id':id},
 							success:function(data){
-								if(data.info=="success"){
+								if(data.info=="success"){*/
 									layer.close(layer_load);
 									$("#pay_div").html('<h4 style="padding: 20px 0px 0px 40px;">您的订单已经支付成功，系统正在处理中。</h4><h4 style="padding:20px 0px 0px 40px;">请耐心等待我们的邮件通知。</h4><h4 style="padding:20px 0px 0px 40px;">登录[' + USER + ']邮箱查看邮件。</h4><h4 style="padding:20px 0px 0px 40px;"> 3 秒跳转订单页面。</h4>');
 									setInterval(function (){window.top.location.reload();},3000);									
-								}else{
+								/*}else{
 									alert("提示信息："+data.data);
 								}
 							},
 							error:function(data){
 								alert("提示信息："+data.statusText);	
 							}
-						});
+						});*/
 					}
 				},
 				error:function(data){

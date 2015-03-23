@@ -4,12 +4,49 @@
 
 <include file="Public:include" />
 
+<script type="text/javascript" src="__ROOT__/Public/js/fancybox-1.3.4/jquery.fancybox-1.3.4.pack.js"></script>	
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/js/fancybox-1.3.4/jquery.fancybox-1.3.4.css" media="screen" />
+
 <script type="text/javascript" src="__ROOT__/Public/js/artDialog/artDialog.js?skin=twitter"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#addBtn").click(function(){
 			location = '__URL__/add';
+		});
+
+		//编辑IP
+		$("span + a:contains('编辑')").fancybox({
+	    	//'href'  : '__URL__/add_vm_ip',
+	    	'type' : 'iframe',
+	    	'transitionIn'	: 'elastic',
+			'transitionOut'	: 'elastic',
+			'speedIn' : 150,
+			'speedOut' : 150,
+			'overlayColor'		: '#000',
+			'overlayOpacity'	: 0.7,
+			'showCloseButton' : true,
+	        //'hideOnOverlayClick' : false,
+	        'onClosed' : function() {
+	        	location.reload();
+	        }
+		});
+
+		//添加IP
+		$("a:contains('添加公网IP')").fancybox({
+	    	//'href'  : '__URL__/add_vm_ip',
+	    	'type' : 'iframe',
+	    	'transitionIn'	: 'elastic',
+			'transitionOut'	: 'elastic',
+			'speedIn' : 150,
+			'speedOut' : 150,
+			'overlayColor'		: '#000',
+			'overlayOpacity'	: 0.7,
+			'showCloseButton' : true,
+	        //'hideOnOverlayClick' : false,
+	        'onClosed' : function() {
+	        	location.reload();
+	        }
 		});
 	});
 
@@ -41,6 +78,19 @@
 		if(id == '') return;
 		if(confirm("您确定要删除吗？")){
 			$("#submitForm").attr("action", "__URL__/del?id=" + id).submit();
+		}
+	}
+
+	function delIp(id){
+		if(id == ''){
+			return;
+		}
+
+		if(confirm('确定要删除这个IP？')){
+			$.get('__URL__/del_pool_ip?id=' + id, function(ret){
+				alert(ret);
+				location.reload();
+			});
 		}
 	}
 	
@@ -151,11 +201,11 @@
 							<th>池编号</th>
 							<th>数据</th>
 							<th>是否可用</th>
-							<th>公网Vlan</th>
-							<th>内网Vlan</th>
+							<th>Vlan</th>
 							<th>内网IP</th>
 							<th>内网掩码</th>
 							<th>内网网关</th>
+							<th>公网IP</th>
 							<th>操作</th>
 						</tr>
 
@@ -167,14 +217,33 @@
 								<td>{$vo.PoolCode}</td>
 								<td>{$vo.Data}</td>
 								<td>{$vo.State}</td>
-								<td>{$vo.PublicVlanBegin} ~ {$vo.PublicVlanEnd}</td>
-								<td>{$vo.PrivateVlanBegin} ~ {$vo.PrivateVlanEnd}</td>
+								<td>{$vo.NetVlanBegin} ~ {$vo.NetVlanEnd}</td>
 								<td>{$vo.PrivateIPBegin} ~ {$vo.PrivateIPEnd}</td>
 								<td>{$vo.PrivateMask}</td>
 								<td>{$vo.PrivateGateway}</td>
+
+								<td>
+									<volist name="vo['IPS']" id="vo2">
+										<span style="margin-right:2px;">
+											{$vo2.PublicIPBegin} ~ {$vo2.PublicIPEnd} 
+											(
+											<if condition="$vo2.PublicIPType eq 'VM_BGPIP'">云主机国内BGP
+											<elseif condition="$vo2.PublicIPType eq 'VM_IPLCIP'"/>云主机国际BGP
+											</if>
+											)
+										</span>
+										<a href="__URL__/edit_pool_ip?id={$vo2.ID}">编辑</a>
+										|
+										<a href="javascript:delIp({$vo2.ID});">删除</a>
+
+										<if condition="$i lt count($vo['IPS'])"><br/></if>
+									</volist>
+								</td>
+
 								<td class="opt">
 									<a href="__URL__/edit?id={$vo.ID}" class="edit">编辑</a> 
 									<a href="javascript:del({$vo.ID});">删除</a>
+									<a href="__URL__/add_pool_ip?id={$vo.ID}">添加公网IP</a>
 								</td>
 							</tr>
 						</volist>
