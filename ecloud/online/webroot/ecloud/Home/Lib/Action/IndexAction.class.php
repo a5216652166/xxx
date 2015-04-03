@@ -988,7 +988,7 @@ class IndexAction extends Action {
 			}else{
 				$this->ajaxReturn('订单状态修改失败，请联系管理员。','error',0);
 			}
-			*/
+		*/
 		}else{
 			$this->ajaxReturn('交易失败，请联系管理员。','error',0);
 		}
@@ -1064,45 +1064,49 @@ class IndexAction extends Action {
 	}
 	//合并付款
 	public function mergePay(){
-		$Order = M();
-		//修改支付方式		
-		$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();
-		
-		$OrderVPS = M();
-		$ret = $OrderVPS->table('Ad_OrderNeed')->where("Order_ID=".$_GET['id'])->find();
-		if($ret['BandWidthBGP']!=0){
-			$bandwidth = $ret['BandWidthBGP'] . "M BGP带宽 ;";
-		}else{
-			$bandwidth = $ret['BandWidthIPLC'] . "M IPLC带宽 ;";
+		if($_SERVER['REQUEST_METHOD' ] === 'GET'){		
+			$Order = M();
+			//修改支付方式		
+			$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();
+			
+			$OrderVPS = M();
+			$ret = $OrderVPS->table('Ad_OrderNeed')->where("Order_ID=".$_GET['id'])->find();
+			if($ret['BandWidthBGP']!=0){
+				$bandwidth = $ret['BandWidthBGP'] . "M BGP带宽 ;";
+			}else{
+				$bandwidth = $ret['BandWidthIPLC'] . "M IPLC带宽 ;";
+			}
+			if($ret['Time']=='月'){
+				$time = " 1 个月 " ;
+			}
+			else if($ret['Time']=='半年'){
+				$time = " 6 个月 " ;
+			}else{
+				$time = " 1 年 " ;
+			}
+			$str = $ret['CPU'] . " CPU ; " . $ret['RAM'] . " 内存 ; " . $ret['DISK'] . "G 硬盘 ; 系统：" . $ret['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $ret['Count'] ."<br/>";
+			
+			//修改支付方式
+			$data['AliPay'] = $ret['Price'] - $this->returnBalance();
+			$data['BalancePay'] = $this->returnBalance();
+			
+			$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
+			
+			$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
+			$this->assign('DepartCode', "ESS");
+			$this->assign('OrderCode', $tem['Code']);
+					
+			$name = urlencode("睿江云主机");
+			$name = str_replace('%C2%80','',$name);
+			$this->assign('OrderName', urldecode($name));
+			
+			$this->assign('OrderDesc', $str);
+			$this->assign('OrderMoney', $ret['Price']-$this->returnBalance());
+			
+			$this->display();
+		}else{			
+			$this->gotoAlipay('ESS',$_POST['OrderCode'],$_POST['OrderName'],$_POST['OrderDesc'],$_POST['OrderMoney'],$_POST['OrderUrl']);
 		}
-		if($ret['Time']=='月'){
-			$time = " 1 个月 " ;
-		}
-		else if($ret['Time']=='半年'){
-			$time = " 6 个月 " ;
-		}else{
-			$time = " 1 年 " ;
-		}
-		$str = $ret['CPU'] . " CPU ; " . $ret['RAM'] . " 内存 ; " . $ret['DISK'] . "G 硬盘 ; 系统：" . $ret['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $ret['Count'] ."<br/>";
-		
-		//修改支付方式
-		$data['AliPay'] = $ret['Price'] - $this->returnBalance();
-		$data['BalancePay'] = $this->returnBalance();
-		
-		$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
-		
-		$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
-		$this->assign('DepartCode', "ESS");
-		$this->assign('OrderCode', $tem['Code']);
-				
-		$name = urlencode("睿江云主机");
-		$name = str_replace('%C2%80','',$name);
-		$this->assign('OrderName', urldecode($name));
-		
-		$this->assign('OrderDesc', $str);
-		$this->assign('OrderMoney', $ret['Price']-$this->returnBalance());
-		
-		$this->display();
 		
 		
 	}
@@ -1150,96 +1154,115 @@ class IndexAction extends Action {
 	}
 	//去付款   支付宝
 	public function payment(){
-		$Order = M();
-		$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();
-		$OrderVPS = M();
-		$ret = $OrderVPS->table('Ad_OrderNeed')->where("Order_ID=".$_GET['id'])->find();
-		if($ret['BandWidthBGP']!=0){
-			$bandwidth = $ret['BandWidthBGP'] . "M BGP带宽 ;";
-		}else{
-			$bandwidth = $ret['BandWidthIPLC'] . "M IPLC带宽 ;";
+		if($_SERVER['REQUEST_METHOD' ] === 'GET'){		
+			$Order = M();
+			$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();
+			$OrderVPS = M();
+			$ret = $OrderVPS->table('Ad_OrderNeed')->where("Order_ID=".$_GET['id'])->find();
+			if($ret['BandWidthBGP']!=0){
+				$bandwidth = $ret['BandWidthBGP'] . "M BGP带宽 ;";
+			}else{
+				$bandwidth = $ret['BandWidthIPLC'] . "M IPLC带宽 ;";
+			}
+			if($ret['Time']=='月'){
+				$time = " 1 个月 " ;
+			}
+			else if($ret['Time']=='半年'){
+				$time = " 6 个月 " ;
+			}else{
+				$time = " 1 年 " ;
+			}
+			$str = $ret['CPU'] . " CPU ; " . $ret['RAM'] . " 内存 ; " . $ret['DISK'] . "G 硬盘 ; 系统：" . $ret['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $ret['Count'] ."<br/>";
+			
+			//修改支付方式
+			
+			$data['AliPay'] = $ret['Price'];
+			$data['BalancePay'] = 0;
+			
+			$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
+			
+			$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
+			$this->assign('DepartCode', "ESS");
+			$this->assign('OrderCode', $tem['Code']);
+					
+			$name = urlencode("睿江云主机");
+			$name = str_replace('%C2%80','',$name);
+			$this->assign('OrderName', urldecode($name));
+			
+			$this->assign('OrderDesc', $str);
+			$this->assign('OrderMoney', $ret['Price']);
+			
+			$this->display();
+		}else{			
+			$this->gotoAlipay('ESS',$_POST['OrderCode'],$_POST['OrderName'],$_POST['OrderDesc'],$_POST['OrderMoney'],$_POST['OrderUrl']);
 		}
-		if($ret['Time']=='月'){
-			$time = " 1 个月 " ;
-		}
-		else if($ret['Time']=='半年'){
-			$time = " 6 个月 " ;
-		}else{
-			$time = " 1 年 " ;
-		}
-		$str = $ret['CPU'] . " CPU ; " . $ret['RAM'] . " 内存 ; " . $ret['DISK'] . "G 硬盘 ; 系统：" . $ret['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $ret['Count'] ."<br/>";
-		
-		//修改支付方式
-		
-		$data['AliPay'] = $ret['Price'];
-		$data['BalancePay'] = 0;
-		$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
-		
-		$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
-		$this->assign('DepartCode', "ESS");
-		$this->assign('OrderCode', $tem['Code']);
-				
-		$name = urlencode("睿江云主机");
-		$name = str_replace('%C2%80','',$name);
-		$this->assign('OrderName', urldecode($name));
-		
-		$this->assign('OrderDesc', $str);
-		$this->assign('OrderMoney', $ret['Price']);
-		
-		$this->display();
 	}
 	public function rechargePayment(){
-		$Order = M();
-		$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();		
-		$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
-		$this->assign('DepartCode', "ESS");
-		$this->assign('OrderCode', $tem['Code']);				
-		$name = urlencode("睿江云主机");
-		$name = str_replace('%C2%80','',$name);
-		$this->assign('OrderName', urldecode($name));		
-		$this->assign('OrderDesc', "睿江云账户充值");
-		$this->assign('OrderMoney', $tem['Money']);
-		$this->display();
+		if($_SERVER['REQUEST_METHOD' ] === 'GET'){	
+			$Order = M();
+			$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();		
+			$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
+			$this->assign('DepartCode', "ESS");
+			$this->assign('OrderCode', $tem['Code']);				
+			$name = urlencode("睿江云主机");
+			$name = str_replace('%C2%80','',$name);
+			$this->assign('OrderName', urldecode($name));		
+			$this->assign('OrderDesc', "睿江云账户充值");
+			$this->assign('OrderMoney', $tem['Money']);
+			$this->display();
+		}else{
+			$this->gotoAlipay('ESS',$_POST['OrderCode'],$_POST['OrderName'],$_POST['OrderDesc'],$_POST['OrderMoney'],$_POST['OrderUrl']);
+		}
+	}
+	public function gotoAlipay($DepartCode,$OrderCode,$OrderName,$OrderDesc,$OrderMoney,$OrderUrl){
+		include_once('HttpClient.class.php');			
+		$params = array('DepartCode'=>$DepartCode,'OrderCode'=>$OrderCode,'OrderName'=>$OrderName,'OrderDesc'=>$OrderDesc,'OrderMoney'=>$OrderMoney,'OrderUrl'=>$OrderUrl);
+		$pageContents = HttpClient::quickPost(C('INTERFACE_URL')."/alipay/order_pay.php", $params);
+		print_r($pageContents);exit;
 	}
 	//支付宝续费
 	public function renewOrder(){
-		$Order = M();
-		$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();
-		//修改支付方式
-		if(!empty($_GET['type'])){
-			$data['AliPay'] = $tem['Money'];
-			$data['BalancePay'] = 0;
-			$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
+		if($_SERVER['REQUEST_METHOD' ] === 'GET'){
+			$Order = M();
+			$tem = $Order->table('Ad_Order')->where("ID=".$_GET['id'])->find();
+			//修改支付方式
+			if(!empty($_GET['type'])){
+				$data['AliPay'] = $tem['Money'];
+				$data['BalancePay'] = 0;
+				$Order->table('Ad_Order')->where("ID=".$_GET['id'])->save($data);
+			}
+			
+			$OrderVPS = M();
+			$ret = $OrderVPS->table('Ad_OrderNeed')->where("Order_ID=".$_GET['id'])->find();
+			if($ret['BandWidthBGP']!=0){
+				$bandwidth = $ret['BandWidthBGP'] . "M BGP带宽 ;";
+			}else{
+				$bandwidth = $ret['BandWidthIPLC'] . "M IPLC带宽 ;";
+			}
+			if($ret['Time']=='月'){
+				$time = " 1 个月 " ;
+			}
+			else if($ret['Time']=='半年'){
+				$time = " 6 个月 " ;
+			}else{
+				$time = " 1 年 " ;
+			}
+			$str = $ret['CPU'] . " CPU ; " . $ret['RAM'] . " 内存 ; " . $ret['DISK'] . "G 硬盘 ; 系统：" . $ret['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $ret['Count'] ."<br/>";
+			
+			$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
+			$this->assign('DepartCode', "ESS");
+			$this->assign('OrderCode', $tem['Code']);
+					
+			$name = urlencode("睿江云主机");
+			$name = str_replace('%C2%80','',$name);
+			$this->assign('OrderName', urldecode($name));
+			
+			$this->assign('OrderDesc', $str);
+			$this->assign('OrderMoney', $ret['Price']);			
+			$this->display();
+		}else{			
+			$this->gotoAlipay('ESS',$_POST['OrderCode'],$_POST['OrderName'],$_POST['OrderDesc'],$_POST['OrderMoney'],$_POST['OrderUrl']);
 		}
-		
-		$OrderVPS = M();
-		$ret = $OrderVPS->table('Ad_OrderNeed')->where("Order_ID=".$_GET['id'])->find();
-		if($ret['BandWidthBGP']!=0){
-			$bandwidth = $ret['BandWidthBGP'] . "M BGP带宽 ;";
-		}else{
-			$bandwidth = $ret['BandWidthIPLC'] . "M IPLC带宽 ;";
-		}
-		if($ret['Time']=='月'){
-			$time = " 1 个月 " ;
-		}
-		else if($ret['Time']=='半年'){
-			$time = " 6 个月 " ;
-		}else{
-			$time = " 1 年 " ;
-		}
-		$str = $ret['CPU'] . " CPU ; " . $ret['RAM'] . " 内存 ; " . $ret['DISK'] . "G 硬盘 ; 系统：" . $ret['OS'] . " ; " . $bandwidth . " 时长：" . $time . " ; 数量：". $ret['Count'] ."<br/>";
-		
-		$this->assign('url', C('INTERFACE_URL')."/alipay/order_pay.php");
-		$this->assign('DepartCode', "ESS");
-		$this->assign('OrderCode', $tem['Code']);
-				
-		$name = urlencode("睿江云主机");
-		$name = str_replace('%C2%80','',$name);
-		$this->assign('OrderName', urldecode($name));
-		
-		$this->assign('OrderDesc', $str);
-		$this->assign('OrderMoney', $ret['Price']);			
-		$this->display();
 	}
 	//支付宝续费
 	public function addRenew(){

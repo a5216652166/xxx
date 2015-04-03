@@ -11,9 +11,8 @@ session = ''
 def _do_main():
 	global session
 	
-	master_url = "http://%s/"%('10.11.253.43')
-	session = XenAPI.Session(master_url)
-	session.xenapi.login_with_password('root', 'Rjkj@efly#123')
+	session = XenAPI.Session('http://121.201.60.66:8000')
+	session.xenapi.login_with_password('root', 'Rjkj@free7248#8')
 
 	pool_master = ''
 	pools = session.xenapi.pool.get_all()
@@ -36,19 +35,39 @@ def _do_main():
 	#network = session.xenapi.network.create(network_cfg) 
 	#print network
 
-	print pool_master
+	#print pool_master
 	master_record = session.xenapi.host.get_record(pool_master)
-	print master_record['name_label']
+	print("master=%s\n"%(master_record['name_label']))
 	#print master_record
 	pifs = master_record['PIFs']
 	for pif in pifs:
 		pif_record = session.xenapi.PIF.get_record(pif)
-		if pif_record['physical']:
-			print pif, pif_record['network']
+		if not pif_record['physical']:
+			if not pif_record['VLAN'] == '-1':
+				continue
+			if not pif_record['device'] == 'bond0':
+				continue
+			#print pif, pif_record['network'], pif_record['device'], pif_record['bond_slave_of'], pif_record['VLAN']
+			#print pif_record
+			#print "\n\n"
+			#continue
+
+			network_record = session.xenapi.network.get_record(pif_record['network'])
+			#print network_record
+			network_name_label = network_record['name_label']
+			network_name_description = network_record['name_description']
+			print("name=[%s] desc=[%s]\n" %(network_name_label, network_name_description))
+			#continue
+
 			#####
-			network = session.xenapi.network.create(network_cfg)
-			tag = 3
-			session.xenapi.pool.create_VLAN_from_PIF(pif, network, str(tag))
+			for tag in range(7, 130):
+				vlan_name_label = "bond0.vlan.%d"%(tag)
+				vlan_name_description = "produce network for vlan %d"%(tag)
+				print("create vlan %s.vlan.%d "%(network_name_label, tag))
+				network_cfg['name_label'] = vlan_name_label
+				network_cfg['name_description'] = vlan_name_description
+				network = session.xenapi.network.create(network_cfg)
+				session.xenapi.pool.create_VLAN_from_PIF(pif, network, str(tag))
 
 	return
 

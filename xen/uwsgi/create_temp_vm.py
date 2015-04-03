@@ -14,38 +14,42 @@ def _do_main():
 	session = XenAPI.Session(master_url)
 	session.xenapi.login_with_password('root', 'Rjkj@efly#123')
 
-	pifs = session.xenapi.PIF.get_all_records()
-	lowest = None
-	for pifRef in pifs.keys():
-		if (lowest is None) or (pifs[pifRef]['device'] < pifs[lowest]['device']):
-			lowest = pifRef
-	print "Choosing PIF with device: ", pifs[lowest]['device']
+	#pifs = session.xenapi.PIF.get_all_records()
+	#lowest = None
+	#for pifRef in pifs.keys():
+	#	if (lowest is None) or (pifs[pifRef]['device'] < pifs[lowest]['device']):
+	#		lowest = pifRef
+	#print "Choosing PIF with device: ", pifs[lowest]['device']
 
-	network = session.xenapi.PIF.get_network(lowest)
-	print "Chosen PIF is connected to network: ", session.xenapi.network.get_name_label(network)
+	#network = session.xenapi.PIF.get_network(lowest)
+	#print "Chosen PIF is connected to network: ", session.xenapi.network.get_name_label(network)
 
-	temp_vm = session.xenapi.VM.get_by_uuid('7492e6b6-ccb6-e333-5c81-032eff6bad3b')
+	temp_vm = session.xenapi.VM.get_by_uuid('2d331b79-e109-0d53-4193-8e34c07c8f57')
 	temp_vm_name = session.xenapi.VM.get_name_label(temp_vm)
+	record = session.xenapi.VM.get_record(temp_vm)
 	print temp_vm, temp_vm_name
+	print record
 
-	st = time.localtime(time.time())
-	new_vm_name = "VM%d%02d%02d%02d%02d"%(st.tm_year, st.tm_mon, st.tm_mday, st.tm_hour, st.tm_min)
-	new_vm = session.xenapi.VM.clone(temp_vm, new_vm_name)
-	print "New VM has name: " + new_vm_name
+	#st = time.localtime(time.time())
+	#new_vm_name = "VM%d%02d%02d%02d%02d"%(st.tm_year, st.tm_mon, st.tm_mday, st.tm_hour, st.tm_min)
+	#new_vm_name = 'A-08-509-26-20141211-016'
+	#new_vm = session.xenapi.VM.clone(temp_vm, new_vm_name)
+	#print "New VM has name: " + new_vm_name
 
 	#print "Adding noniteractive to the kernel commandline"
-	session.xenapi.VM.set_PV_args(new_vm, "noninteractive")
+	#session.xenapi.VM.set_PV_args(new_vm, "noninteractive")
+	session.xenapi.VM.set_PV_args(temp_vm, "text")
 
-	print "Asking server to provision storage from the template specification"
-	session.xenapi.VM.provision(new_vm)
+	#print "Asking server to provision storage from the template specification"
+	#session.xenapi.VM.provision(new_vm)
 
-	print "Starting VM"
-	session.xenapi.VM.start(new_vm, False, True)
+	#print "Starting VM"
+	#session.xenapi.VM.start(new_vm, False, True)
 
-	print "Waiting for the installation to complete"
+	#print "Waiting for the installation to complete"
 
-	while read_os_name(new_vm) == None: time.sleep(1)
-	print "Reported OS name: ", read_os_name(new_vm)
+	#while read_os_name(new_vm) == None: time.sleep(1)
+	#print "Reported OS name: ", read_os_name(new_vm)
 
 	#while read_ip_address(new_vm) == None: time.sleep(1)
 	#print "Reported IP: ", read_ip_address(new_vm)

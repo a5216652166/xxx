@@ -41,6 +41,8 @@ def _get_host_vm_list():
 		if record["is_a_template"] or record["is_control_domain"]:
 			continue
 		host = record['resident_on']
+		if host == 'OpaqueRef:NULL':
+			continue
 		if session.xenapi.host.get_name_label(host) == host_name_label:
 			ret.append({'uuid':record['uuid'], 'name_label':record['name_label'], 'power_state':record['power_state']})
 	return json.dumps(ret)
@@ -56,8 +58,8 @@ def _do_main(query):
 	args = json.loads(query)
 	pool_data = args['pool_data']
 	
-	master_url = "http://%s/"%(pool_data['master'])
-	session = XenAPI.Session(master_url)
+	rpc_url = pool_data['xen-api-rpc']
+	session = XenAPI.Session(rpc_url)
 	session.xenapi.login_with_password(pool_data['user'], pool_data['pass'])
 
 	if args['opt'] == 'get_host_list':

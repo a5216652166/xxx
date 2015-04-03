@@ -13,4 +13,4 @@ var wbLayout = web.layout( winform )
 
 winform.show() 
 win.loopMessage();
-return wbLayout;
+return wbLayout,winform;

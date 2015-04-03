@@ -36,7 +36,8 @@ a:hover { color: #369; text-decoration: underline; }
 html body { 
 	margin: 0; border: 1px solid #999;
 	font-family: '微软雅黑','宋体';
-	background:url(/layout/img/skinbg.png) repeat;
+	//background:url(/layout/img/skinbg.png) repeat;
+  background-color: rgb(219,234,232);
 }
 /*标题栏*/
 #hl_header {
@@ -58,20 +59,34 @@ html body {
 	width: 33px; height: 14px;
 	margin: 7px 0 5px 5px;display:block;
 }
-#user {
-	height: 14px; overflow: hidden;
+#online {
+	height: 14px; overflow: hidden; width: 170px;
 	font-size: 12px; color: #fff; padding-right: 14px;padding-left: 0px;padding-top: 0px;padding-bottom: 0px;
 	background: url(/layout/img/arr.gif) no-repeat 5px right;
 	margin: 0 0 0 9px;
+}
+#online a {
+  text-decoration: none;
+  color: #FFF;
 }
 #welcome_title {
 	width:325px; height: 100%; float: left;
 }
 #welcome_title strong {
-	height: 18px; padding: 4px 8px; width: *; 
+	height: 18px; padding: 3px 8px; width: *; 
   color: #000;
   font-weight:normal;
   font-size:18px;
+}
+#welcome_title span {
+  display: inline-block;
+  background-image: url(/layout/img/talk-sig1.png);
+  background-repeat: no-repeat;
+  background-position: center left;
+  padding-left: 16px;
+  margin-left: 7px;
+  height: 14px;
+  font-size:14px;
 }
 #window-caption-buttons{
   behavior:windowCommand;
@@ -92,8 +107,7 @@ html body {
   font-family:"Marlett";
   text-decoration:none;
  
-  background-repeat:no-repeat;  
-  //transition: blend;
+  background-repeat:no-repeat; 
 }
 
 [command=window-setting] { 
@@ -232,26 +246,59 @@ html body {
 #person_sider a[selected=notice] {
   background-color: #b2b92F; color: #FFF;
 }
+#person_sider a[selected=online] {
+  background-color: #336699; color: #FFF;
+}
 
 #panel_main { height: *; flow: horizontal; border-radius: 0 0 3px 0; }
 #panel_main .list { width: 325px; height: *; color: #4A5E78;}
-#panel_main .editor {
-	width: *; height: *; color: #000; 
-	overflow: hidden; vertical-scrollbar: mini_scrollbar; horizontal-scrollbar: hiden_scrollbar;
-	behavior: frame-set;
-	flow:vertical;
-	border-spacing: 2px; /* width of splitter */
-}
-
 #panel_main .list {
   overflow: auto; vertical-scrollbar: mini_scrollbar; horizontal-scrollbar: hiden_scrollbar;
   behavior:htmlarea;
   padding: 1px;
   border-left: 1px solid #CCC;
 }
+#inputBar span {
+  display:inline-block;
+  height:26px;
+  font-size:16px;
+  line-height:26px;
+  margin-top: 2px;
+  color: #111;
+  overflow: hidden;
+}
+#inputBar span:hover {
+  border:1px solid #666;
+  border-left: 1px solid #CCC;
+  background-color: #999;
+}
+#inputBar a {
+  color: #111;
+  text-decoration: none;
+}
+#inputBar #chat_history {
+  width:70px;
+  background-image: url(/layout/img/chathistory-sig1.png);
+  background-repeat: no-repeat;
+  background-position: 4px 4px;
+  padding-left:28px;
+}
+#inputBar #fulledit {
+  width:54px;
+  background-image: url(/layout/img/fulledit-sig.png);
+  background-repeat: no-repeat;
+  background-position: 4px 4px;
+  padding-left:28px;
+}
+#panel_main .editor {
+  width: *; height: *; color: #000; 
+  overflow: hidden; vertical-scrollbar: mini_scrollbar; horizontal-scrollbar: hiden_scrollbar;
+  behavior: frame-set;
+  flow:vertical;
+  border-spacing: 2px; /* width of splitter */
+}
 #charInputArea {
   overflow:hidden;
-  width:100%;
   height:100%%;
   border: 1px solid #FFF;
   background: transparent;

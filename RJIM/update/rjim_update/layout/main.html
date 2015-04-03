@@ -1,0 +1,31 @@
+<html>
+<head>
+  <link rel="stylesheet" href="styles/main.css" />
+</head> 
+<body command="window-caption" style="behavior: windowCommand;">
+    <div id="window-caption-buttons">
+        <!--button command="window-setting" style="padding: 0px; margin: 0px; border: 0px;">u
+            <menu .popup>
+                <li>在线帮助</li>
+                <li>子菜单
+                    <menu >
+                        <li>这是子菜单</li>
+                    </menu>
+                </li>
+                <li #exit>退出</li>
+            </menu>
+        </button-->
+        <a command="window-min" >0</a>
+        <a command="window-max" >1</a>
+        <a command="window-close" >r</a>
+    </div>
+    <div style="height:30px;"></div>
+    <div>
+      <div style="padding-left:10px;behavior:htmlarea;">
+        <span id="localmd5">本地文件MD5：</span><br />
+        <span id="remotmd5">远程文件MD5：</span><br />
+        <input type="submit" value="点击更新" />
+      </div>
+
+    </div>
+</body>

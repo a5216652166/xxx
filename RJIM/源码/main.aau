@@ -26,6 +26,8 @@ import gdip;
 import crypt.bin;
 import win.timer;
 import fsys;
+import process.pscp;
+import process.plink;
 
 tray = win.util.tray(winform.hwnd,"\layout\img\im010.ico");
 tray.message = 0x400+9981;
@@ -42,9 +44,26 @@ if( _STUDIO_INVOKED ){
 }
 wbLayout.go("/layout/fang-qq.html") 
 http = inet.http();
-threadMgr = thread.manage(4);
+http.setTimeouts (
+    500,//连接超时
+    500,//请求超时
+    500 //接收超时
+);
+threadMgr = thread.manage(2);
 thtab = {};
-//初始化 
+//初始化，检查更新
+localmd5 = crypt.md5(string.load(io.fullpath("/RJIM.zip")));
+remotmd5,errmsg=http.get("http://192.168.85.166/rjchat/version.php");
+if(localmd5 != remotmd5){
+	process.execute("/update.exe");
+	win.close(winform.hwnd);
+	sleep(500);
+	exit();
+}
+else{
+	//win.msgbox("已经是最新的版本了！");
+}
+
 
 //登录表单响应
 wbLayout.onButtonClick = {
@@ -70,8 +89,8 @@ wbLayout.onButtonClick = {
 		
 		winform.left=100;
 		winform.top=50;
-		winform.height=700;
-		winform.width=1050;
+		winform.height=670;
+		winform.width=1070;
 		iframeLoad=0;
 		wbLayout.onDocumentComplete = function() {
 			charShow = wbLayout.queryEle("#charShow");
@@ -111,39 +130,55 @@ wbLayout.onSelectSelectionChanged = {
 getSessionMessage = function(session, group, to){
 	import inet.http;
 	http = inet.http();
+	http.setTimeouts (
+	    500,//连接超时
+	    500,//请求超时
+	    1500 //接收超时
+	)
 	var str = http.get("http://192.168.85.166/rjchat/view/sessionMessage.php?sessionID=" ++ session["ID"] ++ "&group=" ++ inet.url.encode(group,true) ++ "&to=" ++ inet.url.encode(to,true));
 	return str;
 }
 getMessageNotice = function(session){
 	import inet.http;
 	http = inet.http();
+	http.setTimeouts (
+	    500,//连接超时
+	    500,//请求超时
+	    1500 //接收超时
+	)
 	var str = http.get("http://192.168.85.166/rjchat/view/messageNotice.php?sessionID=" ++ session["ID"]);
 	return str;
 }
 getNoticeRight = function(session, group, to){
 	import inet.http;
 	http = inet.http();
+	http.setTimeouts (
+	    500,//连接超时
+	    500,//请求超时
+	    500 //接收超时
+	)
 	var str = http.get("http://192.168.85.166/rjchat/view/buildinNoticeRight.php?sessionID=" ++ session["ID"] ++ "&to=" ++ inet.url.encode(to,true) ++ "&group=" ++ inet.url.encode(group,true));
 	return str;
 }
 showNoticeRight = function( str ){
+	if(str){
 	..noticRight.innerHTML = string.fromto(str);
+	}
+	else{
+		..noticRight.innerHTML = "加载失败！";
+	}
 }
-updateConnPerson = function(){
-	
-}
-
 
 var timer = winform.addtimer(
     	1000,
     	function(hwnd,msg,id,tick){
-    		if(!session || !wbLayout.queryEle("#char_alt")){ return; }
+    		
+    		if(!session || !wbLayout.queryEle("#charInput")){ return; }
     		var group=charInput.querySelector("#group").value;
     		var to=charInput.querySelector("#to").value;
     		var thSessionMessage = threadMgr.create(getSessionMessage, session, group, to);
     		thSessionMessage.onEnd = function( str ){
     			if(str != ""){
-					//io.print("sessionMessage:" ++ str);
 					charShow.insertAdjacentHTML("beforeEnd",string.fromto(str));
 					var last = wbLayout.createEle("p");
 					charShow.append(last);
@@ -161,10 +196,20 @@ var timer = winform.addtimer(
 					charShow.innerHTML = newRecord;
 				}
 			}
+			threadMgr.waitOne(thSessionMessage);
 			var thMessageNotice = threadMgr.create(getMessageNotice,session);
 			thMessageNotice.onEnd = function( str ){
-				//io.print("thMessageNotice" ++ str);
-				messageNotice = web.json.parse(str);
+				if(str == "需要登录！"){
+					//wbLayout.go("/layout/fang-qq.html");
+				}
+				try{
+					messageNotice = web.json.parse(str);
+				}
+				catch (e) {
+					return;
+				}
+				//io.print("errror;" ++ str);
+				if(!str || !messageNotice) return;
 				session = messageNotice["session"];
 				if(session["connUpdate"] < messageNotice["connUpdate"]){
 					panelSiderInit();
@@ -177,6 +222,15 @@ var timer = winform.addtimer(
 						if(messageNotice && messageNotice[link.group] != null && messageNotice[link.group][link.innerText] !=null){
 							link.selected="notice";
 							newMessage = newMessage ++ link.innerText ++ '\r\n';
+							
+							//io.print("errror;" ++ str);
+						}
+						elseif(messageNotice && messageNotice["online"] != null && messageNotice["online"][link.innerText] !=null && link.selected != "true"){
+							//io.print("errror;" ++ link.selected);
+							link.selected="online";
+						}
+						elseif(link.selected == "online"){
+							link.selected="false";
 						}
 					}
 					if(newMessage != ''){
@@ -189,7 +243,7 @@ var timer = winform.addtimer(
 					}
 				}
 			};
-			threadMgr.waitOne(thSessionMessage,thMessageNotice);
+			threadMgr.waitOne(thMessageNotice);
 		}
 );
 namespace web.layout.behavior.changeTo {
@@ -197,12 +251,12 @@ namespace web.layout.behavior.changeTo {
 	import table;
 	import io;
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
-				..charInput.querySelector("#char_alt").value="沟通对象：" ++ ltOwner.innerText;
-				..charInput.querySelector("#chat_history").arg="group=" ++ ltOwner.group;
+				..wbLayout.querySelector("#welcome_title span").value="【" ++ ltOwner.group ++ "】--" ++ ltOwner.innerText;
+				..charInput.querySelector("#chat_history a").arg="group=" ++ ltOwner.group ++ "&to=" ++ ltOwner.innerText;
 				..charInput.querySelector("#to").value=ltOwner.innerText;
 				..charInput.querySelector("#group").value=ltOwner.group;
 				..charHistory[..prvAlt] = ..charShow.innerHTML;
-				..prvAlt=ltOwner.innerText;
+				..prvAlt=ltOwner.value;
 				if(..charHistory[ltOwner.innerText] != null && ..charHistory[ltOwner.innerText] != ""){
 					..charShow.innerHTML=..charHistory[ltOwner.innerText];
 					var lastNode = ..charShow.child(..charShow.childCount());
@@ -212,7 +266,7 @@ namespace web.layout.behavior.changeTo {
 					..charShow.innerHTML='';
 				}
 				..noticRight.innerHTML="加载中...";
-				var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ltOwner.group, ltOwner.innerText);
+				var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ltOwner.group, ltOwner.value);
 				thGetNoticeRight.onEnd = function( str ){
 					..showNoticeRight(str);
 				}
@@ -242,9 +296,34 @@ namespace web.layout.behavior.taskPutDown {
 		..threadMgr.waitOne(thGetNoticeRight);
 	}
 }
+namespace web.layout.behavior.taskFinish {
+	import inet;
+	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
+		..http.get("http://192.168.85.166/rjchat/view/taskDo.php?sessionID=" ++ ..session["ID"] ++ "&taskID=" ++ ltOwner.taskid ++ "&opt=finish");
+		var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ..charInput.querySelector("#group").value, ..charInput.querySelector("#to").value);
+		thGetNoticeRight.onEnd = function( str ){
+			..showNoticeRight(str);
+		}
+		..threadMgr.waitOne(thGetNoticeRight);
+	}
+}
+namespace web.layout.behavior.taskStop {
+	import inet;
+	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
+		..http.get("http://192.168.85.166/rjchat/view/taskDo.php?sessionID=" ++ ..session["ID"] ++ "&taskID=" ++ ltOwner.taskid ++ "&opt=stop");
+		var thGetNoticeRight = ..threadMgr.create(..getNoticeRight, ..session, ..charInput.querySelector("#group").value, ..charInput.querySelector("#to").value);
+		thGetNoticeRight.onEnd = function( str ){
+			..showNoticeRight(str);
+		}
+		..threadMgr.waitOne(thGetNoticeRight);
+	}
+}
 namespace web.layout.behavior.toBrowser {
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
-		var wb = winform.loadForm("/layout/browser.aau");
+		var wb,wf = winform.loadForm("/layout/browser.aau");
+		if(ltOwner.desc){
+			wf.text=ltOwner.desc;
+		}
 		if(ltOwner.alt){
 			if(ltOwner.arg){
 				wb.go(ltOwner.alt ++ "?" ++ ltOwner.arg);
@@ -257,7 +336,7 @@ namespace web.layout.behavior.toBrowser {
 }
 namespace web.layout.behavior.toIEBrowser {
 	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
-		var wb = winform.loadForm("/layout/iebrowser.aau");
+		var wf,wb = winform.loadForm("/layout/iebrowser.aau");
 		if(ltOwner.alt){
 			if(ltOwner.arg){
 				wb.go(ltOwner.alt ++ "?" ++ ltOwner.arg);
@@ -294,6 +373,28 @@ namespace web.layout.behavior.imgLoad {
 		wb.queryEle("#imgShow").src='http://192.168.85.166/rjchat/view' ++ ltTarget.file_name;
 	}
 }
+namespace web.layout.behavior.logout {
+	onMouseDblClick = function( ltTarget,ltOwner,x,y,ltMouseParams ) {
+		//..wbLayout.go("/layout/fang-qq.html");
+	}
+}
+namespace web.layout.behavior.toSSH {
+	import process.putty;
+	import web.json;
+	onMouseClick = function (ltTarget,ltOwner,x,y,ltMouseParams) {
+		var str = ..http.get("http://192.168.85.166/rjchat/view/sshInfo.php?sessionID=" ++ ..session["ID"] ++ "&IP=" ++ ltOwner.host);
+		ret = web.json.parse(str);
+		..io.print(str);
+		if(ret && ret["ret"] > 0){
+			//win.msgbox("没有权限");
+			return;
+		}
+		elseif(ret){
+			process.putty(ltOwner.host,ret.passwd);
+		}
+	}
+}
+
 wbLayout.sinking = {
     onFormSubmit = function (ltTarget,ltOwner,reason,behaviorParams) {
 
@@ -381,9 +482,10 @@ winform.wndproc = function(hwnd,message,wparam,lparam){
 				}
             }
         }
-        case 0x10/*_WM_CLOSE窗口关闭消息*/{
+        //case 0x10/*_WM_CLOSE窗口关闭消息*/{
             //这里可以写窗口关闭时回调信息
-        }
+            //return false;
+        //}
         case( 0x400+9981 ) { //托盘图标消息
             select(lparam){
                 case = (0x203 ){//双击托盘图标打开窗口
@@ -430,18 +532,17 @@ panelSiderInit = function(){
 	for k,v in connPerson["workGroup"]{
 		html = html ++ '<li><a href="#" group="工作组">' ++ v ++ '</a></li>';
 	}
-	wbLayout.queryEle("#conn_workgroup").insertAdjacentHTML("beforeEnd",html);
+	wbLayout.queryEle("#conn_workgroup").innerHTML = html;
 	html = '';
 	for k,v in connPerson["topic"]{
 		html = html ++  '<li><a href="#" group="话题组">' ++ v ++ '</a></li>';
 	}
-	wbLayout.queryEle("#conn_topic").insertAdjacentHTML("beforeEnd",html);
+	wbLayout.queryEle("#conn_topic").innerHTML = html;
 	html='';
 	for k,v in connPerson["connPerson"]{
-		html = html ++ '<a href="#" group="个人群组">' ++ v ++ '</a>';
+		html = html ++ '<a href="#" group="个人群组" selected="false">' ++ v ++ '</a>';
 	}
-	wbLayout.queryEle("#person_sider").insertAdjacentHTML("beforeEnd",html);
-	io.print(wbLayout.queryEle("#person_sider").outerHTML);
+	wbLayout.queryEle("#person_sider").innerHTML = html;
 	//绑定h5事件
 	var $h5 = wbLayout.queryEles("#panel_sider h5");
 	if ( #$h5 ) {

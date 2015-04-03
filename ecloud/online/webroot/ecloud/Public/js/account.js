@@ -143,7 +143,10 @@
 				success:function(data){
 					if(data.data=="SUCC"){
 						clearInterval(_interval);
-						updateOrder(id,time,oid);			
+						//updateOrder(id,time,oid);
+						layer.close(layer_load);
+						$("#pay_div").html('<h4 style="padding: 20px 0px 0px 40px;">您的订单已经支付成功，系统正在处理中。</h4><h4 style="padding:20px 0px 0px 40px;">请耐心等待我们的邮件通知。</h4><h4 style="padding:20px 0px 0px 40px;">登录[' + USER + ']邮箱查看邮件。</h4><h4 style="padding:20px 0px 0px 40px;"> 3 秒跳转订单页面。</h4>');
+						setInterval(function (){window.top.location.reload();},3000);
 					}
 				},
 				error:function(data){
@@ -793,7 +796,10 @@
 				success:function(data){
 					if(data.data=="SUCC"){
 						clearInterval(_interval);
-						addRecharge(id);
+						//addRecharge(id);
+						layer.close(load_recharge);
+						layer.msg('交易完成，3秒跳转用户中心页面',3,1)
+						setInterval(function (){window.location.href = APP + "/Index/account";},3000);
 					}
 				},
 				error:function(data){

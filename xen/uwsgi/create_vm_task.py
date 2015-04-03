@@ -37,8 +37,9 @@ def _init_session():
 	# {u'uuid': u'7106005d-e8e3-4da5-8adc-4e8035da77ad', 
 	# u'master': u'10.11.253.43', u'user': u'root', u'pass': u'Rjkj@efly#123'}
 
-	master_url = "http://%s/"%(pool_data['master'])
-	session = XenAPI.Session(master_url)
+	#master_url = "http://%s/"%(pool_data['master'])
+	rpc_url = pool_data['xen-api-rpc']
+	session = XenAPI.Session(rpc_url)
 	session.xenapi.login_with_password(pool_data['user'], pool_data['pass'])
 	return True
 

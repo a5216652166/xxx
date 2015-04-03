@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="0.60" name="睿江IM" libEmbed="true" icon="\layout\img\im010.ico" CompanyName="睿江科技" FileDescription="广东睿江科技有限公司-内部沟通系统" LegalCopyright="睿江科技" ProductName="睿江IM" InternalName="RJIM" FileVersion="0.0.1.66" ProductVersion="0.0.1.66" publishDir="\" ui="win" output="睿江IM.exe">
+<project ver="0.60" name="睿江IM" libEmbed="true" icon="\layout\img\im010.ico" CompanyName="睿江科技" FileDescription="广东睿江科技有限公司-内部沟通系统" LegalCopyright="睿江科技" ProductName="睿江IM" InternalName="RJIM" FileVersion="0.0.1.108" ProductVersion="0.0.1.108" publishDir="\" ui="win" output="RJIM.exe">
 	<file name="main.aau" path="main.aau"/>
 	<folder name="资源文件(web.layout)" path="layout" comment="" embed="true">
+		<file name="person.html" path="layout\person.html" comment="layout\person.html"/>
 		<file name="index.html" path="layout\index.html" comment="layout\index.html"/>
 		<file name="imgbrowser.aau" path="layout\imgbrowser.aau" comment="layout\imgbrowser.aau"/>
 		<file name="iebrowser.aau" path="layout\iebrowser.aau" comment="layout\iebrowser.aau"/>
@@ -86,12 +87,16 @@
 			<file name="001.png" path="layout\face\001.png" comment="layout\face\001.png"/>
 		</folder>
 		<folder name="img" path="layout\img" comment="layout\img">
+			<file name="talk-sig1.png" path="layout\img\talk-sig1.png" comment="layout\img\talk-sig1.png"/>
+			<file name="talk-sig.png" path="layout\img\talk-sig.png" comment="layout\img\talk-sig.png"/>
 			<file name="skinbg.png" path="layout\img\skinbg.png" comment="layout\img\skinbg.png"/>
 			<file name="sider_normal.png" path="layout\img\sider_normal.png" comment="layout\img\sider_normal.png"/>
 			<file name="sider_hover.png" path="layout\img\sider_hover.png" comment="layout\img\sider_hover.png"/>
 			<file name="showbg.jpg" path="layout\img\showbg.jpg" comment="layout\img\showbg.jpg"/>
 			<file name="search_input.png" path="layout\img\search_input.png" comment="layout\img\search_input.png"/>
 			<file name="msg.png" path="layout\img\msg.png" comment="layout\img\msg.png"/>
+			<file name="inputtools.png" path="layout\img\inputtools.png" comment="layout\img\inputtools.png"/>
+			<file name="inputcolor-sig.png" path="layout\img\inputcolor-sig.png" comment="layout\img\inputcolor-sig.png"/>
 			<file name="im_new.png" path="layout\img\im_new.png" comment="layout\img\im_new.png"/>
 			<file name="im1.ico" path="layout\img\im1.ico" comment="layout\img\im1.ico"/>
 			<file name="im011.ico" path="layout\img\im011.ico" comment="layout\img\im011.ico"/>
@@ -111,11 +116,15 @@
 			<file name="im.ico" path="layout\img\im.ico" comment="layout\img\im.ico"/>
 			<file name="im-new.jpg.psd" path="layout\img\im-new.jpg.psd" comment="layout\img\im-new.jpg.psd"/>
 			<file name="icon.png" path="layout\img\icon.png" comment="layout\img\icon.png"/>
+			<file name="fulledit-sig.png" path="layout\img\fulledit-sig.png" comment="layout\img\fulledit-sig.png"/>
 			<file name="free.png" path="layout\img\free.png" comment="layout\img\free.png"/>
 			<file name="face.png" path="layout\img\face.png" comment="layout\img\face.png"/>
+			<file name="chathistory-sig1.png" path="layout\img\chathistory-sig1.png" comment="layout\img\chathistory-sig1.png"/>
+			<file name="chathistory-sig.png" path="layout\img\chathistory-sig.png" comment="layout\img\chathistory-sig.png"/>
 			<file name="arr.gif" path="layout\img\arr.gif" comment="layout\img\arr.gif"/>
 		</folder>
 		<folder name="styles" path="layout\styles" comment="layout\styles">
+			<file name="复件 style.css" path="layout\styles\复件 style.css" comment="layout\styles\复件 style.css"/>
 			<file name="style.css" path="layout\styles\style.css" comment="layout\styles\style.css"/>
 			<file name="fang-qq.css" path="layout\styles\fang-qq.css" comment="layout\styles\fang-qq.css"/>
 			<file name="content.css" path="layout\styles\content.css" comment="layout\styles\content.css"/>

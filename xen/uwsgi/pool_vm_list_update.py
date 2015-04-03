@@ -20,8 +20,9 @@ def _init_pool_session(pool_code, pool_data):
 	# {u'uuid': u'7106005d-e8e3-4da5-8adc-4e8035da77ad', 
 	# u'master': u'10.11.253.43', u'user': u'root', u'pass': u'Rjkj@efly#123'}
 
-	master_url = "http://%s/"%(pool_data['master'])
-	session = XenAPI.Session(master_url)
+	#master_url = "http://%s/"%(pool_data['master'])
+	rpc_url = pool_data['xen-api-rpc']
+	session = XenAPI.Session(rpc_url)
 	session.xenapi.login_with_password(pool_data['user'], pool_data['pass'])
 	return session
 
@@ -68,7 +69,10 @@ def _get_pool_vm_list(pool_code, pool_data):
 
 		#get host code
 		host = record['resident_on']
-		host_code = session.xenapi.host.get_name_label(host)
+		if host == 'OpaqueRef:NULL':
+			host_code = ''
+		else:
+			host_code = session.xenapi.host.get_name_label(host)
 		#print record['name_label'], host, host_code
 
 		#get ram

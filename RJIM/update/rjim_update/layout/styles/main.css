@@ -1,0 +1,86 @@
+html,body{
+    margin:0; /*去掉默认的页面边距*/
+    height:100%;/*因为HTML元素的高度默认是按需增加的,所有需要显示指定根节点高度*/
+    background-color:#E8E8FF;/*网页背景色*/
+    overflow:auto; vertical-scrollbar: mini_scrollbar;
+    border-radius: 3;
+    //background-image: url(/layout/img/bg1.jpg) stretch;
+    //background-color: rgb(233,236,247);
+    font-family: '微软雅黑','宋体';
+}
+
+/*最大化后body会自动添加maximize属性,如果是圆角界面可以在这里移除圆角*/
+body[maximize]{ 
+	border-radius:0;
+}
+
+#window-caption-buttons{
+  behavior:windowCommand;
+  position: absolute;
+  right: 0px;
+  top: 0;
+  height: 30px; 
+}
+#window-caption-buttons [command] {  
+  float: left;
+  height: 25px;
+  width: 20px;
+  line-height: 25px;
+  padding: 0px;
+  padding-left: 7px;
+  font-weight: bolder;
+  display: inline-block;
+  font-family:"Marlett";
+  text-decoration:none;
+ 
+  background-repeat:no-repeat;  
+  //transition: blend;
+}
+
+[command=window-setting] { 
+  behavior:popup-menu;
+  color: #888;
+  background-image:none;
+}  
+[command==window-setting]:hover {
+  background-color: rgb(58,149,222);
+  color: #FFF;
+}  
+
+[command=window-min] { 
+  color: #888;
+}  
+[command=window-min]:hover {
+  background-color: rgb(58,149,222);
+  color: #FFF;
+}  
+[command=window-min]:active {
+}  
+[command=window-max] {  
+  color: #888;
+}  
+[command=window-max]:hover {
+  background-color: rgb(58,149,222);
+  color: #FFF;
+}  
+[command=window-max]:active {
+} 
+[command="window-restore"] {
+  content:"2";/*改变文本,Marlett字体为还原符号*/ 
+  color: #888;
+} 
+[command="window-restore"]:hover  {
+  background-color: rgb(58,149,222);
+  color: #FFF;
+}
+
+[command=window-close]  {  
+  color: #888;
+  font-weight: normal;
+}
+[command=window-close]:hover  {
+  background-color: rgb(212,64,36);
+  color: #FFF;
+}  
+[command=window-close]:active {
+}

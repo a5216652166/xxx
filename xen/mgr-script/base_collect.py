@@ -27,7 +27,7 @@ def get_pool_data(pool_code):
 
     try:
         params = urllib.urlencode({'PoolCode':pool_code, 'Opt':'ConfigData'})
-        f = urllib.urlopen("http://api.efly.cc/ecloud_admin/GetPoolData.php?%s"%(params))
+        f = urllib.urlopen("http://api.efly.cc/ecloud_admin_test/GetPoolData.php?%s"%(params))
         ret = json.loads(f.read())
         if ret['ret'] != 0:
             return False
@@ -37,7 +37,7 @@ def get_pool_data(pool_code):
 
     try:
         params = urllib.urlencode({'PoolCode':pool_code, 'Opt':'HostList'})
-        f = urllib.urlopen("http://api.efly.cc/ecloud_admin/GetPoolData.php?%s"%(params))
+        f = urllib.urlopen("http://api.efly.cc/ecloud_admin_test/GetPoolData.php?%s"%(params))
         ret = json.loads(f.read())
         if ret['ret'] != 0:
             return False
@@ -59,7 +59,7 @@ def print_latest_host_data(rrd_updates, sx, last_time):
     host_name = sx.host.get_name_label(host)
     #print "[HostName: " + host_name + "]"
     post_data = {}
-    post_data['name'] = host_name
+    post_data['propertycode'] = host_name
     post_data['timestamp'] = last_time
     post_data['performance'] = []
     for param in rrd_updates.get_host_param_list():
@@ -85,7 +85,7 @@ def print_latest_vm_data(rrd_updates, sx, uuid, last_time):
     #print '-------------------------------------------------------------'
     #print "[VMName:"+sx.VM.get_name_label(vm) + "]"
     post_data = {}
-    post_data['name'] = vm_name
+    post_data['propertycode'] = vm_name
     post_data['timestamp'] = last_time
     post_data['performance'] = []
     for param in rrd_updates.get_vm_param_list(uuid):
@@ -104,7 +104,7 @@ def print_latest_vm_data(rrd_updates, sx, uuid, last_time):
 
 def post_performance_data(name, post_data):
     post_data = 'postdata=' + json.dumps(post_data)
-    url = 'http://api.efly.cc/ecloud_admin/PostPerformanceData.php'
+    url = 'http://api.efly.cc/ecloud_admin_test/PostPerformanceData.php'
     req = urllib2.Request(url, post_data)
     f = urllib2.urlopen(req)
     print f.read()
@@ -115,7 +115,7 @@ def build_start_time():
     ss = "%d-%02d-%02d %02d:%02d:%02d"%(tt.tm_year, tt.tm_mon, tt.tm_mday, tt.tm_hour, mmin, 0)
     ts = time.strptime(ss, "%Y-%m-%d %H:%M:%S")
     #print("build_start_time %s"%(ts))
-    print time.strftime("%Y-%m-%d %H:%M:%S", ts)
+    #print time.strftime("%Y-%m-%d %H:%M:%S", ts)
     start_time = int(time.mktime(ts))
     return start_time
 

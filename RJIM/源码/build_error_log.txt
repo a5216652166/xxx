@@ -1,12 +1,12 @@
 错误发生在文件---------------:
-C:\Documents and Settings\Administrator\桌面\aauto测试\fangqq\main.aau
+D:\睿江项目\EflyOpenPlatform项目\RJIM\源码\main.aau
 错误发生在代码---------------：
 
 错误信息---------------:
 
 error:
-line:#70
-file:C:\Documents and Settings\Administrator\桌面\aauto测试\fangqq\main.aau
+line:#57
+file:D:\睿江项目\EflyOpenPlatform项目\RJIM\源码\main.aau
 error:<unexpected symbol>
-near:...')'
-byte:0x29
+near:...'\'
+byte:0x5C
