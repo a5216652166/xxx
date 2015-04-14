@@ -27,7 +27,7 @@ def get_pool_data(pool_code):
 
     try:
         params = urllib.urlencode({'PoolCode':pool_code, 'Opt':'ConfigData'})
-        f = urllib.urlopen("http://api.efly.cc/ecloud_admin_test/GetPoolData.php?%s"%(params))
+        f = urllib.urlopen("http://api.efly.cc/ecloud_admin/GetPoolData.php?%s"%(params))
         ret = json.loads(f.read())
         if ret['ret'] != 0:
             return False
@@ -37,7 +37,7 @@ def get_pool_data(pool_code):
 
     try:
         params = urllib.urlencode({'PoolCode':pool_code, 'Opt':'HostList'})
-        f = urllib.urlopen("http://api.efly.cc/ecloud_admin_test/GetPoolData.php?%s"%(params))
+        f = urllib.urlopen("http://api.efly.cc/ecloud_admin/GetPoolData.php?%s"%(params))
         ret = json.loads(f.read())
         if ret['ret'] != 0:
             return False
@@ -48,8 +48,10 @@ def get_pool_data(pool_code):
     #print pool_data
     #print hosts
 
-    master_url = "http://%s/"%(pool_data['master'])
-    session = XenAPI.Session(master_url)
+    #master_url = "http://%s/"%(pool_data['master'])
+    #session = XenAPI.Session(master_url)
+    rpc_url = pool_data['xen-api-rpc']
+    session = XenAPI.Session(rpc_url)
     session.xenapi.login_with_password(pool_data['user'], pool_data['pass'])
 
 def print_latest_host_data(rrd_updates, sx, last_time):
@@ -104,7 +106,7 @@ def print_latest_vm_data(rrd_updates, sx, uuid, last_time):
 
 def post_performance_data(name, post_data):
     post_data = 'postdata=' + json.dumps(post_data)
-    url = 'http://api.efly.cc/ecloud_admin_test/PostPerformanceData.php'
+    url = 'http://api.efly.cc/ecloud_admin/PostPerformanceData.php'
     req = urllib2.Request(url, post_data)
     f = urllib2.urlopen(req)
     print f.read()

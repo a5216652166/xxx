@@ -30,7 +30,7 @@
     </div>
     <div class="mt20 clearfix">
         <div class="col-md-1 title">
-            机房:
+            可用区域:
         </div>
         <div class="col-md-9" style="width:65%">
 	    <div id="house" class="clearfix">
@@ -114,7 +114,7 @@
         系统盘:
         </div>
         <div class="col-md-9">
-        	<span class="zero_tip" style="margin:0;padding:0;color:#f76120">默认赠送50G</span>
+        	<span class="zero_tip" style="margin:0;padding:0;color:#f76120">默认赠送20G</span>
         </div>
         <div class="col-md-2"><a href="javascript:void(0);" onclick="setTaocang(this);" data="1,1,100,5" price="185">5M创业型套餐</a></div>
         <div class="col-md-2"><a href="javascript:void(0);" onclick="setTaocang(this);" data="2,4,200,10" price="800">10M升级套餐</a></div>
@@ -128,7 +128,7 @@
         <div class="col-md-2"><h4>实用型套餐</h4></div>
     </div>
 
-    <div class="mt20 clearfix">
+    <div class="mt20 clearfix" style="display:none;">
         <div class="col-md-1 title for-slider">国际BGP:</div>
         <div class="col-md-9">
 	    <input id="net" type="text" value="" data-slider-min="0" data-slider-max="200" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" data-slider-handle="square" >
@@ -139,7 +139,7 @@
     </div>
     
     <div class="mt20 clearfix">
-        <div class="col-md-1 title for-slider">国内BGP:</div>
+        <div class="col-md-1 title for-slider">BGP:</div>
         <div class="col-md-9">
 	    <input id="bgp" type="text" value="" data-slider-min="0" data-slider-max="200" data-slider-step="1" data-slider-value="5" data-slider-tooltip="hide" data-slider-handle="square" >
 	    <div id="bgp-slider-input"><input id="bgp_value" value="5" data-original-title="" title=""><span class="unit">Mbps</span><span class="zero_tip">默认赠送一个IP</span></div>
@@ -283,6 +283,7 @@
 			});
 		}
 		var USER = "{$_SESSION['user']}",send_layer;
+		
     	function order(){
 			var cpu = "",ram="", sys = $("#system-name").html(),house = $("#house_value").val(),disk=$("#disk_value").val(),iplc=$("#net_value").val(),bgp=$("#bgp_value").val(),num=$("#num_value").val(),time="",price=$("#price").html();
 			$("#cpu button").each(function(){

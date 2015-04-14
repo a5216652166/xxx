@@ -21,6 +21,781 @@
     <script type="text/javascript" src="__ROOT__/Public/js/util.js"></script>
     <script type="text/javascript" src="__ROOT__/Public/js/layer/layer.min.js"></script>
     <script type="text/javascript" src="__ROOT__/Public/js/account.js"></script>
+
+    <style type="text/css">
+        .details {
+            border: 1px solid #ddd;
+            border-top: none;
+            border-bottom: none;
+            padding: 0 0px;
+            margin: 0px 40px 30px;
+        }
+
+        .chart {
+            /*display: inline-block;
+            *display: inline;
+            *zoom: 1;*/
+            float: left;
+            height: 188px;
+            width: 300px;
+        }
+    </style>
+
+    <script src="__ROOT__/Public/js/Highcharts-4.0.3/highcharts.js"></script>
+    <script type="text/javascript">
+
+        /* 获取最近的一个5分钟时间点 */
+        function getNearFiveMinPoint(now){
+            if(!(now instanceof Date)){
+                return null;
+            }
+
+            var year = now.getFullYear();
+            var month = now.getMonth();
+            var day = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+
+            var prev5Min = Math.floor(minute / 5) * 5;
+
+            return new Date(year, month, day, hour, prev5Min, 0);
+
+            /*
+            var one = new Date(year, month, day, hour, prev5Min, 0);
+            var other = new Date(year, month, day, hour, prev5Min + 5, 0);
+
+            if(now - one < other - now){
+                console.log(one);
+            }else{
+                console.log(other);
+            }
+            */
+        }
+
+        function padZero(num){
+            return num < 10 ? "0" + num : num;
+        }
+
+        function formatDate(d) {
+            return d.getFullYear() + "-" 
+                + padZero((d.getMonth() + 1)) + "-" 
+                + padZero(d.getDate()) + " " 
+                + padZero(d.getHours()) + ":" 
+                + padZero(d.getMinutes()) + ":" 
+                + padZero(d.getSeconds());
+        }
+
+        function quickSort(arr, i, j){
+            if(i < j){
+                var low = i,
+                    high = j,
+                    key = arr[low];
+
+                while(low < high){
+                    while(low < high && arr[high][0] >= key[0]){
+                        high--;
+                    }
+                    if(low < high){
+                        arr[low++] = arr[high];
+                    }
+
+                    while(low < high && arr[low][0] <= key[0]){
+                        low++;
+                    }
+                    if(low < high){
+                        arr[high--] = arr[low];
+                    }
+                }
+                arr[low] = key;
+
+                quickSort(arr, i, low - 1);
+                quickSort(arr, low + 1, j);
+            }
+        }
+
+        function drawCharts(obj,code,id){
+            //测试数据
+            //code = 'C-02-505-07-20110523-011';
+            //code = 'A-02-505-26-20130529-008';
+            //var code2 = 'A-08-509-26-20150408-004';
+
+            var end = getNearFiveMinPoint(new Date());
+            var start = new Date(end.getTime() - 24 * 3600 * 1000);
+            var startAndEnd = "&DataStart=" + formatDate(start).replace(' ', '+') + "&DataEnd=" + formatDate(end).replace(' ', '+');
+
+            var cpuUrl = "http://api.efly.cc/ecloud_admin/GetPerformanceData.php?PropertyCode=" + code + "&Item=CPU" + startAndEnd,
+                memUrl = "http://api.efly.cc/ecloud_admin/GetPerformanceData.php?PropertyCode=" + code + "&Item=Memory" + startAndEnd,
+                vifUrl = "http://api.efly.cc/ecloud_admin/GetPerformanceData.php?PropertyCode=" + code + "&Item=VIF" + startAndEnd;
+
+            //url编码
+            cpuUrl = encodeURIComponent(cpuUrl);
+            memUrl = encodeURIComponent(memUrl);
+            vifUrl = encodeURIComponent(vifUrl);
+
+            if($(obj).html() == '收起详情'){
+                var charts = $(".vpsinfo_" + id).find('.details .chart');
+
+                //CPU
+                $.getJSON('__URL__/send_get?url=' + cpuUrl, function(ret){
+                    //console.log(ret);
+                    var theDiv = charts.get(0);
+
+                    if(ret.ret > 0){
+                        //$(theDiv).html(ret.error);
+                        $(theDiv).html('没有数据');
+                        return;
+                    }
+
+                    var data = [];
+                    for(var k in ret.result){
+                        //console.log(k, new Date(k.replace(/-/g, '/')).toLocaleString(), new Date(k.replace(/-/g, '/')).getTime());
+                        //data.push( [ new Date(k.replace(/-/g, '/')).getTime(), parseInt(ret.result[k]) ] );
+                        data.push( [ k * 1000, parseInt(ret.result[k]['avg']) ] );
+                    }
+
+                    //按时间排序
+                    //quickSort(data, 0, data.length - 1);
+                    data.sort(function(a,b){
+                        return a[0] < b[0] ? -1 : 1;
+                    });
+
+                    var chart = cpuChart(theDiv, 'CPU', data);
+                });
+
+                //内存
+                $.getJSON('__URL__/send_get?url=' + memUrl, function(ret){
+                    //console.log(ret);
+                    var theDiv = charts.get(1);
+
+                    if(ret.ret > 0){
+                        //$(theDiv).html(ret.error);
+                        $(theDiv).html('没有数据');
+                        return;
+                    }
+
+                    var data = [];
+                    for(var k in ret.result.Used){
+                        //console.log(k, new Date(k.replace(/-/g, '/')).toLocaleString(), new Date(k.replace(/-/g, '/')).getTime());
+                        //data.push( [ new Date(k.replace(/-/g, '/')).getTime(), parseInt(ret.result['Used'][k]) ] );
+                        data.push( [ k * 1000, parseInt(ret.result.Used[k]) ] );
+                    }
+
+                    //按时间排序
+                    data.sort(function(a,b){
+                        return a[0] < b[0] ? -1 : 1;
+                    });
+
+                    var chart = memoryChart(theDiv, '内存', data, ret.result.Total);
+                });
+
+                //网络
+                $.getJSON('__URL__/send_get?url=' + vifUrl, function(ret){
+                    //console.log(ret);
+                    var theDiv = charts.get(2);
+
+                    if(ret.ret > 0){
+                        //$(theDiv).html(ret.error);
+                        $(theDiv).html('没有数据');
+                        return;
+                    }
+
+                    var dataIn = [],
+                        dataOut = [];
+                    for(var k in ret.result){
+                        dataIn.push( [ k * 1000, parseInt(ret.result[k]['total_rx']) ] );
+                        dataOut.push( [ k * 1000, parseInt(ret.result[k]['total_tx']) ] );
+                    }
+
+                    //按时间排序
+                    dataIn.sort(function(a,b){
+                        return a[0] < b[0] ? -1 : 1;
+                    });
+                    dataOut.sort(function(a,b){
+                        return a[0] < b[0] ? -1 : 1;
+                    });
+
+                    var chart = netChart(theDiv, '网络', dataIn, dataOut);
+                });
+            }
+        }
+
+        Highcharts.setOptions({
+            global: {
+                useUTC : false
+            }
+        });
+
+        function cpuChart(dom, title, data){
+            var chart = new Highcharts.Chart({
+                chart : {
+                    renderTo: dom,
+                    zoomType: 'x',
+                    width: 300
+                },
+                credits : {
+                    enabled: false
+                },
+                title : {
+                    text : '<a href="javascript:;">'+title+'</a>',
+                    style : {
+                        "fontSize": "16px"
+                    }
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval : 60,
+                    gridLineWidth: 1,
+                    minorTickInterval: 'auto',
+                    lineColor: '#C0C0C0',
+                    tickColor: '#C0C0C0'
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value + "%";
+                        }
+                    },
+                    min: 0,
+                    minorTickInterval: 'auto',
+                    lineColor: '#000',
+                    lineWidth: 1,
+                    tickWidth: 1,
+                    tickColor: '#C0C0C0'
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    shared: true,
+                    formatter: function(){
+                        //console.log(this);
+                        var y0 = this.points[0].y + "%";
+
+                        return '<b>'+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',this.points[0].x) +'</b><br/>' 
+                                    + '<span style="color:'+this.points[0].point.series.color+'">' + this.points[0].point.series.name + "：" + y0 + '</span>';
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                        },
+                        threshold: null
+                    },area: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                        },
+                        threshold: null
+                    },
+                    series: {
+                        marker: {
+                            radius:0,//默认点半径
+                            states: {                        
+                                //选中某个数据点所显示的样式
+                                hover: {
+                                    radius: 0.1
+                                }
+                            }
+                        }
+                    }
+                },
+                exporting: {
+                    enabled: false
+                },
+                series : [{
+                    type: 'area',
+                    name : "使用率",
+                    color: 'rgba(4,206,3,.9)',
+                    data : data,
+                    fillColor : {
+                        linearGradient : {
+                            x1: 0, 
+                            y1: 0, 
+                            x2: 0, 
+                            y2: 1
+                        },
+                        stops : [[0, 'rgba(4,206,3,.9)'], [1, 'rgba(4,206,3,.9)']]
+                    }
+                }]
+            });
+            
+            return chart;
+        }
+
+        function memoryChart(dom, title, data, max){
+            var chart = new Highcharts.Chart({
+                chart : {
+                    renderTo: dom,
+                    zoomType: 'x',
+                    width: 300
+                },
+                credits : {
+                    enabled: false
+                },
+                title : {
+                    text : '<a href="javascript:;">'+title+'</a>',
+                    style : {
+                        "fontSize": "16px"
+                    }
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval : 60,
+                    gridLineWidth: 1,
+                    minorTickInterval: 'auto',
+                    lineColor: '#C0C0C0',
+                    tickColor: '#C0C0C0'
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value + "MB";
+                        }
+                    },
+                    min: 0,
+                    minorTickInterval: 'auto',
+                    lineColor: '#000',
+                    lineWidth: 1,
+                    tickWidth: 1,
+                    tickColor: '#C0C0C0'
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    shared: true,
+                    formatter: function(){
+                        //console.log(this);
+                        var y0 = this.points[0].y + "MB";
+
+                        return '<b>'+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',this.points[0].x) +'</b><br/>' 
+                                    + '<span style="color:'+this.points[0].point.series.color+'">' + this.points[0].point.series.name + "：" + y0 + '</span>';
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                        },
+                        threshold: null
+                    },area: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                        },
+                        threshold: null
+                    },
+                    series: {
+                        marker: {
+                            radius:0,//默认点半径
+                            states: {                        
+                                //选中某个数据点所显示的样式
+                                hover: {
+                                    radius: 0.1
+                                }
+                            }
+                        }
+                    }
+                },
+                exporting: {
+                    enabled: false
+                },
+                series : [{
+                    type: 'area',
+                    name : "使用",
+                    color: 'rgba(4,206,3,.9)',
+                    data : data,
+                    fillColor : {
+                        linearGradient : {
+                            x1: 0, 
+                            y1: 0, 
+                            x2: 0, 
+                            y2: 1
+                        },
+                        stops : [[0, 'rgba(4,206,3,.9)'], [1, 'rgba(4,206,3,.9)']]
+                    }
+                }]
+            });
+            
+            return chart;
+        }
+
+
+        function netChart(dom, title, dataIn, dataOut){
+            var chart = new Highcharts.Chart({
+                chart : {
+                    renderTo: dom,
+                    zoomType: 'x',
+                    width: 300
+                },
+                credits : {
+                    enabled: false
+                },
+                title : {
+                    text : '<a href="javascript:;">'+title+'</a>',
+                    style : {
+                        "fontSize": "16px"
+                    }
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval : 60,
+                    gridLineWidth: 1,
+                    minorTickInterval: 'auto',
+                    lineColor: '#C0C0C0',
+                    tickColor: '#C0C0C0'
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    min: 0,
+                    minorTickInterval: 'auto',
+                    lineColor: '#000',
+                    lineWidth: 1,
+                    tickWidth: 1,
+                    tickColor: '#C0C0C0'
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    //valueSuffix: ' Byte/s',
+                    //xDateFormat: '%Y-%m-%d %H:%M',
+                    //enabled: false,
+                    shared: true,
+                    //pointFormat: '<span style="color:{series.color}">{series.name}</span>： <b>{point.y}</b> Byte/s<br/>'
+                    formatter: function(){
+                        //console.log(this);
+                        var y0 = this.points[0].y + " Bps";
+                        if(this.points[0].y >= 1024 && (this.points[0].y / 1024) < 1024){
+                            var tmp = (this.points[0].y / 1024).toFixed(2);
+                            y0 = tmp + " KBps";
+                        }
+                        if((this.points[0].y / 1024) >= 1024 && (this.points[0].y / 1024 / 1024) < 1024){
+                            var tmp = (this.points[0].y / 1024 / 1024).toFixed(2);
+                            y0 = tmp + " MBps";
+                        }
+                        if((this.points[0].y / 1024 / 1024) >= 1024){
+                            var tmp = (this.points[0].y / 1024 / 1024 / 1024).toFixed(2);
+                            y0 = tmp + " GBps";
+                        }
+                        
+                        var y1 = this.points[1].y + " Bps";
+                        if(this.points[1].y >= 1024 && (this.points[1].y / 1024) < 1024){
+                            var tmp = (this.points[1].y / 1024).toFixed(2);
+                            y1 = tmp + " KBps";
+                        }
+                        if((this.points[1].y / 1024) >= 1024 && (this.points[1].y / 1024 / 1024) < 1024){
+                            var tmp = (this.points[1].y / 1024 / 1024).toFixed(2);
+                            y1 = tmp + " MBps";
+                        }
+                        if((this.points[1].y / 1024 / 1024) >= 1024){
+                            var tmp = (this.points[1].y / 1024 / 1024 / 1024).toFixed(2);
+                            y1 = tmp + " GBps";
+                        }
+                        return '<b>'+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',this.points[0].x) +'</b><br/>' + 
+                        '<span style="color:'+this.points[1].point.series.color+'">' + this.points[1].point.series.name + "：" + y1 + '</span><br/><span style="color:'+this.points[0].point.series.color+'">' + this.points[0].point.series.name + '：' + y0 + '</span>';
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                        },
+                        threshold: null
+                    },area: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                        },
+                        threshold: null
+                    },
+                    series: {
+                        marker: {
+                            radius:0,//默认点半径
+                            states: {                        
+                                //选中某个数据点所显示的样式
+                                hover: {
+                                    radius: 0.1
+                                }
+                            }
+                        }
+                    }
+                },
+                exporting: {
+                    enabled: false
+                },
+                series : [{
+                    type: 'area',
+                    name : "流入",
+                    color: 'rgba(4,206,3,.9)',
+                    data : dataIn,
+                    fillColor : {
+                        linearGradient : {
+                            x1: 0, 
+                            y1: 0, 
+                            x2: 0, 
+                            y2: 1
+                        },
+                        stops : [[0, 'rgba(4,206,3,.9)'], [1, 'rgba(4,206,3,.9)']]
+                    }
+                },{
+                    type : 'line',
+                    name : "流出",
+                    color: "blue",
+                    data : dataOut
+                }]
+            });
+            
+            return chart;
+        }
+
+
+        function createChart(dom, title, data){
+            var chart = new Highcharts.Chart({
+                chart : {
+                    renderTo: dom,
+                    zoomType: 'x',
+                    width: 330
+                    /*animation: Highcharts.svg,
+                    events : {
+                        load : function(){
+                            var dom = this.container;
+                            var code = $(dom).data('code');
+                            var type = $(dom).data('type');
+                            var series = this.series;
+
+                            setInterval(function() {
+                                //获取数据
+                                $.ajax({
+                                    url : '__URL__/get_data',
+                                    type : 'GET',
+                                    data : {'Code' : code, 'Type' : type},
+                                    dataType : 'json',
+                                    success : function(data){
+                                        var x = [];
+                                        var inflow = [];
+                                        var outflow = [];
+
+                                        //每个ip
+                                        for(var k in data){
+                                            //ip的每个流量
+                                            for(var k1 in data[k]){
+                                                var t = parseInt(data[k][k1]['keytime']) * 1000;
+                                                inflow.push( [t, parseInt(data[k][k1]['inflow'])] );
+                                                outflow.push( [t, parseInt(data[k][k1]['outflow'])]  );
+                                            }
+                                        }
+
+                                        //var chart = createChart(el, title, []);
+                                        series[0].setData(inflow, true);
+                                        series[1].setData(outflow, true);
+                                    }
+                                });
+                            }, 5000);
+                        }
+                    }*/
+                    /*animation: Highcharts.svg,
+                    events : {
+                        load : function(){
+                            var series = this.series;
+
+                            setInterval(function() {      
+                                $.getJSON('http://localhost/ecloud/online/webroot/ecloud/control.php/CloudMonitor/get_last_5_data', function(ret){
+                                    var t = parseInt(ret['keytime']) * 1000;
+                                    var x = [t, parseInt(ret['inflow'])];
+                                    var y = [t, parseInt(ret['outflow'])];
+
+                                    series[0].addPoint(x, true, true);
+                                    series[1].addPoint(y, true, true);
+                                });
+                            }, 1000);
+                        }
+                    }*/
+                },
+                credits : {
+                    enabled: false
+                },
+                title : {
+                    text : '<a href="javascript:;">'+title+'</a>',
+                    style : {
+                        "fontSize": "16px"
+                    }
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval : 60,
+                    gridLineWidth: 1,
+                    minorTickInterval: 'auto',
+                    lineColor: '#C0C0C0',
+                    tickColor: '#C0C0C0'
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    min: 0,
+                    minorTickInterval: 'auto',
+                    lineColor: '#000',
+                    lineWidth: 1,
+                    tickWidth: 1,
+                    tickColor: '#C0C0C0'
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    //valueSuffix: ' Byte/s',
+                    //xDateFormat: '%Y-%m-%d %H:%M',
+                    //enabled: false,
+                    shared: true,
+                    //pointFormat: '<span style="color:{series.color}">{series.name}</span>： <b>{point.y}</b> Byte/s<br/>'
+                    formatter: function(){
+                        //console.log(this);
+                        var y0 = this.points[0].y + " bps";
+                        if(this.points[0].y >= 1024 && (this.points[0].y / 1024) < 1024){
+                            var tmp = (this.points[0].y / 1024).toFixed(2);
+                            y0 = tmp + " kbps";
+                        }
+                        if((this.points[0].y / 1024) >= 1024 && (this.points[0].y / 1024 / 1024) < 1024){
+                            var tmp = (this.points[0].y / 1024 / 1024).toFixed(2);
+                            y0 = tmp + " mbps";
+                        }
+                        if((this.points[0].y / 1024 / 1024) >= 1024){
+                            var tmp = (this.points[0].y / 1024 / 1024 / 1024).toFixed(2);
+                            y0 = tmp + " gbps";
+                        }
+                        
+                        var y1 = this.points[1].y + " bps";
+                        if(this.points[1].y >= 1024 && (this.points[1].y / 1024) < 1024){
+                            var tmp = (this.points[1].y / 1024).toFixed(2);
+                            y1 = tmp + " kbps";
+                        }
+                        if((this.points[1].y / 1024) >= 1024 && (this.points[1].y / 1024 / 1024) < 1024){
+                            var tmp = (this.points[1].y / 1024 / 1024).toFixed(2);
+                            y1 = tmp + " mbps";
+                        }
+                        if((this.points[1].y / 1024 / 1024) >= 1024){
+                            var tmp = (this.points[1].y / 1024 / 1024 / 1024).toFixed(2);
+                            y1 = tmp + " gbps";
+                        }
+                        return '<b>'+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',this.points[0].x) +'</b><br/>' + 
+                        '<span style="color:'+this.points[1].point.series.color+'">' + this.points[1].point.series.name + "：" + y1 + '</span><br/><span style="color:'+this.points[0].point.series.color+'">' + this.points[0].point.series.name + '：' + y0 + '</span>';
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                            /*hover: {
+                                lineWidth: 1,
+                                radiusPlus: 0
+                            }*/
+                        },
+                        threshold: null
+                    },area: {
+                        lineWidth: 1,
+                        marker: {
+                            enabled: false
+                        },
+                        shadow: false,
+                        states: {
+                            hover: false
+                            /*hover: {
+                                lineWidth: 1,
+                                radiusPlus: 0
+                            }*/
+                        },
+                        threshold: null
+                    },
+                    series: {
+                        marker: {
+                            radius:0,//默认点半径
+                            states: {                        
+                                //选中某个数据点所显示的样式
+                                hover: {
+                                    radius: 0.1
+                                }
+                            }
+                        }
+                    }
+                },
+                exporting: {
+                    enabled: false
+                },
+                series : [{
+                    type: 'area',
+                    name : "流入",
+                    color: 'rgba(4,206,3,.9)',
+                    data : data,
+                    fillColor : {
+                        linearGradient : {
+                            x1: 0, 
+                            y1: 0, 
+                            x2: 0, 
+                            y2: 1
+                        },
+                        stops : [[0, 'rgba(4,206,3,.9)'], [1, 'rgba(4,206,3,.9)']]
+                    }
+                },{
+                    type : 'line',
+                    name : "流出",
+                    color: "blue",
+                    data : data
+                },{
+                    type: 'line',
+                    name : "95峰值",
+                    color: "red",
+                    data : data,
+                    dashStyle: 'dash'
+                }]
+            });
+            
+            return chart;
+        }
+
+    </script>
 </head>
 <body>
 	<include file="Public:head"/>
@@ -49,11 +824,25 @@
                                     <tr style="">
                                         <td class="tacenter"><input type="checkbox" order_id="{$v.Order_ID}" code="{$v.Code}" id="{$v.ID}" expire="{$v.is_expire}" /></td>
                                         <td class="tacenter">{$v.Brand}</td>
-                                        <td class="tacenter">{$v.No}/{$v.Code}</td>
+                                        <td class="tacenter">
+                                            <if condition="time() - strtotime($v['TS']) elt 3600">
+                                                <img src="__ROOT__/Public/images/icon_new.gif" alt="new "/>
+                                            </if>
+                                            {$v.No}/{$v.Code}
+                                        </td>
                                         <if condition="$v.vmStatus == 'Halted' OR $v.vmStatus == 'Paused' ">
-                                        	<td class="tacenter" id="ico_{$v.ID}"><img src="__ROOT__/Public/images/stop_status.png" style="margin-right:5px;" alt="停止状态"/>已关机</td>   
-                                         <else/>
-                                            <td class="tacenter" id="ico_{$v.ID}"><img src="__ROOT__/Public/images/run_status.png" style="margin-right:5px;" alt="运行状态"/>运行中</td>
+                                            	<td class="tacenter" id="ico_{$v.ID}">
+                                                    <img src="__ROOT__/Public/images/stop_status.png" style="margin-right:5px;" alt="停止状态"/>
+                                                    已关机
+                                                </td> 
+                                            <elseif condition="$v.vmStatus == 'Running'"/>  
+                                                <td class="tacenter" id="ico_{$v.ID}"><img src="__ROOT__/Public/images/run_status.png" style="margin-right:5px;" alt="运行状态"/>
+                                                    运行中
+                                                </td>
+                                            <elseif condition="$v.vmStatus == ''"/>  
+                                                <td class="tacenter" id="ico_{$v.ID}"><img src="__ROOT__/Public/images/quest_status.png" style="margin-right:5px;" alt="获取失败"/>
+                                                    获取失败
+                                                </td>
                                         </if> 
                                         <td class="tacenter">{$v.Type}</td>
                                         <if condition="$v.is_expire == 'yes'">
@@ -62,25 +851,83 @@
                                         	<td class="tacenter">{$v.PayEnd}</td>
                                         </if>
                                         <td class="tacenter">
-                                        <a href="javascript:void(0);" onclick="showOpt(this,'{$v.Code}',{$v.ID})">查看详情</a> | 
+                                        <a href="javascript:void(0);" onclick="showOpt(this,'{$v.Code}',{$v.ID}); drawCharts(this,'{$v.Code}',{$v.ID}); ">查看详情</a> | 
                                         <!--<a href="javascript:void(0);" style="color:#ccc">升级</a> | -->
                                         <a href="javascript:void(0);" onclick="renewPay('one',{$v.Order_ID})">续费</a> | 
                                         <a href="javascript:void(0);" onclick="showMore(this,event)">管理<span class="caret"></span></a>
                                         <div class="more">
                                         	<ul>
                                                 <if condition="$v.vmStatus == 'Halted'">
-                                                    <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="开机">开机</a></li>
-                                                    <li><a href="javascript:void(0);" style="color:#ccc" title="关机">关机</a></li>
-                                                    <else/>                                                    
-                                                    <li><a href="javascript:void(0);" style="color:#ccc" title="开机">开机</a></li>
-                                                    <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="关机">关机</a></li>
+                                                        <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="开机">开机</a></li>
+                                                        <li><a href="javascript:void(0);" style="color:#ccc" title="关机">关机</a></li>
+                                                    <elseif condition="$v.vmStatus == 'Running'"/>
+                                                        <li><a href="javascript:void(0);" style="color:#ccc" title="开机">开机</a></li>
+                                                        <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="关机">关机</a></li>
+                                                    <elseif condition="$v.vmStatus == ''"/>
+                                                        <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="开机">开机</a></li>
+                                                        <li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="关机">关机</a></li>
                                                 </if>
                                             	<li><a href="javascript:void(0);" onClick="operationVM(this,'{$v.Code}',{$v.ID})" title="重启">重启</a></li>
-                                            <li><a href="__ROOT__/noVNC/vnc.html?key={$v.key}&host={$v.host}&port={$v.port}&autoconnect=1" target="_blank" >连接终端</a></li>
+                                                <li>
+                                                    <a href="__ROOT__/noVNC/vnc.html{$v.key}&VNCProxyHost={$v.VNCProxyHost}&VNCProxyPort={$v.VNCProxyPort}&autoconnect=1" target="_blank" >
+                                                        连接终端
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                         </td>
                                     </tr>
+
+                                    <!-- 详情 -->
+                                    <tr class="vpsinfo_{$v.ID}" style="display:none;">
+                                        <td colspan="7" style="padding: 0">
+                                            <div class="details">
+                                                <table class="table table-no-hover" 
+                                                        style="border-left: none!important;
+                                                                border-right:none!important;
+                                                                border-bottom: none!important;
+                                                                margin-bottom:0;">
+                                                    <tr style="height:20px;"></tr>
+                                                    <tr style="background: #f5f5f5">
+                                                        <td colspan="7">
+                                                            <div style="border-left:3px solid #0089b7;text-align:left;padding:2px 18px;font-weight:bold">云主机详情</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr align="center">
+                                                        <td colspan="2">IP</td> 
+                                                        <td colspan="1" width="300">配置</td>
+                                                        <td colspan="2" >机房</td>  
+                                                        <td>产权</td>
+                                                        <td>初始密码</td>
+                                                    </tr>
+                                                    <tr align="center">
+                                                        <td colspan="2" style="border-right: 1px dashed #ccc;">
+                                                            <volist name="v.IP.Public" id="p1">
+                                                                <p>公网：{$p1}</p>
+                                                            </volist>
+                                                            <volist name="v.IP.Private" id="p2">
+                                                                <p>内网：{$p2}</p>
+                                                            </volist>
+                                                        </td>
+                                                        <td colspan="1" style="border-right: 1px dashed #ccc;">CPU：{$v.CPU}&nbsp;&nbsp;内存：{$v.RAM}&nbsp;&nbsp;硬盘：{$v.DISK}G</td>              
+                                                        <td colspan="2" style="border-right: 1px dashed #ccc;">{$v.HouseName}</td>
+                                                        <td style="border-right: 1px dashed #ccc;">广东睿江科技有限公司</td>                  
+                                                        <td>{$v.PassWord}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="7" style="padding:8px 0;">
+                                                            <div style="text-align:center;">
+                                                                <div class="chart">我是CPU图表</div>
+                                                                <div class="chart">我是内存图表</div>
+                                                                <div class="chart">我是网络图表</div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>    
+                                            </div>
+                                        </td>
+                                    </tr>
+<!-- 
                                     <tr class="vpsinfo_{$v.ID}" style="display:none;height:20px;"></tr>
                                     <tr class="vpsinfo_{$v.ID}" style="display:none; background: #f5f5f5">
                                     	<td colspan="7">
@@ -89,16 +936,37 @@
                                     </tr>
                                     <tr class="vpsinfo_{$v.ID}" style="display:none">
                                         <td colspan="2">IP</td> 
-                                    	<td colspan="2" width="300">配置</td>
+                                    	<td colspan="1" width="300">配置</td>
                                         <td colspan="2" >机房</td>  
                                         <td>产权</td>
+                                        <td>密码</td>
                                     </tr>
                                     <tr class="vpsinfo_{$v.ID}" style="display:none">
-                                    	<td colspan="2" style="border-right: 1px dashed #ccc;">{$v.IP}</td>
-                                    	<td colspan="2" style="border-right: 1px dashed #ccc;">CPU：{$v.CPU}&nbsp;&nbsp;内存：{$v.RAM}&nbsp;&nbsp;硬盘：{$v.DISK}G</td>              
+                                    	<td colspan="2" style="border-right: 1px dashed #ccc;">
+                                            <volist name="v.IP.Public" id="p1">
+                                                <p>{$p1}</p>
+                                            </volist>
+                                            <volist name="v.IP.Private" id="p2">
+                                                <p>{$p2}</p>
+                                            </volist>
+                                        </td>
+                                    	<td colspan="1" style="border-right: 1px dashed #ccc;">CPU：{$v.CPU}&nbsp;&nbsp;内存：{$v.RAM}&nbsp;&nbsp;硬盘：{$v.DISK}G</td>              
                                         <td colspan="2" style="border-right: 1px dashed #ccc;">{$v.HouseName}</td>
-                                        <td >广东睿江科技有限公司</td>                  
+                                        <td style="border-right: 1px dashed #ccc;">广东睿江科技有限公司</td>                  
+                                        <td>{$v.PassWord}</td>
                                     </tr>
+                                    <tr class="vpsinfo_{$v.ID}" style="display:none">
+                                        <td colspan="7" style="padding:8px 0;">
+                                            <div style="text-align:center;">
+                                                <div class="chart">我是CPU图表</div>
+                                                <div class="chart">我是内存图表</div>
+                                                <div class="chart">我是网络图表</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="vpsinfo_{$v.ID}" style="display:none;height:20px;"></tr>
+ -->
+
                                	</volist>
                             </if>
                         </tbody>
@@ -109,7 +977,7 @@
                     <button class="btn btn-default" disabled="disabled" onClick="batchOperationVM(this)">停止</button>
                     <button class="btn btn-default" disabled="disabled" onClick="batchOperationVM(this)">重启</button>
                     <button class="btn btn-default" disabled="disabled" onClick="renewPay('all','')">续费</button>
-                    <button class="btn btn-default" disabled="disabled">重置密码</button>
+                    <!-- <button class="btn btn-default" disabled="disabled">重置密码</button> -->
                 </div>
                 </li>
             </ul>

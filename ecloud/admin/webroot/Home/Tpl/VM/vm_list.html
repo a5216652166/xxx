@@ -143,7 +143,7 @@
 <style>
 	.alt td{ background:black !important;}
 
-	.green_mark {
+	.green_mark1 {
 		background: #00CD66;
 
 		/* 如果浏览器不支持渐变，使用图像作为背景 */ 
@@ -165,7 +165,7 @@
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00CD66', endColorstr='#00FF80', GradientType=0);
 	}
 
-	.red_mark {
+	.red_mark1 {
 		background: #FF3030;
 
 		/* 如果浏览器不支持渐变，使用图像作为背景 */ 
@@ -185,6 +185,18 @@
 		/* IE < 10 */ 
 		/* 注意：这一行必须写在最后 */ 
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF3030', endColorstr='#FF6565', GradientType=0);
+	}
+
+	.green_mark {
+		background: #00CD66;
+	}
+
+	.red_mark {
+		background: #FF3030;
+	}
+
+	.yellow_mark {
+		background: #fff143;
 	}
 
 	/*.green_mark {
@@ -243,6 +255,7 @@
 							<th>虚拟机IP</th>
 							<th>是否可用</th>
 							<th>更新时间</th>
+							<th>到期时间</th>
 							<th>操作</th>
 						</tr>
 
@@ -279,14 +292,24 @@
 								</td>
 								<td>{$vo.State}</td>
 
-								<php>
-									if(time() - strtotime($vo['TimeStamp']) <= 300){
-										echo '<td class="green_mark">';
-									}else{
-										echo '<td class="red_mark">';
-									}
-								</php>
+								<if condition="time() - strtotime($vo['TimeStamp']) elt 300">
+									<td class="green_mark">
+								<else />
+									<td class="red_mark">
+								</if>
 									{$vo.TimeStamp}
+								</td>
+
+								<if condition="empty($vo['PayEnd'])">
+									<td>
+								<elseif condition="time() - strtotime($vo['PayEnd']) egt 0" />
+									<td class="red_mark">
+								<elseif condition="time() - strtotime($vo['PayEnd']) egt -7 * 3600 * 24" />
+									<td class="yellow_mark">
+								<else />
+									<td class="green_mark">
+								</if>
+									{$vo.PayEnd}
 								</td>
 
 								<td class="opt">

@@ -10,6 +10,7 @@ import MySQLdb
 import config
 
 session = ''
+storages = {}
 task = ''
 
 def _init_session():
@@ -41,6 +42,32 @@ def _init_session():
 	rpc_url = pool_data['xen-api-rpc']
 	session = XenAPI.Session(rpc_url)
 	session.xenapi.login_with_password(pool_data['user'], pool_data['pass'])
+	return True
+
+def _init_storage_info():
+	# {u'vm_code': u'A-08-509-26-20141211-016', 
+	# 'pool_code': 'P-26-001', u'ram': u'2048', u'cpu': u'4', 
+	# u'template_code': u'Template_CentOS_6.5_x86_64'}
+	#
+	global storages
+
+	pool_code = task['pool_code']
+
+	conn = MySQLdb.connect(host=config.ecloud_db_ip, user=config.ecloud_db_user, \
+							passwd=config.ecloud_db_pass, db='ecloud_admin', port=3306)
+	cur = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
+	sql = "select * from `Storage` where `PoolCode` = '%s'"\
+				" and `State` = 'enabled';"%(pool_code)
+	print sql
+	cur.execute(sql)
+	rows = cur.fetchall()
+	if rows == None:
+		return False
+	for row in rows:
+		#print row
+		storages[row['Name']] = {'free':row['Total'] - row['Used'], 'uuid':row['UUID']}
+	print storages
+
 	return True
 
 def _get_create_template_vm_task():
@@ -93,13 +120,26 @@ def _vm_provision():
 	# 'pool_code': 'P-26-001', u'ram': u'2048', u'cpu': u'4', 
 	# u'template_code': u'Template_CentOS_6.5_x86_64'}
 	#
-	global session, task
+	global session, task, storages
 
 	vm_code = task['vm_code']
 	template = session.xenapi.VM.get_by_name_label(task['template_code'])[0]
 	print "create %s %s => %s \n"%(template, task['template_code'], vm_code)
 
-	vm = session.xenapi.VM.clone(template, vm_code)
+	#get sr
+	sr = ''
+	for sr_name, sr_info in storages.items():
+		#get the sr that free size >= 100GB
+		if sr_info['free'] >= 100:
+			sr = session.xenapi.SR.get_by_uuid(sr_info['uuid'])
+			print sr_name, sr_info
+			break
+	if sr == 'OpaqueRef:NULL':
+		print 'not found sr'
+		return None
+
+	vm = session.xenapi.VM.copy(template, vm_code, sr)
+	#vm = session.xenapi.VM.clone(template, vm_code)
 	session.xenapi.VM.set_PV_args(vm, "noninteractive")
 	session.xenapi.VM.provision(vm)
 
@@ -147,6 +187,9 @@ def _do_main():
 	print task
 
 	if _init_session() == False:
+		return
+
+	if _init_storage_info() == False:
 		return
 
 	_create_template_vm()

@@ -681,9 +681,10 @@ var UI;
 
 
 /////////////////////////////////////////////////////////////////////////////////
-			path = path + GetQueryString("key")+"&exp="+GetQueryString("exp")+"&host="+GetQueryString("host")+"&port="+GetQueryString("port");
+			path = path + "?key=" + GetQueryString("key") + "&exp="+GetQueryString("exp")+"&host="+GetQueryString("host")+"&port="+GetQueryString("port");
 
-            UI.rfb.connect(host, port, password, path);
+            //UI.rfb.connect(host, port, password, path);
+            UI.rfb.connect(GetQueryString("VNCProxyHost"), GetQueryString("VNCProxyPort"), password, path);
 
             //Close dialog.
             setTimeout(UI.setBarPosition, 100);

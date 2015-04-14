@@ -101,7 +101,9 @@
       <ul class="nav navbar-nav navbar-right " id="account_ul">
       	<if condition="$_SESSION['user'] neq '' ">
             <li id="userinfo_a">
-            <a href="__APP__/Index/account" class="showuserinfo" style="min-width: 176px;">{$_SESSION['user']}<span class="caret"></span><!--我的控制台--></a>
+            <a href="__APP__/Index/account" class="showuserinfo" style="min-width: 176px;">{$_SESSION['user']}
+            	<!--<span class="caret"></span>--><!--我的控制台-->
+            </a>
             <ul class="userinfo_ul">
             	<li><a href="__APP__/Index/account">用户中心</a></li>
             	<li style="border-top:1px dashed #ccc;"><a target="_blank" href="__APP__/Index/console">控制台管理</a></li>
@@ -178,12 +180,14 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 $(function(){
 	
+	/*顶栏，用户名下拉菜单
 	$("#userinfo_a").hover(function(data){
 		$(".userinfo_ul").slideDown();
 	},function(){
 		$(".userinfo_ul").slideUp();
-	});
+	});*/
 
 });
+
 </script>
 

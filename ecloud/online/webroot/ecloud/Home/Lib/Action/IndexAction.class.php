@@ -482,7 +482,8 @@ class IndexAction extends Action {
 				$data = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMPowerState.php?VMCode=".$_POST['code']."&Opt=Set&PowerState=".$_POST['opt']);
 				$ret = json_decode($data,true);
 				if($ret['ret']!=0){
-					$this->ajaxReturn('云主机操作失败，请联系管理员。','error',0);
+					//$this->ajaxReturn('云主机操作失败，请联系管理员。' . print_r($ret, true),'error',0);
+					$this->ajaxReturn('云主机操作失败，请联系管理员。<br/>' . $ret['error'],'error',0);
 				}
 			}else{
 				//旧版接口
@@ -524,7 +525,7 @@ class IndexAction extends Action {
 			
 			$Ad_OrderVPSBuy = M();
 			$vpsList = $Ad_OrderVPSBuy->query('select * from Ad_OrderVPSBuy ov left join Ad_VPSBuy v on v.ID=ov.VPSBuy_ID where ov.Order_ID in ('.$ids.') ');
-			
+
 			/*
 			$vpsLists = array();
 			if(!empty($rslt)){
@@ -541,7 +542,7 @@ class IndexAction extends Action {
 			
 			$this->assign('balance',$this->returnBalance());
 			$this->assign('ordlist',$ordlist);
-			$this->assign('cloudCount',count($vpsList));
+			$this->assign('cloudCount', $vpsList !== false ? count($vpsList) : 0);
 			$this->display();
 		}else{
 			$this->redirect("/Index/login");
@@ -557,7 +558,7 @@ class IndexAction extends Action {
 				$page = $_GET['p'];
 			}
 			$order = M();			
-			$ordlist = $order->query('select * from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' and Type!="充值" order by o.ID desc limit '. ($page-1) * 10 .',10 ');			
+			$ordlist = $order->query('select *, o.ID as OrdID from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' and Type!="充值" order by o.ID desc limit '. ($page-1) * 10 .',10 ');			
 			$count = $order->query('select count(*) as count from `Ad_Order` o left join `Ad_OrderNeed` ov on o.ID=ov.Order_ID where o.Login_ID='.$ret['ID'].' and Type!="充值" order by o.ID desc');
 			if($count[0]['count']<=10){
 				$pageCount = 1;
@@ -568,6 +569,8 @@ class IndexAction extends Action {
 					$pageCount = ($count[0]['count'] - $count[0]['count'] % 10) / 10 + 1;
 				}
 			}
+
+			/*print_r($ordlist);*/
 		
 			$this->assign('page',$page);		
 			$this->assign('pageCount',$pageCount);
@@ -621,7 +624,7 @@ class IndexAction extends Action {
 			$ids = substr($ids,0,-1);
 			
 			$Ad_OrderVPSBuy = M();
-			$vpsList = $Ad_OrderVPSBuy->query('select * from Ad_OrderVPSBuy ov left join Ad_VPSBuy v on v.ID=ov.VPSBuy_ID where ov.Order_ID in ('.$ids.') ');
+			$vpsList = $Ad_OrderVPSBuy->query('select * from Ad_OrderVPSBuy ov left join Ad_VPSBuy v on v.ID=ov.VPSBuy_ID where ov.Order_ID in ('.$ids.') order by v.TS desc ');
 			
 			foreach($vpsList as $key => $value){
 				if(strtotime(date('Y-m-d H:i:s'))>strtotime($value['PayEnd'])){
@@ -661,6 +664,7 @@ class IndexAction extends Action {
 							$data2 = fread($v,2096);
 							$tem = json_decode($data2,true);
 							$tem2 = json_decode($tem['result'],true);
+							/*print_r($tem2);*/
 							$vpsList[$kk]['vmStatus'] = $tem2['PowerState'];
 						}else{							
 							//旧版查询借口
@@ -686,8 +690,9 @@ class IndexAction extends Action {
 						$data2 = fread($v,2096);
 						$tem = json_decode($data2,true);					
 						$tem2 = json_decode($tem['result'],true);
-						$vpsList[$kk]['port'] = $tem2['VNCProxyPort'];
-						$vpsList[$kk]['host'] = $tem2['VNCProxyHost'];					
+						/*print_r($tem2);*/
+						$vpsList[$kk]['VNCProxyPort'] = $tem2['VNCProxyPort'];
+						$vpsList[$kk]['VNCProxyHost'] = $tem2['VNCProxyHost'];					
 						$vpsList[$kk]['key'] = $tem2['VNCKey'];
 					}
 				}
@@ -702,11 +707,24 @@ class IndexAction extends Action {
 						$data2 = fread($v,2096);
 						$tem = json_decode($data2,true);					
 						$tem2 = json_decode($tem['result'],true);
-						$vpsList[$kk]['IP'] = $tem2['IP'];
+
+						//$vpsList[$kk]['IP'] = $tem2['IP'];
+						$ips = array();
+						foreach($tem2['IP'] as $v3){
+							if(isset($v3['Public'])){
+								$ips['Public'][] = $v3['Public'];
+							}else if(isset($v3['Private'])){
+								$ips['Private'][] = $v3['Private'];
+							}
+						}
+						
+						$vpsList[$kk]['IP'] = $ips;
+						$vpsList[$kk]['PassWord'] = $tem2['PassWord'];
 					}
 				}
 			}
 			
+			/*print_r($vpsList);*/
 			
 			$this->assign('vpsList', $vpsList);			
 			$this->assign('balance',$this->returnBalance());
@@ -714,6 +732,8 @@ class IndexAction extends Action {
 			$this->assign('today',date("Y-m-d"));
 			$this->assign('ordlist',$ordlist);
 			$this->display();
+
+
 			/*
 			$login = M();
 			$ret = $login->table('Ad_Login')->where("Name='".$_SESSION['user']."'")->find();
@@ -876,7 +896,7 @@ class IndexAction extends Action {
 			$tem = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->find();
 			$OrderNeed = M();
 			$vps = $OrderNeed->table('Ad_OrderNeed')->where('Order_ID='.$tem['ID'])->find();
-			//模版list
+			//模版list 
 			$result = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/TemplateList.php");
 			$tempList = json_decode($result,true);
 			$tempCode = "";
@@ -925,7 +945,7 @@ class IndexAction extends Action {
 				$data2['VPSBuy_ID'] = $is_ok2;
 				$data2['PayStart'] = $tem['PayTS'];
 				
-				if($vps['Time']=='月'){
+			if($vps['Time']=='月'){
 					$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($tem['PayTS'])));
 				}else if($vps['Time']=='半年'){
 					$data2['PayEnd'] = date('Y-m-d H:i:s',strtotime('+6 month',strtotime($tem['PayTS'])));
@@ -939,8 +959,10 @@ class IndexAction extends Action {
 				}
 			}			
 			$this->ajaxReturn(1,'success',1);
+			
+
 			//推送事件
-			$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$tem['Code'].'","Type":"'.$tem['Type'].'","IsPay":'.$tem['IsPay'].',"ContractCode":"'.$tem['ContractCode'].'","Money":"'.$tem['Money'].'","AliPay":"'.$tem['AliPay'].'","BalancePay":"'.$tem['BalancePay'].'"}');
+			//$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$tem['Code'].'","Type":"'.$tem['Type'].'","IsPay":'.$tem['IsPay'].',"ContractCode":"'.$tem['ContractCode'].'","Money":"'.$tem['Money'].'","AliPay":"'.$tem['AliPay'].'","BalancePay":"'.$tem['BalancePay'].'"}');
 			/*
 			$Order = M();
 			$tem = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->find();
@@ -2069,4 +2091,9 @@ class IndexAction extends Action {
 			$this->ajaxReturn($price, 'success', 1);
 	   	}
 	}
+
+	public function send_get(){
+		echo file_get_contents($_GET['url']);
+	}
+
 }

@@ -17,8 +17,15 @@ class VMAction extends Action {
         $this->pager = $pager;
 
 		$data = M()->table('VM')->where($where)->limit(($pager['pageNow'] - 1) * $rpp, $rpp)->select();
+
+		//获取到期时间， 并处理最大时间
+		$payEnds = $this->getPayEndTime();
+
 		foreach ($data as $k => $v) {
 			$data[$k]['ips'] = M()->table('VMIP')->where('VMCode=\''.$v['VMCode'].'\'')->select();
+
+			//设置到期时间
+			$data[$k]['PayEnd'] = $payEnds[$v['VMCode']];
 		}
 		$this->data = $data;
 
@@ -26,6 +33,20 @@ class VMAction extends Action {
 		$this->pools = M()->table('Pool')->select();
 
 		$this->display();
+	}
+
+	//获取到期时间，并处理得出每个虚拟机的最大时间
+	private function getPayEndTime(){
+		$ret = json_decode(file_get_contents('http://api.efly.cc/ecloud/VMPay.php?opt=query'), true);
+		foreach($ret as $v){
+			if( (!isset($payEnds[$v['PropertyCode']]) ) ||
+				( isset($payEnds[$v['PropertyCode']]) && strtotime($payEnds[$v['PropertyCode']]) < strtotime($v['PayEnd']) ) 
+				){
+				$payEnds[$v['PropertyCode']] = $v['PayEnd'];
+			}
+		}
+
+		return $payEnds;
 	}
 
 	public function add(){

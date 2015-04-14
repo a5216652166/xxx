@@ -97,7 +97,7 @@ def _set_task_feedback(taskid, state, ret, result, error):
 def _add_vm_disk():
 	global session, task
 
-	sr_uuid = session.xenapi.SR.get_by_name_label(task['storage_code'])
+	sr_uuid = session.xenapi.SR.get_by_name_label(task['storage_name'])
 	vm_ref = session.xenapi.VM.get_by_name_label(task['vm_code'])
 
 	virtual_size = int(task['disk_size']) * 1024 * 1024 * 1024

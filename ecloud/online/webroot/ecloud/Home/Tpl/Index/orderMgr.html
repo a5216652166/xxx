@@ -73,17 +73,25 @@
                                     <if condition="$item.IsPay == 0">
                                         <td>未支付</td>                                    
                                         <td>
-                                            <a href="javascript:void(0);" onClick="payment({$item.Order_ID},'{$item.Type}',{$item.Old_Order_ID},'{$item.Time}',{$item.Money})">去付款</a> | 
-                                            <a href="javascript:void(0);" onClick="deleteOrder({$item.Order_ID})">取消订单</a>
+                                            <if condition="time() - $item['CreateTS'] elt 2 * 24 * 3600">
+                                                <a href="javascript:void(0);" onClick="payment({$item.OrdID},'{$item.Type}',{$item.Old_OrdID},'{$item.Time}',{$item.Money})">
+                                                    去付款
+                                                </a> | 
+                                            </if>
+                                            <a href="javascript:void(0);" onClick="deleteOrder({$item.OrdID})">取消订单</a>
                                         </td>
-                                        <else/><td>已支付</td>
-                                        <if condition="$item.Type == '续费'">
+
+                                        <else/>
+
+                                        <td>已支付</td>
+                                        <td>无</td>
+                                        <!-- <if condition="$item.Type == '续费'">
                                         	<td>-</td>
                                             <else/>
                                             <td>                                    	
-                                                <a href="javascript:void(0);" onClick="showInfo({$item.Order_ID},this)">展开</a>                                        
+                                                <a href="javascript:void(0);" onClick="showInfo({$item.OrdID},this)">展开</a>
                                             </td>
-                                        </if>
+                                        </if> -->
                                     </if>
                                 </tr>
                                 </volist>

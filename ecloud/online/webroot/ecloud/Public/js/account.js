@@ -499,6 +499,8 @@
 						}else{
 							layer.msg("云主机【"+val+"】失败",2,3);
 						}
+					}else{
+						layer.msg(data.data,3,3);
 					}
 				},
 				error:function(data){
@@ -631,6 +633,8 @@
 					$(".more").hide();	
 				//}	
 			});
+
+			//批量操作按钮
 			$("#console :checkbox").bind('click',function(){
 				if($(":checked").length!=0){
 					$("#console button").attr('disabled',false);	
