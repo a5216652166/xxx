@@ -187,7 +187,7 @@ class IndexAction extends Action {
 				if($is_ok===false){
 					$this->ajaxReturn('账户充值失败，请联系管理员。','error',0);
 				}
-					$this->ajaxReturn($is_ok,'success',1);
+				$this->ajaxReturn($is_ok,'success',1);
 				
 			}
 		}else{			
@@ -474,6 +474,7 @@ class IndexAction extends Action {
 			$this->ajaxReturn(1,'success',1);
 		}
 	}
+
 	//操作虚拟机
 	public function operationVM(){
 		if(!empty($_POST['code']) && !empty($_POST['opt'])){
@@ -501,10 +502,29 @@ class IndexAction extends Action {
 					$this->ajaxReturn(0,'error',0);
 				}
 			}
+
+			if($_POST['opt']=="Run"){
+				$optDesc = '开机';
+			}else if ($_POST['opt']=="Halt"){
+				$optDesc = '关机';
+			}else if ($_POST['opt']=="Reboot"){
+				$optDesc = '重启';
+			}
 			
+			//触发api.efly.cc事件, 操作虚拟机
+			$eventData = array(
+			    'GlobalCustom_ID' => $_SESSION['customID'],
+			    'Name' => $_SESSION['user'],
+			    'Opt' => $optDesc,
+			    'Result' => '成功',
+			    'Time' => date('Y-m-d H:i:s')
+			);
+			file_get_contents(C('INTERFACE_URL').'/event/async_event_push.php?EventName=睿江云操作虚拟机&EventData=' . json_encode($eventData));
+
 			$this->ajaxReturn($ret['ret'],'success',1);
 		}
 	}
+
 	//用户信息
 	public function account(){
 		if(!empty($_SESSION['user'])){
@@ -880,10 +900,11 @@ class IndexAction extends Action {
 			$this->ajaxReturn($ord,'success',1);	
 		}
 	}
-	//新增合同和工单
+
+	//以余额方式，完成支付后创建虚拟机以及修改DB信息
 	public function insert(){
 		if(!empty($_POST['id'])){
-			 
+			
 			//新版XEN接口
 			$Order = M();
 			$orderData = array('IsPay'=>1,'PayTS'=>date('Y-m-d H:i:s'));
@@ -915,10 +936,10 @@ class IndexAction extends Action {
 			
 			$ip_type = "VM_BGPIP";
 			$bandwith = $vps['BandWidthBGP'];
-			if($vps['BandWidthBGP'] == 0){
+			/*if($vps['BandWidthBGP'] == 0){
 				$ip_type = "VM_IPLCIP";				
 				$bandwith = $vps['BandWidthIPLC'];
-			}
+			}*/
 			$disk = "";
 			if($vps['DISK'] != 0){
 				$disk = $vps['DISK'];
@@ -926,6 +947,9 @@ class IndexAction extends Action {
 			
 			$create = file_get_contents(C('INTERFACE_URL')."/ecloud_admin/VMTemplateCreate.php?StockHouseName=".$vps['HouseName']."&TemplateCode=".$tempCode."&Cpu=".(int)$vps['CPU']."&Ram=".$RAM[(int)$vps['RAM']]."&Count=".$vps['Count']."&DiskSize=".$disk."&PublicIPType=".$ip_type."&Bandwidth=".$bandwith);
 			$createTem = json_decode($create,true);
+
+			//$this->ajaxReturn(print_r($create, true), 'error', 0);return;
+
 			if($createTem['ret'] != 0){
 				$this->ajaxReturn('创建云主机失败，请联系管理员。','error',0);
 			}
@@ -961,8 +985,10 @@ class IndexAction extends Action {
 			$this->ajaxReturn(1,'success',1);
 			
 
-			//推送事件
-			//$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$tem['Code'].'","Type":"'.$tem['Type'].'","IsPay":'.$tem['IsPay'].',"ContractCode":"'.$tem['ContractCode'].'","Money":"'.$tem['Money'].'","AliPay":"'.$tem['AliPay'].'","BalancePay":"'.$tem['BalancePay'].'"}');
+			//推送api事件, 睿江云支付成功
+			$data2 = file_get_contents(C('INTERFACE_URL').'/event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$tem['Code'].'","Type":"'.$tem['Type'].'","IsPay":'.$tem['IsPay'].',"ContractCode":"'.$tem['ContractCode'].'","Money":"'.$tem['Money'].'","AliPay":"'.$tem['AliPay'].'","BalancePay":"'.$tem['BalancePay'].'"}');
+
+
 			/*
 			$Order = M();
 			$tem = $Order->table('Ad_Order')->where('ID='.$_POST['id'])->find();
@@ -1004,7 +1030,7 @@ class IndexAction extends Action {
 				$data = array('IsPay'=>1,'ContractCode'=>$ret['error'],'PayTS'=>date('Y-m-d H:i:s'));
 				$Order->table('Ad_Order')->where('ID='.$_POST['id'])->setField($data);
 				//推送事件
-				$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$ret['Code'].'","Type":"'.$ret['Type'].'","IsPay":'.$ret['IsPay'].',"ContractCode":"'.$ret['ContractCode'].'","Money":"'.$ret['Money'].'","AliPay":"'.$ret['AliPay'].'","BalancePay":"'.$ret['BalancePay'].'"}');
+				$data2 = file_get_contents(C('INTERFACE_URL').'/event/async_event_push.php?EventName=睿江云支付成功&EventData={"Code":"'.$ret['Code'].'","Type":"'.$ret['Type'].'","IsPay":'.$ret['IsPay'].',"ContractCode":"'.$ret['ContractCode'].'","Money":"'.$ret['Money'].'","AliPay":"'.$ret['AliPay'].'","BalancePay":"'.$ret['BalancePay'].'"}');
 				
 				$this->ajaxReturn(1,'success',1);
 			}else{
@@ -1242,7 +1268,8 @@ class IndexAction extends Action {
 		$pageContents = HttpClient::quickPost(C('INTERFACE_URL')."/alipay/order_pay.php", $params);
 		print_r($pageContents);exit;
 	}
-	//支付宝续费
+
+	//支付宝续费 (第二步，设置支付宝页信息)
 	public function renewOrder(){
 		if($_SERVER['REQUEST_METHOD' ] === 'GET'){
 			$Order = M();
@@ -1286,7 +1313,7 @@ class IndexAction extends Action {
 			$this->gotoAlipay('ESS',$_POST['OrderCode'],$_POST['OrderName'],$_POST['OrderDesc'],$_POST['OrderMoney'],$_POST['OrderUrl']);
 		}
 	}
-	//支付宝续费
+	//支付宝续费 (第一步, 生成新订单Order和VPS需求信息OrderNeed)
 	public function addRenew(){
 		//先添加order
 		$login = M()->table('Ad_Login');
@@ -1303,6 +1330,7 @@ class IndexAction extends Action {
 		$data['CreateTS'] = date('Y-m-d H:i:s');
 		$data['ContractCode'] = '';
 		$data['Money'] = $this->returnPrice($_POST['cpu'],$_POST['ram'],$_POST['disk'],$_POST['bgp'],$_POST['iplc'],$_POST['num'],$_POST['time']);
+		$data['AliPay'] = $data['Money'];//设置Alipay金额
 		//$data['PayType'] = $_POST['payType'];
 		$data['Type'] = '续费';
 		$data['Old_Order_ID'] = $_POST['oid'];
@@ -1368,6 +1396,7 @@ class IndexAction extends Action {
 			$this->ajaxReturn(1,'success',1);
 		}
 	}
+
 	//余额续费
 	public function renewOrder2(){		
 		//余额不足
@@ -1393,6 +1422,7 @@ class IndexAction extends Action {
 		//$data['PayType'] = $_POST['payType'];
 		$data['Type'] = '续费';
 		$data['Old_Order_ID'] = $_POST['oid'];
+		$data['BalancePay'] = $data['Money']; //设置余额支付
 		$is_ok = $order->table('Ad_Order')->add($data);
 		
 		//添加vps订单
@@ -1408,10 +1438,11 @@ class IndexAction extends Action {
 		$data2['Time'] = $_POST['time'];
 		$data2['Count'] = $_POST['count'];
 		$orderVPS->table('Ad_OrderNeed')->add($data2);	
+
 		$time;
 		$ret = $VPSPay->table('Ad_OrderVPSBuy')->where('Order_ID='.$_POST['oid'])->find();
 		
-		//修改vspPay
+		//修改vpsPay
 		if($_POST['time']=='月'){
 			$time = date('Y-m-d H:i:s',strtotime('+1 month',strtotime($ret['PayEnd'])));
 		}else if($_POST['time']=='半年'){
@@ -1423,6 +1454,10 @@ class IndexAction extends Action {
 		if($is_ok2===false){			
 			$this->ajaxReturn('续费云主机失败，请联系管理员。','error',0);
 		}else{
+			//触发api事件, 睿江云续费成功
+			$order = M()->table('Ad_Order')->where('ID='.$data2['Order_ID'])->find();//获取最新Order
+			$data2 = file_get_contents(C('INTERFACE_URL').'/event/async_event_push.php?EventName=睿江云续费成功&EventData={"Code":"'.$order['Code'].'","Type":"'.$order['Type'].'","IsPay":'.$order['IsPay'].',"ContractCode":"'.$order['ContractCode'].'","Money":"'.$order['Money'].'","AliPay":"'.$order['AliPay'].'","BalancePay":"'.$order['BalancePay'].'"}');
+
 			$this->ajaxReturn(1,'success',1);
 		}
 	}
@@ -1794,7 +1829,8 @@ class IndexAction extends Action {
 							$_SESSION['audit'] = $data["Audit"];
 							$_SESSION['userID'] = $ret;
 							
-							$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云用户注册&EventData={"ObjType":'.$data["ObjType"].',"GlobalCustom_ID":"'.$data["GlobalCustom_ID"].'","Name":"'.$data["Name"].'"}');
+							$data2 = file_get_contents(C('INTERFACE_URL').'/event/async_event_push.php?EventName=睿江云用户注册&EventData={"ObjType":'.$data["ObjType"].',"GlobalCustom_ID":"'.$data["GlobalCustom_ID"].'","Name":"'.$data["Name"].'"}');
+							//file_put_contents("/tmp/eventtest.log", print_r($data2, true));
 							
 							$this->ajaxReturn($ret,'success',1);
 						} else {
@@ -1846,7 +1882,7 @@ class IndexAction extends Action {
 							$_SESSION['name'] = $_POST['companyname'];
 							$_SESSION['userID'] = $ret;
 							
-							$data2 = file_get_contents(C('INTERFACE_URL').'event/async_event_push.php?EventName=睿江云用户注册&EventData={"ObjType":'.$data["ObjType"].',"GlobalCustom_ID":"'.$data["GlobalCustom_ID"].'","Name":"'.$data["Name"].'"}');
+							$data2 = file_get_contents(C('INTERFACE_URL').'/event/async_event_push.php?EventName=睿江云用户注册&EventData={"ObjType":'.$data["ObjType"].',"GlobalCustom_ID":"'.$data["GlobalCustom_ID"].'","Name":"'.$data["Name"].'"}');
 							
 							$this->ajaxReturn($ret,'success',1);
 						} else {
